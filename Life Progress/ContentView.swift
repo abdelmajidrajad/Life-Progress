@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  Life Progress
-//
-//  Created by Majid on 23/10/2020.
-//
-
 import SwiftUI
 
 struct ContentView: View {
