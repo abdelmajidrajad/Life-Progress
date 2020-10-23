@@ -51,6 +51,7 @@
 		04E73C4F2542C2040092B918 /* Life ProgressUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Life ProgressUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04E73C532542C2040092B918 /* Life_ProgressUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Life_ProgressUITests.swift; sourceTree = "<group>"; };
 		04E73C552542C2040092B918 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04E73C702542C4100092B918 /* TimeClient */ = {isa = PBXFileReference; lastKnownFileType = folder; name = TimeClient; path = ../../TimeClient; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +102,7 @@
 		04E73C2D2542C2030092B918 /* Life Progress */ = {
 			isa = PBXGroup;
 			children = (
+				04E73C702542C4100092B918 /* TimeClient */,
 				04E73C2E2542C2030092B918 /* AppDelegate.swift */,
 				04E73C302542C2030092B918 /* SceneDelegate.swift */,
 				04E73C322542C2030092B918 /* ContentView.swift */,
