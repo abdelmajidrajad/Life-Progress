@@ -12,10 +12,7 @@ struct ContentView: View {
                         VStack(alignment: .leading) {
                             Text("2020")
                                 .frame(maxWidth: .infinity, alignment: .trailing)
-                                .font(.title)
-                            ProgressBar(color: .green, progress: 0.3)
-                            //ProgressCircle(color: .green, progress: 0.3)
-                            //    .offset(y: -16.0)
+                                .font(.title)                            
                             HStack(spacing: 2) {
                                 Text("280d")
                                     .bold()
@@ -63,7 +60,6 @@ struct ContentView: View {
                         }).buttonStyle(PlusButtonStyle())
                         .frame(alignment: .leading)
                         
-                        
                     }//.frame(maxWidth: .infinity, alignment: .trailing)
                     .padding()
                     
@@ -71,8 +67,6 @@ struct ContentView: View {
                     ScrollView {
                         
                         HStack {
-                            ProgressCircle(color: .blue, progress: 0.2)
-                                .frame(width: 80, height: 80)
                             VStack(alignment: .leading, spacing: 16) {
                                 HStack {
                                     Text("Read Zero to One")
@@ -95,10 +89,8 @@ struct ContentView: View {
                                         .font(Font.headline.bold())
                                 }).padding()
                             }
-                        )
-                        .padding(.horizontal)
-                                                                        
-                        
+                        ).padding(.horizontal)
+                                            
                         ForEach(1..<5) { _ in
                             VStack(alignment: .leading, spacing: 16) {
                                 
@@ -109,8 +101,7 @@ struct ContentView: View {
                                 Text("13hours 28minutes")
                                     .font(.subheadline)
                                     .fontWeight(.light)
-                                ProgressBar(color: .blue, progress: 0.4)
-                                    .frame(alignment: .center)
+                                
                             }.padding()
                             .background(
                                 ZStack(alignment: .topTrailing) {
@@ -158,67 +149,5 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
-struct ProgressBar: View {
-    let color: Color
-    let progress: NSNumber
-    var body: some View {
-        GeometryReader { proxy in
-            VStack(alignment: .trailing) {
-                ZStack(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: 6.0)
-                        .fill(color.opacity(0.2))
-                    RoundedRectangle(cornerRadius: 6.0)
-                        .fill(
-                            LinearGradient(
-                                gradient: Gradient(
-                                    colors: [color.opacity(0.3), color]),
-                                startPoint: .leading,
-                                endPoint: .trailing)
-                        )
-                        .frame(width: proxy.size.width * CGFloat(progress.doubleValue))
-                }.frame(height: 5)
-                Text(progress, formatter: percentFormatter())
-                    .font(.caption)
-            }
-        }
-    }
-}
-
-let percentFormatter: () -> NumberFormatter = {
-    let formatter = NumberFormatter()
-    formatter.numberStyle = .percent
-    return formatter
-}
-
-
-struct ProgressCircle: View {
-    let color: Color
-    let progress: NSNumber
-    var body: some View {
-        Circle()
-            .trim(from: .zero, to: CGFloat(progress.doubleValue))
-            .stroke(color, style: StrokeStyle(
-                lineWidth: 8.0,
-                lineCap: .round,
-                lineJoin: .round
-            ))
-            .rotationEffect(Angle(degrees: -90))
-            .background(
-                Circle()
-                    .stroke(color.opacity(0.2), style: StrokeStyle(
-                        lineWidth: 8.0,
-                        lineCap: .round,
-                        lineJoin: .round
-                    ))
-                    .rotationEffect(Angle(degrees: -90))
-            ).overlay(
-                Text(progress, formatter: percentFormatter())
-                    .font(.caption)
-            )
-            .aspectRatio(contentMode: .fit)
-            .padding(4.0)
-            
-    }
-}
 
 

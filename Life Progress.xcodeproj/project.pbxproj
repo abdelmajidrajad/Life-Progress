@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04325686254459570050F620 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04325685254459570050F620 /* Grid.swift */; };
 		0462EFD125442310003D2969 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFD025442310003D2969 /* Fonts.swift */; };
+		0462EFD825442A8C003D2969 /* PLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFD725442A8C003D2969 /* PLabel.swift */; };
+		0462EFE425442AD7003D2969 /* DayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFE325442AD7003D2969 /* DayProgressView.swift */; };
+		0462EFEB254437B7003D2969 /* SwitchProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFEA254437B7003D2969 /* SwitchProgressView.swift */; };
+		0462F01025444433003D2969 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462F00F25444433003D2969 /* Operators.swift */; };
 		04E73C2F2542C2030092B918 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73C2E2542C2030092B918 /* AppDelegate.swift */; };
 		04E73C312542C2030092B918 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73C302542C2030092B918 /* SceneDelegate.swift */; };
 		04E73C332542C2030092B918 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73C322542C2030092B918 /* ContentView.swift */; };
@@ -100,7 +105,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		04325685254459570050F620 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		0462EFD025442310003D2969 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
+		0462EFD725442A8C003D2969 /* PLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PLabel.swift; sourceTree = "<group>"; };
+		0462EFE325442AD7003D2969 /* DayProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayProgressView.swift; sourceTree = "<group>"; };
+		0462EFEA254437B7003D2969 /* SwitchProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchProgressView.swift; sourceTree = "<group>"; };
+		0462F00F25444433003D2969 /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		04E73C2B2542C2030092B918 /* Life Progress.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Life Progress.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04E73C2E2542C2030092B918 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04E73C302542C2030092B918 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -257,6 +267,8 @@
 				04E73C88254357E60092B918 /* Core.h */,
 				04E73C89254357E60092B918 /* Info.plist */,
 				0462EFD025442310003D2969 /* Fonts.swift */,
+				0462F00F25444433003D2969 /* Operators.swift */,
+				04325685254459570050F620 /* Grid.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -264,10 +276,12 @@
 		04E73CA22543590F0092B918 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				04E73CD6254359680092B918 /* Support Files */,
+				04E73CD6254359680092B918 /* Supporting Files */,
 				04E73CA32543590F0092B918 /* Components.h */,
 				04E73CA42543590F0092B918 /* Info.plist */,
 				04E73CCF2543594E0092B918 /* YearProgressView.swift */,
+				0462EFE325442AD7003D2969 /* DayProgressView.swift */,
+				0462EFEA254437B7003D2969 /* SwitchProgressView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -281,12 +295,13 @@
 			path = ComponentsTests;
 			sourceTree = "<group>";
 		};
-		04E73CD6254359680092B918 /* Support Files */ = {
+		04E73CD6254359680092B918 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
 				04E73CD72543597E0092B918 /* ProgressBar.swift */,
+				0462EFD725442A8C003D2969 /* PLabel.swift */,
 			);
-			path = "Support Files";
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		04E73CE025435F370092B918 /* Frameworks */ = {
@@ -450,11 +465,9 @@
 					};
 					04E73C432542C2040092B918 = {
 						CreatedOnToolsVersion = 12.1;
-						TestTargetID = 04E73C2A2542C2030092B918;
 					};
 					04E73C4E2542C2040092B918 = {
 						CreatedOnToolsVersion = 12.1;
-						TestTargetID = 04E73C2A2542C2030092B918;
 					};
 					04E73C85254357E60092B918 = {
 						CreatedOnToolsVersion = 12.1;
@@ -466,7 +479,6 @@
 					};
 					04E73CA82543590F0092B918 = {
 						CreatedOnToolsVersion = 12.1;
-						TestTargetID = 04E73C2A2542C2030092B918;
 					};
 				};
 			};
@@ -577,6 +589,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0462EFD125442310003D2969 /* Fonts.swift in Sources */,
+				0462F01025444433003D2969 /* Operators.swift in Sources */,
+				04325686254459570050F620 /* Grid.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -586,6 +600,9 @@
 			files = (
 				04E73CD82543597E0092B918 /* ProgressBar.swift in Sources */,
 				04E73CD02543594E0092B918 /* YearProgressView.swift in Sources */,
+				0462EFE425442AD7003D2969 /* DayProgressView.swift in Sources */,
+				0462EFEB254437B7003D2969 /* SwitchProgressView.swift in Sources */,
+				0462EFD825442A8C003D2969 /* PLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -815,7 +832,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NFA6K259X7;
 				INFOPLIST_FILE = "Life ProgressTests/Info.plist";
@@ -829,7 +845,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Life Progress.app/Life Progress";
 			};
 			name = Debug;
 		};
@@ -837,7 +852,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = NFA6K259X7;
 				INFOPLIST_FILE = "Life ProgressTests/Info.plist";
@@ -851,7 +865,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Life Progress.app/Life Progress";
 			};
 			name = Release;
 		};
@@ -869,9 +882,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.majid.Life-ProgressUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Life Progress";
 			};
 			name = Debug;
 		};
@@ -889,9 +902,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.majid.Life-ProgressUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = "Life Progress";
 			};
 			name = Release;
 		};
@@ -908,7 +921,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Core/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -938,7 +951,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Core/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -967,7 +980,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Components/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -997,7 +1010,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Components/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1030,7 +1043,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Life Progress.app/Life Progress";
 			};
 			name = Debug;
 		};
@@ -1051,7 +1063,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Life Progress.app/Life Progress";
 			};
 			name = Release;
 		};

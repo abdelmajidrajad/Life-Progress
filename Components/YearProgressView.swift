@@ -4,29 +4,25 @@ import ComposableArchitecture
 import TimeClient
 import Combine
 
-struct YearState: Equatable {
+public struct YearState: Equatable {
     var year: Int
-    var remainingDays: Int
-    var remainingHours: Int
+    var result: TimeResult
     var percent: Double
-    var style: ProgressStyle
-    enum ProgressStyle: Equatable { case bar, circle }
+    var style: ProgressStyle    
     public init(
         year: Int = .zero,
-        remainingDays: Int = .zero,
-        remainingHours: Int = .zero,
+        result: TimeResult = .init(),
         style: ProgressStyle = .bar,
         percent: Double = .zero
     ) {
         self.year = year
         self.style = style
-        self.remainingDays = remainingDays
-        self.remainingHours = remainingHours
+        self.result = result
         self.percent = percent
     }
 }
 
-enum YearAction: Equatable {
+public enum YearAction: Equatable {
     case onAppear
     case setYear(Int)
     case response(YearResponse)
@@ -35,7 +31,7 @@ enum YearAction: Equatable {
 struct YearEnvironment {
     let calendar: Calendar
     let date: () -> Date
-    let timeClient: TimeClient
+    let yearProgress: (YearRequest) -> AnyPublisher<YearResponse, Never>
 }
 
 let yearReducer =
@@ -46,7 +42,7 @@ let yearReducer =
             currentYear(environment.calendar, environment.date())
                 .map(YearAction.setYear)
                 .eraseToEffect(),
-            environment.timeClient.yearProgress(
+            environment.yearProgress(
                 YearRequest(date: environment.date(),
                             calendar: environment.calendar,
                             resultType: .short
@@ -58,15 +54,7 @@ let yearReducer =
         return .none
     case let .response(response):
         state.percent = response.progress
-                        
-        let result = extract(
-            case: YearResponse.Result.short,
-            from: response.result
-        )
-        
-        state.remainingDays = result.map(\.0) ?? .zero
-        state.remainingHours = result.map(\.1) ?? .zero
-        
+        state.result = response.result
         return .none
     }
 }
@@ -81,50 +69,13 @@ extension YearState {
         YearProgressView.ViewState(
             year: "\(year)",
             percentage: NSNumber(value: percent),
-            title: remainingTime(remainingDays, remainingHours),
+            title: remainingTime(result),
             isCircle: style == .circle
         )
     }
 }
 
-
-let remainingTime: (Int, Int) -> NSAttributedString = { days, hours in
-    let mutable = NSMutableAttributedString()
-    
-    if days != .zero {
-        let days = NSMutableAttributedString(
-            string: "\(days)",
-            attributes: [.font: UIFont.py_title3()]
-        )
-        days.append(
-            NSAttributedString(
-                string: "days ",
-                attributes: [.font: UIFont.py_headline().italicized]
-            )
-        )
-        mutable.append(days)
-    }
-    
-    if hours != .zero {
-        let hours = NSMutableAttributedString(
-            string: "\(hours)",
-            attributes: [.font: UIFont.py_title3()]
-        )
-        
-        hours.append(
-            NSAttributedString(
-                string: "hours",
-                attributes: [.font: UIFont.py_headline().italicized]
-            )
-        )
-        mutable.append(hours)
-    }
-    
-    
-    return mutable
-}
-
-struct YearProgressView: View {
+public struct YearProgressView: View {
     
     struct ViewState: Equatable {
         let year: String
@@ -135,11 +86,11 @@ struct YearProgressView: View {
     
     let store: Store<YearState, YearAction>
     
-    init(store: Store<YearState, YearAction>) {
+    public init(store: Store<YearState, YearAction>) {
         self.store = store
     }
     
-    var body: some View {
+    public var body: some View {
         
         WithViewStore(store.scope(state: \.view)) { viewStore in
             HStack(spacing: 8.0) {
@@ -165,9 +116,9 @@ struct YearProgressView: View {
                             progress: .constant(viewStore.percentage)
                         )
                     }
-                                                            
+                                                    
                     Spacer()
-                                                        
+                                                    
                     HStack(alignment: .bottom) {
                         PLabel(attributedText: .constant(viewStore.title))
                             .fixedSize()
@@ -200,13 +151,13 @@ struct YearProgressView_Previews: PreviewProvider {
                 environment: YearEnvironment(
                     calendar: .current,
                     date: Date.init,
-                    timeClient: TimeClient(
-                        yearProgress: { _ in
+                    yearProgress:
+                         { _ in
                             Just(YearResponse(
                                 progress: 0.5,
-                                result: .short(day: 200, hour: 12, minute: 0)
+                                result: TimeResult( day: 200, hour: 22)
                             )).eraseToAnyPublisher()
-                        })
+                        }
                 )
             )
         ).frame(width: 300, height: 300)
@@ -214,18 +165,50 @@ struct YearProgressView_Previews: PreviewProvider {
 }
 
 
-struct PLabel: UIViewRepresentable {
-            
-    @Binding var attributedText: NSAttributedString
-    
-    func makeUIView(context: Context) -> UILabel {
-        UILabel()
+
+
+let remainingTime: (TimeResult) -> NSAttributedString = { result in
+    let mutable = NSMutableAttributedString()
+    if result.year != .zero {
+        mutable.append(
+            attributedString(value: "\(result.year)", title: "y")
+        )
     }
-    func updateUIView(_ textView: UILabel, context: Context) {
-        textView.attributedText = attributedText
+    if result.month != .zero {
+        mutable.append(
+            attributedString(value: "\(result.month)", title: "m")
+        )
     }
+    if result.day != .zero {
+        mutable.append(
+            attributedString(value: "\(result.day)", title: "d")
+        )
+    }
+    if result.hour != .zero {
+        mutable.append(
+            attributedString(value: "\(result.hour)", title: "h")
+        )
+    }
+    if result.minute != .zero {
+        mutable.append(attributedString(value: "\(result.minute)", title: "min"))
+    }
+    return mutable
 }
 
-let labelStyle: (UILabel) -> Void = {
-    $0.textAlignment = .left
+
+func attributedString(value: String, title: String) -> NSAttributedString {
+    let attributedString = NSMutableAttributedString(
+        string: value,
+        attributes: [.font: UIFont.py_title1()]
+    )
+    attributedString.append(
+        NSAttributedString(
+            string: title,
+            attributes: [
+                .font: UIFont.py_headline().italicized,
+                .foregroundColor: UIColor.gray
+            ]
+        )
+    )
+    return attributedString
 }
