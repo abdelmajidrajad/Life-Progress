@@ -30,6 +30,17 @@ public struct DayEnvironment {
     let calendar: Calendar
     let date: () -> Date
     let todayProgress: (TodayRequest) -> AnyPublisher<TimeResponse, Never>
+    public init(
+        calendar: Calendar,
+        date: @escaping () -> Date,
+        todayProgress: @escaping (TodayRequest) -> AnyPublisher<TimeResponse, Never>
+    ) {
+        self.calendar = calendar
+        self.date = date
+        self.todayProgress = todayProgress
+        
+        
+    }
 }
 
 public let dayReducer =
@@ -55,7 +66,7 @@ extension DayState {
         DayProgressView.ViewState(
             today: "Today",
             percentage: NSNumber(value: percent),
-            title: remainingTime(timeResult),
+            title: timeResult.string,
             isCircle: style == .circle
         )
     }
@@ -106,13 +117,16 @@ public struct DayProgressView: View {
                     HStack(alignment: .lastTextBaseline, spacing: .py_grid(1)) {
                         
                         PLabel(attributedText: .constant(viewStore.title))
+                            .fixedSize()
                             
                         Text("remaining")
                             .font(.caption)
                             .foregroundColor(.gray)
                             .italic()
+                            .lineLimit(1)
                             
-                    }.fixedSize()
+                    }
+                   
                     
                 }.padding()
                 .background(
@@ -141,8 +155,8 @@ struct DayProgressView_Previews: PreviewProvider {
                         Just(TimeResponse(
                             progress: 0.8,
                             result: TimeResult(
-                                hour: 08,
-                                minute: 56
+                                hour: 8,
+                                minute: 2
                             )
                         )).eraseToAnyPublisher()
                     }

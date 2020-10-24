@@ -1,127 +1,94 @@
 import SwiftUI
+import ComposableArchitecture
+import TimeClient
+import Components
+import CoreData
+
+struct AppState: Equatable {
+    var yearState: YearState
+    var dayState: DayState
+    public init(
+        yearState: YearState = .init(style: .circle),
+        dayState: DayState = .init()
+    ) {
+        self.yearState = yearState
+        self.dayState = dayState
+    }
+}
+
+enum AppAction: Equatable {
+    case year(YearAction)
+    case day(DayAction)
+}
+
+struct AppEnvironment {
+    let date: () -> Date
+    let calendar: Calendar
+    let timeClient: TimeClient
+    let context: NSManagedObjectContext
+}
+
+let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
+    dayReducer.pullback(
+        state: \.dayState,
+        action: /AppAction.day,
+        environment: \.day
+    ),
+    yearReducer.pullback(
+        state: \.yearState,
+        action: /AppAction.year,
+        environment: \.year
+    )
+)
+
+extension AppEnvironment {
+    var day: DayEnvironment {
+        DayEnvironment(
+            calendar: calendar,
+            date: date,
+            todayProgress: timeClient.todayProgress
+        )
+    }
+}
+
+extension AppEnvironment {
+    var year: YearEnvironment {
+        YearEnvironment(
+            calendar: calendar,
+            date: date,
+            yearProgress: timeClient.yearProgress
+        )
+    }
+}
+
 
 struct ContentView: View {
+    
+    let store: Store<AppState, AppAction>
+    
+    init(store: Store<AppState, AppAction>) {
+        self.store = store
+    }
+    
     var body: some View {
         GeometryReader { proxy -> AnyView in
             let width = proxy.size.width * 0.5 - 8.0
             return AnyView(
-                VStack(spacing: 16.0) {
+                HStack {
                     
-                    HStack(spacing: 8.0) {
-                        
-                        VStack(alignment: .leading) {
-                            Text("2020")
-                                .frame(maxWidth: .infinity, alignment: .trailing)
-                                .font(.title)                            
-                            HStack(spacing: 2) {
-                                Text("280d")
-                                    .bold()
-                                    .font(.headline)
-                                Text(" remaining")
-                                    .italic()
-                                    .fontWeight(.ultraLight)
-                            }.frame(maxWidth: .infinity, alignment: .leading)
-                            
-                        }.padding()
-                        .background(
-                            RoundedRectangle(
-                                cornerRadius: 20.0,
-                                style: .continuous
-                            ).fill(Color.white)
-                            .shadow(radius: 1)
-                        ).frame(
-                            width: width,
-                            height: width,
-                            alignment: .leading
-                        )
-                            
-                        RoundedRectangle(cornerRadius: 20.0,
-                                         style: .continuous)
-                            .frame(width: width, height: width)
-                    }.padding(.leading, 4.0)
+                    DayProgressView(
+                        store: store.scope(
+                            state: \.dayState,
+                            action: AppAction.day)
+                    ).frame(width: width, height: width)
                     
-                    HStack {
-                        Button(action: {}, label: {
-                            Image(systemName: "chart.bar.fill")
-                                .font(Font.headline.bold())
-                        }).buttonStyle(PlusButtonStyle())
-                        
-                        Button(action: {}, label: {
-                            Image(systemName: "checkmark")
-                                .font(Font.headline.bold())
-                        }).buttonStyle(PlusButtonStyle())
-                        .frame(alignment: .leading)
-                        
-                        Spacer()
-                        
-                        Button(action: {}, label: {
-                            Image(systemName: "plus")
-                                .font(Font.headline.bold())
-                        }).buttonStyle(PlusButtonStyle())
-                        .frame(alignment: .leading)
-                        
-                    }//.frame(maxWidth: .infinity, alignment: .trailing)
-                    .padding()
+                    YearProgressView(
+                        store: store.scope(
+                            state: \.yearState,
+                            action: AppAction.year)
+                    ).frame(width: width, height: width)
                     
-                    
-                    ScrollView {
-                        
-                        HStack {
-                            VStack(alignment: .leading, spacing: 16) {
-                                HStack {
-                                    Text("Read Zero to One")
-                                        .font(.headline)
-                                        .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-                                }
-                                Text("13hours 28minutes")
-                                    .font(.subheadline)
-                                    .fontWeight(.light)
-                            }
-                        }.padding()
-                        .background(
-                            ZStack(alignment: .topTrailing) {
-                                RoundedRectangle(
-                                    cornerRadius: 8.0, style: .continuous)
-                                    .fill(Color.white)
-                                Button(action: {}, label: {
-                                    Image(systemName: "ellipsis")
-                                        .accentColor(.gray)
-                                        .font(Font.headline.bold())
-                                }).padding()
-                            }
-                        ).padding(.horizontal)
-                                            
-                        ForEach(1..<5) { _ in
-                            VStack(alignment: .leading, spacing: 16) {
-                                
-                                Text("Read Zero to One")
-                                    .font(.headline)
-                                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
-                                
-                                Text("13hours 28minutes")
-                                    .font(.subheadline)
-                                    .fontWeight(.light)
-                                
-                            }.padding()
-                            .background(
-                                ZStack(alignment: .topTrailing) {
-                                    RoundedRectangle(
-                                        cornerRadius: 8.0, style: .continuous)
-                                        .fill(Color.white)
-                                    Button(action: {}, label: {
-                                        Image(systemName: "ellipsis")
-                                            .accentColor(.gray)
-                                    }).padding()
-                                }
-                            )
-                            .padding(.horizontal)
-                        }
-                        
-                        
-                        
-                    }
-                    
-                }.background(Color(white: 0.98).blur(radius: 1.2))
+                }.padding(.leading, 4)
             )
         }
     }
@@ -144,10 +111,52 @@ let lineWidth: CGFloat = 8.0
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ContentView()
+            ContentView(
+                store: Store<AppState, AppAction>(
+                    initialState: AppState(),
+                    reducer: appReducer,
+                    environment: .midDay)
+            )
         }
     }
 }
 
+extension AppEnvironment {
+    static var empty: Self {
+        Self(
+            date: Date.init,
+            calendar: .current,
+            timeClient: .empty,
+            context: .init(concurrencyType: .privateQueueConcurrencyType)
+        )
+    }
+}
+
+import Combine
+extension AppEnvironment {
+    static var midDay: Self {
+        Self(
+            date: Date.init,
+            calendar: .current,
+            timeClient: TimeClient(
+                yearProgress: { _ in Just(TimeResponse(
+                    progress: 0.38,
+                    result: TimeResult(
+                        hour: 13, minute: 12
+                    )
+                )).eraseToAnyPublisher()
+                }, todayProgress: { _ in Just(TimeResponse(
+                    progress: 0.8,
+                    result: TimeResult(
+                        day: 19, hour: 13
+                    )
+                )).eraseToAnyPublisher()
+                }
+                
+            ),
+            context: .init(concurrencyType: .privateQueueConcurrencyType)
+        )
+    }
+}
 
 

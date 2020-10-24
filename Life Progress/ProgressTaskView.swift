@@ -1,18 +1,29 @@
 import SwiftUI
 import Components
 
-struct ProgressTask: Identifiable, Equatable {
-    var id: UUID = UUID()
+public struct ProgressTask: Identifiable, Equatable {
+    public var id: UUID
     let title: String
     let startDate: Date
     let endDate: Date
+    public init(
+        id: UUID = UUID(),
+        title: String,
+        startDate: Date,
+        endDate: Date
+    ) {
+        self.id = id
+        self.title = title
+        self.startDate = startDate
+        self.endDate = endDate
+    }
 }
 
-struct ProgressTaskState: Equatable {
+public struct ProgressTaskState: Equatable {
     let task: ProgressTask
     var remainingTime: NSAttributedString
     var progress: Double
-    init(
+    public init(
         task: ProgressTask,
         remainingTime: NSAttributedString = .init(),
         progress: Double = .zero
@@ -26,17 +37,21 @@ struct ProgressTaskState: Equatable {
 
 import TimeClient
 import Combine
-struct TaskEnvironment {
-    let taskProgress: (TaskRequest) -> AnyPublisher<TaskResponse, Never>
+public struct TaskEnvironment {
+    let date: () -> Date
+    let calendar: Calendar
+    let taskProgress: (TaskRequest) -> AnyPublisher<TimeResponse, Never>
 }
 
-enum ProgressTaskAction: Equatable {
+public enum ProgressTaskAction: Equatable {
     case onAppear
 }
 
 
 import ComposableArchitecture
-let taskReducer = Reducer<ProgressTaskState, ProgressTaskAction, Void> { state, action, _ in
+public let taskReducer =
+Reducer<ProgressTaskState, ProgressTaskAction, TaskEnvironment> {
+    state, action, environment in
     return .none
 }
 

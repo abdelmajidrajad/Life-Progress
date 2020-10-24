@@ -44,38 +44,41 @@ public struct SwitchEnvironment {
 
 public let switchReducer =
     Reducer<SwitchState, SwitchAction, SwitchEnvironment> { state, action, environment in
-    switch action {
-    case .onAppear:
-        return .concatenate(
-            currentYear(environment.calendar, environment.date())
-                .map(SwitchAction.setYear)
+        switch action {
+        case .onAppear:
+            return .concatenate(
+                currentYear(
+                    environment.calendar,
+                    environment.date()
+                ).map(SwitchAction.setYear)
                 .eraseToEffect(),
-            environment.todayProgress(
-                TodayRequest(date: environment.date(),
-                            calendar: environment.calendar
-                )).map(SwitchAction.todayResponse)
-                .eraseToEffect(),
-            environment.yearProgress(
-                YearRequest(
-                    date: environment.date(),
-                    calendar: environment.calendar,
-                    resultType: .short
-                )).map(SwitchAction.yearResponse)
-                .eraseToEffect()
-        )
-    case let .todayResponse(response):
-        state.todayPercent = response.progress
-        state.todayResult = response.result
-        return .none
-    case let .yearResponse(response):
-        state.yearPercent = response.progress
-        state.yearResult = response.result
-        return .none
-    case let .setYear(year):
-        state.year = year
-        return .none
+                environment.todayProgress(
+                    TodayRequest(
+                        date: environment.date(),
+                        calendar: environment.calendar
+                    )).map(SwitchAction.todayResponse)
+                    .eraseToEffect(),
+                environment.yearProgress(
+                    YearRequest(
+                        date: environment.date(),
+                        calendar: environment.calendar,
+                        resultType: .short
+                    )).map(SwitchAction.yearResponse)
+                    .eraseToEffect()
+            )
+        case let .todayResponse(response):
+            state.todayPercent = response.progress
+            state.todayResult = response.result
+            return .none
+        case let .yearResponse(response):
+            state.yearPercent = response.progress
+            state.yearResult = response.result
+            return .none
+        case let .setYear(year):
+            state.year = year
+            return .none
+        }
     }
-}
 
 extension SwitchState {
     var view: SwitchProgressView.ViewState {
@@ -84,8 +87,8 @@ extension SwitchState {
             year: "\(year)",
             yearPercent: NSNumber(value: yearPercent),
             todayPercent: NSNumber(value: todayPercent),
-            yearTitle: remainingTime(yearResult),
-            dayTitle: remainingTime(todayResult),
+            yearTitle: yearResult.string,
+            dayTitle: todayResult.string,
             isCircle: style == .circle
         )
     }

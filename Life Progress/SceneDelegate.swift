@@ -1,5 +1,8 @@
 import UIKit
 import SwiftUI
+import TimeClientLive
+import ComposableArchitecture
+
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -7,14 +10,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+                
         
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-
-        // Create the SwiftUI view and set the context as the value for the managedObjectContext environment keyPath.
-        // Add `@Environment(\.managedObjectContext)` in the views that will need the context.
-        let contentView = ContentView().environment(\.managedObjectContext, context)
-
-        // Use a UIHostingController as window root view controller.
+        let contentView = ContentView(
+            store: Store(
+                initialState: AppState(),
+                reducer: appReducer,
+                environment:  AppEnvironment(
+                    date: Date.init,
+                    calendar: .current,
+                    timeClient: .empty,
+                    context: (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+                )
+            )
+        )
+        
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController = UIHostingController(rootView: contentView)

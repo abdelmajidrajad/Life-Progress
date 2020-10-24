@@ -28,13 +28,22 @@ public enum YearAction: Equatable {
     case response(TimeResponse)
 }
 
-struct YearEnvironment {
+public struct YearEnvironment {
     let calendar: Calendar
     let date: () -> Date
     let yearProgress: (YearRequest) -> AnyPublisher<TimeResponse, Never>
+    public init(
+        calendar: Calendar,
+        date: @escaping () -> Date,
+        yearProgress: @escaping (YearRequest) -> AnyPublisher<TimeResponse, Never>
+    ) {
+        self.calendar = calendar
+        self.date = date
+        self.yearProgress = yearProgress
+    }
 }
 
-let yearReducer =
+public let yearReducer =
     Reducer<YearState, YearAction, YearEnvironment> { state, action, environment in
     switch action {
     case .onAppear:
@@ -69,7 +78,7 @@ extension YearState {
         YearProgressView.ViewState(
             year: "\(year)",
             percentage: NSNumber(value: percent),
-            title: remainingTime(result),
+            title: result.string,
             isCircle: style == .circle
         )
     }
@@ -121,12 +130,15 @@ public struct YearProgressView: View {
                                                     
                     HStack(alignment: .lastTextBaseline, spacing: 2) {
                         PLabel(attributedText: .constant(viewStore.title))
+                            .fixedSize()
                             
                         Text("remaining")
                             .font(.caption)
                             .foregroundColor(.gray)
                             .italic()
-                    }.fixedSize()
+                            .lineLimit(1)
+                        
+                    }.frame(maxWidth: .infinity, alignment: .leading)
                     
                 }.padding()
                 .background(
@@ -156,7 +168,7 @@ struct YearProgressView_Previews: PreviewProvider {
                              { _ in
                                 Just(TimeResponse(
                                     progress: 0.5,
-                                    result: TimeResult( day: 200, hour: 22)
+                                    result: TimeResult( day: 20, hour: 22)
                                 )).eraseToAnyPublisher()
                             }
                     )
@@ -186,33 +198,53 @@ struct YearProgressView_Previews: PreviewProvider {
 
 
 
-let remainingTime: (TimeResult) -> NSAttributedString = { result in
-    let mutable = NSMutableAttributedString()
-    if result.year != .zero {
-        mutable.append(
-            attributedString(value: "\(result.year)", title: "y")
-        )
+extension TimeResult {
+    var string: NSAttributedString {
+        let mutable = NSMutableAttributedString()
+        if self.year != .zero {
+            mutable.append(
+                attributedString(
+                    value: "\(self.year)",
+                    title: "y"
+                )
+            )
+        }
+        if self.month != .zero {
+            mutable.append(
+                attributedString(
+                    value: "\(self.month)",
+                    title: "m"
+                )
+            )
+        }
+        if self.day != .zero {
+            mutable.append(
+                attributedString(
+                    value: "\(self.day)",
+                    title: "d"
+                )
+            )
+        }
+        if self.hour != .zero {
+            mutable.append(
+                attributedString(
+                    value: "\(self.hour)",
+                    title: "h"
+                )
+            )
+        }
+        if self.minute != .zero {
+            mutable.append(
+                attributedString(
+                    value: "\(self.minute)",
+                    title: "min")
+            )
+        }
+        return mutable
     }
-    if result.month != .zero {
-        mutable.append(
-            attributedString(value: "\(result.month)", title: "m")
-        )
-    }
-    if result.day != .zero {
-        mutable.append(
-            attributedString(value: "\(result.day)", title: "d")
-        )
-    }
-    if result.hour != .zero {
-        mutable.append(
-            attributedString(value: "\(result.hour)", title: "h")
-        )
-    }
-    if result.minute != .zero {
-        mutable.append(attributedString(value: "\(result.minute)", title: "min"))
-    }
-    return mutable
 }
+
+
 
 
 func attributedString(value: String, title: String) -> NSAttributedString {
