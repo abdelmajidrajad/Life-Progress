@@ -98,17 +98,18 @@ public struct YearProgressView: View {
                 VStack(alignment: .leading) {
                     
                     Text(viewStore.year)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .frame(
+                            maxWidth: .infinity,
+                            alignment: .trailing
+                        )
                         .font(.title)
-                    
-                    
+                                        
                     if viewStore.isCircle {
                         ProgressCircle(
                             color: .gray,
-                            lineWidth: 12.0,
+                            lineWidth: 10.0,
                             progress: .constant(viewStore.percentage)
-                            
-                        ).frame(width: 100, height: 100)
+                        ).frame(width: 60, height: 60)
                         .offset(y: -20)
                     } else {
                         ProgressBar(
@@ -160,7 +161,7 @@ struct YearProgressView_Previews: PreviewProvider {
                         }
                 )
             )
-        ).frame(width: 300, height: 300)
+        ).frame(width: 141, height: 141)
     }
 }
 

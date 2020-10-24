@@ -103,13 +103,15 @@ public struct SwitchProgressView: View {
             HStack(spacing: 8.0) {
                 
                 VStack(alignment: .leading) {
-                    
-                    Text(viewStore.title)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .font(.headline)
+                    HStack {
+                        Text(viewStore.title)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                            .font(.headline)
+                        Image(systemName: "hourglass")
+                    }
+                   
                     
                     ZStack {
-                        
                         ProgressCircle(
                             color: .green,
                             lineWidth: 8.0,
@@ -125,31 +127,49 @@ public struct SwitchProgressView: View {
                             progress: .constant(viewStore.todayPercent)
                         ).frame(width: 48, height: 48)
                         .offset(y: -20)
-                        
                     }
-                                                    
+                                                                        
                     Spacer()
                                                     
-                    HStack(alignment: .lastTextBaseline) {
+                    HStack(alignment: .lastTextBaseline, spacing: 2) {
                         PLabel(attributedText: .constant(viewStore.yearTitle))
                             .fixedSize()
-                        Text("remaining")
+                        Text("/remaining")
+                            .font(.caption)
                             .italic()
-                    }
+                    }.foregroundColor(Color.green)
                     
-                    HStack(alignment: .lastTextBaseline) {
+                    HStack(alignment: .lastTextBaseline, spacing: 2) {
                         PLabel(attributedText: .constant(viewStore.dayTitle))
                             .fixedSize()
-                        Text("remaining")
+                        Text("/remaining")
+                            .font(.caption)
                             .italic()
-                    }.foregroundColor(Color.pink.opacity(0.5))
+                    }.foregroundColor(Color.pink)
+                    
+                    HStack {
+                        HStack(spacing: .py_grid(1)) {
+                            Circle()
+                                .foregroundColor(.green)
+                                .frame(width: 10, height: 10)
+                            Text("2020")
+                                .font(.caption)
+                        }
+                        HStack(spacing: .py_grid(1)) {
+                            Circle()
+                                .foregroundColor(.pink)
+                                .frame(width: 10, height: 10)
+                            Text("Today")
+                                .font(.caption)
+                        }
+                    }.frame(maxWidth: .infinity, alignment: .trailing)
                     
                 }.padding()
                 .background(
                     RoundedRectangle(
                         cornerRadius: 20.0,
                         style: .continuous
-                    ).fill(Color.white)
+                    ).stroke(Color.white)
                     .shadow(radius: 1)
                 )
             }.onAppear { viewStore.send(.onAppear) }

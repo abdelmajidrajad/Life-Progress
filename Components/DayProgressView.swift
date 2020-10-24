@@ -89,7 +89,7 @@ public struct DayProgressView: View {
                                                             
                     if viewStore.isCircle {
                         ProgressCircle(
-                            color: .gray,
+                            color: .pink,
                             lineWidth: 12.0,
                             progress: .constant(viewStore.percentage)
                         ).frame(width: 80, height: 80)
@@ -140,8 +140,8 @@ struct DayProgressView_Previews: PreviewProvider {
                         Just(TodayResponse(
                             progress: 0.8,
                             rest: TimeResult(
-                                hour: 12,
-                                minute: 9
+                                hour: 08,
+                                minute: 56
                             )
                         )).eraseToAnyPublisher()
                     }
