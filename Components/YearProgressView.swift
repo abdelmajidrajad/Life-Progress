@@ -25,13 +25,13 @@ public struct YearState: Equatable {
 public enum YearAction: Equatable {
     case onAppear
     case setYear(Int)
-    case response(YearResponse)
+    case response(TimeResponse)
 }
 
 struct YearEnvironment {
     let calendar: Calendar
     let date: () -> Date
-    let yearProgress: (YearRequest) -> AnyPublisher<YearResponse, Never>
+    let yearProgress: (YearRequest) -> AnyPublisher<TimeResponse, Never>
 }
 
 let yearReducer =
@@ -101,12 +101,11 @@ public struct YearProgressView: View {
                         .frame(
                             maxWidth: .infinity,
                             alignment: .trailing
-                        )
-                        .font(.title)
+                        ).font(.footnote)
                                         
                     if viewStore.isCircle {
                         ProgressCircle(
-                            color: .gray,
+                            color: .green,
                             lineWidth: 10.0,
                             progress: .constant(viewStore.percentage)
                         ).frame(width: 60, height: 60)
@@ -120,21 +119,21 @@ public struct YearProgressView: View {
                                                     
                     Spacer()
                                                     
-                    HStack(alignment: .bottom) {
+                    HStack(alignment: .lastTextBaseline, spacing: 2) {
                         PLabel(attributedText: .constant(viewStore.title))
-                            .fixedSize()
                             
                         Text("remaining")
+                            .font(.caption)
                             .foregroundColor(.gray)
                             .italic()
-                    }
+                    }.fixedSize()
                     
                 }.padding()
                 .background(
                     RoundedRectangle(
                         cornerRadius: 20.0,
                         style: .continuous
-                    ).fill(Color.white)
+                    ).stroke(Color.white)
                     .shadow(radius: 1)
                 )
             }.onAppear { viewStore.send(.onAppear) }
@@ -145,23 +144,42 @@ public struct YearProgressView: View {
 
 struct YearProgressView_Previews: PreviewProvider {
     static var previews: some View {
-        YearProgressView(
-            store: Store<YearState, YearAction>(
-                initialState: YearState(style: .circle),
-                reducer: yearReducer,
-                environment: YearEnvironment(
-                    calendar: .current,
-                    date: Date.init,
-                    yearProgress:
-                         { _ in
-                            Just(YearResponse(
-                                progress: 0.5,
-                                result: TimeResult( day: 200, hour: 22)
-                            )).eraseToAnyPublisher()
-                        }
+        Group {
+            YearProgressView(
+                store: Store<YearState, YearAction>(
+                    initialState: YearState(style: .circle),
+                    reducer: yearReducer,
+                    environment: YearEnvironment(
+                        calendar: .current,
+                        date: Date.init,
+                        yearProgress:
+                             { _ in
+                                Just(TimeResponse(
+                                    progress: 0.5,
+                                    result: TimeResult( day: 200, hour: 22)
+                                )).eraseToAnyPublisher()
+                            }
+                    )
                 )
-            )
-        ).frame(width: 141, height: 141)
+            ).frame(width: 141, height: 141)
+            YearProgressView(
+                store: Store<YearState, YearAction>(
+                    initialState: YearState(style: .bar),
+                    reducer: yearReducer,
+                    environment: YearEnvironment(
+                        calendar: .current,
+                        date: Date.init,
+                        yearProgress:
+                             { _ in
+                                Just(TimeResponse(
+                                    progress: 0.5,
+                                    result: TimeResult( day: 200, hour: 22)
+                                )).eraseToAnyPublisher()
+                            }
+                    )
+                )
+            ).frame(width: 141, height: 141)
+        }
     }
 }
 
@@ -207,7 +225,7 @@ func attributedString(value: String, title: String) -> NSAttributedString {
             string: title,
             attributes: [
                 .font: UIFont.py_headline().italicized,
-                .foregroundColor: UIColor.gray
+                .foregroundColor: UIColor.darkGray
             ]
         )
     )

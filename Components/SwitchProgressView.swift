@@ -9,40 +9,47 @@ public struct SwitchState: Equatable {
     var todayResult: TimeResult
     var yearPercent: Double
     var todayPercent: Double
+    var year: Int
     var style: ProgressStyle
     public init(
         timeResult: TimeResult = .init(),
         dayResult: TimeResult = .init(),
         style: ProgressStyle = .bar,
         yearPercent: Double = .zero,
-        todayPercent: Double = .zero
+        todayPercent: Double = .zero,
+        year: Int = .zero
     ) {
         self.style = style
         self.yearResult = timeResult
         self.todayResult = dayResult
         self.yearPercent = yearPercent
         self.todayPercent = todayPercent
+        self.year = year
     }
 }
 
 public enum SwitchAction: Equatable {
     case onAppear
-    case todayResponse(TodayResponse)
-    case yearResponse(YearResponse)
+    case setYear(Int)
+    case todayResponse(TimeResponse)
+    case yearResponse(TimeResponse)
 }
 
-struct SwitchEnvironment {
+public struct SwitchEnvironment {
     let calendar: Calendar
     let date: () -> Date
-    let todayProgress: (TodayRequest) -> AnyPublisher<TodayResponse, Never>
-    let yearProgress: (YearRequest) -> AnyPublisher<YearResponse, Never>
+    let todayProgress: (TodayRequest) -> AnyPublisher<TimeResponse, Never>
+    let yearProgress: (YearRequest) -> AnyPublisher<TimeResponse, Never>
 }
 
-let switchReducer =
+public let switchReducer =
     Reducer<SwitchState, SwitchAction, SwitchEnvironment> { state, action, environment in
     switch action {
     case .onAppear:
         return .concatenate(
+            currentYear(environment.calendar, environment.date())
+                .map(SwitchAction.setYear)
+                .eraseToEffect(),
             environment.todayProgress(
                 TodayRequest(date: environment.date(),
                             calendar: environment.calendar
@@ -64,6 +71,9 @@ let switchReducer =
         state.yearPercent = response.progress
         state.yearResult = response.result
         return .none
+    case let .setYear(year):
+        state.year = year
+        return .none
     }
 }
 
@@ -71,6 +81,7 @@ extension SwitchState {
     var view: SwitchProgressView.ViewState {
         SwitchProgressView.ViewState(
             title: "Progress",
+            year: "\(year)",
             yearPercent: NSNumber(value: yearPercent),
             todayPercent: NSNumber(value: todayPercent),
             yearTitle: remainingTime(yearResult),
@@ -84,6 +95,7 @@ public struct SwitchProgressView: View {
     
     struct ViewState: Equatable {
         let title: String
+        let year: String
         let yearPercent: NSNumber
         let todayPercent: NSNumber
         let yearTitle: NSAttributedString
@@ -133,26 +145,26 @@ public struct SwitchProgressView: View {
                                                     
                     HStack(alignment: .lastTextBaseline, spacing: 2) {
                         PLabel(attributedText: .constant(viewStore.yearTitle))
-                            .fixedSize()
-                        Text("/remaining")
+                        Text("remaining")
                             .font(.caption)
                             .italic()
                     }.foregroundColor(Color.green)
+                    .fixedSize()
                     
                     HStack(alignment: .lastTextBaseline, spacing: 2) {
                         PLabel(attributedText: .constant(viewStore.dayTitle))
-                            .fixedSize()
-                        Text("/remaining")
+                        Text("remaining")
                             .font(.caption)
                             .italic()
                     }.foregroundColor(Color.pink)
+                    .fixedSize()
                     
                     HStack {
                         HStack(spacing: .py_grid(1)) {
                             Circle()
                                 .foregroundColor(.green)
                                 .frame(width: 10, height: 10)
-                            Text("2020")
+                            Text(viewStore.year)
                                 .font(.caption)
                         }
                         HStack(spacing: .py_grid(1)) {
@@ -188,15 +200,15 @@ struct SwitchProgressView_Previews: PreviewProvider {
                     calendar: .current,
                     date: Date.init,
                     todayProgress: { _ in
-                        Just(TodayResponse(
+                        Just(TimeResponse(
                             progress: 0.8,
-                            rest: TimeResult(
+                            result: TimeResult(
                                 hour: 12,
                                 minute: 9
                             )
                         )).eraseToAnyPublisher()
                     }, yearProgress: { _ in
-                        Just(YearResponse(
+                        Just(TimeResponse(
                             progress: 0.22,
                             result: TimeResult(
                                 day: 200,
@@ -206,7 +218,6 @@ struct SwitchProgressView_Previews: PreviewProvider {
                     }
                 )
             )
-        )//.frame(width: 169, height: 169)
-        .frame(width: 240, height: 240)
+        ).frame(width: 169, height: 169)
     }
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0412336E254475C20072ABF3 /* ProgressTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0412336D254475C20072ABF3 /* ProgressTaskView.swift */; };
 		04325686254459570050F620 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04325685254459570050F620 /* Grid.swift */; };
 		0462EFD125442310003D2969 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFD025442310003D2969 /* Fonts.swift */; };
 		0462EFD825442A8C003D2969 /* PLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFD725442A8C003D2969 /* PLabel.swift */; };
@@ -105,6 +106,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0412336D254475C20072ABF3 /* ProgressTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressTaskView.swift; sourceTree = "<group>"; };
 		04325685254459570050F620 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		0462EFD025442310003D2969 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		0462EFD725442A8C003D2969 /* PLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PLabel.swift; sourceTree = "<group>"; };
@@ -231,6 +233,7 @@
 				04E73C3F2542C2040092B918 /* Info.plist */,
 				04E73C342542C2030092B918 /* Life_Progress.xcdatamodeld */,
 				04E73C392542C2040092B918 /* Preview Content */,
+				0412336D254475C20072ABF3 /* ProgressTaskView.swift */,
 			);
 			path = "Life Progress";
 			sourceTree = "<group>";
@@ -561,6 +564,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0412336E254475C20072ABF3 /* ProgressTaskView.swift in Sources */,
 				04E73C2F2542C2030092B918 /* AppDelegate.swift in Sources */,
 				04E73C312542C2030092B918 /* SceneDelegate.swift in Sources */,
 				04E73C362542C2030092B918 /* Life_Progress.xcdatamodeld in Sources */,

@@ -1,5 +1,5 @@
 import SwiftUI
-struct ProgressBar: View {
+public struct ProgressBar: View {
     let color: Color
     let lineWidth: CGFloat
     let labelHidden: Bool
@@ -17,7 +17,7 @@ struct ProgressBar: View {
         self._progress = progress
     }
     
-    var body: some View {
+    public var body: some View {
         GeometryReader { proxy in
             VStack(alignment: .trailing) {
                 ZStack(alignment: .leading) {
@@ -28,7 +28,7 @@ struct ProgressBar: View {
                             LinearGradient(
                                 gradient: Gradient(
                                     colors: [
-                                        color.opacity(0.3),
+                                        color.opacity(0.1),
                                         color]
                                 ),
                                 startPoint: .leading,
@@ -87,7 +87,7 @@ public struct ProgressCircle: View {
                 .rotationEffect(Angle(degrees: -90))
                 .background(
                     Circle()
-                        .stroke(color.opacity(0.2), style: StrokeStyle(
+                        .stroke(color.opacity(0.1), style: StrokeStyle(
                             lineWidth: lineWidth,
                             lineCap: .round,
                             lineJoin: .round
