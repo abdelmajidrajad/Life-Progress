@@ -1,14 +1,17 @@
 import SwiftUI
-struct PLabel: UIViewRepresentable {
+public struct PLabel: UIViewRepresentable {
             
     @Binding var attributedText: NSAttributedString
+    public init(attributedText: Binding<NSAttributedString>) {
+        self._attributedText = attributedText
+    }
     
-    func makeUIView(context: Context) -> UILabel {
+    public func makeUIView(context: Context) -> UILabel {
         let label = UILabel()
         plabelStyle(label)
         return label
     }
-    func updateUIView(_ label: UILabel, context: Context) {
+    public func updateUIView(_ label: UILabel, context: Context) {
         label.attributedText = attributedText
     }
 }

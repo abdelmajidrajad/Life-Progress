@@ -7,13 +7,25 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0412336E254475C20072ABF3 /* ProgressTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0412336D254475C20072ABF3 /* ProgressTaskView.swift */; };
+		040C23FB2546EA23008BA89B /* TimeClient in Frameworks */ = {isa = PBXBuildFile; productRef = 040C23FA2546EA23008BA89B /* TimeClient */; };
+		040C23FC2546EA23008BA89B /* TimeClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 040C23FA2546EA23008BA89B /* TimeClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		040C241125470098008BA89B /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C241025470098008BA89B /* ProgressCircle.swift */; };
 		04325686254459570050F620 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04325685254459570050F620 /* Grid.swift */; };
 		0462EFD125442310003D2969 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFD025442310003D2969 /* Fonts.swift */; };
-		0462EFD825442A8C003D2969 /* PLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFD725442A8C003D2969 /* PLabel.swift */; };
 		0462EFE425442AD7003D2969 /* DayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFE325442AD7003D2969 /* DayProgressView.swift */; };
 		0462EFEB254437B7003D2969 /* SwitchProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFEA254437B7003D2969 /* SwitchProgressView.swift */; };
 		0462F01025444433003D2969 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462F00F25444433003D2969 /* Operators.swift */; };
+		04D7BAA62545825B003A9774 /* AttributedString+Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D7BAA52545825B003A9774 /* AttributedString+Value.swift */; };
+		04D7BAAC25458329003A9774 /* PLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFD725442A8C003D2969 /* PLabel.swift */; };
+		04D7BAC0254587B7003A9774 /* Tasks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; };
+		04D7BAC7254587B7003A9774 /* TasksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D7BAC6254587B7003A9774 /* TasksTests.swift */; };
+		04D7BAC9254587B7003A9774 /* Tasks.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D7BAB9254587B7003A9774 /* Tasks.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04D7BACC254587B7003A9774 /* Tasks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; };
+		04D7BACD254587B7003A9774 /* Tasks.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04D7BADB254587C3003A9774 /* ProgressTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0412336D254475C20072ABF3 /* ProgressTaskView.swift */; };
+		04D7BAE5254587DF003A9774 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73C86254357E60092B918 /* Core.framework */; };
+		04D7BAF625458844003A9774 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73CD72543597E0092B918 /* ProgressBar.swift */; };
+		04D7BB0625458893003A9774 /* TasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D7BB0525458893003A9774 /* TasksView.swift */; };
 		04E73C2F2542C2030092B918 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73C2E2542C2030092B918 /* AppDelegate.swift */; };
 		04E73C312542C2030092B918 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73C302542C2030092B918 /* SceneDelegate.swift */; };
 		04E73C332542C2030092B918 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73C322542C2030092B918 /* ContentView.swift */; };
@@ -33,12 +45,32 @@
 		04E73CB62543590F0092B918 /* Components.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73CA12543590F0092B918 /* Components.framework */; };
 		04E73CB72543590F0092B918 /* Components.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73CA12543590F0092B918 /* Components.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04E73CD02543594E0092B918 /* YearProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73CCF2543594E0092B918 /* YearProgressView.swift */; };
-		04E73CD82543597E0092B918 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73CD72543597E0092B918 /* ProgressBar.swift */; };
 		04E73CE125435F370092B918 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73C86254357E60092B918 /* Core.framework */; };
 		04EFF7032544C13B00FAB18E /* TimeClient in Frameworks */ = {isa = PBXBuildFile; productRef = 04EFF7022544C13B00FAB18E /* TimeClient */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		04D7BAC1254587B7003A9774 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04E73C232542C2030092B918 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04D7BAB6254587B7003A9774;
+			remoteInfo = Tasks;
+		};
+		04D7BAC3254587B7003A9774 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04E73C232542C2030092B918 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04E73C2A2542C2030092B918;
+			remoteInfo = "Life Progress";
+		};
+		04D7BACA254587B7003A9774 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04E73C232542C2030092B918 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04D7BAB6254587B7003A9774;
+			remoteInfo = Tasks;
+		};
 		04E73C452542C2040092B918 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 04E73C232542C2030092B918 /* Project object */;
@@ -91,6 +123,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		040C23FD2546EA23008BA89B /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				040C23FC2546EA23008BA89B /* TimeClient in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		04E73C8F254357E60092B918 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -99,6 +142,7 @@
 			files = (
 				04E73CB72543590F0092B918 /* Components.framework in Embed Frameworks */,
 				04E73C8E254357E60092B918 /* Core.framework in Embed Frameworks */,
+				04D7BACD254587B7003A9774 /* Tasks.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -106,6 +150,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		040C241025470098008BA89B /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
 		0412336D254475C20072ABF3 /* ProgressTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressTaskView.swift; sourceTree = "<group>"; };
 		04123374254492FA0072ABF3 /* TaskClient */ = {isa = PBXFileReference; lastKnownFileType = folder; name = TaskClient; path = ../../TaskClient; sourceTree = "<group>"; };
 		04325685254459570050F620 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
@@ -114,6 +159,14 @@
 		0462EFE325442AD7003D2969 /* DayProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayProgressView.swift; sourceTree = "<group>"; };
 		0462EFEA254437B7003D2969 /* SwitchProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchProgressView.swift; sourceTree = "<group>"; };
 		0462F00F25444433003D2969 /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
+		04D7BAA52545825B003A9774 /* AttributedString+Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AttributedString+Value.swift"; sourceTree = "<group>"; };
+		04D7BAB7254587B7003A9774 /* Tasks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Tasks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		04D7BAB9254587B7003A9774 /* Tasks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tasks.h; sourceTree = "<group>"; };
+		04D7BABA254587B7003A9774 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04D7BABF254587B7003A9774 /* TasksTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TasksTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		04D7BAC6254587B7003A9774 /* TasksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksTests.swift; sourceTree = "<group>"; };
+		04D7BAC8254587B7003A9774 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04D7BB0525458893003A9774 /* TasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksView.swift; sourceTree = "<group>"; };
 		04E73C2B2542C2030092B918 /* Life Progress.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Life Progress.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04E73C2E2542C2030092B918 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04E73C302542C2030092B918 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -144,12 +197,30 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		04D7BAB4254587B7003A9774 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				040C23FB2546EA23008BA89B /* TimeClient in Frameworks */,
+				04D7BAE5254587DF003A9774 /* Core.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04D7BABC254587B7003A9774 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04D7BAC0254587B7003A9774 /* Tasks.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		04E73C282542C2030092B918 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				04E73CB62543590F0092B918 /* Components.framework in Frameworks */,
 				04E73C8D254357E60092B918 /* Core.framework in Frameworks */,
+				04D7BACC254587B7003A9774 /* Tasks.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,6 +266,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04D7BAB8254587B7003A9774 /* Tasks */ = {
+			isa = PBXGroup;
+			children = (
+				0412336D254475C20072ABF3 /* ProgressTaskView.swift */,
+				04D7BAB9254587B7003A9774 /* Tasks.h */,
+				04D7BABA254587B7003A9774 /* Info.plist */,
+				04D7BB0525458893003A9774 /* TasksView.swift */,
+			);
+			path = Tasks;
+			sourceTree = "<group>";
+		};
+		04D7BAC5254587B7003A9774 /* TasksTests */ = {
+			isa = PBXGroup;
+			children = (
+				04D7BAC6254587B7003A9774 /* TasksTests.swift */,
+				04D7BAC8254587B7003A9774 /* Info.plist */,
+			);
+			path = TasksTests;
+			sourceTree = "<group>";
+		};
 		04E73C222542C2030092B918 = {
 			isa = PBXGroup;
 			children = (
@@ -204,6 +295,8 @@
 				04E73C87254357E60092B918 /* Core */,
 				04E73CA22543590F0092B918 /* Components */,
 				04E73CAF2543590F0092B918 /* ComponentsTests */,
+				04D7BAB8254587B7003A9774 /* Tasks */,
+				04D7BAC5254587B7003A9774 /* TasksTests */,
 				04E73C2C2542C2030092B918 /* Products */,
 				04E73CE025435F370092B918 /* Frameworks */,
 			);
@@ -218,6 +311,8 @@
 				04E73C86254357E60092B918 /* Core.framework */,
 				04E73CA12543590F0092B918 /* Components.framework */,
 				04E73CA92543590F0092B918 /* ComponentsTests.xctest */,
+				04D7BAB7254587B7003A9774 /* Tasks.framework */,
+				04D7BABF254587B7003A9774 /* TasksTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -235,7 +330,6 @@
 				04E73C3F2542C2040092B918 /* Info.plist */,
 				04E73C342542C2030092B918 /* Life_Progress.xcdatamodeld */,
 				04E73C392542C2040092B918 /* Preview Content */,
-				0412336D254475C20072ABF3 /* ProgressTaskView.swift */,
 			);
 			path = "Life Progress";
 			sourceTree = "<group>";
@@ -269,11 +363,14 @@
 		04E73C87254357E60092B918 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				04E73CD6254359680092B918 /* Supporting Files */,
+				0462EFD725442A8C003D2969 /* PLabel.swift */,
 				04E73C88254357E60092B918 /* Core.h */,
 				04E73C89254357E60092B918 /* Info.plist */,
 				0462EFD025442310003D2969 /* Fonts.swift */,
 				0462F00F25444433003D2969 /* Operators.swift */,
 				04325685254459570050F620 /* Grid.swift */,
+				04D7BAA52545825B003A9774 /* AttributedString+Value.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -281,7 +378,6 @@
 		04E73CA22543590F0092B918 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				04E73CD6254359680092B918 /* Supporting Files */,
 				04E73CA32543590F0092B918 /* Components.h */,
 				04E73CA42543590F0092B918 /* Info.plist */,
 				04E73CCF2543594E0092B918 /* YearProgressView.swift */,
@@ -304,7 +400,7 @@
 			isa = PBXGroup;
 			children = (
 				04E73CD72543597E0092B918 /* ProgressBar.swift */,
-				0462EFD725442A8C003D2969 /* PLabel.swift */,
+				040C241025470098008BA89B /* ProgressCircle.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -319,6 +415,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		04D7BAB2254587B7003A9774 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04D7BAC9254587B7003A9774 /* Tasks.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		04E73C81254357E60092B918 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -338,6 +442,47 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		04D7BAB6254587B7003A9774 /* Tasks */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04D7BACE254587B7003A9774 /* Build configuration list for PBXNativeTarget "Tasks" */;
+			buildPhases = (
+				04D7BAB2254587B7003A9774 /* Headers */,
+				04D7BAB3254587B7003A9774 /* Sources */,
+				04D7BAB4254587B7003A9774 /* Frameworks */,
+				04D7BAB5254587B7003A9774 /* Resources */,
+				040C23FD2546EA23008BA89B /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Tasks;
+			packageProductDependencies = (
+				040C23FA2546EA23008BA89B /* TimeClient */,
+			);
+			productName = Tasks;
+			productReference = 04D7BAB7254587B7003A9774 /* Tasks.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		04D7BABE254587B7003A9774 /* TasksTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04D7BAD1254587B7003A9774 /* Build configuration list for PBXNativeTarget "TasksTests" */;
+			buildPhases = (
+				04D7BABB254587B7003A9774 /* Sources */,
+				04D7BABC254587B7003A9774 /* Frameworks */,
+				04D7BABD254587B7003A9774 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				04D7BAC2254587B7003A9774 /* PBXTargetDependency */,
+				04D7BAC4254587B7003A9774 /* PBXTargetDependency */,
+			);
+			name = TasksTests;
+			productName = TasksTests;
+			productReference = 04D7BABF254587B7003A9774 /* TasksTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		04E73C2A2542C2030092B918 /* Life Progress */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 04E73C582542C2040092B918 /* Build configuration list for PBXNativeTarget "Life Progress" */;
@@ -353,6 +498,7 @@
 				04EFF71E2544C17200FAB18E /* PBXTargetDependency */,
 				04E73C8C254357E60092B918 /* PBXTargetDependency */,
 				04E73CB52543590F0092B918 /* PBXTargetDependency */,
+				04D7BACB254587B7003A9774 /* PBXTargetDependency */,
 			);
 			name = "Life Progress";
 			packageProductDependencies = (
@@ -469,6 +615,12 @@
 				LastSwiftUpdateCheck = 1210;
 				LastUpgradeCheck = 1210;
 				TargetAttributes = {
+					04D7BAB6254587B7003A9774 = {
+						CreatedOnToolsVersion = 12.1;
+					};
+					04D7BABE254587B7003A9774 = {
+						CreatedOnToolsVersion = 12.1;
+					};
 					04E73C2A2542C2030092B918 = {
 						CreatedOnToolsVersion = 12.1;
 					};
@@ -513,11 +665,27 @@
 				04E73C85254357E60092B918 /* Core */,
 				04E73CA02543590F0092B918 /* Components */,
 				04E73CA82543590F0092B918 /* ComponentsTests */,
+				04D7BAB6254587B7003A9774 /* Tasks */,
+				04D7BABE254587B7003A9774 /* TasksTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		04D7BAB5254587B7003A9774 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04D7BABD254587B7003A9774 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		04E73C292542C2030092B918 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -566,11 +734,27 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		04D7BAB3254587B7003A9774 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04D7BADB254587C3003A9774 /* ProgressTaskView.swift in Sources */,
+				04D7BB0625458893003A9774 /* TasksView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04D7BABB254587B7003A9774 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04D7BAC7254587B7003A9774 /* TasksTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		04E73C272542C2030092B918 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0412336E254475C20072ABF3 /* ProgressTaskView.swift in Sources */,
 				04E73C2F2542C2030092B918 /* AppDelegate.swift in Sources */,
 				04E73C312542C2030092B918 /* SceneDelegate.swift in Sources */,
 				04E73C362542C2030092B918 /* Life_Progress.xcdatamodeld in Sources */,
@@ -600,6 +784,10 @@
 			files = (
 				0462EFD125442310003D2969 /* Fonts.swift in Sources */,
 				0462F01025444433003D2969 /* Operators.swift in Sources */,
+				04D7BAAC25458329003A9774 /* PLabel.swift in Sources */,
+				04D7BAA62545825B003A9774 /* AttributedString+Value.swift in Sources */,
+				040C241125470098008BA89B /* ProgressCircle.swift in Sources */,
+				04D7BAF625458844003A9774 /* ProgressBar.swift in Sources */,
 				04325686254459570050F620 /* Grid.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -608,11 +796,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04E73CD82543597E0092B918 /* ProgressBar.swift in Sources */,
 				04E73CD02543594E0092B918 /* YearProgressView.swift in Sources */,
 				0462EFE425442AD7003D2969 /* DayProgressView.swift in Sources */,
 				0462EFEB254437B7003D2969 /* SwitchProgressView.swift in Sources */,
-				0462EFD825442A8C003D2969 /* PLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -627,6 +813,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		04D7BAC2254587B7003A9774 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04D7BAB6254587B7003A9774 /* Tasks */;
+			targetProxy = 04D7BAC1254587B7003A9774 /* PBXContainerItemProxy */;
+		};
+		04D7BAC4254587B7003A9774 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04E73C2A2542C2030092B918 /* Life Progress */;
+			targetProxy = 04D7BAC3254587B7003A9774 /* PBXContainerItemProxy */;
+		};
+		04D7BACB254587B7003A9774 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04D7BAB6254587B7003A9774 /* Tasks */;
+			targetProxy = 04D7BACA254587B7003A9774 /* PBXContainerItemProxy */;
+		};
 		04E73C462542C2040092B918 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 04E73C2A2542C2030092B918 /* Life Progress */;
@@ -684,6 +885,102 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		04D7BACF254587B7003A9774 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NFA6K259X7;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Tasks/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.majid.Tasks;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		04D7BAD0254587B7003A9774 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NFA6K259X7;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = Tasks/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.majid.Tasks;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		04D7BAD2254587B7003A9774 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NFA6K259X7;
+				INFOPLIST_FILE = TasksTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.majid.TasksTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		04D7BAD3254587B7003A9774 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = NFA6K259X7;
+				INFOPLIST_FILE = TasksTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.majid.TasksTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		04E73C562542C2040092B918 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1087,6 +1384,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		04D7BACE254587B7003A9774 /* Build configuration list for PBXNativeTarget "Tasks" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04D7BACF254587B7003A9774 /* Debug */,
+				04D7BAD0254587B7003A9774 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04D7BAD1254587B7003A9774 /* Build configuration list for PBXNativeTarget "TasksTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04D7BAD2254587B7003A9774 /* Debug */,
+				04D7BAD3254587B7003A9774 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		04E73C262542C2030092B918 /* Build configuration list for PBXProject "Life Progress" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1164,6 +1479,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		040C23FA2546EA23008BA89B /* TimeClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TimeClient;
+		};
 		04E73C97254357FA0092B918 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 04E73C96254357FA0092B918 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;

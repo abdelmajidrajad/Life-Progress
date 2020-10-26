@@ -17,6 +17,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 initialState: AppState(),
                 reducer: appReducer,
                 environment:  AppEnvironment(
+                    uuid: UUID.init,
                     date: Date.init,
                     calendar: .current,
                     timeClient: .empty,

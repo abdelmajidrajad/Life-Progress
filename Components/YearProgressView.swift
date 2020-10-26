@@ -78,7 +78,7 @@ extension YearState {
         YearProgressView.ViewState(
             year: "\(year)",
             percentage: NSNumber(value: percent),
-            title: result.string,
+            title: result.string(widgetStyle),
             isCircle: style == .circle
         )
     }
@@ -195,71 +195,3 @@ struct YearProgressView_Previews: PreviewProvider {
     }
 }
 
-
-
-
-extension TimeResult {
-    var string: NSAttributedString {
-        let mutable = NSMutableAttributedString()
-        if self.year != .zero {
-            mutable.append(
-                attributedString(
-                    value: "\(self.year)",
-                    title: "y"
-                )
-            )
-        }
-        if self.month != .zero {
-            mutable.append(
-                attributedString(
-                    value: "\(self.month)",
-                    title: "m"
-                )
-            )
-        }
-        if self.day != .zero {
-            mutable.append(
-                attributedString(
-                    value: "\(self.day)",
-                    title: "d"
-                )
-            )
-        }
-        if self.hour != .zero {
-            mutable.append(
-                attributedString(
-                    value: "\(self.hour)",
-                    title: "h"
-                )
-            )
-        }
-        if self.minute != .zero {
-            mutable.append(
-                attributedString(
-                    value: "\(self.minute)",
-                    title: "min")
-            )
-        }
-        return mutable
-    }
-}
-
-
-
-
-func attributedString(value: String, title: String) -> NSAttributedString {
-    let attributedString = NSMutableAttributedString(
-        string: value,
-        attributes: [.font: UIFont.py_title1()]
-    )
-    attributedString.append(
-        NSAttributedString(
-            string: title,
-            attributes: [
-                .font: UIFont.py_headline().italicized,
-                .foregroundColor: UIColor.darkGray
-            ]
-        )
-    )
-    return attributedString
-}

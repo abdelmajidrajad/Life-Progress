@@ -66,7 +66,7 @@ extension DayState {
         DayProgressView.ViewState(
             today: "Today",
             percentage: NSNumber(value: percent),
-            title: timeResult.string,
+            title: timeResult.string(widgetStyle),
             isCircle: style == .circle
         )
     }
@@ -165,3 +165,4 @@ struct DayProgressView_Previews: PreviewProvider {
         ).frame(width: 141, height: 141)
     }
 }
+

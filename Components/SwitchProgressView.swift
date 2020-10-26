@@ -87,8 +87,8 @@ extension SwitchState {
             year: "\(year)",
             yearPercent: NSNumber(value: yearPercent),
             todayPercent: NSNumber(value: todayPercent),
-            yearTitle: yearResult.string,
-            dayTitle: todayResult.string,
+            yearTitle: yearResult.string(widgetStyle),
+            dayTitle: todayResult.string(widgetStyle),
             isCircle: style == .circle
         )
     }

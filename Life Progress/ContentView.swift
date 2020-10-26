@@ -22,6 +22,7 @@ enum AppAction: Equatable {
 }
 
 struct AppEnvironment {
+    let uuid: () -> UUID
     let date: () -> Date
     let calendar: Calendar
     let timeClient: TimeClient
@@ -124,6 +125,7 @@ struct ContentView_Previews: PreviewProvider {
 extension AppEnvironment {
     static var empty: Self {
         Self(
+            uuid: UUID.init,
             date: Date.init,
             calendar: .current,
             timeClient: .empty,
@@ -136,6 +138,7 @@ import Combine
 extension AppEnvironment {
     static var midDay: Self {
         Self(
+            uuid: UUID.init,
             date: Date.init,
             calendar: .current,
             timeClient: TimeClient(
