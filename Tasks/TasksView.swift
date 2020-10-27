@@ -15,10 +15,15 @@ public struct TasksState: Equatable {
     }
 }
 
+
+
 public enum TasksAction: Equatable {
     case onAppear
     case ellipseButtonTapped(taskId: UUID)
     case actionSheetDismissed
+    case addMore([Calendar.Component: Int], taskId: UUID)
+    case completeTask(id: UUID)
+    case deleteTask(id: UUID)
     case cell(id: UUID, action: TaskAction)
 }
 
@@ -35,15 +40,22 @@ let tasksReducer =
             case .onAppear:
                 return .none
             case let .ellipseButtonTapped(taskId: taskId):
+                
                 let task = state.tasks[id: taskId]!.task
+
+                let item: [Calendar.Component: Int]? = task
+                    |> dateComponents(environment.calendar)
+                    >>> suggestedComponent
+                
+                let value = Double(item?.first?.value ?? .zero) / 4.0
+                let key = item?.first?.key.string ?? ""
                 
                 state.actionSheet = ActionSheetState(
                     title: LocalizedStringKey(task.title),
-                    buttons: [
-                        .default("+2 hours", send: .actionSheetDismissed),
-                        .default("Send More days", send: .actionSheetDismissed),
-                        .default("Completed", send: .actionSheetDismissed),
-                        .destructive("DELETE", send: .actionSheetDismissed),
+                    buttons: [                        
+                        .default("+\(valueFormatter().string(for: value) ?? "") \(key)", send: .addMore(item ?? [:], taskId: taskId)),
+                        .default("Completed", send: .completeTask(id: taskId)),
+                        .destructive("Delete", send: .deleteTask(id: taskId)),
                         .cancel(send: .actionSheetDismissed)
                     ]
                 )
@@ -53,6 +65,12 @@ let tasksReducer =
             case .actionSheetDismissed:
                 state.actionSheet = nil
                 return .none
+            case .addMore:
+                return Effect(value: .actionSheetDismissed)
+            case let .completeTask(id: taskId):
+                return Effect(value: .actionSheetDismissed)
+            case let .deleteTask(id: id):
+                return Effect(value: .actionSheetDismissed)
             }
         },
         taskReducer.forEach(
@@ -61,6 +79,15 @@ let tasksReducer =
             environment: \.task
         )
     )
+
+
+let valueFormatter: () -> NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.numberStyle = .decimal
+    formatter.roundingMode = .ceiling
+    return formatter
+}
+
 
 extension TasksEnvironment {
     var task: TaskEnvironment {
@@ -143,4 +170,74 @@ extension TimeClient {
             ).eraseToAnyPublisher()
         })
     }
+}
+
+
+
+let dateComponents: (Calendar) -> (ProgressTask) -> DateComponents = { calendar in
+    {
+        calendar.dateComponents(
+            [.day, .hour, .minute, .month, .year],
+            from: $0.startDate,
+            to: $0.endDate
+        )
+    }
+}
+
+
+let suggestedComponent: (DateComponents) -> [Calendar.Component: Int]? = { components in    
+    [Calendar.Component.year,
+    .month,
+    .day,
+    .hour,
+    .minute]
+        .compactMap {
+            [$0: components.value(for: $0) ?? .zero]
+    }.filter {
+        $0.values.first != .zero
+    }.first
+}
+
+
+extension Calendar.Component {
+    public var string: String {
+        switch self {
+        case .era:
+            return "era"
+        case .year:
+            return "year"
+        case .month:
+            return "month"
+        case .day:
+            return "day"
+        case .hour:
+            return "hour"
+        case .minute:
+            return "minute"
+        case .second:
+            return "second"
+        case .weekday:
+            return "weekday"
+        case .weekdayOrdinal:
+            return "weekdayOrdinal"
+        case .quarter:
+            return "quarter"
+        case .weekOfMonth:
+            return "weekOfMonth"
+        case .weekOfYear:
+            return "weekOfYear"
+        case .yearForWeekOfYear:
+            return "yearForWeekOfYear"
+        case .nanosecond:
+            return "nanosecond"
+        case .calendar:
+            return "calendar"
+        case .timeZone:
+            return "timeZone"
+        @unknown default:
+            return "unknown"
+        }
+    }
+    
+    
 }

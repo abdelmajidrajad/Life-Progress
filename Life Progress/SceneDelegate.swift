@@ -8,9 +8,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-                
         
         let contentView = ContentView(
             store: Store(
@@ -20,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     uuid: UUID.init,
                     date: Date.init,
                     calendar: .current,
-                    timeClient: .empty,
+                    timeClient: .live,
                     context: (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
                 )
             )

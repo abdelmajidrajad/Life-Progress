@@ -1,5 +1,7 @@
 import SwiftUI
+import Core
 import ComposableArchitecture
+import TimeClientLive
 import TimeClient
 import Components
 import CoreData
@@ -75,20 +77,21 @@ struct ContentView: View {
         GeometryReader { proxy -> AnyView in
             let width = proxy.size.width * 0.5 - 8.0
             return AnyView(
-                HStack {
-                    
-                    DayProgressView(
-                        store: store.scope(
-                            state: \.dayState,
-                            action: AppAction.day)
-                    ).frame(width: width, height: width)
-                    
-                    YearProgressView(
-                        store: store.scope(
-                            state: \.yearState,
-                            action: AppAction.year)
-                    ).frame(width: width, height: width)
-                    
+                VStack {
+                    HStack {
+
+                        DayProgressView(
+                            store: store.scope(
+                                state: \.dayState,
+                                action: AppAction.day)
+                        ).frame(width: width, height: width)
+
+                        YearProgressView(
+                            store: store.scope(
+                                state: \.yearState,
+                                action: AppAction.year)
+                        ).frame(width: width, height: width)
+                    }
                 }.padding(.leading, 4)
             )
         }
@@ -115,8 +118,8 @@ struct ContentView_Previews: PreviewProvider {
             ContentView(
                 store: Store<AppState, AppAction>(
                     initialState: AppState(),
-                    reducer: appReducer,
-                    environment: .midDay)
+                    reducer: .empty,
+                    environment: ())
             )
         }
     }

@@ -7,7 +7,7 @@ public struct ProgressCircle: View {
     
     public init(
         color: Color,
-        lineWidth: CGFloat,
+        lineWidth: CGFloat = 5.0,
         labelHidden: Bool = false,
         progress: Binding<NSNumber>
     ) {

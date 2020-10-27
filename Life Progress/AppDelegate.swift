@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  Life Progress
-//
-//  Created by Majid on 23/10/2020.
-//
-
 import UIKit
 import CoreData
 

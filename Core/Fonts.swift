@@ -129,6 +129,14 @@ extension UIFont {
             descriptor: descriptor,
             size: ceil(font.pointSize / defaultSize * (size ?? defaultSize))
         )
-        
+    }
+}
+
+
+import SwiftUI
+extension Font {
+    public static let preferred: (UIFont) -> Self = {
+        //Font.custom($0.fontName, size: $0.pointSize)
+        Font($0)
     }
 }

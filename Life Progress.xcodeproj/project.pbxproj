@@ -7,21 +7,24 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		040C23FB2546EA23008BA89B /* TimeClient in Frameworks */ = {isa = PBXBuildFile; productRef = 040C23FA2546EA23008BA89B /* TimeClient */; };
-		040C23FC2546EA23008BA89B /* TimeClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 040C23FA2546EA23008BA89B /* TimeClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		040C241125470098008BA89B /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C241025470098008BA89B /* ProgressCircle.swift */; };
+		040C241925471DCD008BA89B /* CreateTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C241825471DCD008BA89B /* CreateTaskView.swift */; };
+		0430D94F2548878000CA7CFC /* Tasks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; };
+		0430D9502548878600CA7CFC /* Tasks.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0430D9722548880D00CA7CFC /* TimeClient in Frameworks */ = {isa = PBXBuildFile; productRef = 0430D9712548880D00CA7CFC /* TimeClient */; };
+		0430D9732548880D00CA7CFC /* TimeClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0430D9712548880D00CA7CFC /* TimeClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		04325686254459570050F620 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04325685254459570050F620 /* Grid.swift */; };
 		0462EFD125442310003D2969 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFD025442310003D2969 /* Fonts.swift */; };
 		0462EFE425442AD7003D2969 /* DayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFE325442AD7003D2969 /* DayProgressView.swift */; };
 		0462EFEB254437B7003D2969 /* SwitchProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFEA254437B7003D2969 /* SwitchProgressView.swift */; };
 		0462F01025444433003D2969 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462F00F25444433003D2969 /* Operators.swift */; };
+		049A38832548830500EE676B /* TimeClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 049A38822548830500EE676B /* TimeClientLive */; };
+		049A38842548830500EE676B /* TimeClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 049A38822548830500EE676B /* TimeClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		04D7BAA62545825B003A9774 /* AttributedString+Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D7BAA52545825B003A9774 /* AttributedString+Value.swift */; };
 		04D7BAAC25458329003A9774 /* PLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFD725442A8C003D2969 /* PLabel.swift */; };
 		04D7BAC0254587B7003A9774 /* Tasks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; };
 		04D7BAC7254587B7003A9774 /* TasksTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D7BAC6254587B7003A9774 /* TasksTests.swift */; };
 		04D7BAC9254587B7003A9774 /* Tasks.h in Headers */ = {isa = PBXBuildFile; fileRef = 04D7BAB9254587B7003A9774 /* Tasks.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		04D7BACC254587B7003A9774 /* Tasks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; };
-		04D7BACD254587B7003A9774 /* Tasks.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04D7BADB254587C3003A9774 /* ProgressTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0412336D254475C20072ABF3 /* ProgressTaskView.swift */; };
 		04D7BAE5254587DF003A9774 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73C86254357E60092B918 /* Core.framework */; };
 		04D7BAF625458844003A9774 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73CD72543597E0092B918 /* ProgressBar.swift */; };
@@ -50,6 +53,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		0430D94D2548877B00CA7CFC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04E73C232542C2030092B918 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04D7BAB6254587B7003A9774;
+			remoteInfo = Tasks;
+		};
+		049A38DD2548871300EE676B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04E73C232542C2030092B918 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04E73C85254357E60092B918;
+			remoteInfo = Core;
+		};
 		04D7BAC1254587B7003A9774 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 04E73C232542C2030092B918 /* Project object */;
@@ -63,13 +80,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 04E73C2A2542C2030092B918;
 			remoteInfo = "Life Progress";
-		};
-		04D7BACA254587B7003A9774 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 04E73C232542C2030092B918 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 04D7BAB6254587B7003A9774;
-			remoteInfo = Tasks;
 		};
 		04E73C452542C2040092B918 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -123,13 +133,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		040C23FD2546EA23008BA89B /* Embed Frameworks */ = {
+		049A38E82548872B00EE676B /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				040C23FC2546EA23008BA89B /* TimeClient in Embed Frameworks */,
+				0430D9732548880D00CA7CFC /* TimeClient in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -140,9 +150,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				049A38842548830500EE676B /* TimeClientLive in Embed Frameworks */,
 				04E73CB72543590F0092B918 /* Components.framework in Embed Frameworks */,
 				04E73C8E254357E60092B918 /* Core.framework in Embed Frameworks */,
-				04D7BACD254587B7003A9774 /* Tasks.framework in Embed Frameworks */,
+				0430D9502548878600CA7CFC /* Tasks.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -151,6 +162,7 @@
 
 /* Begin PBXFileReference section */
 		040C241025470098008BA89B /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
+		040C241825471DCD008BA89B /* CreateTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskView.swift; sourceTree = "<group>"; };
 		0412336D254475C20072ABF3 /* ProgressTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressTaskView.swift; sourceTree = "<group>"; };
 		04123374254492FA0072ABF3 /* TaskClient */ = {isa = PBXFileReference; lastKnownFileType = folder; name = TaskClient; path = ../../TaskClient; sourceTree = "<group>"; };
 		04325685254459570050F620 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
@@ -201,7 +213,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				040C23FB2546EA23008BA89B /* TimeClient in Frameworks */,
+				0430D9722548880D00CA7CFC /* TimeClient in Frameworks */,
 				04D7BAE5254587DF003A9774 /* Core.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -218,9 +230,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0430D94F2548878000CA7CFC /* Tasks.framework in Frameworks */,
+				049A38832548830500EE676B /* TimeClientLive in Frameworks */,
 				04E73CB62543590F0092B918 /* Components.framework in Frameworks */,
 				04E73C8D254357E60092B918 /* Core.framework in Frameworks */,
-				04D7BACC254587B7003A9774 /* Tasks.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,6 +286,7 @@
 				04D7BAB9254587B7003A9774 /* Tasks.h */,
 				04D7BABA254587B7003A9774 /* Info.plist */,
 				04D7BB0525458893003A9774 /* TasksView.swift */,
+				040C241825471DCD008BA89B /* CreateTaskView.swift */,
 			);
 			path = Tasks;
 			sourceTree = "<group>";
@@ -450,15 +464,17 @@
 				04D7BAB3254587B7003A9774 /* Sources */,
 				04D7BAB4254587B7003A9774 /* Frameworks */,
 				04D7BAB5254587B7003A9774 /* Resources */,
-				040C23FD2546EA23008BA89B /* Embed Frameworks */,
+				049A38E82548872B00EE676B /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				049A38DE2548871300EE676B /* PBXTargetDependency */,
+				049A38AE2548855F00EE676B /* PBXTargetDependency */,
 			);
 			name = Tasks;
 			packageProductDependencies = (
-				040C23FA2546EA23008BA89B /* TimeClient */,
+				0430D9712548880D00CA7CFC /* TimeClient */,
 			);
 			productName = Tasks;
 			productReference = 04D7BAB7254587B7003A9774 /* Tasks.framework */;
@@ -495,13 +511,13 @@
 			buildRules = (
 			);
 			dependencies = (
-				04EFF71E2544C17200FAB18E /* PBXTargetDependency */,
+				0430D94E2548877B00CA7CFC /* PBXTargetDependency */,
 				04E73C8C254357E60092B918 /* PBXTargetDependency */,
 				04E73CB52543590F0092B918 /* PBXTargetDependency */,
-				04D7BACB254587B7003A9774 /* PBXTargetDependency */,
 			);
 			name = "Life Progress";
 			packageProductDependencies = (
+				049A38822548830500EE676B /* TimeClientLive */,
 			);
 			productName = "Life Progress";
 			productReference = 04E73C2B2542C2030092B918 /* Life Progress.app */;
@@ -738,6 +754,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				040C241925471DCD008BA89B /* CreateTaskView.swift in Sources */,
 				04D7BADB254587C3003A9774 /* ProgressTaskView.swift in Sources */,
 				04D7BB0625458893003A9774 /* TasksView.swift in Sources */,
 			);
@@ -813,6 +830,20 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		0430D94E2548877B00CA7CFC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04D7BAB6254587B7003A9774 /* Tasks */;
+			targetProxy = 0430D94D2548877B00CA7CFC /* PBXContainerItemProxy */;
+		};
+		049A38AE2548855F00EE676B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			productRef = 049A38AD2548855F00EE676B /* TimeClient */;
+		};
+		049A38DE2548871300EE676B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04E73C85254357E60092B918 /* Core */;
+			targetProxy = 049A38DD2548871300EE676B /* PBXContainerItemProxy */;
+		};
 		04D7BAC2254587B7003A9774 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 04D7BAB6254587B7003A9774 /* Tasks */;
@@ -822,11 +853,6 @@
 			isa = PBXTargetDependency;
 			target = 04E73C2A2542C2030092B918 /* Life Progress */;
 			targetProxy = 04D7BAC3254587B7003A9774 /* PBXContainerItemProxy */;
-		};
-		04D7BACB254587B7003A9774 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 04D7BAB6254587B7003A9774 /* Tasks */;
-			targetProxy = 04D7BACA254587B7003A9774 /* PBXContainerItemProxy */;
 		};
 		04E73C462542C2040092B918 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -863,10 +889,6 @@
 			target = 04E73C85254357E60092B918 /* Core */;
 			targetProxy = 04E73CDE25435F320092B918 /* PBXContainerItemProxy */;
 		};
-		04EFF71E2544C17200FAB18E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = 04EFF71D2544C17200FAB18E /* TimeClientLive */;
-		};
 		04EFF7252544C38000FAB18E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			productRef = 04EFF7242544C38000FAB18E /* TimeClient */;
@@ -897,7 +919,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Tasks/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -925,7 +947,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Tasks/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1479,7 +1501,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		040C23FA2546EA23008BA89B /* TimeClient */ = {
+		0430D9712548880D00CA7CFC /* TimeClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TimeClient;
+		};
+		049A38822548830500EE676B /* TimeClientLive */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TimeClientLive;
+		};
+		049A38AD2548855F00EE676B /* TimeClient */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TimeClient;
 		};
@@ -1491,10 +1521,6 @@
 		04EFF7022544C13B00FAB18E /* TimeClient */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TimeClient;
-		};
-		04EFF71D2544C17200FAB18E /* TimeClientLive */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TimeClientLive;
 		};
 		04EFF7242544C38000FAB18E /* TimeClient */ = {
 			isa = XCSwiftPackageProductDependency;

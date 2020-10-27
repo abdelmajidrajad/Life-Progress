@@ -22,7 +22,7 @@ public struct ProgressTask: Identifiable, Equatable {
 }
 
 
-
+@dynamicMemberLookup
 public struct TaskState: Equatable, Identifiable {
     public var id: UUID { task.id }    
     let task: ProgressTask
@@ -49,7 +49,10 @@ public struct TaskState: Equatable, Identifiable {
 }
 
 extension TaskState {
-    public subscript<LocalState>(dynamicMember keyPath: KeyPath<ProgressTask, LocalState>) -> LocalState {
+    public subscript<LocalState>(
+        dynamicMember
+            keyPath: KeyPath<ProgressTask, LocalState>)
+    -> LocalState {
         self.task[keyPath: keyPath]
     }
 }
