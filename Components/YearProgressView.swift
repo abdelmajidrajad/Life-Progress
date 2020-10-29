@@ -115,9 +115,9 @@ public struct YearProgressView: View {
                     if viewStore.isCircle {
                         ProgressCircle(
                             color: .green,
-                            lineWidth: 10.0,
+                            lineWidth: .py_grid(3),
                             progress: .constant(viewStore.percentage)
-                        ).frame(width: 60, height: 60)
+                        ).frame(width: .py_grid(17), height: .py_grid(17))
                         .offset(y: -20)
                     } else {
                         ProgressBar(

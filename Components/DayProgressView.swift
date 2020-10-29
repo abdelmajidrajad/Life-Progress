@@ -4,8 +4,6 @@ import ComposableArchitecture
 import TimeClient
 import Combine
 
-public enum ProgressStyle: Equatable { case bar, circle }
-
 public struct DayState: Equatable {
     var timeResult: TimeResult
     var percent: Double
@@ -101,9 +99,9 @@ public struct DayProgressView: View {
                     if viewStore.isCircle {
                         ProgressCircle(
                             color: .pink,
-                            lineWidth: 12.0,
+                            lineWidth: .py_grid(3),
                             progress: .constant(viewStore.percentage)
-                        ).frame(width: 70, height: 70)
+                        ).frame(width: .py_grid(17), height: .py_grid(17))
                         .offset(y: -20)
                     } else {
                         ProgressBar(
@@ -116,8 +114,10 @@ public struct DayProgressView: View {
                                                     
                     HStack(alignment: .lastTextBaseline, spacing: .py_grid(1)) {
                         
-                        PLabel(attributedText: .constant(viewStore.title))
-                            .fixedSize()
+                        PLabel(attributedText:
+                                .constant(viewStore.title)
+                        ).fixedSize()
+                            
                             
                         Text("remaining")
                             .font(.caption)

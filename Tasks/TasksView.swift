@@ -117,9 +117,11 @@ public struct TasksView: View {
                         WithViewStore(store) { vs in
                             ProgressTaskView(store: store) {
                                 viewStore.send(
-                                    .ellipseButtonTapped(taskId: vs.id)
+                                    .ellipseButtonTapped(
+                                        taskId: vs.id
+                                    )
                                 )
-                            }
+                            }.padding(.vertical, .py_grid(1))
                         }
                     }
                 )
@@ -138,7 +140,10 @@ struct TasksView_Previews: PreviewProvider {
                 initialState: TasksState(
                     tasks: [
                         TaskState(task: .readBook, color: .red),
-                        TaskState(task: .writeBook, color: .gray)
+                        TaskState(task: .writeBook, color: .gray),
+                        TaskState(task: .readBook, color: .pink),
+                        TaskState(task: .writeBook, color: .red),
+                        TaskState(task: .writeBook, color: .blue)
                     ]
                 ),
                 reducer: tasksReducer,
@@ -147,7 +152,8 @@ struct TasksView_Previews: PreviewProvider {
                     calendar: .current,
                     timeClient: .progress
                 )
-            ))            
+            ))
+            //.preferredColorScheme(.dark)            
         }
     }
 }
@@ -158,7 +164,7 @@ extension TimeClient {
         TimeClient(taskProgress: { request in
             Just(
                 TimeResponse(
-                    progress: 0.3,
+                    progress: ((Int.random(in: 1...10) % 2) != 0) ? 0: 0.5,
                     result: TimeResult(
                         //year: 2,
                         //month: 1,

@@ -40,6 +40,19 @@ public struct SwitchEnvironment {
     let date: () -> Date
     let todayProgress: (TodayRequest) -> AnyPublisher<TimeResponse, Never>
     let yearProgress: (YearRequest) -> AnyPublisher<TimeResponse, Never>
+    
+    public init(
+        calendar: Calendar,
+        date: @escaping () -> Date,
+        todayProgress: @escaping (TodayRequest) -> AnyPublisher<TimeResponse, Never>,
+        yearProgress: @escaping (YearRequest) -> AnyPublisher<TimeResponse, Never>
+    ) {
+        self.calendar = calendar
+        self.date = date
+        self.todayProgress = todayProgress
+        self.yearProgress = yearProgress
+    }
+    
 }
 
 public let switchReducer =
@@ -87,8 +100,8 @@ extension SwitchState {
             year: "\(year)",
             yearPercent: NSNumber(value: yearPercent),
             todayPercent: NSNumber(value: todayPercent),
-            yearTitle: yearResult.string(widgetStyle),
-            dayTitle: todayResult.string(widgetStyle),
+            yearTitle: yearResult.string(taskCellStyle),
+            dayTitle: todayResult.string(taskCellStyle),
             isCircle: style == .circle
         )
     }
@@ -118,64 +131,72 @@ public struct SwitchProgressView: View {
             HStack(spacing: 8.0) {
                 
                 VStack(alignment: .leading) {
-                    HStack {
-                        Text(viewStore.title)
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                            .font(.headline)
+                                            
+                    HStack(alignment: .top) {
+                        ZStack {
+                            ProgressCircle(
+                                color: .green,
+                                lineWidth: .py_grid(3),
+                                labelHidden: true,
+                                progress: .constant(viewStore.yearPercent)
+                            ).frame(
+                                width: .py_grid(16),
+                                height: .py_grid(16))
+                            
+                            ProgressCircle(
+                                color: .pink,
+                                lineWidth: .py_grid(3),
+                                labelHidden: true,
+                                progress: .constant(viewStore.todayPercent)
+                            ).frame(
+                                width: .py_grid(10),
+                                height: .py_grid(10)
+                            )
+                            
+                        }
                         Image(systemName: "hourglass")
+                            .frame(
+                                maxWidth: .infinity,
+                                alignment: .trailing
+                        ).font(.headline)
+                        .foregroundColor(.pink)
                     }
-                   
-                    
-                    ZStack {
-                        ProgressCircle(
-                            color: .green,
-                            lineWidth: 8.0,
-                            labelHidden: true,
-                            progress: .constant(viewStore.yearPercent)
-                        ).frame(width: 65, height: 65)
-                        .offset(y: -20)
-                        
-                        ProgressCircle(
-                            color: .pink,
-                            lineWidth: 8.0,
-                            labelHidden: true,
-                            progress: .constant(viewStore.todayPercent)
-                        ).frame(width: 48, height: 48)
-                        .offset(y: -20)
-                    }
-                                                                        
+            
                     Spacer()
                                                     
                     HStack(alignment: .lastTextBaseline, spacing: 2) {
                         PLabel(attributedText: .constant(viewStore.yearTitle))
-                        Text("remaining")
-                            .font(.caption)
-                            .italic()
+                        Text("left")
+                            .font(Font.preferred(.py_caption2()).italic())
                     }.foregroundColor(Color.green)
                     .fixedSize()
                     
                     HStack(alignment: .lastTextBaseline, spacing: 2) {
                         PLabel(attributedText: .constant(viewStore.dayTitle))
-                        Text("remaining")
-                            .font(.caption)
-                            .italic()
+                        Text("left")
+                            .font(Font.preferred(.py_caption2()).italic())
                     }.foregroundColor(Color.pink)
-                    .fixedSize()
+                     .fixedSize()
                     
                     HStack {
                         HStack(spacing: .py_grid(1)) {
                             Circle()
                                 .foregroundColor(.green)
-                                .frame(width: 10, height: 10)
+                                .frame(
+                                    width: .py_grid(2),
+                                    height: .py_grid(2))
                             Text(viewStore.year)
-                                .font(.caption)
+                                .font(Font.preferred(.py_caption2()))
                         }
                         HStack(spacing: .py_grid(1)) {
                             Circle()
                                 .foregroundColor(.pink)
-                                .frame(width: 10, height: 10)
+                                .frame(
+                                    width: .py_grid(2),
+                                    height: .py_grid(2)
+                                )
                             Text("Today")
-                                .font(.caption)
+                                .font(Font.preferred(.py_caption2()))
                         }
                     }.frame(maxWidth: .infinity, alignment: .trailing)
                     

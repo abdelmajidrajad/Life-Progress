@@ -1,4 +1,12 @@
 import SwiftUI
+
+public enum ProgressStyle: Equatable {
+    case bar, circle
+    public mutating func toggle() {
+        self = self == .bar ? .circle: .bar
+    }
+}
+
 public struct ProgressBar: View {
     let color: Color
     let lineWidth: CGFloat

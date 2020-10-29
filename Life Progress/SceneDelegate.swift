@@ -2,7 +2,7 @@ import UIKit
 import SwiftUI
 import TimeClientLive
 import ComposableArchitecture
-
+import Tasks
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -10,19 +10,29 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
-        let contentView = ContentView(
-            store: Store(
-                initialState: AppState(),
-                reducer: appReducer,
-                environment:  AppEnvironment(
-                    uuid: UUID.init,
-                    date: Date.init,
-                    calendar: .current,
-                    timeClient: .live,
-                    context: (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-                )
+//        let contentView = ContentView(
+//            store: Store(
+//                initialState: AppState(),
+//                reducer: appReducer,
+//                environment:  AppEnvironment(
+//                    uuid: UUID.init,
+//                    date: Date.init,
+//                    calendar: .current,
+//                    timeClient: .live,
+//                    context: (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+//                )
+//            )
+//        )
+        
+        let contentView = CreateTaskView(store: Store(
+                        initialState: CreateTaskState(),
+                        reducer: createTaskReducer,
+            environment: CreateTaskEnvironment(
+                date: Date.init,
+                calendar: .current,
+                timeClient: .live
             )
-        )
+        ))
         
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)

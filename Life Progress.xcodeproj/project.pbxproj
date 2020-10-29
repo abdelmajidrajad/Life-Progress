@@ -9,15 +9,21 @@
 /* Begin PBXBuildFile section */
 		040C241125470098008BA89B /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C241025470098008BA89B /* ProgressCircle.swift */; };
 		040C241925471DCD008BA89B /* CreateTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C241825471DCD008BA89B /* CreateTaskView.swift */; };
+		041296502549B0C3008337A0 /* Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0412964F2549B0C2008337A0 /* Blur.swift */; };
+		0412965D2549B3D0008337A0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0412965F2549B3D0008337A0 /* Localizable.strings */; };
+		041296662549B60D008337A0 /* LocalizedStringKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041296652549B60D008337A0 /* LocalizedStringKey.swift */; };
+		0412966D2549BD2C008337A0 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0412966C2549BD2C008337A0 /* Colors.swift */; };
 		0430D94F2548878000CA7CFC /* Tasks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; };
 		0430D9502548878600CA7CFC /* Tasks.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		0430D9722548880D00CA7CFC /* TimeClient in Frameworks */ = {isa = PBXBuildFile; productRef = 0430D9712548880D00CA7CFC /* TimeClient */; };
 		0430D9732548880D00CA7CFC /* TimeClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0430D9712548880D00CA7CFC /* TimeClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0430D97A25488AF800CA7CFC /* TimeClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 04EFF7022544C13B00FAB18E /* TimeClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		04325686254459570050F620 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04325685254459570050F620 /* Grid.swift */; };
 		0462EFD125442310003D2969 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFD025442310003D2969 /* Fonts.swift */; };
 		0462EFE425442AD7003D2969 /* DayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFE325442AD7003D2969 /* DayProgressView.swift */; };
 		0462EFEB254437B7003D2969 /* SwitchProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFEA254437B7003D2969 /* SwitchProgressView.swift */; };
 		0462F01025444433003D2969 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462F00F25444433003D2969 /* Operators.swift */; };
+		0467BFF5254AABAD007FC8A3 /* Validated in Frameworks */ = {isa = PBXBuildFile; productRef = 0467BFF4254AABAD007FC8A3 /* Validated */; };
 		049A38832548830500EE676B /* TimeClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 049A38822548830500EE676B /* TimeClientLive */; };
 		049A38842548830500EE676B /* TimeClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 049A38822548830500EE676B /* TimeClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		04D7BAA62545825B003A9774 /* AttributedString+Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D7BAA52545825B003A9774 /* AttributedString+Value.swift */; };
@@ -133,6 +139,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		0430D97B25488AF800CA7CFC /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0430D97A25488AF800CA7CFC /* TimeClient in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		049A38E82548872B00EE676B /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -165,6 +182,10 @@
 		040C241825471DCD008BA89B /* CreateTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskView.swift; sourceTree = "<group>"; };
 		0412336D254475C20072ABF3 /* ProgressTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressTaskView.swift; sourceTree = "<group>"; };
 		04123374254492FA0072ABF3 /* TaskClient */ = {isa = PBXFileReference; lastKnownFileType = folder; name = TaskClient; path = ../../TaskClient; sourceTree = "<group>"; };
+		0412964F2549B0C2008337A0 /* Blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blur.swift; sourceTree = "<group>"; };
+		0412965E2549B3D0008337A0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		041296652549B60D008337A0 /* LocalizedStringKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedStringKey.swift; sourceTree = "<group>"; };
+		0412966C2549BD2C008337A0 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		04325685254459570050F620 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		0462EFD025442310003D2969 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		0462EFD725442A8C003D2969 /* PLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PLabel.swift; sourceTree = "<group>"; };
@@ -256,6 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				04E73C98254357FA0092B918 /* ComposableArchitecture in Frameworks */,
+				0467BFF5254AABAD007FC8A3 /* Validated in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,6 +309,9 @@
 				04D7BABA254587B7003A9774 /* Info.plist */,
 				04D7BB0525458893003A9774 /* TasksView.swift */,
 				040C241825471DCD008BA89B /* CreateTaskView.swift */,
+				0412965F2549B3D0008337A0 /* Localizable.strings */,
+				041296652549B60D008337A0 /* LocalizedStringKey.swift */,
+				0412966C2549BD2C008337A0 /* Colors.swift */,
 			);
 			path = Tasks;
 			sourceTree = "<group>";
@@ -385,6 +410,7 @@
 				0462F00F25444433003D2969 /* Operators.swift */,
 				04325685254459570050F620 /* Grid.swift */,
 				04D7BAA52545825B003A9774 /* AttributedString+Value.swift */,
+				0412964F2549B0C2008337A0 /* Blur.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -575,6 +601,7 @@
 			name = Core;
 			packageProductDependencies = (
 				04E73C97254357FA0092B918 /* ComposableArchitecture */,
+				0467BFF4254AABAD007FC8A3 /* Validated */,
 			);
 			productName = Core;
 			productReference = 04E73C86254357E60092B918 /* Core.framework */;
@@ -588,6 +615,7 @@
 				04E73C9D2543590F0092B918 /* Sources */,
 				04E73C9E2543590F0092B918 /* Frameworks */,
 				04E73C9F2543590F0092B918 /* Resources */,
+				0430D97B25488AF800CA7CFC /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -670,6 +698,7 @@
 			mainGroup = 04E73C222542C2030092B918;
 			packageReferences = (
 				04E73C96254357FA0092B918 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				0467BFF3254AABAD007FC8A3 /* XCRemoteSwiftPackageReference "swift-validated" */,
 			);
 			productRefGroup = 04E73C2C2542C2030092B918 /* Products */;
 			projectDirPath = "";
@@ -692,6 +721,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0412965D2549B3D0008337A0 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -755,7 +785,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				040C241925471DCD008BA89B /* CreateTaskView.swift in Sources */,
+				0412966D2549BD2C008337A0 /* Colors.swift in Sources */,
 				04D7BADB254587C3003A9774 /* ProgressTaskView.swift in Sources */,
+				041296662549B60D008337A0 /* LocalizedStringKey.swift in Sources */,
 				04D7BB0625458893003A9774 /* TasksView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -801,6 +833,7 @@
 			files = (
 				0462EFD125442310003D2969 /* Fonts.swift in Sources */,
 				0462F01025444433003D2969 /* Operators.swift in Sources */,
+				041296502549B0C3008337A0 /* Blur.swift in Sources */,
 				04D7BAAC25458329003A9774 /* PLabel.swift in Sources */,
 				04D7BAA62545825B003A9774 /* AttributedString+Value.swift in Sources */,
 				040C241125470098008BA89B /* ProgressCircle.swift in Sources */,
@@ -896,6 +929,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		0412965F2549B3D0008337A0 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0412965E2549B3D0008337A0 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		04E73C3C2542C2040092B918 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1490,6 +1531,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		0467BFF3254AABAD007FC8A3 /* XCRemoteSwiftPackageReference "swift-validated" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-validated";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.2.1;
+			};
+		};
 		04E73C96254357FA0092B918 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture.git";
@@ -1504,6 +1553,11 @@
 		0430D9712548880D00CA7CFC /* TimeClient */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TimeClient;
+		};
+		0467BFF4254AABAD007FC8A3 /* Validated */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0467BFF3254AABAD007FC8A3 /* XCRemoteSwiftPackageReference "swift-validated" */;
+			productName = Validated;
 		};
 		049A38822548830500EE676B /* TimeClientLive */ = {
 			isa = XCSwiftPackageProductDependency;

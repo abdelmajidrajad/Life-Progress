@@ -136,25 +136,26 @@ struct ProgressTaskView: View {
                         maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,
                         alignment: .leading
                     ).padding(.trailing, .py_grid(4))
-                    .lineLimit(1)
+                    .lineLimit(2)
                 
                 PLabel(attributedText: .constant(viewStore.remaining))
                     .fixedSize()
                 
                 ProgressBar(
                     color: viewStore.color,
-                    lineWidth: .py_grid(2),
+                    lineWidth: .py_grid(1),
                     labelHidden: true,
                     progress: .constant(viewStore.progress)
-                )                                             
+                )
                 
             }.padding()
             .background(
                 ZStack(alignment: .topTrailing) {
                     RoundedRectangle(
-                        cornerRadius: 8.0, style: .continuous)
-                        .stroke(Color.white)
-                        .shadow(radius: 0.2)
+                        cornerRadius: .py_grid(5),
+                        style: .continuous
+                    ).fill(Color(white: 0.95))
+                                
                     Button(action: ellipseButtonTapped,
                            label: {
                             Image(systemName: "ellipsis")
@@ -217,7 +218,7 @@ extension ProgressTask {
 extension ProgressTask {
     static var writeBook: Self {
         ProgressTask(
-            title: "Write my Book",
+            title: "Write my Book, Write my Book, Write my Book, Write my Book",
             startDate: Date(),
             endDate: Date().addingTimeInterval(3600 * 24 * 10)
         )

@@ -9,18 +9,22 @@ import CoreData
 struct AppState: Equatable {
     var yearState: YearState
     var dayState: DayState
+    var switchState: SwitchState
     public init(
         yearState: YearState = .init(style: .circle),
-        dayState: DayState = .init()
+        dayState: DayState = .init(style: .circle),
+        switchState: SwitchState = .init()
     ) {
         self.yearState = yearState
         self.dayState = dayState
+        self.switchState = switchState
     }
 }
 
 enum AppAction: Equatable {
     case year(YearAction)
     case day(DayAction)
+    case union(SwitchAction)
 }
 
 struct AppEnvironment {
@@ -41,6 +45,11 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
         state: \.yearState,
         action: /AppAction.year,
         environment: \.year
+    ),
+    switchReducer.pullback(
+        state: \.switchState,
+        action: /AppAction.union,
+        environment: \.union
     )
 )
 
@@ -50,6 +59,14 @@ extension AppEnvironment {
             calendar: calendar,
             date: date,
             todayProgress: timeClient.todayProgress
+        )
+    }
+    var union: SwitchEnvironment {
+        SwitchEnvironment(
+            calendar: calendar,
+            date: date,
+            todayProgress: timeClient.todayProgress,
+            yearProgress: timeClient.yearProgress
         )
     }
 }
@@ -77,21 +94,26 @@ struct ContentView: View {
         GeometryReader { proxy -> AnyView in
             let width = proxy.size.width * 0.5 - 8.0
             return AnyView(
-                VStack {
+                VStack(spacing: .py_grid(4)) {
                     HStack {
-
                         DayProgressView(
                             store: store.scope(
                                 state: \.dayState,
                                 action: AppAction.day)
                         ).frame(width: width, height: width)
-
+                        
                         YearProgressView(
                             store: store.scope(
                                 state: \.yearState,
                                 action: AppAction.year)
                         ).frame(width: width, height: width)
+                        
                     }
+                    SwitchProgressView(
+                        store: store.scope(
+                            state: \.switchState,
+                            action: AppAction.union)
+                    ).frame(width: width, height: width)
                 }.padding(.leading, 4)
             )
         }
@@ -118,8 +140,8 @@ struct ContentView_Previews: PreviewProvider {
             ContentView(
                 store: Store<AppState, AppAction>(
                     initialState: AppState(),
-                    reducer: .empty,
-                    environment: ())
+                    reducer: appReducer,
+                    environment: .midDay)
             )
         }
     }
