@@ -2,6 +2,7 @@ import SwiftUI
 import Core
 import TimeClient
 import Validated
+import TaskClient
 
 
 func validate(title: String) -> Validated<String, String> {
@@ -26,6 +27,7 @@ public struct CreateTaskState: Equatable {
     public var chosenColor: Color
     public var progressStyle: ProgressStyle
     public var diff: TimeResult
+    public var alert: AlertState<CreateTaskAction>?
     public init(
         taskTitle: String = "",
         validationError: String? = nil,
@@ -33,7 +35,8 @@ public struct CreateTaskState: Equatable {
         endDate: Date = Date(),
         chosenColor: Color = Color(.endBlueLightColor),
         progressStyle: ProgressStyle = .bar,
-        diff: TimeResult = .zero
+        diff: TimeResult = .zero,
+        alert: AlertState<CreateTaskAction>? = nil
     ) {
         self.title = taskTitle
         self.validationError = validationError
@@ -42,11 +45,13 @@ public struct CreateTaskState: Equatable {
         self.chosenColor = chosenColor
         self.progressStyle = progressStyle
         self.diff = diff
+        self.alert = alert
     }
 }
 
 public enum CreateTaskAction: Equatable {
     case onAppear
+    case response(Result<TaskResponse, TaskFailure>)
     case startButtonTapped
     case selectStyle(ProgressStyle)
     case diff(TimeResult)
@@ -54,22 +59,30 @@ public enum CreateTaskAction: Equatable {
     case validation(Validated<String, String>)
     case selectColor(Color)
     case reset
+    case alertDismissed
     case endDate(DateControlAction)
     case startDate(DateControlAction)
 }
 
+import CoreData
 public struct CreateTaskEnvironment {
     let date: () -> Date
     let calendar: Calendar
     let timeClient: TimeClient
+    let managedContext: NSManagedObjectContext
+    let taskClient: TaskClient
     public init(
         date: @escaping () -> Date,
         calendar: Calendar,
-        timeClient: TimeClient
+        timeClient: TimeClient,
+        taskClient: TaskClient,
+        managedContext: NSManagedObjectContext
     ) {
         self.date = date
         self.calendar = calendar
         self.timeClient = timeClient
+        self.taskClient = taskClient
+        self.managedContext = managedContext
     }
 }
 
@@ -88,12 +101,19 @@ public let createTaskReducer = Reducer<CreateTaskState, CreateTaskAction, Create
     Reducer { state, action, environment in
         switch action {
         case .startButtonTapped:
-            let task = ProgressTask(
-                title: state.title,
-                startDate: state.startDate,
-                endDate: state.endDate
-            )
-            return .none
+            return environment.taskClient.create(
+                TaskRequest(
+                    viewContext: environment.managedContext,
+                    task: ProgressTask(
+                        title: state.title,
+                        startDate: state.startDate,
+                        endDate: state.endDate,
+                        creationDate: environment.date(),
+                        color: state.chosenColor
+                    )
+                )
+            ).catchToEffect()
+             .map(CreateTaskAction.response)
         case let .selectStyle(style):
             state.progressStyle = style
             return .none
@@ -104,7 +124,9 @@ public let createTaskReducer = Reducer<CreateTaskState, CreateTaskAction, Create
             return .none
         case let .titleChanged(title):
             state.title = title
-            return Effect(value: .validation(validate(title: title)))
+            return Effect(value:
+                    .validation(validate(title: title))
+                    )
         case let .selectColor(color):
             state.chosenColor = color
             return .none
@@ -112,24 +134,29 @@ public let createTaskReducer = Reducer<CreateTaskState, CreateTaskAction, Create
             if environment.date() >= date && date <= state.endDate {
                 state.startDate = date
             }
-            return environment.timeClient.taskProgress(TaskRequest(
-                currentDate: environment.date(),
-                calendar: environment.calendar,
-                startAt: state.startDate,
-                endAt: state.endDate
-            )).map(\.result)
-            .map(CreateTaskAction.diff)
-            .eraseToEffect()
+            return environment
+                .timeClient
+                .taskProgress(
+                    ProgressTaskRequest(
+                        currentDate: environment.date(),
+                        calendar: environment.calendar,
+                        startAt: state.startDate,
+                        endAt: state.endDate
+                    )).map(\.result)
+                .map(CreateTaskAction.diff)
+                .eraseToEffect()
         case let .endDate(.newDate(date)):
             state.endDate = date
-            return  environment.timeClient.taskProgress(TaskRequest(
-                currentDate: environment.date(),
-                calendar: environment.calendar,
-                startAt: state.startDate,
-                endAt: state.endDate
-            )).map(\.result)
-            .map(CreateTaskAction.diff)
-            .eraseToEffect()
+            return environment
+                .timeClient
+                .taskProgress(ProgressTaskRequest(
+                    currentDate: environment.date(),
+                    calendar: environment.calendar,
+                    startAt: state.startDate,
+                    endAt: state.endDate
+                )).map(\.result)
+                .map(CreateTaskAction.diff)
+                .eraseToEffect()
         case let .diff(result):
             state.diff = result
             return .none
@@ -144,6 +171,18 @@ public let createTaskReducer = Reducer<CreateTaskState, CreateTaskAction, Create
             state.validationError = errors.first
             return .none
         case .startDate, .endDate:
+            return .none
+        case .response(.success):
+            return .none
+        case let .response(.failure(error)):
+            state.alert = AlertState(
+                title: LocalizedStringKey("Alert"),
+                message: LocalizedStringKey(error.errorDescription),
+                dismissButton: .cancel(send: .alertDismissed)
+            )
+            return .none
+        case .alertDismissed:
+            state.alert = nil
             return .none
         }
     }
@@ -190,6 +229,9 @@ public struct CreateTaskView: View {
                 ScrollView(.vertical) {
                     
                     VStack(spacing: .py_grid(3)) {
+                        
+                        Text("Create A New Task")
+                            .font(.preferred(.py_title3()))
                         
                         TextField(String.taskTitle, text: viewStore.binding(
                             get: \.title,
@@ -264,7 +306,7 @@ public struct CreateTaskView: View {
                             )
                             
                         }.padding(.horizontal)
-                    }
+                    }.padding(.top)
                     
                     Spacer(minLength: .py_grid(3))
                     
@@ -306,10 +348,12 @@ public struct CreateTaskView: View {
                         blurStyle: .systemMaterial
                     ).cornerRadius(.py_grid(1))
                 )
-            }.edgesIgnoringSafeArea(.bottom)
+            }
+            .edgesIgnoringSafeArea(.bottom)
             .onAppear {
                 viewStore.send(.onAppear)
-            }
+            }.alert(store.scope(state: \.alert),
+                dismiss: .alertDismissed)                            
         }
     }
 }
@@ -360,8 +404,8 @@ struct CreateButtonStyle: ButtonStyle {
             .padding(.horizontal)
             .background(
                 RoundedRectangle(cornerRadius: .py_grid(4))                .fill(isValid
-                                                                                    ? Color.black
-                                                                                    : .gray)
+                            ? Color.black
+                            : .gray)
             )
     }
 }
@@ -570,7 +614,7 @@ struct TitleLined: View {
 
 private class TasksClass {}
 extension Bundle {
-    static var tasks: Bundle {
+    public static var tasks: Bundle {
         Bundle(for: TasksClass.self)
     }
 }
@@ -606,7 +650,13 @@ struct CreateTaskView_Previews: PreviewProvider {
                                 )
                             ).eraseToAnyPublisher()
                         }
-                    )
+                    ),
+                    taskClient: .init(create: { _ in
+                        Fail(error: .custom("an error "))
+                            .eraseToAnyPublisher()
+                    }
+                    ),
+                    managedContext: .init(concurrencyType: .privateQueueConcurrencyType)
                 )
             ))
             DateControlView(store: Store(

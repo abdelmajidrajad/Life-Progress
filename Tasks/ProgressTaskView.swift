@@ -2,24 +2,7 @@ import SwiftUI
 import Core
 import TimeClient
 import Combine
-
-public struct ProgressTask: Identifiable, Equatable {
-    public var id: UUID
-    let title: String
-    let startDate: Date
-    let endDate: Date
-    public init(
-        id: UUID = UUID(),
-        title: String,
-        startDate: Date,
-        endDate: Date
-    ) {
-        self.id = id
-        self.title = title
-        self.startDate = startDate
-        self.endDate = endDate
-    }
-}
+import TaskClient
 
 
 @dynamicMemberLookup
@@ -29,21 +12,18 @@ public struct TaskState: Equatable, Identifiable {
     var remainingTime: NSAttributedString
     var result: TimeResult
     var progress: Double
-    var color: Color
     var isSelected: Bool
     public init(
         task: ProgressTask,
         remainingTime: NSAttributedString = .init(),
         progress: Double = .zero,
         result: TimeResult = .init(),
-        color: Color = .pink,
         isSelected: Bool = false
     ) {
         self.task = task
         self.progress = progress
         self.remainingTime = remainingTime
         self.result = result
-        self.color = color
         self.isSelected = isSelected
     }
 }
@@ -60,7 +40,7 @@ extension TaskState {
 public struct TaskEnvironment {
     let date: () -> Date
     let calendar: Calendar
-    let taskProgress: (TaskRequest) -> AnyPublisher<TimeResponse, Never>
+    let taskProgress: (ProgressTaskRequest) -> AnyPublisher<TimeResponse, Never>
 }
 
 public enum TaskAction: Equatable {
@@ -77,7 +57,7 @@ public let taskReducer =
         switch action {
         case .onAppear:
             return environment.taskProgress(
-                TaskRequest(
+                ProgressTaskRequest(
                     currentDate: environment.date(),
                     calendar: environment.calendar,
                     startAt: state.task.startDate,
@@ -102,7 +82,7 @@ extension TaskState {
             remaining: result.string(
                 taskCellStyle, style: .long),
             progress: NSNumber(value: progress),
-            color: color
+            color: task.color
         )
     }
 }
@@ -176,7 +156,7 @@ struct ProgressTaskView_Previews: PreviewProvider {
         ProgressTaskView(
             store:
                 Store(
-                    initialState: TaskState(task: .writeBook, color: .green),
+                    initialState: TaskState(task: .writeBook),
                     reducer: taskReducer,
                     environment: TaskEnvironment(
                         date: Date.init,
@@ -206,21 +186,25 @@ struct ProgressTaskView_Previews: PreviewProvider {
 
 
 extension ProgressTask {
-    static var readBook: Self {
+    public static var readBook: Self {
         ProgressTask(
             title: "Read Zero to One Book",
             startDate: Date(),
-            endDate: Date().addingTimeInterval(3600 * 24 * 2)
+            endDate: Date().addingTimeInterval(3600 * 24 * 2),
+            creationDate: Date(),
+            color: Color(.endBlueLightColor)
         )
     }
 }
 
 extension ProgressTask {
-    static var writeBook: Self {
+    public static var writeBook: Self {
         ProgressTask(
             title: "Write my Book, Write my Book, Write my Book, Write my Book",
             startDate: Date(),
-            endDate: Date().addingTimeInterval(3600 * 24 * 10)
+            endDate: Date().addingTimeInterval(3600 * 24 * 10),
+            creationDate: Date(),
+            color: Color(.endRedColor)
         )
     }
 }

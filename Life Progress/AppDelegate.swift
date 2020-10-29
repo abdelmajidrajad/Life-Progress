@@ -1,5 +1,6 @@
 import UIKit
 import CoreData
+import TaskClient
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,6 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - Core Data stack
 
+            
     lazy var persistentContainer: NSPersistentCloudKitContainer = {
         /*
          The persistent container for the application. This implementation
@@ -32,6 +34,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
         */
+               
         let container = NSPersistentCloudKitContainer(name: "Life_Progress")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
@@ -54,7 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: - Core Data Saving support
     func saveContext () {
-        let context = persistentContainer.viewContext
+        let context = persistentContainer.viewContext        
         if context.hasChanges {
             do {
                 try context.save()
@@ -68,4 +71,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
+
 

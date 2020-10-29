@@ -2,6 +2,8 @@ import SwiftUI
 import Core
 import ComposableArchitecture
 import TimeClient
+import TaskClient
+import CoreData
 
 public struct TasksState: Equatable {
     var tasks: IdentifiedArrayOf<TaskState>
@@ -18,7 +20,8 @@ public struct TasksState: Equatable {
 
 
 public enum TasksAction: Equatable {
-    case onAppear
+    case onAppear    
+    case response(Result<TaskResponse, TaskFailure>)
     case ellipseButtonTapped(taskId: UUID)
     case actionSheetDismissed
     case addMore([Calendar.Component: Int], taskId: UUID)
@@ -27,18 +30,36 @@ public enum TasksAction: Equatable {
     case cell(id: UUID, action: TaskAction)
 }
 
-struct TasksEnvironment {
+public struct TasksEnvironment {
     let date: () -> Date
     let calendar: Calendar
+    let managedContext: NSManagedObjectContext
     let timeClient: TimeClient
+    let taskClient: TaskClient
+    public init(
+        date: @escaping () -> Date,
+        calendar: Calendar,
+        managedContext: NSManagedObjectContext,
+        timeClient: TimeClient,
+        taskClient: TaskClient
+    ) {
+        self.date = date
+        self.calendar = calendar
+        self.managedContext = managedContext
+        self.timeClient = timeClient
+        self.taskClient = taskClient
+    }
 }
 
-let tasksReducer =
+public let tasksReducer =
     Reducer<TasksState, TasksAction, TasksEnvironment>.combine(
         Reducer { state, action, environment in
             switch action {
             case .onAppear:
-                return .none
+                return environment.taskClient
+                    .tasks(environment.managedContext)
+                    .catchToEffect()
+                    .map(TasksAction.response)
             case let .ellipseButtonTapped(taskId: taskId):
                 
                 let task = state.tasks[id: taskId]!.task
@@ -71,6 +92,13 @@ let tasksReducer =
                 return Effect(value: .actionSheetDismissed)
             case let .deleteTask(id: id):
                 return Effect(value: .actionSheetDismissed)
+            case .response(.success(.tasks(let tasks))):
+                state.tasks = IdentifiedArray(tasks.map { TaskState(task: $0) } )
+                return .none
+            case .response(.success(.success)):
+                return .none
+            case .response(.failure):
+                return .none                
             }
         },
         taskReducer.forEach(
@@ -125,6 +153,8 @@ public struct TasksView: View {
                         }
                     }
                 )
+            }.onAppear {
+                viewStore.send(.onAppear)
             }
         }.actionSheet(
             store.scope(state: \.actionSheet),
@@ -139,18 +169,24 @@ struct TasksView_Previews: PreviewProvider {
             TasksView(store: Store<TasksState, TasksAction>(
                 initialState: TasksState(
                     tasks: [
-                        TaskState(task: .readBook, color: .red),
-                        TaskState(task: .writeBook, color: .gray),
-                        TaskState(task: .readBook, color: .pink),
-                        TaskState(task: .writeBook, color: .red),
-                        TaskState(task: .writeBook, color: .blue)
+//                        TaskState(task: .readBook, color: .red),
+//                        TaskState(task: .writeBook, color: .gray),
+//                        TaskState(task: .readBook, color: .pink),
+//                        TaskState(task: .writeBook, color: .red),
+//                        TaskState(task: .writeBook, color: .blue)
                     ]
                 ),
                 reducer: tasksReducer,
                 environment: TasksEnvironment(
                     date: Date.init,
                     calendar: .current,
-                    timeClient: .progress
+                    managedContext: NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType),
+                    timeClient: .progress,
+                    taskClient: TaskClient(tasks: { _ in
+                        Just(TaskResponse.tasks([.readBook, .writeBook]))
+                            .setFailureType(to: TaskFailure.self)
+                            .eraseToAnyPublisher()
+                    })
                 )
             ))
             //.preferredColorScheme(.dark)            

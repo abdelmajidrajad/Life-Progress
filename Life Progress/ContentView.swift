@@ -3,21 +3,29 @@ import Core
 import ComposableArchitecture
 import TimeClientLive
 import TimeClient
+import TaskClient
 import Components
 import CoreData
+import Tasks
 
 struct AppState: Equatable {
     var yearState: YearState
     var dayState: DayState
     var switchState: SwitchState
+    var tasksState: TasksState
+    var createTask: CreateTaskState?
     public init(
         yearState: YearState = .init(style: .circle),
         dayState: DayState = .init(style: .circle),
-        switchState: SwitchState = .init()
+        switchState: SwitchState = .init(),
+        tasksState: TasksState = .init(),
+        createTask: CreateTaskState? = nil
     ) {
         self.yearState = yearState
         self.dayState = dayState
         self.switchState = switchState
+        self.tasksState = tasksState
+        self.createTask = createTask
     }
 }
 
@@ -25,6 +33,10 @@ enum AppAction: Equatable {
     case year(YearAction)
     case day(DayAction)
     case union(SwitchAction)
+    case tasks(TasksAction)
+    case createTask(CreateTaskAction)
+    case viewDismissed
+    case plusButtonTapped
 }
 
 struct AppEnvironment {
@@ -32,10 +44,23 @@ struct AppEnvironment {
     let date: () -> Date
     let calendar: Calendar
     let timeClient: TimeClient
+    let taskClient: TaskClient
     let context: NSManagedObjectContext
 }
 
 let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
+    Reducer { state, action, _ in
+        switch action {
+        case .viewDismissed:
+            state.createTask = nil
+            return .none
+        case .plusButtonTapped:
+            state.createTask = CreateTaskState()
+            return .none
+        default:
+            return .none
+        }
+    },
     dayReducer.pullback(
         state: \.dayState,
         action: /AppAction.day,
@@ -50,6 +75,32 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
         state: \.switchState,
         action: /AppAction.union,
         environment: \.union
+    ),
+    tasksReducer.pullback(
+        state: \.tasksState,
+        action: /AppAction.tasks,
+        environment: {
+            TasksEnvironment(
+                date: $0.date,
+                calendar: $0.calendar,
+                managedContext: $0.context,
+                timeClient: $0.timeClient,
+                taskClient: $0.taskClient
+            )
+        }
+    ),
+    createTaskReducer.optional().pullback(
+        state: \.createTask,
+        action: /AppAction.createTask,
+        environment: {
+            CreateTaskEnvironment(
+                date: $0.date,
+                calendar: $0.calendar,
+                timeClient: $0.timeClient,
+                taskClient: $0.taskClient,
+                managedContext: $0.context
+            )
+        }
     )
 )
 
@@ -94,27 +145,55 @@ struct ContentView: View {
         GeometryReader { proxy -> AnyView in
             let width = proxy.size.width * 0.5 - 8.0
             return AnyView(
-                VStack(spacing: .py_grid(4)) {
-                    HStack {
-                        DayProgressView(
-                            store: store.scope(
-                                state: \.dayState,
-                                action: AppAction.day)
-                        ).frame(width: width, height: width)
+                WithViewStore(store) { viewStore in
+                    VStack(alignment: .leading, spacing: .py_grid(4)) {
+                        HStack {
+                            DayProgressView(
+                                store: store.scope(
+                                    state: \.dayState,
+                                    action: AppAction.day)
+                            ).frame(width: width, height: width)
+                            
+                            YearProgressView(
+                                store: store.scope(
+                                    state: \.yearState,
+                                    action: AppAction.year)
+                            ).frame(width: width, height: width)
+                            
+                        }
                         
-                        YearProgressView(
-                            store: store.scope(
-                                state: \.yearState,
-                                action: AppAction.year)
-                        ).frame(width: width, height: width)
                         
+                        HStack {
+                            Spacer()
+                            Button(action: {
+                                viewStore.send(.plusButtonTapped)
+                            }, label: {
+                                Image(systemName: "plus")
+                            }).buttonStyle(RoundButtonStyle())
+                        }.padding()
+                        
+    //                    SwitchProgressView(
+    //                        store: store.scope(
+    //                            state: \.switchState,
+    //                            action: AppAction.union)
+    //                    ).frame(width: width, height: width)
+                        
+                        TasksView(store: store.scope(
+                                    state: \.tasksState,
+                                    action: AppAction.tasks)
+                        )
+                        
+                    }.padding(.leading, 4)
+                    .sheet(isPresented: viewStore.binding(
+                            get: { $0.createTask != nil },
+                            send: AppAction.viewDismissed)) {
+                        IfLetStore(
+                            store.scope(
+                                state: \.createTask,
+                                action: AppAction.createTask),
+                            then: CreateTaskView.init(store:))
                     }
-                    SwitchProgressView(
-                        store: store.scope(
-                            state: \.switchState,
-                            action: AppAction.union)
-                    ).frame(width: width, height: width)
-                }.padding(.leading, 4)
+                }
             )
         }
     }
@@ -154,6 +233,7 @@ extension AppEnvironment {
             date: Date.init,
             calendar: .current,
             timeClient: .empty,
+            taskClient: .empty,
             context: .init(concurrencyType: .privateQueueConcurrencyType)
         )
     }
@@ -164,7 +244,7 @@ extension AppEnvironment {
     static var midDay: Self {
         Self(
             uuid: UUID.init,
-            date: Date.init,
+            date: { Date(timeIntervalSince1970: 3600 * 24 * 6) },
             calendar: .current,
             timeClient: TimeClient(
                 yearProgress: { _ in Just(TimeResponse(
@@ -173,18 +253,49 @@ extension AppEnvironment {
                         hour: 13, minute: 12
                     )
                 )).eraseToAnyPublisher()
-                }, todayProgress: { _ in Just(TimeResponse(
+                }, todayProgress: { _ in
+                    Just(TimeResponse(
                     progress: 0.8,
                     result: TimeResult(
                         day: 19, hour: 13
                     )
                 )).eraseToAnyPublisher()
+                }, taskProgress: { _ in
+                    Just(
+                        TimeResponse(
+                            progress: 0.76,
+                            result: TimeResult(
+                                //year: 2,
+                                //month: 1,
+                                day: 7,
+                                hour: 12,
+                                minute: 44
+                            )
+                        )
+                    ).eraseToAnyPublisher()
                 }
                 
-            ),
+            ), taskClient: TaskClient(tasks: { _ in
+                Just(TaskResponse.tasks([.readBook, .writeBook]))
+                    .setFailureType(to: TaskFailure.self)
+                    .eraseToAnyPublisher()
+            }),
             context: .init(concurrencyType: .privateQueueConcurrencyType)
         )
     }
 }
 
 
+
+struct RoundButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .foregroundColor(.black)
+            .font(Font.preferred(.py_title2()).bold().smallCaps())
+            .padding(.vertical)
+            .padding(.horizontal, .py_grid(6))
+            .background(
+                RoundedRectangle(cornerRadius: .py_grid(4))                .fill(Color(white: 0.97))
+            )
+    }
+}

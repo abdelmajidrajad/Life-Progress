@@ -24,6 +24,10 @@
 		0462EFEB254437B7003D2969 /* SwitchProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFEA254437B7003D2969 /* SwitchProgressView.swift */; };
 		0462F01025444433003D2969 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462F00F25444433003D2969 /* Operators.swift */; };
 		0467BFF5254AABAD007FC8A3 /* Validated in Frameworks */ = {isa = PBXBuildFile; productRef = 0467BFF4254AABAD007FC8A3 /* Validated */; };
+		0467C001254ABB0D007FC8A3 /* TaskClient in Frameworks */ = {isa = PBXBuildFile; productRef = 0467C000254ABB0D007FC8A3 /* TaskClient */; };
+		0467C002254ABB0D007FC8A3 /* TaskClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0467C000254ABB0D007FC8A3 /* TaskClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0467C00E254ADA90007FC8A3 /* TaskClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 0467C00D254ADA90007FC8A3 /* TaskClientLive */; };
+		0467C00F254ADA90007FC8A3 /* TaskClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0467C00D254ADA90007FC8A3 /* TaskClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		049A38832548830500EE676B /* TimeClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 049A38822548830500EE676B /* TimeClientLive */; };
 		049A38842548830500EE676B /* TimeClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 049A38822548830500EE676B /* TimeClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		04D7BAA62545825B003A9774 /* AttributedString+Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D7BAA52545825B003A9774 /* AttributedString+Value.swift */; };
@@ -156,6 +160,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				0467C002254ABB0D007FC8A3 /* TaskClient in Embed Frameworks */,
 				0430D9732548880D00CA7CFC /* TimeClient in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -168,6 +173,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				049A38842548830500EE676B /* TimeClientLive in Embed Frameworks */,
+				0467C00F254ADA90007FC8A3 /* TaskClientLive in Embed Frameworks */,
 				04E73CB72543590F0092B918 /* Components.framework in Embed Frameworks */,
 				04E73C8E254357E60092B918 /* Core.framework in Embed Frameworks */,
 				0430D9502548878600CA7CFC /* Tasks.framework in Embed Frameworks */,
@@ -234,6 +240,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0467C001254ABB0D007FC8A3 /* TaskClient in Frameworks */,
 				0430D9722548880D00CA7CFC /* TimeClient in Frameworks */,
 				04D7BAE5254587DF003A9774 /* Core.framework in Frameworks */,
 			);
@@ -252,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0430D94F2548878000CA7CFC /* Tasks.framework in Frameworks */,
+				0467C00E254ADA90007FC8A3 /* TaskClientLive in Frameworks */,
 				049A38832548830500EE676B /* TimeClientLive in Frameworks */,
 				04E73CB62543590F0092B918 /* Components.framework in Frameworks */,
 				04E73C8D254357E60092B918 /* Core.framework in Frameworks */,
@@ -501,6 +509,7 @@
 			name = Tasks;
 			packageProductDependencies = (
 				0430D9712548880D00CA7CFC /* TimeClient */,
+				0467C000254ABB0D007FC8A3 /* TaskClient */,
 			);
 			productName = Tasks;
 			productReference = 04D7BAB7254587B7003A9774 /* Tasks.framework */;
@@ -544,6 +553,7 @@
 			name = "Life Progress";
 			packageProductDependencies = (
 				049A38822548830500EE676B /* TimeClientLive */,
+				0467C00D254ADA90007FC8A3 /* TaskClientLive */,
 			);
 			productName = "Life Progress";
 			productReference = 04E73C2B2542C2030092B918 /* Life Progress.app */;
@@ -1558,6 +1568,14 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 0467BFF3254AABAD007FC8A3 /* XCRemoteSwiftPackageReference "swift-validated" */;
 			productName = Validated;
+		};
+		0467C000254ABB0D007FC8A3 /* TaskClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TaskClient;
+		};
+		0467C00D254ADA90007FC8A3 /* TaskClientLive */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TaskClientLive;
 		};
 		049A38822548830500EE676B /* TimeClientLive */ = {
 			isa = XCSwiftPackageProductDependency;
