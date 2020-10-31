@@ -28,6 +28,8 @@
 		0467C002254ABB0D007FC8A3 /* TaskClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0467C000254ABB0D007FC8A3 /* TaskClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0467C00E254ADA90007FC8A3 /* TaskClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 0467C00D254ADA90007FC8A3 /* TaskClientLive */; };
 		0467C00F254ADA90007FC8A3 /* TaskClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0467C00D254ADA90007FC8A3 /* TaskClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		04900446254D77310014CE7D /* YourDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04215B85254C882900461C9C /* YourDayView.swift */; };
+		0490044D254D77E60014CE7D /* DashedLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0490044C254D77E50014CE7D /* DashedLine.swift */; };
 		049A38832548830500EE676B /* TimeClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 049A38822548830500EE676B /* TimeClientLive */; };
 		049A38842548830500EE676B /* TimeClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 049A38822548830500EE676B /* TimeClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		04D7BAA62545825B003A9774 /* AttributedString+Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D7BAA52545825B003A9774 /* AttributedString+Value.swift */; };
@@ -192,12 +194,14 @@
 		0412965E2549B3D0008337A0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		041296652549B60D008337A0 /* LocalizedStringKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedStringKey.swift; sourceTree = "<group>"; };
 		0412966C2549BD2C008337A0 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		04215B85254C882900461C9C /* YourDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourDayView.swift; sourceTree = "<group>"; };
 		04325685254459570050F620 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		0462EFD025442310003D2969 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		0462EFD725442A8C003D2969 /* PLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PLabel.swift; sourceTree = "<group>"; };
 		0462EFE325442AD7003D2969 /* DayProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayProgressView.swift; sourceTree = "<group>"; };
 		0462EFEA254437B7003D2969 /* SwitchProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchProgressView.swift; sourceTree = "<group>"; };
 		0462F00F25444433003D2969 /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
+		0490044C254D77E50014CE7D /* DashedLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashedLine.swift; sourceTree = "<group>"; };
 		04D7BAA52545825B003A9774 /* AttributedString+Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AttributedString+Value.swift"; sourceTree = "<group>"; };
 		04D7BAB7254587B7003A9774 /* Tasks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Tasks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		04D7BAB9254587B7003A9774 /* Tasks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tasks.h; sourceTree = "<group>"; };
@@ -419,6 +423,7 @@
 				04325685254459570050F620 /* Grid.swift */,
 				04D7BAA52545825B003A9774 /* AttributedString+Value.swift */,
 				0412964F2549B0C2008337A0 /* Blur.swift */,
+				0490044C254D77E50014CE7D /* DashedLine.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -426,6 +431,7 @@
 		04E73CA22543590F0092B918 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				04215B85254C882900461C9C /* YourDayView.swift */,
 				04E73CA32543590F0092B918 /* Components.h */,
 				04E73CA42543590F0092B918 /* Info.plist */,
 				04E73CCF2543594E0092B918 /* YearProgressView.swift */,
@@ -845,6 +851,7 @@
 				0462F01025444433003D2969 /* Operators.swift in Sources */,
 				041296502549B0C3008337A0 /* Blur.swift in Sources */,
 				04D7BAAC25458329003A9774 /* PLabel.swift in Sources */,
+				0490044D254D77E60014CE7D /* DashedLine.swift in Sources */,
 				04D7BAA62545825B003A9774 /* AttributedString+Value.swift in Sources */,
 				040C241125470098008BA89B /* ProgressCircle.swift in Sources */,
 				04D7BAF625458844003A9774 /* ProgressBar.swift in Sources */,
@@ -856,6 +863,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04900446254D77310014CE7D /* YourDayView.swift in Sources */,
 				04E73CD02543594E0092B918 /* YearProgressView.swift in Sources */,
 				0462EFE425442AD7003D2969 /* DayProgressView.swift in Sources */,
 				0462EFEB254437B7003D2969 /* SwitchProgressView.swift in Sources */,

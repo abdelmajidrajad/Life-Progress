@@ -230,8 +230,20 @@ public struct CreateTaskView: View {
                     
                     VStack(spacing: .py_grid(3)) {
                         
-                        Text("Create A New Task")
-                            .font(.preferred(.py_title3()))
+                        ZStack(alignment: .leading) {
+                            Button(action: {}) {
+                                Image(systemName: "xmark")
+                                    .accentColor(.gray)
+                                    .padding(.py_grid(3))
+                                    .background(
+                                        Circle()
+                                        .fill(Color(white: 0.98))
+                                    )
+                            }
+                            Text("Create A New Task".uppercased())
+                                .font(.preferred(.py_headline()))
+                                .frame(maxWidth: .infinity)
+                        }.padding()
                         
                         TextField(String.taskTitle, text: viewStore.binding(
                             get: \.title,
@@ -388,7 +400,7 @@ struct RoundedButtonStyle: ButtonStyle {
             .padding(.py_grid(2))
             .background(
                 Circle()
-                    .fill(Color(white: 0.95))
+                    .fill(Color(white: 0.98))
             )
         
     }
@@ -567,32 +579,6 @@ public struct DateControlView: View {
                 
             }
         }
-    }
-}
-
-public struct HDashedLine: View {
-    let color: Color
-    let lineWidth: CGFloat
-    public init(color: Color = Color(white: 0.92),
-                lineWidth: CGFloat = 1) {
-        self.color = color
-        self.lineWidth = lineWidth
-    }
-    public var body: some View {
-        GeometryReader { proxy in
-            Path { path in
-                let maxX = proxy.size.width
-                path.move(to: .zero)
-                path.addLine(to: CGPoint.init(x: maxX, y: 0))
-            }.stroke(style:
-                        StrokeStyle(
-                            lineWidth: self.lineWidth,
-                            lineCap: .round,
-                            lineJoin: .round,
-                            dash: [0.1,0.1,0.1, 4]
-                        )
-            ).foregroundColor(self.color)
-        }.frame(height: lineWidth)
     }
 }
 

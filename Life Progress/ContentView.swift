@@ -146,47 +146,55 @@ struct ContentView: View {
             let width = proxy.size.width * 0.5 - 8.0
             return AnyView(
                 WithViewStore(store) { viewStore in
-                    VStack(alignment: .leading, spacing: .py_grid(4)) {
-                        HStack {
-                            DayProgressView(
-                                store: store.scope(
-                                    state: \.dayState,
-                                    action: AppAction.day)
-                            ).frame(width: width, height: width)
+                    //VStack(alignment: .leading, spacing: .py_grid(2)) {
+                    ScrollView {
+                        
+                        Section(header:
+                                    ScrollView(.horizontal, showsIndicators: false) {
+                                        HStack {
+                                            SwitchProgressView(
+                                                store: store.scope(
+                                                    state: \.switchState,
+                                                    action: AppAction.union
+                                                )
+                                            )//.frame(width: width, height: width)
+                                            
+                                            DayProgressView(
+                                                store: store.scope(
+                                                    state: \.dayState,
+                                                    action: AppAction.day)
+                                            )//.frame(width: width, height: width)
+                                            
+                                            YearProgressView(
+                                                store: store.scope(
+                                                    state: \.yearState,
+                                                    action: AppAction.year)
+                                            )//.frame(width: width, height: width)
+                                        }.padding(.vertical)
+                                        .padding(.horizontal, .py_grid(1))
+                                    }.frame(height: width)
+                        ) {
+                            HStack {
+                                Spacer()
+                                Button(action: {
+                                    viewStore.send(.plusButtonTapped)
+                                }, label: {
+                                    Image(systemName: "plus")
+                                }).buttonStyle(RoundButtonStyle())
+                            }.padding(.py_grid(2))
                             
-                            YearProgressView(
-                                store: store.scope(
-                                    state: \.yearState,
-                                    action: AppAction.year)
-                            ).frame(width: width, height: width)
-                            
-                        }
-                        
-                        
-                        HStack {
-                            Spacer()
-                            Button(action: {
-                                viewStore.send(.plusButtonTapped)
-                            }, label: {
-                                Image(systemName: "plus")
-                            }).buttonStyle(RoundButtonStyle())
-                        }.padding()
-                        
-    //                    SwitchProgressView(
-    //                        store: store.scope(
-    //                            state: \.switchState,
-    //                            action: AppAction.union)
-    //                    ).frame(width: width, height: width)
-                        
-                        TasksView(store: store.scope(
+                            TasksView(store:
+                                store.scope(
                                     state: \.tasksState,
                                     action: AppAction.tasks)
-                        )
+                            )
+                        }
                         
                     }.padding(.leading, 4)
-                    .sheet(isPresented: viewStore.binding(
-                            get: { $0.createTask != nil },
-                            send: AppAction.viewDismissed)) {
+                    .sheet(isPresented:
+                            viewStore.binding(
+                                get: { $0.createTask != nil },
+                                send: AppAction.viewDismissed)) {
                         IfLetStore(
                             store.scope(
                                 state: \.createTask,
