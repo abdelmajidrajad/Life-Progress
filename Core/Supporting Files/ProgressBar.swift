@@ -1,12 +1,5 @@
 import SwiftUI
 
-public enum ProgressStyle: Equatable {
-    case bar, circle
-    public mutating func toggle() {
-        self = self == .bar ? .circle: .bar
-    }
-}
-
 public struct ProgressBar: View {
     let color: Color
     let lineWidth: CGFloat
@@ -61,6 +54,12 @@ let percentFormatter: () -> NumberFormatter = {
     return formatter
 }
 
+public enum ProgressStyle: String, Equatable {
+    case bar, circle
+    public mutating func toggle() {
+        self = self == .bar ? .circle: .bar
+    }
+}
 
 
 struct ProgressBar_Previews: PreviewProvider {

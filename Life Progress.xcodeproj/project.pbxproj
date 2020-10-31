@@ -30,6 +30,7 @@
 		0467C00F254ADA90007FC8A3 /* TaskClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0467C00D254ADA90007FC8A3 /* TaskClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		04900446254D77310014CE7D /* YourDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04215B85254C882900461C9C /* YourDayView.swift */; };
 		0490044D254D77E60014CE7D /* DashedLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0490044C254D77E50014CE7D /* DashedLine.swift */; };
+		0490045E254DC2EF0014CE7D /* YourDayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0490045D254DC2EF0014CE7D /* YourDayProgressView.swift */; };
 		049A38832548830500EE676B /* TimeClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 049A38822548830500EE676B /* TimeClientLive */; };
 		049A38842548830500EE676B /* TimeClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 049A38822548830500EE676B /* TimeClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		04D7BAA62545825B003A9774 /* AttributedString+Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D7BAA52545825B003A9774 /* AttributedString+Value.swift */; };
@@ -202,6 +203,7 @@
 		0462EFEA254437B7003D2969 /* SwitchProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchProgressView.swift; sourceTree = "<group>"; };
 		0462F00F25444433003D2969 /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		0490044C254D77E50014CE7D /* DashedLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashedLine.swift; sourceTree = "<group>"; };
+		0490045D254DC2EF0014CE7D /* YourDayProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourDayProgressView.swift; sourceTree = "<group>"; };
 		04D7BAA52545825B003A9774 /* AttributedString+Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AttributedString+Value.swift"; sourceTree = "<group>"; };
 		04D7BAB7254587B7003A9774 /* Tasks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Tasks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		04D7BAB9254587B7003A9774 /* Tasks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tasks.h; sourceTree = "<group>"; };
@@ -437,6 +439,7 @@
 				04E73CCF2543594E0092B918 /* YearProgressView.swift */,
 				0462EFE325442AD7003D2969 /* DayProgressView.swift */,
 				0462EFEA254437B7003D2969 /* SwitchProgressView.swift */,
+				0490045D254DC2EF0014CE7D /* YourDayProgressView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -866,6 +869,7 @@
 				04900446254D77310014CE7D /* YourDayView.swift in Sources */,
 				04E73CD02543594E0092B918 /* YearProgressView.swift in Sources */,
 				0462EFE425442AD7003D2969 /* DayProgressView.swift in Sources */,
+				0490045E254DC2EF0014CE7D /* YourDayProgressView.swift in Sources */,
 				0462EFEB254437B7003D2969 /* SwitchProgressView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

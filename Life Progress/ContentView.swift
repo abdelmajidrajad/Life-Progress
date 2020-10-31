@@ -157,19 +157,19 @@ struct ContentView: View {
                                                     state: \.switchState,
                                                     action: AppAction.union
                                                 )
-                                            )//.frame(width: width, height: width)
+                                            )
                                             
                                             DayProgressView(
                                                 store: store.scope(
                                                     state: \.dayState,
                                                     action: AppAction.day)
-                                            )//.frame(width: width, height: width)
+                                            )
                                             
                                             YearProgressView(
                                                 store: store.scope(
                                                     state: \.yearState,
                                                     action: AppAction.year)
-                                            )//.frame(width: width, height: width)
+                                            )
                                         }.padding(.vertical)
                                         .padding(.horizontal, .py_grid(1))
                                     }.frame(height: width)

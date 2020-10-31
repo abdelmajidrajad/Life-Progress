@@ -108,32 +108,27 @@ struct YourDayView: View {
         WithViewStore(store.scope(state: \.view)) { viewStore in
             ZStack(alignment: .top) {
                 
-                VStack(spacing: .zero) {
+                HStack {
+                    Button(action: {
+                        viewStore.send(.cancelButtonTapped)
+                    }) {
+                        Text("Cancel")
+                    }
+                    Text("Your Day")
+                        .font(Font.preferred(.py_title2()).smallCaps())
+                        .frame(maxWidth: .infinity)
+                    Button(action: {
+                        viewStore.send(.doneButtonTapped)
+                    }) {
+                        Text("Done")
+                    }
+                }.padding()
+                .background(
                     VisualEffectBlur()
-                        .frame(height: .py_grid(12))
-                    HStack {
-                        Button(action: {
-                            viewStore.send(.cancelButtonTapped)
-                        }) {
-                            Text("Cancel")
-                        }
-                        Text("Your Day")
-                            .font(Font.preferred(.py_title2()).smallCaps())
-                            .frame(maxWidth: .infinity)
-                        Button(action: {
-                            viewStore.send(.doneButtonTapped)
-                        }) {
-                            Text("Done")
-                                
-                        }
-                    }.padding()
-                    .background(
-                        VisualEffectBlur()
-                    ).font(.headline)
-                }.zIndex(1)
+                ).font(.headline)
                 
                 ScrollView(.vertical, showsIndicators: false) {
-                                        
+                    
                     ProgressCircle(
                         color: .blue,
                         lineWidth: .py_grid(4),
@@ -146,7 +141,7 @@ struct YourDayView: View {
                             Text("hours")
                         }.font(.preferred(.py_footnote()))
                     ).padding(.top)
-                                                                                
+                    
                     VStack(spacing: .py_grid(2)) {
                         Text("start at")
                             .font(
@@ -160,8 +155,7 @@ struct YourDayView: View {
                         DatePicker("",
                                    selection: viewStore.binding(
                                     get: \.startDate,
-                                    send: YourDayAction.didStartDateChanged
-                                   ),
+                                    send: YourDayAction.didStartDateChanged),
                                    in: viewStore.startClosedRange,
                                    displayedComponents: [.hourAndMinute])
                             .datePickerStyle(WheelDatePickerStyle())
@@ -180,26 +174,20 @@ struct YourDayView: View {
                         DatePicker("",
                                    selection: viewStore.binding(
                                     get: \.endDate,
-                                    send: YourDayAction.didEndDateChanged
-                                   ),
+                                    send: YourDayAction.didEndDateChanged),
                                    in: viewStore.endClosedRange,
                                    displayedComponents: [.hourAndMinute])
                             .datePickerStyle(WheelDatePickerStyle())
-                            .labelsHidden()
+                        .labelsHidden()
                     }
-                    
-                    
                 }.font(.headline)
                 .accentColor(.red)
-                .padding(.top, .py_grid(25))
-                              
+                .padding(.top, .py_grid(15))
+                
             }.onAppear {
                 viewStore.send(.onAppear)
             }.edgesIgnoringSafeArea(.vertical)
-            
         }
-        
-        
     }
 }
 

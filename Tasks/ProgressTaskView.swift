@@ -82,7 +82,8 @@ extension TaskState {
             remaining: result.string(
                 taskCellStyle, style: .long),
             progress: NSNumber(value: progress),
-            color: task.color
+            color: task.color,
+            isCircle: true
         )
     }
 }
@@ -94,6 +95,7 @@ struct ProgressTaskView: View {
         let remaining: NSAttributedString
         let progress: NSNumber
         let color: Color
+        let isCircle: Bool
     }
     
     let store: Store<TaskState, TaskAction>
@@ -109,44 +111,78 @@ struct ProgressTaskView: View {
     var body: some View {
         WithViewStore(self.store.scope(state: \.view)) { viewStore in
             
-            VStack(alignment: .leading, spacing: .py_grid(2)) {
-                Text(viewStore.title)
-                    .font(.headline)
-                    .frame(
-                        maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,
-                        alignment: .leading
-                    ).padding(.trailing, .py_grid(4))
-                    .lineLimit(2)
-                
-                PLabel(attributedText: .constant(viewStore.remaining))
-                    .fixedSize()
-                
-                ProgressBar(
-                    color: viewStore.color,
-                    lineWidth: .py_grid(1),
-                    labelHidden: true,
-                    progress: .constant(viewStore.progress)
-                )
-                
+            VStack {
+                if viewStore.isCircle {
+                    HStack {
+                        
+                        ProgressCircle(
+                            color: viewStore.color,
+                            lineWidth: .py_grid(3),
+                            labelHidden: false,
+                            progress: .constant(viewStore.progress)
+                        ).frame(width: .py_grid(20))
+                        
+                        VStack(alignment: .leading, spacing: .py_grid(2)) {
+                            Text(viewStore.title)
+                                .font(.headline)
+                                .frame(
+                                    maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,
+                                    alignment: .leading
+                                ).padding(.trailing, .py_grid(4))
+                                .lineLimit(2)
+                            
+                            PLabel(attributedText: .constant(viewStore.remaining))
+                                .fixedSize()
+                        }
+                    }
+                    
+                } else {
+                    VStack(alignment: .leading, spacing: .py_grid(2)) {
+                        
+                        VStack(alignment: .leading, spacing: .py_grid(2)) {
+                            Text(viewStore.title)
+                                .font(.headline)
+                                .frame(
+                                    maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,
+                                    alignment: .leading
+                                ).padding(.trailing, .py_grid(4))
+                                .lineLimit(2)
+                            
+                            PLabel(attributedText: .constant(viewStore.remaining))
+                                .fixedSize()
+                        }
+                        
+                        ProgressBar(
+                            color: viewStore.color,
+                            lineWidth: .py_grid(1),
+                            labelHidden: true,
+                            progress: .constant(viewStore.progress)
+                        )
+                        
+                    }
+                }
             }.padding()
             .background(
                 ZStack(alignment: .topTrailing) {
+                    
                     RoundedRectangle(
                         cornerRadius: .py_grid(5),
                         style: .continuous
-                    ).fill(Color(white: 0.95))
-                                
+                    ).fill(Color(white: 0.99))
+                    .shadow(radius: 0.6)
+                    
                     Button(action: ellipseButtonTapped,
                            label: {
                             Image(systemName: "ellipsis")
                                 .font(.headline)
                                 .accentColor(.gray)
-                    }).padding()
+                           }
+                    ).padding()
                 }
             ).padding(.horizontal)
             .onAppear {
                 viewStore.send(.onAppear)
-            }            
+            }
         }
     }
 }
@@ -164,7 +200,7 @@ struct ProgressTaskView_Previews: PreviewProvider {
                         taskProgress: { _ in
                             Just(
                                 TimeResponse(
-                                    progress: 0.76,
+                                    progress: 0.4,
                                     result: TimeResult(
                                         //year: 2,
                                         //month: 1,

@@ -17,8 +17,6 @@ public struct TasksState: Equatable {
     }
 }
 
-
-
 public enum TasksAction: Equatable {
     case onAppear    
     case response(Result<TaskResponse, TaskFailure>)
@@ -95,9 +93,10 @@ public let tasksReducer =
             case .response(.success(.tasks(let tasks))):
                 state.tasks = IdentifiedArray(tasks.map { TaskState(task: $0) } )
                 return .none
-            case .response(.success(.success)):
+            case .response(_):
                 return .none
-            case .response(.failure):
+            case let .response(.failure(error)):
+                //error.errorDescription
                 return .none                
             }
         },

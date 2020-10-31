@@ -62,6 +62,7 @@ public enum CreateTaskAction: Equatable {
     case alertDismissed
     case endDate(DateControlAction)
     case startDate(DateControlAction)
+    case cancelButtonTapped
 }
 
 import CoreData
@@ -184,6 +185,8 @@ public let createTaskReducer = Reducer<CreateTaskState, CreateTaskAction, Create
         case .alertDismissed:
             state.alert = nil
             return .none
+        case .cancelButtonTapped:
+            return .none
         }
     }
 )
@@ -199,7 +202,7 @@ extension CreateTaskState {
             progressStyle: progressStyle,
             diff: diff.string(taskCellStyle, style: .long),
             isDiff: diff != .zero,
-            isValid: validationError == nil
+            isValid: validationError == nil && diff != .zero
         )
     }
 }
@@ -216,6 +219,7 @@ public struct CreateTaskView: View {
         public var isDiff: Bool
         public var isValid: Bool
     }
+    @Environment(\.presentationMode) var presentationMode
     let store: Store<CreateTaskState, CreateTaskAction>
     public init(store: Store<CreateTaskState, CreateTaskAction>) {
         self.store = store
@@ -226,12 +230,14 @@ public struct CreateTaskView: View {
             
             VStack(spacing: .zero) {
                 
-                ScrollView(.vertical) {
+                VStack(spacing: .zero) {
                     
-                    VStack(spacing: .py_grid(3)) {
-                        
+                    VStack(spacing: .zero) {                       
                         ZStack(alignment: .leading) {
-                            Button(action: {}) {
+                            Button(action: {
+                                self.presentationMode
+                                    .wrappedValue.dismiss()
+                            }) {
                                 Image(systemName: "xmark")
                                     .accentColor(.gray)
                                     .padding(.py_grid(3))
@@ -242,9 +248,19 @@ public struct CreateTaskView: View {
                             }
                             Text("Create A New Task".uppercased())
                                 .font(.preferred(.py_headline()))
-                                .frame(maxWidth: .infinity)
+                                .frame(
+                                    maxWidth: .infinity,
+                                    alignment: .bottom
+                                )
                         }.padding()
-                        
+                        .background(
+                            VisualEffectBlur()
+                    )
+                    }
+                
+                
+                ScrollView(.vertical) {
+                                                            
                         TextField(String.taskTitle, text: viewStore.binding(
                             get: \.title,
                             send: CreateTaskAction.titleChanged
@@ -320,8 +336,6 @@ public struct CreateTaskView: View {
                         }.padding(.horizontal)
                     }.padding(.top)
                     
-                    Spacer(minLength: .py_grid(3))
-                    
                 }.font(.preferred(.py_subhead()))
                 .multilineTextAlignment(.center)
                 
@@ -349,19 +363,20 @@ public struct CreateTaskView: View {
                             Text(.startLabel, bundle: .tasks)
                         }
                     ).buttonStyle(
-                        CreateButtonStyle(isValid: viewStore.isValid)
-                    ).padding(.bottom, .py_grid(1))
+                        CreateButtonStyle(
+                            isValid: viewStore.isValid,
+                            color: viewStore.chosenColor
+                        )
+                    ).padding(.bottom)
                     .disabled(!viewStore.isValid)
                     
                 }.frame(maxWidth: .infinity)
-                .padding(.py_grid(1))
-                .background(
-                    VisualEffectBlur(
-                        blurStyle: .systemMaterial
-                    ).cornerRadius(.py_grid(1))
-                )
+                 .padding(.py_grid(1))
+                 .background(
+                     VisualEffectBlur()
+                 )
             }
-            .edgesIgnoringSafeArea(.bottom)
+            .edgesIgnoringSafeArea(.vertical)
             .onAppear {
                 viewStore.send(.onAppear)
             }.alert(store.scope(state: \.alert),
@@ -376,7 +391,11 @@ struct AddButtonStyle: ButtonStyle {
         configuration.label
             .padding(.py_grid(1))
             .font(.preferred(UIFont.py_caption2().monospaced.bolded))
-            .foregroundColor(Color(.darkGray))
+            .foregroundColor(
+                configuration.isPressed
+                ? .white
+                : Color(.darkGray)
+            )
             .multilineTextAlignment(.center)
             .frame(width: .py_grid(14), height: .py_grid(14))
             .background(
@@ -387,7 +406,7 @@ struct AddButtonStyle: ButtonStyle {
                             : Color(white: 0.98)
                     )
             ).scaleEffect(configuration.isPressed ? 1.1: 1)
-            .animation(.linear)
+            .animation(.linear(duration: 0.5))
         
     }
 }
@@ -408,6 +427,14 @@ struct RoundedButtonStyle: ButtonStyle {
 
 struct CreateButtonStyle: ButtonStyle {
     var isValid: Bool = false
+    let color: Color
+    public init(
+        isValid: Bool = false,
+        color: Color
+    ) {
+        self.isValid = isValid
+        self.color = color
+    }
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .foregroundColor(.white)
@@ -415,9 +442,8 @@ struct CreateButtonStyle: ButtonStyle {
             .padding()
             .padding(.horizontal)
             .background(
-                RoundedRectangle(cornerRadius: .py_grid(4))                .fill(isValid
-                            ? Color.black
-                            : .gray)
+                RoundedRectangle(cornerRadius: .py_grid(4))
+                    .fill(color.opacity(isValid ? 1: 0.5))
             )
     }
 }
@@ -644,11 +670,6 @@ struct CreateTaskView_Previews: PreviewProvider {
                     ),
                     managedContext: .init(concurrencyType: .privateQueueConcurrencyType)
                 )
-            ))
-            DateControlView(store: Store(
-                initialState: Date(),
-                reducer: dateControlReducer,
-                environment: .current
             ))
         }
     }

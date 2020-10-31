@@ -5,12 +5,24 @@ import TimeClient
 import Combine
 
 
+extension YourDayProgressState.DateComponent {
+    public static var zero: Self {
+        Self(hour: .zero, minute: .zero)
+    }
+}
 
-public struct DayState: Equatable {
+public struct YourDayProgressState: Equatable {
+    public struct DateComponent: Equatable {
+        let hour, minute: Int
+    }
+    var startDate: DateComponent
+    var endDate: DateComponent
     var timeResult: TimeResult
     var percent: Double
     var style: ProgressStyle
     public init(
+        startDate: DateComponent = .zero,
+        endDate: DateComponent = .zero,
         timeResult: TimeResult = .init(),
         style: ProgressStyle = .bar,
         percent: Double = .zero
@@ -18,39 +30,50 @@ public struct DayState: Equatable {
         self.style = style
         self.timeResult = timeResult
         self.percent = percent
+        self.startDate = startDate
+        self.endDate = endDate
     }
 }
 
-public enum DayAction: Equatable {
+public enum YourDayProgressAction: Equatable {
     case onAppear
     case response(TimeResponse)
 }
 
-public struct DayEnvironment {
+public struct YourDayProgressEnvironment {
     let calendar: Calendar
     let date: () -> Date
-    let todayProgress: (TodayRequest) -> AnyPublisher<TimeResponse, Never>
+    let yourDayProgress: (YourDayRequest) -> AnyPublisher<TimeResponse, Never>
     public init(
         calendar: Calendar,
         date: @escaping () -> Date,
-        todayProgress: @escaping (TodayRequest) -> AnyPublisher<TimeResponse, Never>
+        yourDayProgress: @escaping (YourDayRequest) -> AnyPublisher<TimeResponse, Never>
     ) {
         self.calendar = calendar
         self.date = date
-        self.todayProgress = todayProgress
+        self.yourDayProgress = yourDayProgress
     }
 }
 
-public let dayReducer =
-    Reducer<DayState, DayAction, DayEnvironment> { state, action, environment in
+public let yourDayProgressReducer =
+    Reducer<YourDayProgressState, YourDayProgressAction, YourDayProgressEnvironment> { state, action, environment in
     switch action {
     case .onAppear:
         return .concatenate(
-            environment.todayProgress(
-                TodayRequest(
+            environment.yourDayProgress(
+                YourDayRequest(
                     date: environment.date(),
-                    calendar: environment.calendar
-                )).map(DayAction.response)
+                    calendar: environment.calendar,
+                    start: YourDayRequest.DateComponent(
+                        minute: state.startDate.minute,
+                        hour: state.startDate.hour
+                    ),
+                    end: YourDayRequest.DateComponent(
+                        minute: state.endDate.minute,
+                        hour: state.endDate.hour
+                    )
+                )
+            ).map(YourDayProgressAction.response)
                 .eraseToEffect()
         )
     case let .response(response):
@@ -60,10 +83,10 @@ public let dayReducer =
     }
 }
 
-extension DayState {
-    var view: DayProgressView.ViewState {
-        DayProgressView.ViewState(
-            today: "Today",
+extension YourDayProgressState {
+    var view: YourDayProgressView.ViewState {
+        YourDayProgressView.ViewState(
+            today: "Your Day",
             percentage: NSNumber(value: percent),
             title: timeResult.string(widgetStyle),
             isCircle: style == .circle
@@ -71,7 +94,7 @@ extension DayState {
     }
 }
 
-public struct DayProgressView: View {
+public struct YourDayProgressView: View {
     
     struct ViewState: Equatable {
         let today: String
@@ -80,9 +103,9 @@ public struct DayProgressView: View {
         let isCircle: Bool
     }
     
-    let store: Store<DayState, DayAction>
+    let store: Store<YourDayProgressState, YourDayProgressAction>
     
-    public init(store: Store<DayState, DayAction>) {
+    public init(store: Store<YourDayProgressState, YourDayProgressAction>) {
         self.store = store
     }
     
@@ -95,7 +118,7 @@ public struct DayProgressView: View {
                                         
                     Text(viewStore.today)
                         .frame(maxWidth: .infinity, alignment: .trailing)
-                        .font(.footnote)
+                        .font(.preferred(.py_caption2()))
                                                             
                     if viewStore.isCircle {
                         ProgressCircle(
@@ -110,51 +133,43 @@ public struct DayProgressView: View {
                             progress: .constant(viewStore.percentage)
                         )
                     }
-                                                    
+                                                                    
                     Spacer()
-                                                    
+                    
                     HStack(alignment: .lastTextBaseline, spacing: .py_grid(1)) {
-                        
                         PLabel(attributedText:
                                 .constant(viewStore.title)
                         ).fixedSize()
-                            
-                            
+                                                        
                         Text("remaining")
                             .font(.caption)
                             .foregroundColor(.gray)
                             .italic()
                             .lineLimit(1)
-                            
                     }
-                   
                     
                 }.padding()
-                .background(
-                    RoundedRectangle(
-                        cornerRadius: 20.0,
-                        style: .continuous
-                    ).stroke(Color.white)
-                    .shadow(radius: 1)
-                )
-            }.onAppear { viewStore.send(.onAppear) }
+                
+            }.onAppear {
+                viewStore.send(.onAppear)
+            }
             
         }
     }
 }
 
-struct DayProgressView_Previews: PreviewProvider {
+struct YourDayProgressView_Previews: PreviewProvider {
     static var previews: some View {
-        DayProgressView(
-            store: Store<DayState, DayAction>(
-                initialState: DayState(style: .bar),
-                reducer: dayReducer,
-                environment: DayEnvironment(
+        YourDayProgressView(
+            store: Store<YourDayProgressState, YourDayProgressAction>(
+                initialState: YourDayProgressState(style: .circle),
+                reducer: yourDayProgressReducer,
+                environment: YourDayProgressEnvironment(
                     calendar: .current,
                     date: Date.init,
-                    todayProgress: { _ in
+                    yourDayProgress: { _ in
                         Just(TimeResponse(
-                            progress: 0.8,
+                            progress: 0.45,
                             result: TimeResult(
                                 hour: 8,
                                 minute: 2
