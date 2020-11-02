@@ -36,12 +36,15 @@ public enum YourDayAction: Equatable {
 public struct YourDayEnvironment {
     let date: () -> Date
     let calendar: Calendar
+    let userDefaults: KeyValueStoreType
     public init(
         date: @escaping () -> Date,
-        calendar: Calendar
+        calendar: Calendar,
+        userDefaults: KeyValueStoreType
     )  {
         self.date = date
         self.calendar = calendar
+        self.userDefaults = userDefaults
     }
 }
 
@@ -56,17 +59,47 @@ public let yourDayReducer = Reducer<YourDayState, YourDayAction, YourDayEnvironm
         state.endOfDay = endOfDay(environment.date(), environment.calendar)
         state.startDate =
             environment.calendar
-                .date(bySettingHour: 08, minute: 00, second: 00, of: environment.date())
+            .date(
+                bySettingHour: 08,
+                minute: 00,
+                second: 00,
+                of: environment.date()
+            )
             ?? environment.date()
-        state.endDate = environment.calendar.date(bySettingHour: 18, minute: 00, second: 00, of: environment.date())
+        state.endDate = environment
+            .calendar.date(
+                bySettingHour: 18,
+                minute: 00,
+                second: 00,
+                of: environment.date())
             ?? environment.date()
         return Effect(value: .dayHours)
     case let .didStartDateChanged(date):
         state.startDate = date
-        return Effect(value: .dayHours)
+        let dateComponents = environment.calendar.dateComponents([.hour, .minute], from: date)
+        return .concatenate(
+            .fireAndForget {
+                environment.userDefaults
+                    .set(DateComponent(
+                            hour: dateComponents.hour!,
+                            minute: dateComponents.minute!),
+                         forKey: "startDate")
+            },
+            Effect(value: .dayHours)
+        )
     case let .didEndDateChanged(date):
         state.endDate = date
-        return Effect(value: .dayHours)
+        let dateComponents = environment.calendar.dateComponents([.hour, .minute], from: date)
+        return .concatenate(
+            .fireAndForget {
+                environment.userDefaults
+                    .set(DateComponent(
+                            hour: dateComponents.hour!,
+                            minute: dateComponents.minute!),
+                         forKey: "endDate")
+            },
+            Effect(value: .dayHours)
+        )
     case .dayHours:
         state.dayHours = environment.calendar.dateComponents([.hour], from: state.startDate, to: state.endDate).hour!
         return .none
@@ -131,10 +164,13 @@ struct YourDayView: View {
                     
                     ProgressCircle(
                         color: .blue,
-                        lineWidth: .py_grid(4),
+                        lineWidth: .py_grid(5),
                         labelHidden: true,
                         progress: .constant(viewStore.percent)
-                    ).frame(width: .py_grid(22), height: .py_grid(22))
+                    ).frame(
+                        width: .py_grid(25),
+                        height: .py_grid(25)
+                    )
                     .background(
                         VStack {
                             Text(viewStore.dayHours)
@@ -193,12 +229,24 @@ struct YourDayView: View {
 
 struct YourDayView_Previews: PreviewProvider {
     static var previews: some View {
-        YourDayView(store: Store(
-                        initialState: YourDayState(),
-                        reducer: yourDayReducer,
-                        environment: YourDayEnvironment(
-                            date: Date.init,
-                            calendar: .current
+        Group {
+            YourDayView(store: Store(
+                            initialState: YourDayState(),
+                            reducer: yourDayReducer,
+                            environment: YourDayEnvironment(
+                                date: Date.init,
+                                calendar: .current,
+                                userDefaults: UserDefaults()
                         )))
+            YourDayView(store: Store(
+                            initialState: YourDayState(),
+                            reducer: yourDayReducer,
+                            environment: YourDayEnvironment(
+                                date: Date.init,
+                                calendar: .current,
+                                userDefaults: UserDefaults()
+                            )))
+                .preferredColorScheme(.dark)
+        }
     }
 }

@@ -5,33 +5,35 @@ import TimeClient
 import Combine
 
 
-extension YourDayProgressState.DateComponent {
+extension DateComponent {
     public static var zero: Self {
         Self(hour: .zero, minute: .zero)
     }
 }
 
-public struct YourDayProgressState: Equatable {
-    public struct DateComponent: Equatable {
-        let hour, minute: Int
+public struct DateComponent: Equatable {
+    let hour, minute: Int
+    public init(
+        hour: Int,
+        minute: Int
+    ) {
+        self.hour = hour
+        self.minute = minute
     }
-    var startDate: DateComponent
-    var endDate: DateComponent
+}
+
+public struct YourDayProgressState: Equatable {
     var timeResult: TimeResult
     var percent: Double
     var style: ProgressStyle
     public init(
-        startDate: DateComponent = .zero,
-        endDate: DateComponent = .zero,
         timeResult: TimeResult = .init(),
         style: ProgressStyle = .bar,
         percent: Double = .zero
     ) {
         self.style = style
         self.timeResult = timeResult
-        self.percent = percent
-        self.startDate = startDate
-        self.endDate = endDate
+        self.percent = percent       
     }
 }
 
@@ -44,12 +46,17 @@ public struct YourDayProgressEnvironment {
     let calendar: Calendar
     let date: () -> Date
     let yourDayProgress: (YourDayRequest) -> AnyPublisher<TimeResponse, Never>
+        
+    var userDefaults: KeyValueStoreType
+    
     public init(
         calendar: Calendar,
         date: @escaping () -> Date,
+        userDefaults: KeyValueStoreType,
         yourDayProgress: @escaping (YourDayRequest) -> AnyPublisher<TimeResponse, Never>
     ) {
         self.calendar = calendar
+        self.userDefaults = userDefaults
         self.date = date
         self.yourDayProgress = yourDayProgress
     }
@@ -59,22 +66,31 @@ public let yourDayProgressReducer =
     Reducer<YourDayProgressState, YourDayProgressAction, YourDayProgressEnvironment> { state, action, environment in
     switch action {
     case .onAppear:
+        
+        let startDate = environment.userDefaults
+            .object(forKey: "startDate") as? DateComponent
+            ?? .zero
+        
+        let endDate = environment.userDefaults
+            .object(forKey: "endDate") as? DateComponent
+            ?? .zero
+        
         return .concatenate(
             environment.yourDayProgress(
                 YourDayRequest(
                     date: environment.date(),
                     calendar: environment.calendar,
                     start: YourDayRequest.DateComponent(
-                        minute: state.startDate.minute,
-                        hour: state.startDate.hour
+                        minute: startDate.minute,
+                        hour: startDate.hour
                     ),
                     end: YourDayRequest.DateComponent(
-                        minute: state.endDate.minute,
-                        hour: state.endDate.hour
+                        minute: endDate.minute,
+                        hour: endDate.hour
                     )
                 )
             ).map(YourDayProgressAction.response)
-                .eraseToEffect()
+            .eraseToEffect()
         )
     case let .response(response):
         state.percent = response.progress
@@ -167,6 +183,7 @@ struct YourDayProgressView_Previews: PreviewProvider {
                 environment: YourDayProgressEnvironment(
                     calendar: .current,
                     date: Date.init,
+                    userDefaults: UserDefaults(),
                     yourDayProgress: { _ in
                         Just(TimeResponse(
                             progress: 0.45,
@@ -181,4 +198,5 @@ struct YourDayProgressView_Previews: PreviewProvider {
         ).frame(width: 141, height: 141)
     }
 }
+
 

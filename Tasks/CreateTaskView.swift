@@ -4,7 +4,6 @@ import TimeClient
 import Validated
 import TaskClient
 
-
 func validate(title: String) -> Validated<String, String> {
     if !title.isEmpty {
         return .valid(title)
@@ -403,17 +402,17 @@ struct AddButtonStyle: ButtonStyle {
             .font(.preferred(UIFont.py_caption2().monospaced.bolded))
             .foregroundColor(
                 configuration.isPressed
-                ? .white
-                : Color(.darkGray)
+                ? Color.white
+                : Color(.lightGray)
             )
             .multilineTextAlignment(.center)
             .frame(width: .py_grid(14), height: .py_grid(14))
             .background(
                 RoundedRectangle(cornerRadius: .py_grid(3), style: .continuous)
-                    .fill(
+                    .stroke(
                         configuration.isPressed
                             ? Color.blue
-                            : Color(white: 0.98)
+                            : Color.white
                     )
             ).scaleEffect(configuration.isPressed ? 1.1: 1)
             .animation(.linear(duration: 0.5))
@@ -485,7 +484,7 @@ struct ProgressBarStyleView: View {
             RoundedRectangle(
                 cornerRadius: .py_grid(4),
                 style: .continuous
-            ).fill(Color(white: 0.98))
+            ).stroke(Color.white)
         ).frame(maxWidth: .infinity)
         .onTapGesture {
             progressStyle.toggle()
@@ -525,8 +524,7 @@ struct ProgressCircleStyleView: View {
             RoundedRectangle(
                 cornerRadius: .py_grid(4),
                 style: .continuous
-            ).fill(Color(white: 0.98))
-            
+            ).stroke(Color.white)
         ).frame(maxWidth: .infinity)
         .onTapGesture {
             progressStyle.toggle()
@@ -576,7 +574,7 @@ public struct DateControlView: View {
                     .padding(.horizontal, .py_grid(10))
                     .background(
                         RoundedRectangle(cornerRadius: .py_grid(4))
-                            .fill(Color(white: 0.99))
+                            .stroke(Color(white: 0.99))
                     )
                 
                 HStack {
@@ -682,6 +680,44 @@ struct CreateTaskView_Previews: PreviewProvider {
                     managedContext: .init(concurrencyType: .privateQueueConcurrencyType)
                 )
             ))
+            
+            CreateTaskView(store: Store(
+                initialState: CreateTaskState(
+                    diff: .init(year: 1, month: 1, day: 1, hour: 1, minute: 1)
+                ),
+                reducer: createTaskReducer,
+                environment: CreateTaskEnvironment(
+                    date: Date.init,
+                    calendar: .current,
+                    timeClient: TimeClient(
+                        taskProgress: { request in
+                            Just(
+                                TimeResponse(
+                                    progress: 0.3,
+                                    result: TimeResult(
+                                        year: Int.random(in: 1...10),
+                                        month:
+                                            request.calendar
+                                            .dateComponents([.month],
+                                                            from: request.startAt,
+                                                            to: request.endAt).month!,
+                                        day: Int.random(in: 1...10),
+                                        hour: 1,
+                                        minute: 1
+                                    )
+                                )
+                            ).eraseToAnyPublisher()
+                        }
+                    ),
+                    taskClient: .init(create: { _ in
+                        Fail(error: .custom("an error "))
+                            .eraseToAnyPublisher()
+                    }
+                    ),
+                    managedContext: .init(concurrencyType: .privateQueueConcurrencyType)
+                )
+            ))
+            .preferredColorScheme(.dark)
         }
     }
 }

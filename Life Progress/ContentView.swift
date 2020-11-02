@@ -13,19 +13,20 @@ struct AppState: Equatable {
     var dayState: DayState
     var switchState: SwitchState
     var tasksState: TasksState
-    var createTask: CreateTaskState?
+    var yourDayState: YourDayProgressState
+    //YourDayProgressState, YourDayProgressAction
     public init(
         yearState: YearState = .init(style: .circle),
         dayState: DayState = .init(style: .circle),
         switchState: SwitchState = .init(),
         tasksState: TasksState = .init(),
-        createTask: CreateTaskState? = nil
+        yourDayState: YourDayProgressState = .init()
     ) {
         self.yearState = yearState
         self.dayState = dayState
         self.switchState = switchState
         self.tasksState = tasksState
-        self.createTask = createTask
+        self.yourDayState = yourDayState
     }
 }
 
@@ -34,9 +35,7 @@ enum AppAction: Equatable {
     case day(DayAction)
     case union(SwitchAction)
     case tasks(TasksAction)
-    case createTask(CreateTaskAction)
-    case viewDismissed
-    case plusButtonTapped
+    case yourDay(YourDayProgressAction)
 }
 
 struct AppEnvironment {
@@ -48,19 +47,7 @@ struct AppEnvironment {
     let context: NSManagedObjectContext
 }
 
-let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
-    Reducer { state, action, _ in
-        switch action {
-        case .viewDismissed:
-            state.createTask = nil
-            return .none
-        case .plusButtonTapped:
-            state.createTask = CreateTaskState()
-            return .none
-        default:
-            return .none
-        }
-    },
+let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(    
     dayReducer.pullback(
         state: \.dayState,
         action: /AppAction.day,
@@ -76,6 +63,11 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
         action: /AppAction.union,
         environment: \.union
     ),
+    yourDayProgressReducer.pullback(
+        state: \.yourDayState,
+        action: /AppAction.yourDay,
+        environment: \.yourDay
+    ),
     tasksReducer.pullback(
         state: \.tasksState,
         action: /AppAction.tasks,
@@ -86,19 +78,6 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
                 managedContext: $0.context,
                 timeClient: $0.timeClient,
                 taskClient: $0.taskClient
-            )
-        }
-    ),
-    createTaskReducer.optional().pullback(
-        state: \.createTask,
-        action: /AppAction.createTask,
-        environment: {
-            CreateTaskEnvironment(
-                date: $0.date,
-                calendar: $0.calendar,
-                timeClient: $0.timeClient,
-                taskClient: $0.taskClient,
-                managedContext: $0.context
             )
         }
     )
@@ -118,6 +97,13 @@ extension AppEnvironment {
             date: date,
             todayProgress: timeClient.todayProgress,
             yearProgress: timeClient.yearProgress
+        )
+    }
+    var yourDay: YourDayProgressEnvironment {
+        YourDayProgressEnvironment(
+            calendar: calendar,
+            date: date,
+            yourDayProgress: timeClient.yourDayProgress
         )
     }
 }
@@ -146,61 +132,62 @@ struct ContentView: View {
             let width = proxy.size.width * 0.5 - 8.0
             return AnyView(
                 WithViewStore(store) { viewStore in
-                    //VStack(alignment: .leading, spacing: .py_grid(2)) {
                     ScrollView {
                         
                         Section(header:
-                                    ScrollView(.horizontal, showsIndicators: false) {
-                                        HStack {
-                                            SwitchProgressView(
-                                                store: store.scope(
-                                                    state: \.switchState,
-                                                    action: AppAction.union
-                                                )
-                                            )
-                                            
-                                            DayProgressView(
-                                                store: store.scope(
-                                                    state: \.dayState,
-                                                    action: AppAction.day)
-                                            )
-                                            
-                                            YearProgressView(
-                                                store: store.scope(
-                                                    state: \.yearState,
-                                                    action: AppAction.year)
-                                            )
-                                        }.padding(.vertical)
-                                        .padding(.horizontal, .py_grid(1))
-                                    }.frame(height: width)
+                                Text("Widgets")
+                                    .font(Font
+                                        .preferred(.py_title2())
+                                        .bold()
+                                    )
+                                    
                         ) {
-                            HStack {
-                                Spacer()
-                                Button(action: {
-                                    viewStore.send(.plusButtonTapped)
-                                }, label: {
-                                    Image(systemName: "plus")
-                                }).buttonStyle(RoundButtonStyle())
-                            }.padding(.py_grid(2))
-                            
-                            TasksView(store:
-                                store.scope(
-                                    state: \.tasksState,
-                                    action: AppAction.tasks)
-                            )
+                            ScrollView(.horizontal, showsIndicators: false) {
+                                HStack(spacing: .py_grid(4)) {
+                                    
+                                    YourDayProgressView(
+                                        store: store.scope(
+                                            state: \.yourDayState,
+                                            action: AppAction.yourDay)
+                                    )
+                                    
+                                    SwitchProgressView(
+                                        store: store.scope(
+                                            state: \.switchState,
+                                            action: AppAction.union
+                                        )
+                                    )
+                                    
+                                    DayProgressView(
+                                        store: store.scope(
+                                            state: \.dayState,
+                                            action: AppAction.day)
+                                    )
+                                    
+                                    YearProgressView(
+                                        store: store.scope(
+                                            state: \.yearState,
+                                            action: AppAction.year)
+                                    )
+                                
+                                    
+                                    
+                                    
+                                }.padding(.vertical)
+                                .padding(.horizontal, .py_grid(1))
+                            }.frame(height: width)
                         }
                         
-                    }.padding(.leading, 4)
-                    .sheet(isPresented:
-                            viewStore.binding(
-                                get: { $0.createTask != nil },
-                                send: AppAction.viewDismissed)) {
-                        IfLetStore(
+                        
+                        TasksView(store:
                             store.scope(
-                                state: \.createTask,
-                                action: AppAction.createTask),
-                            then: CreateTaskView.init(store:))
-                    }
+                                state: \.tasksState,
+                                action: AppAction.tasks)
+                        )
+                                               
+                        
+                    }.padding(.leading, 4)
+                    
                 }
             )
         }
@@ -229,7 +216,7 @@ struct ContentView_Previews: PreviewProvider {
                     initialState: AppState(),
                     reducer: appReducer,
                     environment: .midDay)
-            )
+            ).preferredColorScheme(.dark)
         }
     }
 }
@@ -281,13 +268,29 @@ extension AppEnvironment {
                             )
                         )
                     ).eraseToAnyPublisher()
+                }, yourDayProgress: { _ in
+                    Just(
+                        TimeResponse(
+                            progress: 0.76,
+                            result: TimeResult(
+                                //year: 2,
+                                //month: 1,
+                                //day: 7,
+                                hour: 6,
+                                minute: 44
+                            )
+                        )
+                    ).eraseToAnyPublisher()
                 }
                 
-            ), taskClient: TaskClient(tasks: { _ in
-                Just(TaskResponse.tasks([.readBook, .writeBook]))
-                    .setFailureType(to: TaskFailure.self)
-                    .eraseToAnyPublisher()
-            }),
+            ), taskClient:
+                TaskClient(tasks: { _ in
+                    Just(TaskResponse.tasks([
+                        .readBook, .writeBook, .writeBook2
+                    ]))
+                        .setFailureType(to: TaskFailure.self)
+                        .eraseToAnyPublisher()
+                }),
             context: .init(concurrencyType: .privateQueueConcurrencyType)
         )
     }

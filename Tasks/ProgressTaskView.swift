@@ -83,7 +83,7 @@ extension TaskState {
                 taskCellStyle, style: .long),
             progress: NSNumber(value: progress),
             color: task.color,
-            isCircle: true
+            isCircle: task.style == .circle
         )
     }
 }
@@ -164,12 +164,10 @@ struct ProgressTaskView: View {
             }.padding()
             .background(
                 ZStack(alignment: .topTrailing) {
-                    
                     RoundedRectangle(
-                        cornerRadius: .py_grid(5),
+                        cornerRadius: .py_grid(4),
                         style: .continuous
-                    ).fill(Color(white: 0.99))
-                    .shadow(radius: 0.6)
+                    ).stroke(Color(white: 0.95))
                     
                     Button(action: ellipseButtonTapped,
                            label: {
@@ -189,30 +187,58 @@ struct ProgressTaskView: View {
 
 struct ProgressTaskView_Previews: PreviewProvider {
     static var previews: some View {
-        ProgressTaskView(
-            store:
-                Store(
-                    initialState: TaskState(task: .writeBook),
-                    reducer: taskReducer,
-                    environment: TaskEnvironment(
-                        date: Date.init,
-                        calendar: .current,
-                        taskProgress: { _ in
-                            Just(
-                                TimeResponse(
-                                    progress: 0.4,
-                                    result: TimeResult(
-                                        //year: 2,
-                                        //month: 1,
-                                        day: 7,
-                                        hour: 12,
-                                        minute: 44
+        Group {
+            ProgressTaskView(
+                store:
+                    Store(
+                        initialState: TaskState(task: .writeBook),
+                        reducer: taskReducer,
+                        environment: TaskEnvironment(
+                            date: Date.init,
+                            calendar: .current,
+                            taskProgress: { _ in
+                                Just(
+                                    TimeResponse(
+                                        progress: 0.4,
+                                        result: TimeResult(
+                                            //year: 2,
+                                            //month: 1,
+                                            day: 7,
+                                            hour: 12,
+                                            minute: 44
+                                        )
                                     )
-                                )
-                            ).eraseToAnyPublisher()
-                        })
-                )
-        )
+                                ).eraseToAnyPublisher()
+                            })
+                    )
+            )
+            .preferredColorScheme(.light)
+            ProgressTaskView(
+                store:
+                    Store(
+                        initialState: TaskState(task: .writeBook),
+                        reducer: taskReducer,
+                        environment: TaskEnvironment(
+                            date: Date.init,
+                            calendar: .current,
+                            taskProgress: { _ in
+                                Just(
+                                    TimeResponse(
+                                        progress: 0.4,
+                                        result: TimeResult(
+                                            //year: 2,
+                                            //month: 1,
+                                            day: 7,
+                                            hour: 12,
+                                            minute: 44
+                                        )
+                                    )
+                                ).eraseToAnyPublisher()
+                            })
+                    )
+            )
+            .preferredColorScheme(.dark)
+        }
     }
 }
 
@@ -228,7 +254,8 @@ extension ProgressTask {
             startDate: Date(),
             endDate: Date().addingTimeInterval(3600 * 24 * 2),
             creationDate: Date(),
-            color: Color(.endBlueLightColor)
+            color: Color(.endBlueLightColor),
+            style: .circle
         )
     }
 }
@@ -240,7 +267,20 @@ extension ProgressTask {
             startDate: Date(),
             endDate: Date().addingTimeInterval(3600 * 24 * 10),
             creationDate: Date(),
-            color: Color(.endRedColor)
+            color: Color(.endRedColor),
+            style: .bar
+        )
+    }
+}
+
+extension ProgressTask {
+    public static var writeBook2: Self {
+        ProgressTask(
+            title: "Write my Book2, Write my Book, Write my Book, Write my Book",
+            startDate: Date(),
+            endDate: Date().addingTimeInterval(3600 * 24 * 3),
+            creationDate: Date(),
+            color: Color(.startPinkColor)
         )
     }
 }

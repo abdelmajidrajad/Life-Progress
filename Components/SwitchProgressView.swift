@@ -158,7 +158,7 @@ public struct SwitchProgressView: View {
                             .frame(
                                 maxWidth: .infinity,
                                 alignment: .trailing
-                        ).font(.headline)
+                        ).font(.title)
                         .foregroundColor(.pink)
                     }
             
@@ -243,6 +243,9 @@ struct SwitchProgressView_Previews: PreviewProvider {
                     }
                 )
             )
-        ).frame(width: 169, height: 169)
+        )
+        .preferredColorScheme(.dark)
+        .frame(width: 169, height: 169)
+
     }
 }

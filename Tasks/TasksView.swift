@@ -8,12 +8,15 @@ import CoreData
 public struct TasksState: Equatable {
     var tasks: IdentifiedArrayOf<TaskState>
     var actionSheet: ActionSheetState<TasksAction>?
+    var createTask: CreateTaskState?
     public init(
         tasks: IdentifiedArrayOf<TaskState> = [],
-        actionSheet: ActionSheetState<TasksAction>? = nil
+        actionSheet: ActionSheetState<TasksAction>? = nil,
+        createTask: CreateTaskState? = nil
     ) {
         self.tasks = tasks
         self.actionSheet = actionSheet
+        self.createTask = createTask
     }
 }
 
@@ -21,10 +24,13 @@ public enum TasksAction: Equatable {
     case onAppear    
     case response(Result<TaskResponse, TaskFailure>)
     case ellipseButtonTapped(taskId: UUID)
+    case startButtonTapped
     case actionSheetDismissed
+    case viewDismissed
     case addMore([Calendar.Component: Int], taskId: UUID)
     case completeTask(id: UUID)
     case deleteTask(id: UUID)
+    case createTask(CreateTaskAction)
     case cell(id: UUID, action: TaskAction)
 }
 
@@ -79,7 +85,7 @@ public let tasksReducer =
                     ]
                 )
                 return .none
-            case .cell:
+            case .cell, .createTask:
                 return .none
             case .actionSheetDismissed:
                 state.actionSheet = nil
@@ -90,13 +96,24 @@ public let tasksReducer =
                 return Effect(value: .actionSheetDismissed)
             case let .deleteTask(id: id):
                 return Effect(value: .actionSheetDismissed)
-            case .response(.success(.tasks(let tasks))):
+            case let .response(.success(.tasks(tasks))):
                 state.tasks = IdentifiedArray(tasks.map { TaskState(task: $0) } )
                 return .none
             case let .response(.failure(error)):
-                //error.errorDescription
+                state.actionSheet = ActionSheetState(
+                    title: LocalizedStringKey(error.errorDescription),
+                    buttons: [
+                        .cancel(send: .actionSheetDismissed)
+                    ]
+                )
                 return .none
             case .response(_):
+                return .none
+            case .startButtonTapped:
+                state.createTask = CreateTaskState()
+                return .none
+            case .viewDismissed:
+                state.createTask = nil
                 return .none
             }
         },
@@ -104,6 +121,19 @@ public let tasksReducer =
             state: \.tasks,
             action: /TasksAction.cell(id:action:),
             environment: \.task
+        ),
+        createTaskReducer.optional().pullback(
+            state: \.createTask,
+            action: /TasksAction.createTask,
+            environment: {
+                CreateTaskEnvironment(
+                    date: $0.date,
+                    calendar: $0.calendar,
+                    timeClient: $0.timeClient,
+                    taskClient: $0.taskClient,
+                    managedContext: $0.managedContext
+                )
+            }
         )
     )
 
@@ -126,34 +156,90 @@ extension TasksEnvironment {
     }
 }
 
+extension EdgeInsets {
+    static var zero: EdgeInsets {
+        EdgeInsets(
+            top: .zero,
+            leading: .zero,
+            bottom: .zero,
+            trailing: .zero
+        )
+    }
+}
+
+
+struct CornerButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.headline)
+            .accentColor(.red)
+            .padding()
+            .background(
+                RoundedRectangle(
+                    cornerRadius: .py_grid(4),
+                    style: .continuous
+                ).stroke(Color.white)
+            )
+    }
+}
+
 public struct TasksView: View {
     let store: Store<TasksState, TasksAction>
     public init(
-        store: Store<TasksState, TasksAction>
-    ) {
+        store: Store<TasksState, TasksAction>) {
         self.store = store
     }
     public var body: some View {
         WithViewStore(store) { viewStore in
-            ScrollView {
-                ForEachStore(
-                    store.scope(
-                        state: \.tasks,
-                        action: TasksAction.cell(id:action:)),
-                    content: { store in
-                        WithViewStore(store) { vs in
-                            ProgressTaskView(store: store) {
-                                viewStore.send(
-                                    .ellipseButtonTapped(
-                                        taskId: vs.id
+            ScrollView(showsIndicators: false) {
+                Section(header: HStack {
+                    Text("Tasks")
+                    .font(Font
+                            .preferred(.py_title2())
+                            .bold()
+                    )
+                    Spacer()
+                    Button(action: {
+                        viewStore.send(.startButtonTapped)
+                    }, label: {
+                        Image(systemName: "plus")
+                    }).padding()
+                    .buttonStyle(CornerButtonStyle())
+                }.padding(.horizontal)
+                .frame(maxWidth: .infinity)
+                .background(Color(UIColor.systemBackground))
+                .listRowInsets(.zero)
+                ) {
+                    ForEachStore(
+                        store.scope(
+                            state: \.tasks,
+                            action: TasksAction.cell(id:action:)),
+                        content: { store in
+                            WithViewStore(store) { vs in
+                                ProgressTaskView(store: store) {
+                                    viewStore.send(
+                                        .ellipseButtonTapped(
+                                            taskId: vs.id
+                                        )
                                     )
-                                )
-                            }.padding(.vertical, .py_grid(1))
+                                }.padding(.vertical, .py_grid(1))
+                            }
                         }
-                    }
-                )
+                    )
+                }
             }.onAppear {
                 viewStore.send(.onAppear)
+            }.sheet(isPresented:
+                        viewStore.binding(
+                            get: { $0.createTask != nil },
+                            send: TasksAction.viewDismissed
+                        )) {
+                IfLetStore(
+                    store.scope(
+                        state: \.createTask,
+                        action: TasksAction.createTask),
+                    then: CreateTaskView.init(store:)
+                )
             }
         }.actionSheet(
             store.scope(state: \.actionSheet),
@@ -168,11 +254,11 @@ struct TasksView_Previews: PreviewProvider {
             TasksView(store: Store<TasksState, TasksAction>(
                 initialState: TasksState(
                     tasks: [
-//                        TaskState(task: .readBook, color: .red),
-//                        TaskState(task: .writeBook, color: .gray),
-//                        TaskState(task: .readBook, color: .pink),
-//                        TaskState(task: .writeBook, color: .red),
-//                        TaskState(task: .writeBook, color: .blue)
+//                        TaskState(task: .readBook),
+//                        TaskState(task: .writeBook),
+//                        TaskState(task: .readBook),
+//                        TaskState(task: .writeBook),
+//                        TaskState(task: .writeBook)
                     ]
                 ),
                 reducer: tasksReducer,
@@ -188,6 +274,35 @@ struct TasksView_Previews: PreviewProvider {
                     })
                 )
             ))
+            
+            TasksView(store: Store<TasksState, TasksAction>(
+                initialState: TasksState(
+                    tasks: [
+                        //                        TaskState(task: .readBook, color: .red),
+                        //                        TaskState(task: .writeBook, color: .gray),
+                        //                        TaskState(task: .readBook, color: .pink),
+                        //                        TaskState(task: .writeBook, color: .red),
+                        //                        TaskState(task: .writeBook, color: .blue)
+                    ]
+                ),
+                reducer: tasksReducer,
+                environment: TasksEnvironment(
+                    date: Date.init,
+                    calendar: .current,
+                    managedContext: NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType),
+                    timeClient: .progress,
+                    taskClient: TaskClient(tasks: { _ in
+                        Just(TaskResponse.tasks(
+                                [.writeBook2,
+                                 .readBook,
+                                 .writeBook
+                                ]))
+                            .setFailureType(to: TaskFailure.self)
+                            .eraseToAnyPublisher()
+                    })
+                )
+            ))
+            .preferredColorScheme(.dark)
             //.preferredColorScheme(.dark)            
         }
     }

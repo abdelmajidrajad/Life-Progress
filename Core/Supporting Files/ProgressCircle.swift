@@ -31,7 +31,7 @@ public struct ProgressCircle: View {
                     lineWidth: lineWidth,
                     lineCap: .round,
                     lineJoin: .round
-                ))
+                )).animation(.interactiveSpring())
                 .rotationEffect(Angle(degrees: -90))
                 .background(
                     Circle()

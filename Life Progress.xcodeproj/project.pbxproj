@@ -32,6 +32,7 @@
 		0496727325500B5E0015205E /* TaskClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0496727025500B5E0015205E /* TaskClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0496727525500B5E0015205E /* TimeClient in Frameworks */ = {isa = PBXBuildFile; productRef = 0496727425500B5E0015205E /* TimeClient */; };
 		0496727625500B5E0015205E /* TimeClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0496727425500B5E0015205E /* TimeClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		04967280255036FF0015205E /* KeyValueStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0496727F255036FF0015205E /* KeyValueStorage.swift */; };
 		04BC0F3D254EE2BA003D89E1 /* TaskClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 04BC0F3C254EE2BA003D89E1 /* TaskClientLive */; };
 		04BC0F3F254EE2BA003D89E1 /* TimeClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 04BC0F3E254EE2BA003D89E1 /* TimeClientLive */; };
 		04BC0F52254EE31E003D89E1 /* TaskClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 04BC0F3C254EE2BA003D89E1 /* TaskClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -207,6 +208,7 @@
 		0462F00F25444433003D2969 /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
 		0490044C254D77E50014CE7D /* DashedLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashedLine.swift; sourceTree = "<group>"; };
 		0490045D254DC2EF0014CE7D /* YourDayProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourDayProgressView.swift; sourceTree = "<group>"; };
+		0496727F255036FF0015205E /* KeyValueStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueStorage.swift; sourceTree = "<group>"; };
 		04D7BAA52545825B003A9774 /* AttributedString+Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AttributedString+Value.swift"; sourceTree = "<group>"; };
 		04D7BAB7254587B7003A9774 /* Tasks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Tasks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		04D7BAB9254587B7003A9774 /* Tasks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tasks.h; sourceTree = "<group>"; };
@@ -430,6 +432,7 @@
 				04D7BAA52545825B003A9774 /* AttributedString+Value.swift */,
 				0412964F2549B0C2008337A0 /* Blur.swift */,
 				0490044C254D77E50014CE7D /* DashedLine.swift */,
+				0496727F255036FF0015205E /* KeyValueStorage.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -854,6 +857,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0462EFD125442310003D2969 /* Fonts.swift in Sources */,
+				04967280255036FF0015205E /* KeyValueStorage.swift in Sources */,
 				0462F01025444433003D2969 /* Operators.swift in Sources */,
 				041296502549B0C3008337A0 /* Blur.swift in Sources */,
 				04D7BAAC25458329003A9774 /* PLabel.swift in Sources */,
