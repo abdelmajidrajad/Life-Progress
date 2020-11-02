@@ -15,24 +15,27 @@
 		0412966D2549BD2C008337A0 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0412966C2549BD2C008337A0 /* Colors.swift */; };
 		0430D94F2548878000CA7CFC /* Tasks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; };
 		0430D9502548878600CA7CFC /* Tasks.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0430D9722548880D00CA7CFC /* TimeClient in Frameworks */ = {isa = PBXBuildFile; productRef = 0430D9712548880D00CA7CFC /* TimeClient */; };
-		0430D9732548880D00CA7CFC /* TimeClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0430D9712548880D00CA7CFC /* TimeClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		0430D97A25488AF800CA7CFC /* TimeClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 04EFF7022544C13B00FAB18E /* TimeClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		04325686254459570050F620 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04325685254459570050F620 /* Grid.swift */; };
 		0462EFD125442310003D2969 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFD025442310003D2969 /* Fonts.swift */; };
 		0462EFE425442AD7003D2969 /* DayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFE325442AD7003D2969 /* DayProgressView.swift */; };
 		0462EFEB254437B7003D2969 /* SwitchProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFEA254437B7003D2969 /* SwitchProgressView.swift */; };
 		0462F01025444433003D2969 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462F00F25444433003D2969 /* Operators.swift */; };
 		0467BFF5254AABAD007FC8A3 /* Validated in Frameworks */ = {isa = PBXBuildFile; productRef = 0467BFF4254AABAD007FC8A3 /* Validated */; };
-		0467C001254ABB0D007FC8A3 /* TaskClient in Frameworks */ = {isa = PBXBuildFile; productRef = 0467C000254ABB0D007FC8A3 /* TaskClient */; };
-		0467C002254ABB0D007FC8A3 /* TaskClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0467C000254ABB0D007FC8A3 /* TaskClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		0467C00E254ADA90007FC8A3 /* TaskClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 0467C00D254ADA90007FC8A3 /* TaskClientLive */; };
-		0467C00F254ADA90007FC8A3 /* TaskClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0467C00D254ADA90007FC8A3 /* TaskClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		04900446254D77310014CE7D /* YourDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04215B85254C882900461C9C /* YourDayView.swift */; };
 		0490044D254D77E60014CE7D /* DashedLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0490044C254D77E50014CE7D /* DashedLine.swift */; };
 		0490045E254DC2EF0014CE7D /* YourDayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0490045D254DC2EF0014CE7D /* YourDayProgressView.swift */; };
-		049A38832548830500EE676B /* TimeClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 049A38822548830500EE676B /* TimeClientLive */; };
-		049A38842548830500EE676B /* TimeClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 049A38822548830500EE676B /* TimeClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0496726425500B440015205E /* TaskClient in Frameworks */ = {isa = PBXBuildFile; productRef = 0496726325500B440015205E /* TaskClient */; };
+		0496726625500B440015205E /* TaskClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0496726325500B440015205E /* TaskClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0496726825500B440015205E /* TimeClient in Frameworks */ = {isa = PBXBuildFile; productRef = 0496726725500B440015205E /* TimeClient */; };
+		0496726925500B440015205E /* TimeClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0496726725500B440015205E /* TimeClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0496727125500B5E0015205E /* TaskClient in Frameworks */ = {isa = PBXBuildFile; productRef = 0496727025500B5E0015205E /* TaskClient */; };
+		0496727325500B5E0015205E /* TaskClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0496727025500B5E0015205E /* TaskClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0496727525500B5E0015205E /* TimeClient in Frameworks */ = {isa = PBXBuildFile; productRef = 0496727425500B5E0015205E /* TimeClient */; };
+		0496727625500B5E0015205E /* TimeClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0496727425500B5E0015205E /* TimeClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		04BC0F3D254EE2BA003D89E1 /* TaskClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 04BC0F3C254EE2BA003D89E1 /* TaskClientLive */; };
+		04BC0F3F254EE2BA003D89E1 /* TimeClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 04BC0F3E254EE2BA003D89E1 /* TimeClientLive */; };
+		04BC0F52254EE31E003D89E1 /* TaskClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 04BC0F3C254EE2BA003D89E1 /* TaskClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		04BC0F53254EE320003D89E1 /* TimeClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 04BC0F3E254EE2BA003D89E1 /* TimeClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		04D7BAA62545825B003A9774 /* AttributedString+Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D7BAA52545825B003A9774 /* AttributedString+Value.swift */; };
 		04D7BAAC25458329003A9774 /* PLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFD725442A8C003D2969 /* PLabel.swift */; };
 		04D7BAC0254587B7003A9774 /* Tasks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; };
@@ -62,7 +65,6 @@
 		04E73CB72543590F0092B918 /* Components.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73CA12543590F0092B918 /* Components.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04E73CD02543594E0092B918 /* YearProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73CCF2543594E0092B918 /* YearProgressView.swift */; };
 		04E73CE125435F370092B918 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73C86254357E60092B918 /* Core.framework */; };
-		04EFF7032544C13B00FAB18E /* TimeClient in Frameworks */ = {isa = PBXBuildFile; productRef = 04EFF7022544C13B00FAB18E /* TimeClient */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -146,25 +148,26 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		0430D97B25488AF800CA7CFC /* Embed Frameworks */ = {
+		0496726525500B440015205E /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0430D97A25488AF800CA7CFC /* TimeClient in Embed Frameworks */,
+				0496726925500B440015205E /* TimeClient in Embed Frameworks */,
+				0496726625500B440015205E /* TaskClient in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		049A38E82548872B00EE676B /* Embed Frameworks */ = {
+		0496727225500B5E0015205E /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				0467C002254ABB0D007FC8A3 /* TaskClient in Embed Frameworks */,
-				0430D9732548880D00CA7CFC /* TimeClient in Embed Frameworks */,
+				0496727625500B5E0015205E /* TimeClient in Embed Frameworks */,
+				0496727325500B5E0015205E /* TaskClient in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -175,8 +178,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				049A38842548830500EE676B /* TimeClientLive in Embed Frameworks */,
-				0467C00F254ADA90007FC8A3 /* TaskClientLive in Embed Frameworks */,
+				04BC0F53254EE320003D89E1 /* TimeClientLive in Embed Frameworks */,
+				04BC0F52254EE31E003D89E1 /* TaskClientLive in Embed Frameworks */,
 				04E73CB72543590F0092B918 /* Components.framework in Embed Frameworks */,
 				04E73C8E254357E60092B918 /* Core.framework in Embed Frameworks */,
 				0430D9502548878600CA7CFC /* Tasks.framework in Embed Frameworks */,
@@ -246,9 +249,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0467C001254ABB0D007FC8A3 /* TaskClient in Frameworks */,
-				0430D9722548880D00CA7CFC /* TimeClient in Frameworks */,
+				0496727125500B5E0015205E /* TaskClient in Frameworks */,
 				04D7BAE5254587DF003A9774 /* Core.framework in Frameworks */,
+				0496727525500B5E0015205E /* TimeClient in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -264,9 +267,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04BC0F3F254EE2BA003D89E1 /* TimeClientLive in Frameworks */,
+				04BC0F3D254EE2BA003D89E1 /* TaskClientLive in Frameworks */,
 				0430D94F2548878000CA7CFC /* Tasks.framework in Frameworks */,
-				0467C00E254ADA90007FC8A3 /* TaskClientLive in Frameworks */,
-				049A38832548830500EE676B /* TimeClientLive in Frameworks */,
 				04E73CB62543590F0092B918 /* Components.framework in Frameworks */,
 				04E73C8D254357E60092B918 /* Core.framework in Frameworks */,
 			);
@@ -299,8 +302,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04EFF7032544C13B00FAB18E /* TimeClient in Frameworks */,
+				0496726425500B440015205E /* TaskClient in Frameworks */,
 				04E73CE125435F370092B918 /* Core.framework in Frameworks */,
+				0496726825500B440015205E /* TimeClient in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -507,18 +511,17 @@
 				04D7BAB3254587B7003A9774 /* Sources */,
 				04D7BAB4254587B7003A9774 /* Frameworks */,
 				04D7BAB5254587B7003A9774 /* Resources */,
-				049A38E82548872B00EE676B /* Embed Frameworks */,
+				0496727225500B5E0015205E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				049A38DE2548871300EE676B /* PBXTargetDependency */,
-				049A38AE2548855F00EE676B /* PBXTargetDependency */,
 			);
 			name = Tasks;
 			packageProductDependencies = (
-				0430D9712548880D00CA7CFC /* TimeClient */,
-				0467C000254ABB0D007FC8A3 /* TaskClient */,
+				0496727025500B5E0015205E /* TaskClient */,
+				0496727425500B5E0015205E /* TimeClient */,
 			);
 			productName = Tasks;
 			productReference = 04D7BAB7254587B7003A9774 /* Tasks.framework */;
@@ -561,8 +564,8 @@
 			);
 			name = "Life Progress";
 			packageProductDependencies = (
-				049A38822548830500EE676B /* TimeClientLive */,
-				0467C00D254ADA90007FC8A3 /* TaskClientLive */,
+				04BC0F3C254EE2BA003D89E1 /* TaskClientLive */,
+				04BC0F3E254EE2BA003D89E1 /* TimeClientLive */,
 			);
 			productName = "Life Progress";
 			productReference = 04E73C2B2542C2030092B918 /* Life Progress.app */;
@@ -634,17 +637,17 @@
 				04E73C9D2543590F0092B918 /* Sources */,
 				04E73C9E2543590F0092B918 /* Frameworks */,
 				04E73C9F2543590F0092B918 /* Resources */,
-				0430D97B25488AF800CA7CFC /* Embed Frameworks */,
+				0496726525500B440015205E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				04EFF7252544C38000FAB18E /* PBXTargetDependency */,
 				04E73CDF25435F320092B918 /* PBXTargetDependency */,
 			);
 			name = Components;
 			packageProductDependencies = (
-				04EFF7022544C13B00FAB18E /* TimeClient */,
+				0496726325500B440015205E /* TaskClient */,
+				0496726725500B440015205E /* TimeClient */,
 			);
 			productName = Components;
 			productReference = 04E73CA12543590F0092B918 /* Components.framework */;
@@ -890,10 +893,6 @@
 			target = 04D7BAB6254587B7003A9774 /* Tasks */;
 			targetProxy = 0430D94D2548877B00CA7CFC /* PBXContainerItemProxy */;
 		};
-		049A38AE2548855F00EE676B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = 049A38AD2548855F00EE676B /* TimeClient */;
-		};
 		049A38DE2548871300EE676B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 04E73C85254357E60092B918 /* Core */;
@@ -943,10 +942,6 @@
 			isa = PBXTargetDependency;
 			target = 04E73C85254357E60092B918 /* Core */;
 			targetProxy = 04E73CDE25435F320092B918 /* PBXContainerItemProxy */;
-		};
-		04EFF7252544C38000FAB18E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			productRef = 04EFF7242544C38000FAB18E /* TimeClient */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1572,43 +1567,39 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		0430D9712548880D00CA7CFC /* TimeClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TimeClient;
-		};
 		0467BFF4254AABAD007FC8A3 /* Validated */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0467BFF3254AABAD007FC8A3 /* XCRemoteSwiftPackageReference "swift-validated" */;
 			productName = Validated;
 		};
-		0467C000254ABB0D007FC8A3 /* TaskClient */ = {
+		0496726325500B440015205E /* TaskClient */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TaskClient;
 		};
-		0467C00D254ADA90007FC8A3 /* TaskClientLive */ = {
+		0496726725500B440015205E /* TimeClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TimeClient;
+		};
+		0496727025500B5E0015205E /* TaskClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TaskClient;
+		};
+		0496727425500B5E0015205E /* TimeClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TimeClient;
+		};
+		04BC0F3C254EE2BA003D89E1 /* TaskClientLive */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TaskClientLive;
 		};
-		049A38822548830500EE676B /* TimeClientLive */ = {
+		04BC0F3E254EE2BA003D89E1 /* TimeClientLive */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TimeClientLive;
-		};
-		049A38AD2548855F00EE676B /* TimeClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TimeClient;
 		};
 		04E73C97254357FA0092B918 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 04E73C96254357FA0092B918 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
-		};
-		04EFF7022544C13B00FAB18E /* TimeClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TimeClient;
-		};
-		04EFF7242544C38000FAB18E /* TimeClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TimeClient;
 		};
 /* End XCSwiftPackageProductDependency section */
 

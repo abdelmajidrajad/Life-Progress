@@ -46,8 +46,8 @@ public struct ProgressCircle: View {
                 .padding(4.0)
             
             if !labelHidden {
-                Text(progress, formatter: percentFormatter())
-                    .font(.caption)
+                Text(percentFormatter().string(from: progress) ?? "\(progress)")
+                    .font(.preferred(.py_footnote()))
             }
         }
     }

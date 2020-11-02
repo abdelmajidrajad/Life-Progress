@@ -93,11 +93,11 @@ public let tasksReducer =
             case .response(.success(.tasks(let tasks))):
                 state.tasks = IdentifiedArray(tasks.map { TaskState(task: $0) } )
                 return .none
-            case .response(_):
-                return .none
             case let .response(.failure(error)):
                 //error.errorDescription
-                return .none                
+                return .none
+            case .response(_):
+                return .none
             }
         },
         taskReducer.forEach(

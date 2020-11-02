@@ -40,8 +40,8 @@ public struct ProgressBar: View {
                         
                 }.frame(height: lineWidth)
                 if !labelHidden {
-                    Text(progress, formatter: percentFormatter())
-                        .font(.caption)
+                    Text(percentFormatter().string(from: progress) ?? "")
+                        .font(.preferred(.py_caption1()))
                 }
             }
         }.fixedSize(horizontal: false, vertical: true)

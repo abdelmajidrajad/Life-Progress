@@ -86,6 +86,16 @@ extension VisualEffectBlur where Content == EmptyView {
             EmptyView()
         }
     }
+    
+    public init(
+        blurStyle: UIBlurEffect.Style = .systemMaterial,
+        vibrancyStyle: UIVibrancyEffectStyle? = nil
+    ) {
+        self.init( blurStyle: blurStyle, vibrancyStyle: vibrancyStyle) {
+            EmptyView()
+        }
+    }
+    
 }
 
 // MARK: - Previews

@@ -171,12 +171,12 @@ public struct SwitchProgressView: View {
                     }.foregroundColor(Color.green)
                     .fixedSize()
                     
-                    HStack(alignment: .lastTextBaseline, spacing: 2) {
-                        PLabel(attributedText: .constant(viewStore.dayTitle))
-                        Text("left")
-                            .font(Font.preferred(.py_caption2()).italic())
-                    }.foregroundColor(Color.pink)
-                     .fixedSize()
+//                    HStack(alignment: .lastTextBaseline, spacing: 2) {
+//                        PLabel(attributedText: .constant(viewStore.dayTitle))
+//                        Text("left")
+//                            .font(Font.preferred(.py_caption2()).italic())
+//                    }.foregroundColor(Color.pink)
+//                     .fixedSize()
                     
                     HStack {
                         HStack(spacing: .py_grid(1)) {
@@ -236,7 +236,8 @@ struct SwitchProgressView_Previews: PreviewProvider {
                             progress: 0.22,
                             result: TimeResult(
                                 day: 200,
-                                hour: 22
+                                hour: 22,
+                                minute: 12
                             )
                         )).eraseToAnyPublisher()
                     }

@@ -28,6 +28,7 @@ public struct CreateTaskState: Equatable {
     public var progressStyle: ProgressStyle
     public var diff: TimeResult
     public var alert: AlertState<CreateTaskAction>?
+    public var isRequestSucceed: Bool = false
     public init(
         taskTitle: String = "",
         validationError: String? = nil,
@@ -36,7 +37,8 @@ public struct CreateTaskState: Equatable {
         chosenColor: Color = Color(.endBlueLightColor),
         progressStyle: ProgressStyle = .bar,
         diff: TimeResult = .zero,
-        alert: AlertState<CreateTaskAction>? = nil
+        alert: AlertState<CreateTaskAction>? = nil,
+        isRequestSucceed: Bool = false
     ) {
         self.title = taskTitle
         self.validationError = validationError
@@ -46,6 +48,7 @@ public struct CreateTaskState: Equatable {
         self.progressStyle = progressStyle
         self.diff = diff
         self.alert = alert
+        self.isRequestSucceed = isRequestSucceed
     }
 }
 
@@ -241,13 +244,14 @@ public struct CreateTaskView: View {
                                 Image(systemName: "xmark")
                                     .accentColor(.gray)
                                     .padding(.py_grid(3))
+                                    .font(.headline)
                                     .background(
                                         Circle()
-                                        .fill(Color(white: 0.98))
+                                        .fill(Color(white: 0.95))
                                     )
                             }
                             Text("Create A New Task".uppercased())
-                                .font(.preferred(.py_headline()))
+                                .font(.preferred(.py_title3()))
                                 .frame(
                                     maxWidth: .infinity,
                                     alignment: .bottom
@@ -255,7 +259,8 @@ public struct CreateTaskView: View {
                         }.padding()
                         .background(
                             VisualEffectBlur()
-                    )
+                                .blur(radius: 5)
+                        )
                     }
                 
                 
@@ -297,8 +302,7 @@ public struct CreateTaskView: View {
                                             .opacity(
                                                 viewStore.chosenColor == color
                                                     ? 1
-                                                    : 0.35
-                                            )
+                                                    : 0.35)
                                     ).frame(
                                         width: .py_grid(10),
                                         height: .py_grid(10)
@@ -314,7 +318,6 @@ public struct CreateTaskView: View {
                         TitleLined(.styleLabel)
                         
                         HStack(alignment: .center, spacing: .zero) {
-                            
                             ProgressBarStyleView(
                                 color: .constant(viewStore.chosenColor),
                                 progressStyle:
@@ -323,7 +326,6 @@ public struct CreateTaskView: View {
                                         send: CreateTaskAction.selectStyle
                                     )
                             )
-                            
                             ProgressCircleStyleView(
                                 color: .constant(viewStore.chosenColor),
                                 progressStyle:
@@ -332,7 +334,6 @@ public struct CreateTaskView: View {
                                         send: CreateTaskAction.selectStyle
                                     )
                             )
-                            
                         }.padding(.horizontal)
                     }.padding(.top)
                     
@@ -353,6 +354,8 @@ public struct CreateTaskView: View {
                                 Image(systemName: "xmark")
                             }.buttonStyle(RoundedButtonStyle())
                             .padding()
+                            .transition(.scale)
+                            .animation(.easeOut)
                         }
                     }
                     
@@ -371,16 +374,23 @@ public struct CreateTaskView: View {
                     .disabled(!viewStore.isValid)
                     
                 }.frame(maxWidth: .infinity)
-                 .padding(.py_grid(1))
-                 .background(
-                     VisualEffectBlur()
-                 )
+                .padding(.py_grid(1))
+                
             }
             .edgesIgnoringSafeArea(.vertical)
             .onAppear {
                 viewStore.send(.onAppear)
-            }.alert(store.scope(state: \.alert),
-                dismiss: .alertDismissed)                            
+            }
+//            .onReceive(viewStore.publisher.isRequestSucceed.upstream) { success in
+//                if success {
+//                    self.presentationMode
+//                        .wrappedValue.dismiss()
+//                }
+//            }
+            .alert(
+                store.scope(
+                    state: \.alert), dismiss: .alertDismissed
+            )
         }
     }
 }
@@ -410,7 +420,6 @@ struct AddButtonStyle: ButtonStyle {
         
     }
 }
-
 
 struct RoundedButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
@@ -554,10 +563,12 @@ public struct DateControlView: View {
     
     public var body: some View {
         
-        WithViewStore(store) { viewStore in
+        WithViewStore(store.scope(
+                state: dateFormatter().string(from:)
+        )) { viewStore in
             VStack(spacing: .py_grid(4)) {
-                
-                Text(viewStore.state, formatter: dateFormatter())
+                                
+                Text(viewStore.state)
                     .font(Font.preferred(
                         UIFont.py_title2(size: .py_grid(5))
                     ).smallCaps())
