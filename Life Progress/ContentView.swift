@@ -45,6 +45,7 @@ struct AppEnvironment {
     let timeClient: TimeClient
     let taskClient: TaskClient
     let context: NSManagedObjectContext
+    let userDefaults: KeyValueStoreType
 }
 
 let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(    
@@ -103,6 +104,7 @@ extension AppEnvironment {
         YourDayProgressEnvironment(
             calendar: calendar,
             date: date,
+            userDefaults: userDefaults,
             yourDayProgress: timeClient.yourDayProgress
         )
     }
@@ -135,12 +137,16 @@ struct ContentView: View {
                     ScrollView {
                         
                         Section(header:
+                            ZStack(alignment: .trailing) {
                                 Text("Widgets")
-                                    .font(Font
-                                        .preferred(.py_title2())
-                                        .bold()
-                                    )
-                                    
+                                    .frame(maxWidth: .infinity)
+                                Button(action: {}, label: {
+                                    Image(systemName: "gear")
+                                })
+                            }.padding()
+                             .font(Font.preferred(.py_title2())
+                                    .bold()
+                             ).foregroundColor(Color(.lightText))
                         ) {
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack(spacing: .py_grid(4)) {
@@ -197,8 +203,8 @@ struct ContentView: View {
 struct PlusButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
-            .padding(.horizontal, 20)
-            .padding(.vertical, 12.0)
+            .padding(.horizontal, .py_grid(5))
+            .padding(.vertical, .py_grid(3))
             .background(
                 RoundedRectangle(cornerRadius: 16.0)
                     .fill(Color.white)
@@ -215,7 +221,8 @@ struct ContentView_Previews: PreviewProvider {
                 store: Store<AppState, AppAction>(
                     initialState: AppState(),
                     reducer: appReducer,
-                    environment: .midDay)
+                    environment: .midDay
+                )
             ).preferredColorScheme(.dark)
         }
     }
@@ -229,7 +236,8 @@ extension AppEnvironment {
             calendar: .current,
             timeClient: .empty,
             taskClient: .empty,
-            context: .init(concurrencyType: .privateQueueConcurrencyType)
+            context: .init(concurrencyType: .privateQueueConcurrencyType),
+            userDefaults: UserDefaults()
         )
     }
 }
@@ -291,7 +299,8 @@ extension AppEnvironment {
                         .setFailureType(to: TaskFailure.self)
                         .eraseToAnyPublisher()
                 }),
-            context: .init(concurrencyType: .privateQueueConcurrencyType)
+            context: .init(concurrencyType: .privateQueueConcurrencyType),
+            userDefaults: UserDefaults()
         )
     }
 }

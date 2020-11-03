@@ -76,7 +76,11 @@ public let yourDayReducer = Reducer<YourDayState, YourDayAction, YourDayEnvironm
         return Effect(value: .dayHours)
     case let .didStartDateChanged(date):
         state.startDate = date
-        let dateComponents = environment.calendar.dateComponents([.hour, .minute], from: date)
+        let dateComponents = environment.calendar
+            .dateComponents(
+                [.hour, .minute],
+                from: date
+            )
         return .concatenate(
             .fireAndForget {
                 environment.userDefaults

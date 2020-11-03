@@ -124,7 +124,7 @@ struct ProgressTaskView: View {
                         
                         VStack(alignment: .leading, spacing: .py_grid(2)) {
                             Text(viewStore.title)
-                                .font(.headline)
+                                .font(.preferred(.py_body()))
                                 .frame(
                                     maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,
                                     alignment: .leading
@@ -141,11 +141,11 @@ struct ProgressTaskView: View {
                         
                         VStack(alignment: .leading, spacing: .py_grid(2)) {
                             Text(viewStore.title)
-                                .font(.headline)
+                                .font(.preferred(.py_body()))
                                 .frame(
                                     maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,
                                     alignment: .leading
-                                ).padding(.trailing, .py_grid(4))
+                                ).padding(.trailing, .py_grid(5))
                                 .lineLimit(2)
                             
                             PLabel(attributedText: .constant(viewStore.remaining))
@@ -216,7 +216,7 @@ struct ProgressTaskView_Previews: PreviewProvider {
             ProgressTaskView(
                 store:
                     Store(
-                        initialState: TaskState(task: .writeBook),
+                        initialState: TaskState(task: .readBook),
                         reducer: taskReducer,
                         environment: TaskEnvironment(
                             date: Date.init,

@@ -117,8 +117,11 @@ public struct YearProgressView: View {
                             color: .green,
                             lineWidth: .py_grid(3),
                             progress: .constant(viewStore.percentage)
-                        ).frame(width: .py_grid(17), height: .py_grid(17))
-                        .offset(y: -20)
+                        ).frame(
+                            width: .py_grid(17),
+                            height: .py_grid(17)
+                        ).offset(y: -20)
+                        
                     } else {
                         ProgressBar(
                             color: .green,
@@ -128,7 +131,10 @@ public struct YearProgressView: View {
                                                     
                     Spacer()
                                                     
-                    HStack(alignment: .lastTextBaseline, spacing: 2) {
+                    HStack(
+                        alignment: .lastTextBaseline,
+                        spacing: 2
+                    ) {
                         PLabel(attributedText: .constant(viewStore.title))
                             .fixedSize()
                             
@@ -138,15 +144,18 @@ public struct YearProgressView: View {
                             .italic()
                             .lineLimit(1)
                         
-                    }.frame(maxWidth: .infinity, alignment: .leading)
+                    }.frame(
+                        maxWidth: .infinity,
+                        alignment: .leading
+                    )
                     
                 }.padding()
                 .background(
                     RoundedRectangle(
-                        cornerRadius: 20.0,
+                        cornerRadius: .py_grid(4),
                         style: .continuous
                     ).stroke(Color.white)
-                    .shadow(radius: 1)
+                    .shadow(color: Color(white: 0.95), radius: 1)
                 )
             }.onAppear { viewStore.send(.onAppear) }
             
@@ -185,12 +194,15 @@ struct YearProgressView_Previews: PreviewProvider {
                              { _ in
                                 Just(TimeResponse(
                                     progress: 0.5,
-                                    result: TimeResult( day: 200, hour: 22)
+                                    result: TimeResult(
+                                        day: 200,
+                                        hour: 22
+                                    )
                                 )).eraseToAnyPublisher()
                             }
                     )
                 )
-            ).frame(width: 141, height: 141)
+            ).preferredColorScheme(.dark).frame(width: 141, height: 141)
         }
     }
 }

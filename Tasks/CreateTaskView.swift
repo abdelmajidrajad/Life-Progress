@@ -134,7 +134,7 @@ public let createTaskReducer = Reducer<CreateTaskState, CreateTaskAction, Create
             state.chosenColor = color
             return .none
         case let .startDate(.newDate(date)):
-            if environment.date() >= date && date <= state.endDate {
+            if date <= state.endDate {
                 state.startDate = date
             }
             return environment

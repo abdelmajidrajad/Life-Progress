@@ -16,6 +16,7 @@
 		0430D94F2548878000CA7CFC /* Tasks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; };
 		0430D9502548878600CA7CFC /* Tasks.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04325686254459570050F620 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04325685254459570050F620 /* Grid.swift */; };
+		043CE056255155FD0018CDF8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043CE055255155FD0018CDF8 /* SettingsView.swift */; };
 		0462EFD125442310003D2969 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFD025442310003D2969 /* Fonts.swift */; };
 		0462EFE425442AD7003D2969 /* DayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFE325442AD7003D2969 /* DayProgressView.swift */; };
 		0462EFEB254437B7003D2969 /* SwitchProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFEA254437B7003D2969 /* SwitchProgressView.swift */; };
@@ -201,6 +202,7 @@
 		0412966C2549BD2C008337A0 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		04215B85254C882900461C9C /* YourDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourDayView.swift; sourceTree = "<group>"; };
 		04325685254459570050F620 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
+		043CE055255155FD0018CDF8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		0462EFD025442310003D2969 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		0462EFD725442A8C003D2969 /* PLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PLabel.swift; sourceTree = "<group>"; };
 		0462EFE325442AD7003D2969 /* DayProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayProgressView.swift; sourceTree = "<group>"; };
@@ -389,6 +391,7 @@
 				04E73C3F2542C2040092B918 /* Info.plist */,
 				04E73C342542C2030092B918 /* Life_Progress.xcdatamodeld */,
 				04E73C392542C2040092B918 /* Preview Content */,
+				043CE055255155FD0018CDF8 /* SettingsView.swift */,
 			);
 			path = "Life Progress";
 			sourceTree = "<group>";
@@ -829,6 +832,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				043CE056255155FD0018CDF8 /* SettingsView.swift in Sources */,
 				04E73C2F2542C2030092B918 /* AppDelegate.swift in Sources */,
 				04E73C312542C2030092B918 /* SceneDelegate.swift in Sources */,
 				04E73C362542C2030092B918 /* Life_Progress.xcdatamodeld in Sources */,

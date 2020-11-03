@@ -21,7 +21,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     calendar: .current,
                     timeClient: .live,
                     taskClient: .live,
-                    context: (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+                    context: (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext,
+                    userDefaults: UserDefaults.standard
                 )
             )
         )
