@@ -1,6 +1,7 @@
 import SwiftUI
+import Core
 
-struct SettingsView: View {
+public struct SettingsView: View {
     
     enum SettingItem {
         case appInfo
@@ -15,8 +16,10 @@ struct SettingsView: View {
     
     @State var section: SettingItem? = .none
     
+    public init() {        
+    }
     
-    var body: some View {
+    public var body: some View {
         NavigationView {
             List {
                 Section {
@@ -28,16 +31,17 @@ struct SettingsView: View {
                         selection: $section,
                         label: {
                             HStack(spacing: .py_grid(4)) {
-                                Image("")
+                                Image("classic", bundle: .settings)
+                                    .resizable()
                                     .frame(
                                         width: .py_grid(16),
                                         height: .py_grid(16)
-                                    ).background(
+                                    )
+                                    .clipShape(
                                         RoundedRectangle(
                                             cornerRadius: .py_grid(4),
                                             style: .continuous
                                         )
-                                        .fill(Color(white: 0.96))
                                     )
                                 
                                 VStack(alignment: .leading, spacing: .py_grid(2)) {
@@ -58,7 +62,7 @@ struct SettingsView: View {
                                                             
                     //MARK:- App Icon
                     NavigationLink(
-                        destination: Text("App Icon"),
+                        destination: AppIconsView(),
                         tag: .appIcon,
                         selection: $section,
                         label: {
@@ -70,9 +74,7 @@ struct SettingsView: View {
                                 Text("App Icon")
                                     .font(.preferred(.py_body()))
                             }.padding(.vertical, .py_grid(1))
-                        }).onTapGesture {
-                            self.section = .appIcon
-                        }
+                        })
                     
                     //MARK:- Show Settings
                     NavigationLink(
@@ -88,15 +90,13 @@ struct SettingsView: View {
                                 Text("Show Settings")
                                     .font(.preferred(.py_body()))
                             }.padding(.vertical, .py_grid(1))
-                        }).onTapGesture {
-                            self.section = .showSettings
-                        }
+                        })
                 }
                 
                 Section {
                     //MARK:- Night Mode
                     NavigationLink(
-                        destination: Text("Night Mode"),
+                        destination: NightModeView(),
                         tag: .nightMode,
                         selection: $section,
                         label: {
@@ -157,7 +157,7 @@ struct SettingsView: View {
                 Section {
                     //MARK:- Support
                     NavigationLink(
-                        destination: Text("Support"),
+                        destination: SupportView(onDismiss: ()),
                         tag: .support,
                         selection: $section,
                         label: {
@@ -175,7 +175,7 @@ struct SettingsView: View {
                     //MARK:- About
                     NavigationLink(
                         destination: Text("About"),
-                        tag: .support,
+                        tag: .about,
                         selection: $section,
                         label: {
                             HStack {
@@ -187,11 +187,8 @@ struct SettingsView: View {
                                     .font(.preferred(.py_body()))
                             }.padding(.vertical, .py_grid(1))
                         }).onTapGesture {
-                            self.section = .support
+                            self.section = .about
                         }
-                    
-                    
-                    
                 }
                 
                 
@@ -225,4 +222,31 @@ struct LeftImage: View {
                 ).fill(fillColor)
             )
     }
+}
+
+
+// App Icons
+enum AppIcon: String, CaseIterable {
+    case classic, blue, orange, purple, red
+}
+
+
+var currentAppIcon: AppIcon {
+    AppIcon
+        .allCases
+        .first { $0.rawValue == UIApplication.shared.alternateIconName }
+    ?? .classic
+}
+
+import Combine
+let newIcon: (AppIcon) -> AnyPublisher<Bool, Never> = { appIcon in
+    guard UIApplication.shared.supportsAlternateIcons,
+          currentAppIcon != appIcon else {
+        return Just(false).eraseToAnyPublisher() }
+        
+    return Deferred { Future<Bool, Never> { promise in
+        UIApplication.shared.setAlternateIconName(appIcon.rawValue) {
+            promise(.success($0 != nil))
+        }
+    }}.eraseToAnyPublisher()
 }

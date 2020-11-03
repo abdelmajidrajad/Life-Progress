@@ -56,5 +56,56 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+    <key>CFBundleIcons</key>
+    <dict>
+        <key>CFBundlePrimaryIcon</key>
+        <dict>
+            <key>CFBundleIconFiles</key>
+            <array>
+                <string>dark_app_icon</string>
+            </array>
+            <key>UIPrerenderedIcon</key>
+            <false/>
+        </dict>
+        <key>CFBundleAlternateIcons</key>
+        <dict>
+            <key>blue</key>
+            <dict>
+                <key>CFBundleIconFiles</key>
+                <array>
+                    <string>blue_app_icon</string>
+                </array>
+                <key>UIPrerenderedIcon</key>
+                <false/>
+            </dict>
+            <key>purple</key>
+            <dict>
+                <key>CFBundleIconFiles</key>
+                <array>
+                    <string>purple_app_icon</string>
+                </array>
+                <key>UIPrerenderedIcon</key>
+                <false/>
+            </dict>
+            <key>red</key>
+            <dict>
+                <key>CFBundleIconFiles</key>
+                <array>
+                    <string>red_app_icon</string>
+                </array>
+                <key>UIPrerenderedIcon</key>
+                <false/>
+            </dict>
+            <key>orange</key>
+            <dict>
+                <key>CFBundleIconFiles</key>
+                <array>
+                    <string>orange_app_icon</string>
+                </array>
+                <key>UIPrerenderedIcon</key>
+                <false/>
+            </dict>
+        </dict>
+    </dict>
 </dict>
 </plist>
