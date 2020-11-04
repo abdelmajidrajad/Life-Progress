@@ -23,7 +23,7 @@ public struct YearState: Equatable {
 }
 
 public enum YearAction: Equatable {
-    case onAppear
+    case onChange
     case setYear(Int)
     case response(TimeResponse)
 }
@@ -46,7 +46,7 @@ public struct YearEnvironment {
 public let yearReducer =
     Reducer<YearState, YearAction, YearEnvironment> { state, action, environment in
     switch action {
-    case .onAppear:
+    case .onChange:
         return .concatenate(
             currentYear(environment.calendar, environment.date())
                 .map(YearAction.setYear)
@@ -157,7 +157,7 @@ public struct YearProgressView: View {
                     ).stroke(Color.white)
                     .shadow(color: Color(white: 0.95), radius: 1)
                 )
-            }.onAppear { viewStore.send(.onAppear) }
+            }.onAppear { viewStore.send(.onChange) }
             
         }
     }

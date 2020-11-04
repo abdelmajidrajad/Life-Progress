@@ -38,7 +38,7 @@ public struct YourDayProgressState: Equatable {
 }
 
 public enum YourDayProgressAction: Equatable {
-    case onAppear
+    case onChange
     case response(TimeResponse)
 }
 
@@ -46,9 +46,7 @@ public struct YourDayProgressEnvironment {
     let calendar: Calendar
     let date: () -> Date
     let yourDayProgress: (YourDayRequest) -> AnyPublisher<TimeResponse, Never>
-        
-    var userDefaults: KeyValueStoreType
-    
+    let userDefaults: KeyValueStoreType
     public init(
         calendar: Calendar,
         date: @escaping () -> Date,
@@ -65,7 +63,7 @@ public struct YourDayProgressEnvironment {
 public let yourDayProgressReducer =
     Reducer<YourDayProgressState, YourDayProgressAction, YourDayProgressEnvironment> { state, action, environment in
     switch action {
-    case .onAppear:
+    case .onChange:
         
         let startDate = environment.userDefaults
             .object(forKey: "startDate") as? DateComponent
@@ -167,7 +165,7 @@ public struct YourDayProgressView: View {
                 }.padding()
                 
             }.onAppear {
-                viewStore.send(.onAppear)
+                viewStore.send(.onChange)
             }
             
         }

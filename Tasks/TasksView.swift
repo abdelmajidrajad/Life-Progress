@@ -21,10 +21,11 @@ public struct TasksState: Equatable {
 }
 
 public enum TasksAction: Equatable {
-    case onAppear    
+    case onAppear
+    case onChange
     case response(Result<TaskResponse, TaskFailure>)
     case ellipseButtonTapped(taskId: UUID)
-    case startButtonTapped
+    case plusButtonTapped
     case actionSheetDismissed
     case viewDismissed
     case addMore([Calendar.Component: Int], taskId: UUID)
@@ -85,6 +86,14 @@ public let tasksReducer =
                     ]
                 )
                 return .none
+            case let .createTask(.response(.success(.created(task)))):
+                state.tasks.append(
+                    TaskState(task: task)
+                )
+                return .none
+            case let .createTask(.response(.success(.updated(task)))):
+                state.tasks[id: task.id] = TaskState(task: task)
+                return .none
             case .cell, .createTask:
                 return .none
             case .actionSheetDismissed:
@@ -93,11 +102,37 @@ public let tasksReducer =
             case .addMore:
                 return Effect(value: .actionSheetDismissed)
             case let .completeTask(id: taskId):
-                return Effect(value: .actionSheetDismissed)
+                let updatedTask = state.tasks[id: taskId]!.task
+                    |> (prop(\.endDate)) { _ in environment.date() }
+                return Effect.concatenate(
+                    environment
+                        .taskClient
+                        .update(
+                            TaskRequest(
+                                viewContext: environment.managedContext,
+                                task: updatedTask
+                            )
+                        )
+                        .catchToEffect()
+                        .map(TasksAction.response),
+                    Effect(value: .actionSheetDismissed)
+                )
             case let .deleteTask(id: id):
-                return Effect(value: .actionSheetDismissed)
+                return .concatenate(
+                    environment.taskClient
+                        .delete(
+                            TaskRequest(
+                                viewContext: environment.managedContext,
+                                task: state.tasks[id: id]!.task
+                            )
+                        ).catchToEffect()
+                        .map(TasksAction.response),
+                    Effect(value: .actionSheetDismissed)
+                )
             case let .response(.success(.tasks(tasks))):
-                state.tasks = IdentifiedArray(tasks.map { TaskState(task: $0) } )
+                state.tasks = IdentifiedArray(
+                    tasks.map(TaskState.init(task:))
+                )
                 return .none
             case let .response(.failure(error)):
                 state.actionSheet = ActionSheetState(
@@ -107,13 +142,22 @@ public let tasksReducer =
                     ]
                 )
                 return .none
-            case .response(_):
+            case let .response(.success(.deleted(id: taskId))):
+                state.tasks.removeAll { $0.id == taskId }
                 return .none
-            case .startButtonTapped:
+            case let .response(.success(.updated(task))):
+                state.tasks[id: task.id]?.task = task
+                return .none
+            case .response:
+                return .none
+            case .plusButtonTapped:
                 state.createTask = CreateTaskState()
                 return .none
             case .viewDismissed:
                 state.createTask = nil
+                return .none
+            case .onChange:
+                state.tasks.reverse()
                 return .none
             }
         },
@@ -125,18 +169,36 @@ public let tasksReducer =
         createTaskReducer.optional().pullback(
             state: \.createTask,
             action: /TasksAction.createTask,
-            environment: {
-                CreateTaskEnvironment(
-                    date: $0.date,
-                    calendar: $0.calendar,
-                    timeClient: $0.timeClient,
-                    taskClient: $0.taskClient,
-                    managedContext: $0.managedContext
-                )
-            }
+            environment: \.createTask
         )
-    )
+)
 
+
+extension TasksEnvironment {
+    var createTask: CreateTaskEnvironment {
+        CreateTaskEnvironment(
+            date: date,
+            calendar: calendar,
+            timeClient: timeClient,
+            taskClient: taskClient,
+            managedContext: managedContext
+        )
+    }
+}
+
+func prop<Root, Value>(_ kp: WritableKeyPath<Root, Value>)
+  -> (@escaping (Value) -> Value)
+  -> (Root)
+  -> Root {
+
+  return { update in
+    { root in
+      var copy = root
+      copy[keyPath: kp] = update(copy[keyPath: kp])
+      return copy
+    }
+  }
+}
 
 let valueFormatter: () -> NumberFormatter = {
     let formatter = NumberFormatter()
@@ -144,7 +206,6 @@ let valueFormatter: () -> NumberFormatter = {
     formatter.roundingMode = .ceiling
     return formatter
 }
-
 
 extension TasksEnvironment {
     var task: TaskEnvironment {
@@ -200,10 +261,10 @@ public struct TasksView: View {
                     )
                     Spacer()
                     Button(action: {
-                        viewStore.send(.startButtonTapped)
+                        viewStore.send(.plusButtonTapped)
                     }, label: {
                         Image(systemName: "plus")
-                    }).padding()
+                    }).padding(.vertical)
                     .buttonStyle(CornerButtonStyle())
                 }.padding(.horizontal)
                 .frame(maxWidth: .infinity)
@@ -253,13 +314,8 @@ struct TasksView_Previews: PreviewProvider {
         Group {
             TasksView(store: Store<TasksState, TasksAction>(
                 initialState: TasksState(
-                    tasks: [
-//                        TaskState(task: .readBook),
-//                        TaskState(task: .writeBook),
-//                        TaskState(task: .readBook),
-//                        TaskState(task: .writeBook),
-//                        TaskState(task: .writeBook)
-                    ]
+                    tasks: []
+                    
                 ),
                 reducer: tasksReducer,
                 environment: TasksEnvironment(
@@ -267,11 +323,13 @@ struct TasksView_Previews: PreviewProvider {
                     calendar: .current,
                     managedContext: NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType),
                     timeClient: .progress,
-                    taskClient: TaskClient(tasks: { _ in
-                        Just(TaskResponse.tasks([.readBook, .writeBook]))
-                            .setFailureType(to: TaskFailure.self)
-                            .eraseToAnyPublisher()
-                    })
+                    taskClient: TaskClient(
+                        tasks: { _ in
+                            Just(
+                                TaskResponse.tasks([.readBook, .writeBook]))
+                                    .setFailureType(to: TaskFailure.self)
+                                    .eraseToAnyPublisher()
+                        })
                 )
             ))
             
@@ -291,10 +349,16 @@ struct TasksView_Previews: PreviewProvider {
                     calendar: .current,
                     managedContext: NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType),
                     timeClient: .progress,
-                    taskClient: TaskClient(tasks: { _ in
+                    taskClient: TaskClient(
+                        create: { _ in
+                            Just(.created(.writeBook2))
+                                .setFailureType(to: TaskFailure.self)
+                                .eraseToAnyPublisher()
+                        },
+                        tasks: { _ in
                         Just(TaskResponse.tasks(
                                 [.writeBook2,
-                                 .readBook,
+                                 .writeBook2,
                                  .writeBook
                                 ]))
                             .setFailureType(to: TaskFailure.self)
@@ -314,13 +378,13 @@ extension TimeClient {
         TimeClient(taskProgress: { request in
             Just(
                 TimeResponse(
-                    progress: ((Int.random(in: 1...10) % 2) != 0) ? 0: 0.5,
+                    progress: ((Int.random(in: 1...10) % 2) != 0) ? 0: 0,
                     result: TimeResult(
                         //year: 2,
                         //month: 1,
-                        day: 7,
-                        hour: 12,
-                        minute: 44
+                        //day: 7,
+                        hour: 12
+                        //minute: 44
                     )
                 )
             ).eraseToAnyPublisher()

@@ -1,7 +1,6 @@
 import SwiftUI
 import Core
 import ComposableArchitecture
-import TimeClientLive
 import TimeClient
 import TaskClient
 import Components
@@ -14,7 +13,6 @@ struct AppState: Equatable {
     var switchState: SwitchState
     var tasksState: TasksState
     var yourDayState: YourDayProgressState
-    //YourDayProgressState, YourDayProgressAction
     public init(
         yearState: YearState = .init(style: .circle),
         dayState: DayState = .init(style: .circle),
@@ -31,6 +29,8 @@ struct AppState: Equatable {
 }
 
 enum AppAction: Equatable {
+    case onStart
+    case onUpdate(DispatchQueue.SchedulerTimeType)
     case year(YearAction)
     case day(DayAction)
     case union(SwitchAction)
@@ -42,13 +42,36 @@ struct AppEnvironment {
     let uuid: () -> UUID
     let date: () -> Date
     let calendar: Calendar
+    let mainQueue: AnySchedulerOf<DispatchQueue>
     let timeClient: TimeClient
     let taskClient: TaskClient
     let context: NSManagedObjectContext
     let userDefaults: KeyValueStoreType
 }
 
-let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(    
+let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
+    Reducer { state, action, environment in
+        switch action {
+        case .onStart:
+            struct TimerId: Hashable {}
+            return Effect.timer(
+                id: TimerId(),
+                every: .seconds(30.0),
+                on: environment.mainQueue
+            ).map(AppAction.onUpdate)
+            .eraseToEffect()
+        case .onUpdate:
+            return .concatenate(
+                Effect(value: .day(.onChange)),
+                Effect(value: .year(.onChange)),
+                Effect(value: .tasks(.onChange)),
+                Effect(value: .union(.onChange)),
+                Effect(value: .yourDay(.onChange))
+            )
+        default:
+            return .none
+        }
+    },
     dayReducer.pullback(
         state: \.dayState,
         action: /AppAction.day,
@@ -176,9 +199,7 @@ struct ContentView: View {
                                             action: AppAction.year)
                                     )
                                 
-                                    
-                                    
-                                    
+                                                            
                                 }.padding(.vertical)
                                 .padding(.horizontal, .py_grid(1))
                             }.frame(height: width)
@@ -192,8 +213,10 @@ struct ContentView: View {
                         )
                                                
                         
-                    }.padding(.leading, 4)
-                    
+                    }.padding(.leading, .py_grid(1))
+                    .onAppear {
+                        viewStore.send(.onStart)
+                    }
                 }
             )
         }
@@ -234,6 +257,7 @@ extension AppEnvironment {
             uuid: UUID.init,
             date: Date.init,
             calendar: .current,
+            mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
             timeClient: .empty,
             taskClient: .empty,
             context: .init(concurrencyType: .privateQueueConcurrencyType),
@@ -249,6 +273,7 @@ extension AppEnvironment {
             uuid: UUID.init,
             date: { Date(timeIntervalSince1970: 3600 * 24 * 6) },
             calendar: .current,
+            mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
             timeClient: TimeClient(
                 yearProgress: { _ in Just(TimeResponse(
                     progress: 0.38,

@@ -112,7 +112,7 @@ public let createTaskReducer = Reducer<CreateTaskState, CreateTaskAction, Create
                         startDate: state.startDate,
                         endDate: state.endDate,
                         creationDate: environment.date(),
-                        color: state.chosenColor
+                        color: state.chosenColor.uiColor()
                     )
                 )
             ).catchToEffect()
@@ -361,6 +361,7 @@ public struct CreateTaskView: View {
                     Button(
                         action: {
                             viewStore.send(.startButtonTapped)
+                            presentationMode.wrappedValue.dismiss()
                         }, label: {
                             Text(.startLabel, bundle: .tasks)
                         }

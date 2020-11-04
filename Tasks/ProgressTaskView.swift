@@ -8,7 +8,7 @@ import TaskClient
 @dynamicMemberLookup
 public struct TaskState: Equatable, Identifiable {
     public var id: UUID { task.id }    
-    let task: ProgressTask
+    var task: ProgressTask
     var remainingTime: NSAttributedString
     var result: TimeResult
     var progress: Double
@@ -25,6 +25,15 @@ public struct TaskState: Equatable, Identifiable {
         self.remainingTime = remainingTime
         self.result = result
         self.isSelected = isSelected
+    }
+    public init(
+        task: ProgressTask
+    ) {
+        self.task = task
+        self.progress = .zero
+        self.remainingTime = .init()
+        self.result = .init()
+        self.isSelected = false
     }
 }
 
@@ -81,8 +90,11 @@ extension TaskState {
             title: task.title,
             remaining: result.string(
                 taskCellStyle, style: .long),
-            progress: NSNumber(value: progress),
-            color: task.color,
+            progress: progress != .zero
+                ? NSNumber(value: progress)
+                : NSNumber(value: 0.1)
+            ,
+            color: Color(task.color),
             isCircle: task.style == .circle
         )
     }
@@ -109,8 +121,8 @@ struct ProgressTaskView: View {
         self.ellipseButtonTapped = ellipseButtonTapped
     }
     var body: some View {
+        
         WithViewStore(self.store.scope(state: \.view)) { viewStore in
-            
             VStack {
                 if viewStore.isCircle {
                     HStack {
@@ -254,7 +266,7 @@ extension ProgressTask {
             startDate: Date(),
             endDate: Date().addingTimeInterval(3600 * 24 * 2),
             creationDate: Date(),
-            color: Color(.endBlueLightColor),
+            color: .endBlueLightColor,
             style: .circle
         )
     }
@@ -267,7 +279,7 @@ extension ProgressTask {
             startDate: Date(),
             endDate: Date().addingTimeInterval(3600 * 24 * 10),
             creationDate: Date(),
-            color: Color(.endRedColor),
+            color: .endRedColor,
             style: .bar
         )
     }
@@ -280,7 +292,7 @@ extension ProgressTask {
             startDate: Date(),
             endDate: Date().addingTimeInterval(3600 * 24 * 3),
             creationDate: Date(),
-            color: Color(.startPinkColor)
+            color: .startPinkColor
         )
     }
 }

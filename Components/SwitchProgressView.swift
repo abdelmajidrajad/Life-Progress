@@ -29,7 +29,7 @@ public struct SwitchState: Equatable {
 }
 
 public enum SwitchAction: Equatable {
-    case onAppear
+    case onChange
     case setYear(Int)
     case todayResponse(TimeResponse)
     case yearResponse(TimeResponse)
@@ -58,7 +58,7 @@ public struct SwitchEnvironment {
 public let switchReducer =
     Reducer<SwitchState, SwitchAction, SwitchEnvironment> { state, action, environment in
         switch action {
-        case .onAppear:
+        case .onChange:
             return .concatenate(
                 currentYear(
                     environment.calendar,
@@ -208,7 +208,7 @@ public struct SwitchProgressView: View {
                     ).stroke(Color.white)
                     .shadow(radius: 1)
                 )
-            }.onAppear { viewStore.send(.onAppear) }
+            }.onAppear { viewStore.send(.onChange) }
             
         }
     }

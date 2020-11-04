@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		040C241125470098008BA89B /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C241025470098008BA89B /* ProgressCircle.swift */; };
 		040C241925471DCD008BA89B /* CreateTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C241825471DCD008BA89B /* CreateTaskView.swift */; };
+		040DD86C255297FF0089D29C /* ColorValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DD86B255297FF0089D29C /* ColorValueTransformer.swift */; };
+		040DD89E25529E250089D29C /* Color+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DD89D25529E250089D29C /* Color+UIKit.swift */; };
 		041296502549B0C3008337A0 /* Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0412964F2549B0C2008337A0 /* Blur.swift */; };
 		0412965D2549B3D0008337A0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0412965F2549B3D0008337A0 /* Localizable.strings */; };
 		041296662549B60D008337A0 /* LocalizedStringKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041296652549B60D008337A0 /* LocalizedStringKey.swift */; };
@@ -244,6 +246,8 @@
 /* Begin PBXFileReference section */
 		040C241025470098008BA89B /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
 		040C241825471DCD008BA89B /* CreateTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskView.swift; sourceTree = "<group>"; };
+		040DD86B255297FF0089D29C /* ColorValueTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorValueTransformer.swift; sourceTree = "<group>"; };
+		040DD89D25529E250089D29C /* Color+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+UIKit.swift"; sourceTree = "<group>"; };
 		0412336D254475C20072ABF3 /* ProgressTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressTaskView.swift; sourceTree = "<group>"; };
 		04123374254492FA0072ABF3 /* TaskClient */ = {isa = PBXFileReference; lastKnownFileType = folder; name = TaskClient; path = ../../TaskClient; sourceTree = "<group>"; };
 		0412964F2549B0C2008337A0 /* Blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blur.swift; sourceTree = "<group>"; };
@@ -411,6 +415,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		040DD86A255297E80089D29C /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				040DD86B255297FF0089D29C /* ColorValueTransformer.swift */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		0439133325518A1200B62018 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -522,6 +534,7 @@
 		04E73C2D2542C2030092B918 /* Life Progress */ = {
 			isa = PBXGroup;
 			children = (
+				040DD86A255297E80089D29C /* Supporting Files */,
 				0439138225518D4E00B62018 /* App Icons */,
 				04123374254492FA0072ABF3 /* TaskClient */,
 				04E73C702542C4100092B918 /* TimeClient */,
@@ -577,6 +590,7 @@
 				0412964F2549B0C2008337A0 /* Blur.swift */,
 				0490044C254D77E50014CE7D /* DashedLine.swift */,
 				0496727F255036FF0015205E /* KeyValueStorage.swift */,
+				040DD89D25529E250089D29C /* Color+UIKit.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1078,6 +1092,7 @@
 				04E73C312542C2030092B918 /* SceneDelegate.swift in Sources */,
 				04E73C362542C2030092B918 /* Life_Progress.xcdatamodeld in Sources */,
 				04E73C332542C2030092B918 /* ContentView.swift in Sources */,
+				040DD86C255297FF0089D29C /* ColorValueTransformer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1105,6 +1120,7 @@
 				04967280255036FF0015205E /* KeyValueStorage.swift in Sources */,
 				0462F01025444433003D2969 /* Operators.swift in Sources */,
 				041296502549B0C3008337A0 /* Blur.swift in Sources */,
+				040DD89E25529E250089D29C /* Color+UIKit.swift in Sources */,
 				04D7BAAC25458329003A9774 /* PLabel.swift in Sources */,
 				0490044D254D77E60014CE7D /* DashedLine.swift in Sources */,
 				04D7BAA62545825B003A9774 /* AttributedString+Value.swift in Sources */,

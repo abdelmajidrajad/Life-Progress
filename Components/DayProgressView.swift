@@ -22,7 +22,7 @@ public struct DayState: Equatable {
 }
 
 public enum DayAction: Equatable {
-    case onAppear
+    case onChange
     case response(TimeResponse)
 }
 
@@ -44,7 +44,7 @@ public struct DayEnvironment {
 public let dayReducer =
     Reducer<DayState, DayAction, DayEnvironment> { state, action, environment in
     switch action {
-    case .onAppear:
+    case .onChange:
         return .concatenate(
             environment.todayProgress(
                 TodayRequest(
@@ -64,7 +64,7 @@ extension DayState {
     var view: DayProgressView.ViewState {
         DayProgressView.ViewState(
             today: "Today",
-            percentage: NSNumber(value: percent),
+            percentage: NSNumber(value: percent == .zero ? 0.1: percent),
             title: timeResult.string(widgetStyle),
             isCircle: style == .circle
         )
@@ -137,7 +137,7 @@ public struct DayProgressView: View {
                     ).stroke(Color.white)
                     .shadow(radius: 1)
                 )
-            }.onAppear { viewStore.send(.onAppear) }
+            }.onAppear { viewStore.send(.onChange) }
             
         }
     }
