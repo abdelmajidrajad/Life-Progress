@@ -20,8 +20,10 @@ final class ColorValueTransformer: ValueTransformer {
             guard let color = value as? UIColor else { return nil }
             
             do {
-                let data = try NSKeyedArchiver.archivedData(withRootObject: color, requiringSecureCoding: true)
-                return data
+                return try NSKeyedArchiver.archivedData(
+                    withRootObject: color,
+                    requiringSecureCoding: true
+                )
             } catch {
                 assertionFailure("Failed to transform `UIColor` to `Data`")
                 return nil
@@ -32,8 +34,10 @@ final class ColorValueTransformer: ValueTransformer {
             guard let data = value as? NSData else { return nil }
             
             do {
-                let color = try NSKeyedUnarchiver.unarchivedObject(ofClass: UIColor.self, from: data as Data)
-                return color
+                return try NSKeyedUnarchiver.unarchivedObject(
+                    ofClass: UIColor.self,
+                    from: data as Data
+                )                
             } catch {
                 assertionFailure("Failed to transform `Data` to `UIColor`")
                 return nil

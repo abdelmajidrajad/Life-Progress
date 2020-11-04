@@ -157,8 +157,12 @@ public let tasksReducer =
                 state.createTask = nil
                 return .none
             case .onChange:
-                state.tasks.reverse()
-                return .none
+                return .concatenate(
+                    state.tasks
+                        .map { task in
+                            Effect(value: .cell(id: task.id, action: .onAppear))
+                        }
+                )
             }
         },
         taskReducer.forEach(
@@ -166,11 +170,13 @@ public let tasksReducer =
             action: /TasksAction.cell(id:action:),
             environment: \.task
         ),
-        createTaskReducer.optional().pullback(
-            state: \.createTask,
-            action: /TasksAction.createTask,
-            environment: \.createTask
-        )
+        createTaskReducer
+            .optional()
+            .pullback(
+                state: \.createTask,
+                action: /TasksAction.createTask,
+                environment: \.createTask
+            )
 )
 
 
