@@ -64,7 +64,7 @@ extension DayState {
     var view: DayProgressView.ViewState {
         DayProgressView.ViewState(
             today: "Today",
-            percentage: NSNumber(value: percent == .zero ? 0.1: percent),
+            percentage: NSNumber(value: percent),
             title: timeResult.string(widgetStyle),
             isCircle: style == .circle
         )
@@ -82,7 +82,8 @@ public struct DayProgressView: View {
     
     let store: Store<DayState, DayAction>
     
-    public init(store: Store<DayState, DayAction>) {
+    public init(
+    store: Store<DayState, DayAction>) {
         self.store = store
     }
     

@@ -90,10 +90,7 @@ extension TaskState {
             title: task.title,
             remaining: result.string(
                 taskCellStyle, style: .long),
-            progress: progress != .zero
-                ? NSNumber(value: progress)
-                : NSNumber(value: 0.1)
-            ,
+            progress: NSNumber(value: progress),            
             color: Color(task.color),
             isCircle: task.style == .circle
         )
