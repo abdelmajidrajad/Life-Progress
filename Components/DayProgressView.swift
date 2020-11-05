@@ -88,16 +88,12 @@ public struct DayProgressView: View {
     }
     
     public var body: some View {
-        
         WithViewStore(store.scope(state: \.view)) { viewStore in
-            HStack(spacing: 8.0) {
-                
+            HStack(spacing: .py_grid(2)) {
                 VStack(alignment: .leading) {
-                                        
                     Text(viewStore.today)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                         .font(.footnote)
-                                                            
                     if viewStore.isCircle {
                         ProgressCircle(
                             color: .pink,
@@ -111,35 +107,29 @@ public struct DayProgressView: View {
                             progress: .constant(viewStore.percentage)
                         )
                     }
-                                                    
                     Spacer()
-                                                    
-                    HStack(alignment: .lastTextBaseline, spacing: .py_grid(1)) {
-                        
-                        PLabel(attributedText:
+                    HStack(
+                        alignment: .lastTextBaseline,
+                        spacing: .py_grid(1)) {
+                        PLabel(
+                            attributedText:
                                 .constant(viewStore.title)
                         ).fixedSize()
-                            
-                            
                         Text("remaining")
                             .font(.caption)
                             .foregroundColor(.gray)
                             .italic()
                             .lineLimit(1)
-                            
                     }
-                   
-                    
                 }.padding()
                 .background(
                     RoundedRectangle(
-                        cornerRadius: 20.0,
+                        cornerRadius: .py_grid(5),
                         style: .continuous
                     ).stroke(Color.white)
                     .shadow(radius: 1)
                 )
             }.onAppear { viewStore.send(.onChange) }
-            
         }
     }
 }

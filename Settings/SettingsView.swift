@@ -45,7 +45,7 @@ public struct SettingsView: View {
                                     )
                                 
                                 VStack(alignment: .leading, spacing: .py_grid(2)) {
-                                    Text("Life Progress PLUS".uppercased())
+                                    Text("Life Progress PLUS+".uppercased())
                                         .font(
                                             Font.preferred(
                                                 .py_title3())
@@ -77,20 +77,20 @@ public struct SettingsView: View {
                         })
                     
                     //MARK:- Show Settings
-                    NavigationLink(
-                        destination: Text("Settings"),
-                        tag: .showSettings,
-                        selection: $section,
-                        label: {
-                            HStack {
-                                LeftImage(
-                                    systemName: "wrench.fill",
-                                    fillColor: .gray
-                                )
-                                Text("Show Settings")
-                                    .font(.preferred(.py_body()))
-                            }.padding(.vertical, .py_grid(1))
-                        })
+                    //NavigationLink(
+                    //    destination: Text("Settings"),
+                    //    tag: .showSettings,
+                    //    selection: $section,
+                    //    label: {
+                    //        HStack {
+                    //            LeftImage(
+                    //                systemName: "wrench.fill",
+                    //                fillColor: .gray
+                    //            )
+                    //            Text("Show Settings")
+                    //                .font(.preferred(.py_body()))
+                    //        }.padding(.vertical, .py_grid(1))
+                    //})
                 }
                 
                 Section {
@@ -108,73 +108,57 @@ public struct SettingsView: View {
                                 Text("Night Mode")
                                     .font(.preferred(.py_body()))
                             }.padding(.vertical, .py_grid(1))
-                        }).onTapGesture {
-                            self.section = .nightMode
-                        }
+                        })
                     
                     //MARK:- Notifications
-                    NavigationLink(
-                        destination: Text("Notifications"),
-                        tag: .notifications,
-                        selection: $section,
-                        label: {
-                            HStack {
-                                LeftImage(
-                                    systemName: "app.badge",
-                                    fillColor: .red
-                                )
-                                Text("Notifications")
-                                    .font(.preferred(.py_body()))
-                            }.padding(.vertical, .py_grid(1))
-                        }).onTapGesture {
-                            self.section = .notifications
-                        }
+                    //NavigationLink(
+                    //    destination: Text("Notifications"),
+                    //    tag: .notifications,
+                    //    selection: $section,
+                    //    label: {
+                    //        HStack {
+                    //            LeftImage(
+                    //                systemName: "app.badge",
+                    //                fillColor: .red
+                    //            )
+                    //            Text("Notifications")
+                    //                .font(.preferred(.py_body()))
+                    //        }.padding(.vertical, .py_grid(1))
+                    //})
                     
                 }
                 
                 
                 Section {
                     //MARK:- App Store Rating
-                    NavigationLink(
-                        destination: Text("App Store Rating"),
-                        tag: .rateUs,
-                        selection: $section,
-                        label: {
-                            HStack {
-                                LeftImage(
-                                    systemName: "star.fill",
-                                    fillColor: .blue
-                                )
-                                Text("Please Rate on App Store")
-                                    .font(.preferred(.py_body()))
-                            }.padding(.vertical, .py_grid(1))
-                        }).onTapGesture {
-                            self.section = .rateUs
-                        }
+                    HStack {
+                        LeftImage(
+                            systemName: "star.fill",
+                            fillColor: .blue
+                        )
+                        Text("Please Rate on App Store")
+                            .font(.preferred(.py_body()))
+                    }.padding(.vertical, .py_grid(1))
                     
                 }
                 
                 Section {
                     //MARK:- Support
-                    NavigationLink(
-                        destination: SupportView(onDismiss: ()),
-                        tag: .support,
-                        selection: $section,
-                        label: {
-                            HStack {
-                                LeftImage(
-                                    systemName: "questionmark",
-                                    fillColor: .orange
-                                )
-                                Text("Support")
-                                    .font(.preferred(.py_body()))
-                            }.padding(.vertical, .py_grid(1))
-                        }).onTapGesture {
-                            self.section = .support
-                        }
+                    HStack {
+                        LeftImage(
+                            systemName: "questionmark",
+                            fillColor: .orange
+                        )
+                        Text("Support")
+                            .font(.preferred(.py_body()))
+                    }.padding(.vertical, .py_grid(1))
+                    .onTapGesture {
+                        self.section = .support
+                    }
+
                     //MARK:- About
                     NavigationLink(
-                        destination: Text("About"),
+                        destination: AboutsView(),
                         tag: .about,
                         selection: $section,
                         label: {
@@ -190,13 +174,14 @@ public struct SettingsView: View {
                             self.section = .about
                         }
                 }
-                
-                
-                
+                                                
             }.navigationBarTitle(
                 Text("Settings"),
                 displayMode: .inline
             ).listStyle(GroupedListStyle())
+             .sheet(isPresented: .constant(section == .support)) {
+                SupportView(onDismiss: ())
+            }
         }
     }
 }
@@ -224,6 +209,10 @@ struct LeftImage: View {
     }
 }
 
+
+public let reviewURL: (String) -> URL = { appId in
+     URL.init(string:"itms-apps:itunes.apple.com/us/app/apple-store/id\(appId)?mt=8&action=write-review")!
+}
 
 // App Icons
 enum AppIcon: String, CaseIterable {

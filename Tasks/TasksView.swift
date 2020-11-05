@@ -234,7 +234,6 @@ extension EdgeInsets {
     }
 }
 
-
 struct CornerButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label

@@ -11,13 +11,14 @@ struct AppIconsView: View {
                 HStack {
                     Image(icon.rawValue, bundle: .settings)
                         .resizable()
+                        .aspectRatio(contentMode: .fit)
                         .frame(
-                            width: .py_grid(20),
-                            height: .py_grid(20)
+                            width: .py_grid(16),
+                            height: .py_grid(16)
                         )
                         .clipShape(
                             RoundedRectangle(
-                                cornerRadius: .py_grid(4),
+                                cornerRadius: .py_grid(3),
                                 style: .continuous
                             )
                     )

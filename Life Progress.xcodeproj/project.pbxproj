@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0401718D25541C9F00A2613C /* AboutsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0401718C25541C9F00A2613C /* AboutsView.swift */; };
 		040C241125470098008BA89B /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C241025470098008BA89B /* ProgressCircle.swift */; };
 		040C241925471DCD008BA89B /* CreateTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C241825471DCD008BA89B /* CreateTaskView.swift */; };
 		040DD86C255297FF0089D29C /* ColorValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DD86B255297FF0089D29C /* ColorValueTransformer.swift */; };
@@ -244,6 +245,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0401718C25541C9F00A2613C /* AboutsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutsView.swift; sourceTree = "<group>"; };
 		040C241025470098008BA89B /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
 		040C241825471DCD008BA89B /* CreateTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskView.swift; sourceTree = "<group>"; };
 		040DD86B255297FF0089D29C /* ColorValueTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorValueTransformer.swift; sourceTree = "<group>"; };
@@ -433,6 +435,7 @@
 				0439136825518AF200B62018 /* Assets.xcassets */,
 				043913C82551A3CA00B62018 /* AppIconsView.swift */,
 				043913D12551A87600B62018 /* NightModeView.swift */,
+				0401718C25541C9F00A2613C /* AboutsView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1050,6 +1053,7 @@
 			files = (
 				043913DB2551B71300B62018 /* Mail.swift in Sources */,
 				043913D22551A87600B62018 /* NightModeView.swift in Sources */,
+				0401718D25541C9F00A2613C /* AboutsView.swift in Sources */,
 				0439135625518A1C00B62018 /* SettingsView.swift in Sources */,
 				0439137325518B9000B62018 /* Bundle.swift in Sources */,
 				043913C92551A3CA00B62018 /* AppIconsView.swift in Sources */,

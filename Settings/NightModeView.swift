@@ -20,8 +20,8 @@ struct NightModeView: View {
                     if style == currentStyle {
                         Image(systemName: "checkmark")
                     }
-                }.font(.preferred(.py_body()))
-                .padding()
+                }.font(Font.preferred(.py_body()))
+                .padding(.vertical, .py_grid(3))
                 .background(
                     Rectangle().fill(Color(.systemBackground))
                 ).onTapGesture {

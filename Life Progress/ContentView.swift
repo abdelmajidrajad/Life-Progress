@@ -13,6 +13,7 @@ struct AppState: Equatable {
     var switchState: SwitchState
     var tasksState: TasksState
     var yourDayState: YourDayProgressState
+    //var settingState: SettingState
     public init(
         yearState: YearState = .init(style: .circle),
         dayState: DayState = .init(style: .circle),
@@ -31,6 +32,7 @@ struct AppState: Equatable {
 enum AppAction: Equatable {
     case onStart
     case onUpdate(DispatchQueue.SchedulerTimeType)
+    case settingButtonTapped
     case year(YearAction)
     case day(DayAction)
     case union(SwitchAction)
@@ -68,6 +70,8 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
                 Effect(value: .union(.onChange)),
                 Effect(value: .yourDay(.onChange))
             )
+        case .settingButtonTapped:
+            return .none
         default:
             return .none
         }
@@ -162,13 +166,19 @@ struct ContentView: View {
                         Section(header:
                             ZStack(alignment: .trailing) {
                                 Text("Widgets")
-                                    .frame(maxWidth: .infinity)
-                                Button(action: {}, label: {
+                                    .frame(
+                                        maxWidth: .infinity,
+                                        alignment: .leading
+                                    )
+                                Button(action: {
+                                    viewStore.send(.settingButtonTapped)
+                                }, label: {
                                     Image(systemName: "gear")
+                                        .foregroundColor(.gray)
                                 })
                             }.padding()
-                             .font(Font.preferred(.py_title2())
-                                    .bold()
+                             .font(Font
+                                    .preferred(.py_title2()).bold()
                              ).foregroundColor(Color(.lightText))
                         ) {
                             ScrollView(.horizontal, showsIndicators: false) {
