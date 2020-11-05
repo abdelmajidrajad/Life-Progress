@@ -5,24 +5,47 @@ import TimeClient
 import TaskClient
 import CoreData
 
+public enum Filter: LocalizedStringKey, CaseIterable, Hashable {
+    case pending = "Pending"
+    case active = "Active"
+    case completed = "Completed"
+}
+
+
 public struct TasksState: Equatable {
     var tasks: IdentifiedArrayOf<TaskState>
     var actionSheet: ActionSheetState<TasksAction>?
     var createTask: CreateTaskState?
+    var filter: Filter
     public init(
         tasks: IdentifiedArrayOf<TaskState> = [],
         actionSheet: ActionSheetState<TasksAction>? = nil,
-        createTask: CreateTaskState? = nil
+        createTask: CreateTaskState? = nil,
+        filter: Filter = .active
     ) {
         self.tasks = tasks
         self.actionSheet = actionSheet
         self.createTask = createTask
+        self.filter = filter
     }
+    
+    var filteredTasks: IdentifiedArrayOf<TaskState> {
+        switch filter {
+        case .active:
+            return tasks.filter { $0.progress <= 1.0 && $0.progress > 0 }
+        case .pending:
+            return tasks.filter { $0.progress == 0 }
+        case .completed:
+            return tasks.filter { $0.progress == 1.0 }
+        }
+    }
+    
 }
 
 public enum TasksAction: Equatable {
     case onAppear
     case onChange
+    case filterPicked(Filter)
     case response(Result<TaskResponse, TaskFailure>)
     case ellipseButtonTapped(taskId: UUID)
     case plusButtonTapped
@@ -163,6 +186,9 @@ public let tasksReducer =
                             Effect(value: .cell(id: task.id, action: .onAppear))
                         }
                 )
+            case let .filterPicked(filter):
+                state.filter = filter
+                return .none
             }
         },
         taskReducer.forEach(
@@ -192,19 +218,6 @@ extension TasksEnvironment {
     }
 }
 
-func prop<Root, Value>(_ kp: WritableKeyPath<Root, Value>)
-  -> (@escaping (Value) -> Value)
-  -> (Root)
-  -> Root {
-
-  return { update in
-    { root in
-      var copy = root
-      copy[keyPath: kp] = update(copy[keyPath: kp])
-      return copy
-    }
-  }
-}
 
 let valueFormatter: () -> NumberFormatter = {
     let formatter = NumberFormatter()
@@ -238,7 +251,6 @@ struct CornerButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .font(.headline)
-            .accentColor(.red)
             .padding()
             .background(
                 RoundedRectangle(
@@ -248,6 +260,31 @@ struct CornerButtonStyle: ButtonStyle {
             )
     }
 }
+
+
+class SelectedCornerButtonStyle: ButtonStyle {
+    let isSelected: Bool
+    
+    init(isSelected: Bool = false) {
+        self.isSelected = isSelected
+    }
+    
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.headline)
+            .padding()
+            .background(
+                RoundedRectangle(
+                    cornerRadius: .py_grid(4),
+                    style: .continuous
+                ).stroke(isSelected
+                            ? Color(.label)
+                            : Color(.systemBackground)
+                )
+            )
+    }
+}
+
 
 public struct TasksView: View {
     let store: Store<TasksState, TasksAction>
@@ -264,13 +301,47 @@ public struct TasksView: View {
                             .preferred(.py_title2())
                             .bold()
                     )
-                    Spacer()
+                    
                     Button(action: {
-                        viewStore.send(.plusButtonTapped)
+                        viewStore.send(.filterPicked(.completed))
                     }, label: {
-                        Image(systemName: "plus")
+                        Image(systemName: "checkmark")
                     }).padding(.vertical)
-                    .buttonStyle(CornerButtonStyle())
+                    .buttonStyle(
+                        SelectedCornerButtonStyle(
+                            isSelected: viewStore.filter == .completed
+                        )
+                    )
+                    
+                    Button(action: {
+                        viewStore.send(.filterPicked(.pending))
+                    }, label: {
+                        Image(systemName: "clock.fill")
+                    }).padding(.vertical)
+                    .buttonStyle(
+                        SelectedCornerButtonStyle(
+                            isSelected: viewStore.filter == .pending)
+                    )
+                    
+                    Button(action: {
+                        viewStore.send(.filterPicked(.active))
+                    }, label: {
+                        Image(systemName: "chart.bar.fill")
+                    }).padding(.vertical)
+                    .buttonStyle(
+                        SelectedCornerButtonStyle(
+                            isSelected: viewStore.filter == .active)
+                    )
+                    
+                    Spacer()
+                    HStack {
+                        Button(action: {
+                            viewStore.send(.plusButtonTapped)
+                        }, label: {
+                            Image(systemName: "plus")
+                        }).padding(.vertical)
+                        .buttonStyle(CornerButtonStyle())
+                    }
                 }.padding(.horizontal)
                 .frame(maxWidth: .infinity)
                 .background(Color(UIColor.systemBackground))
@@ -278,7 +349,7 @@ public struct TasksView: View {
                 ) {
                     ForEachStore(
                         store.scope(
-                            state: \.tasks,
+                            state: \.filteredTasks,
                             action: TasksAction.cell(id:action:)),
                         content: { store in
                             WithViewStore(store) { vs in

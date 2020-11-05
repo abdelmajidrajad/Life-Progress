@@ -87,3 +87,16 @@ func map<A, B>(_ f: @escaping (A) -> B) -> ([A]) -> [B] {
     return { $0.map(f) }
 }
 
+public func prop<Root, Value>(_ kp: WritableKeyPath<Root, Value>)
+  -> (@escaping (Value) -> Value)
+  -> (Root)
+  -> Root {
+
+  return { update in
+    { root in
+      var copy = root
+      copy[keyPath: kp] = update(copy[keyPath: kp])
+      return copy
+    }
+  }
+}
