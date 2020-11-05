@@ -112,7 +112,8 @@ public let createTaskReducer = Reducer<CreateTaskState, CreateTaskAction, Create
                         startDate: state.startDate,
                         endDate: state.endDate,
                         creationDate: environment.date(),
-                        color: state.chosenColor.uiColor()
+                        color: state.chosenColor.uiColor(),
+                        style: state.progressStyle == .bar ? .bar: .circle
                     )
                 )
             ).catchToEffect()

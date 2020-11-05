@@ -32,11 +32,11 @@ public struct TasksState: Equatable {
     var filteredTasks: IdentifiedArrayOf<TaskState> {
         switch filter {
         case .active:
-            return tasks.filter { $0.progress <= 1.0 && $0.progress > 0 }
+            return tasks.filter { $0.status == .active }
         case .pending:
-            return tasks.filter { $0.progress == 0 }
+            return tasks.filter { $0.status == .pending }
         case .completed:
-            return tasks.filter { $0.progress == 1.0 }
+            return tasks.filter { $0.status == .completed }
         }
     }
     
@@ -295,53 +295,57 @@ public struct TasksView: View {
     public var body: some View {
         WithViewStore(store) { viewStore in
             ScrollView(showsIndicators: false) {
-                Section(header: HStack {
-                    Text("Tasks")
-                    .font(Font
-                            .preferred(.py_title2())
-                            .bold()
-                    )
-                    
-                    Button(action: {
-                        viewStore.send(.filterPicked(.completed))
-                    }, label: {
-                        Image(systemName: "checkmark")
-                    }).padding(.vertical)
-                    .buttonStyle(
-                        SelectedCornerButtonStyle(
-                            isSelected: viewStore.filter == .completed
-                        )
-                    )
-                    
-                    Button(action: {
-                        viewStore.send(.filterPicked(.pending))
-                    }, label: {
-                        Image(systemName: "clock.fill")
-                    }).padding(.vertical)
-                    .buttonStyle(
-                        SelectedCornerButtonStyle(
-                            isSelected: viewStore.filter == .pending)
-                    )
-                    
-                    Button(action: {
-                        viewStore.send(.filterPicked(.active))
-                    }, label: {
-                        Image(systemName: "chart.bar.fill")
-                    }).padding(.vertical)
-                    .buttonStyle(
-                        SelectedCornerButtonStyle(
-                            isSelected: viewStore.filter == .active)
-                    )
-                    
-                    Spacer()
-                    HStack {
-                        Button(action: {
-                            viewStore.send(.plusButtonTapped)
-                        }, label: {
-                            Image(systemName: "plus")
-                        }).padding(.vertical)
-                        .buttonStyle(CornerButtonStyle())
-                    }
+                Section(header:
+                            VStack {
+                                
+                                Text("Tasks")
+                                    .font(Font
+                                            .preferred(.py_title2())
+                                            .bold()
+                                    ).frame(maxWidth: .infinity, alignment: .leading)
+                                
+                                HStack {                                    
+                                    Button(action: {
+                                        viewStore.send(.filterPicked(.completed))
+                                    }, label: {
+                                        Image(systemName: "checkmark")
+                                    }).padding(.vertical)
+                                    .buttonStyle(
+                                        SelectedCornerButtonStyle(
+                                            isSelected: viewStore.filter == .completed
+                                        )
+                                    )
+                                    
+                                    Button(action: {
+                                        viewStore.send(.filterPicked(.pending))
+                                    }, label: {
+                                        Image(systemName: "clock.fill")
+                                    }).padding(.vertical)
+                                    .buttonStyle(
+                                        SelectedCornerButtonStyle(
+                                            isSelected: viewStore.filter == .pending)
+                                    )
+                                    
+                                    Button(action: {
+                                        viewStore.send(.filterPicked(.active))
+                                    }, label: {
+                                        Image(systemName: "chart.bar.fill")
+                                    }).padding(.vertical)
+                                    .buttonStyle(
+                                        SelectedCornerButtonStyle(
+                                            isSelected: viewStore.filter == .active)
+                                    )
+                                    
+                                    Spacer()
+                                    HStack {
+                                        Button(action: {
+                                            viewStore.send(.plusButtonTapped)
+                                        }, label: {
+                                            Image(systemName: "plus")
+                                        }).padding(.vertical)
+                                        .buttonStyle(CornerButtonStyle())
+                                    }
+                                }
                 }.padding(.horizontal)
                 .frame(maxWidth: .infinity)
                 .background(Color(UIColor.systemBackground))
@@ -433,10 +437,8 @@ struct TasksView_Previews: PreviewProvider {
                         },
                         tasks: { _ in
                         Just(TaskResponse.tasks(
-                                [.writeBook2,
-                                 .writeBook2,
-                                 .writeBook
-                                ]))
+                                [.writeBook2, .writeBook2, .writeBook])
+                            )
                             .setFailureType(to: TaskFailure.self)
                             .eraseToAnyPublisher()
                     })

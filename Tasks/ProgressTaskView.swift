@@ -7,17 +7,24 @@ import TaskClient
 
 @dynamicMemberLookup
 public struct TaskState: Equatable, Identifiable {
+    
+    public enum Status: Equatable {
+        case completed, active, pending
+    }
+    
     public var id: UUID { task.id }    
     var task: ProgressTask
     var remainingTime: NSAttributedString
     var result: TimeResult
     var progress: Double
+    var status: Status
     var isSelected: Bool
     public init(
         task: ProgressTask,
         remainingTime: NSAttributedString = .init(),
         progress: Double = .zero,
         result: TimeResult = .init(),
+        status: Status = .active,
         isSelected: Bool = false
     ) {
         self.task = task
@@ -25,6 +32,7 @@ public struct TaskState: Equatable, Identifiable {
         self.remainingTime = remainingTime
         self.result = result
         self.isSelected = isSelected
+        self.status = status
     }
     public init(
         task: ProgressTask
@@ -34,6 +42,7 @@ public struct TaskState: Equatable, Identifiable {
         self.remainingTime = .init()
         self.result = .init()
         self.isSelected = false
+        self.status = .active
     }
 }
 
@@ -49,7 +58,8 @@ extension TaskState {
 public struct TaskEnvironment {
     let date: () -> Date
     let calendar: Calendar
-    let taskProgress: (ProgressTaskRequest) -> AnyPublisher<TimeResponse, Never>
+    let taskProgress:
+    (ProgressTaskRequest) -> AnyPublisher<TimeResponse, Never>
 }
 
 public enum TaskAction: Equatable {
@@ -58,13 +68,18 @@ public enum TaskAction: Equatable {
     case ellipseButtonTapped
 }
 
-
 import ComposableArchitecture
 public let taskReducer =
     Reducer<TaskState, TaskAction, TaskEnvironment> {
         state, action, environment in
         switch action {
         case .onAppear:
+            state.status =
+                environment.date() >= state.task.endDate
+                ? .completed
+                : environment.date() < state.task.startDate
+                ? .pending: .active
+                
             return environment.taskProgress(
                 ProgressTaskRequest(
                     currentDate: environment.date(),
@@ -286,7 +301,7 @@ extension ProgressTask {
     public static var writeBook2: Self {
         ProgressTask(
             title: "Write my Book2, Write my Book, Write my Book, Write my Book",
-            startDate: Date(),
+            startDate: Date().addingTimeInterval(-3600 * 24 * 1),
             endDate: Date().addingTimeInterval(3600 * 24 * 3),
             creationDate: Date(),
             color: .startPinkColor
