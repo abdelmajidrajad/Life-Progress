@@ -174,14 +174,17 @@ struct ProgressTaskView: View {
                                     .fixedSize()
                             case .completed:
                                 HStack {
-                                    Image(systemName: "checkmark.circle.fill")
-                                        .foregroundColor(Color(.systemGreen))
                                     Text(viewStore.endDate)
                                         .font(.preferred(.py_footnote()))
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundColor(Color(.systemGreen))
                                 }
                             case .pending:
                                 HStack {
                                     Image(systemName: "clock.fill")
+                                        .foregroundColor(
+                                            viewStore.color.opacity(0.5)
+                                        )
                                     Text(viewStore.startDate)
                                         .font(.preferred(.py_footnote()))
                                 }
@@ -199,7 +202,7 @@ struct ProgressTaskView: View {
                                     maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,
                                     alignment: .leading
                                 ).padding(.trailing, .py_grid(5))
-                                .lineLimit(2)                            
+                                .lineLimit(2)
                             
                             switch viewStore.status {
                             case .active:
@@ -350,8 +353,8 @@ extension ProgressTask {
     public static var writeBook2: Self {
         ProgressTask(
             title: "Write my Book2, Write my Book, Write my Book, Write my Book",
-            startDate: Date().addingTimeInterval(-3600 * 24 * 1),
-            endDate: Date().addingTimeInterval(-3600 * 24 * 2),
+            startDate: Date().addingTimeInterval(3600 * 24 * 1),
+            endDate: Date().addingTimeInterval(3600 * 24 * 2),
             creationDate: Date(),
             color: .startPinkColor,
             style: .circle

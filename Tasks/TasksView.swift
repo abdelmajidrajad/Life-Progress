@@ -415,13 +415,7 @@ struct TasksView_Previews: PreviewProvider {
             
             TasksView(store: Store<TasksState, TasksAction>(
                 initialState: TasksState(
-                    tasks: [
-                        //                        TaskState(task: .readBook, color: .red),
-                        //                        TaskState(task: .writeBook, color: .gray),
-                        //                        TaskState(task: .readBook, color: .pink),
-                        //                        TaskState(task: .writeBook, color: .red),
-                        //                        TaskState(task: .writeBook, color: .blue)
-                    ]
+                    tasks: []
                 ),
                 reducer: tasksReducer,
                 environment: TasksEnvironment(
@@ -431,21 +425,21 @@ struct TasksView_Previews: PreviewProvider {
                     timeClient: .progress,
                     taskClient: TaskClient(
                         create: { _ in
-                            Just(.created(.writeBook2))
-                                .setFailureType(to: TaskFailure.self)
-                                .eraseToAnyPublisher()
+                            Just(
+                                .created(.writeBook2)
+                            ).setFailureType(to: TaskFailure.self)
+                             .eraseToAnyPublisher()                            
                         },
                         tasks: { _ in
-                        Just(TaskResponse.tasks(
-                                [.writeBook2, .writeBook2, .writeBook])
-                            )
-                            .setFailureType(to: TaskFailure.self)
+                            Just(
+                                .tasks([.writeBook2, .writeBook])
+                            ).setFailureType(to: TaskFailure.self)
                             .eraseToAnyPublisher()
-                    })
+                            
+                        })
                 )
-            ))
-            .preferredColorScheme(.dark)
-            //.preferredColorScheme(.dark)            
+            )).preferredColorScheme(.dark)
+                                    
         }
     }
 }
