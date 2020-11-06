@@ -4,148 +4,7 @@ import ComposableArchitecture
 import TimeClient
 import TaskClient
 import Components
-import CoreData
 import Tasks
-
-struct AppState: Equatable {
-    var yearState: YearState
-    var dayState: DayState
-    var switchState: SwitchState
-    var tasksState: TasksState
-    var yourDayState: YourDayProgressState
-    //var settingState: SettingState
-    public init(
-        yearState: YearState = .init(style: .circle),
-        dayState: DayState = .init(style: .circle),
-        switchState: SwitchState = .init(),
-        tasksState: TasksState = .init(),
-        yourDayState: YourDayProgressState = .init()
-    ) {
-        self.yearState = yearState
-        self.dayState = dayState
-        self.switchState = switchState
-        self.tasksState = tasksState
-        self.yourDayState = yourDayState
-    }
-}
-
-enum AppAction: Equatable {
-    case onStart
-    case onUpdate(DispatchQueue.SchedulerTimeType)
-    case settingButtonTapped
-    case year(YearAction)
-    case day(DayAction)
-    case union(SwitchAction)
-    case tasks(TasksAction)
-    case yourDay(YourDayProgressAction)
-}
-
-struct AppEnvironment {
-    let uuid: () -> UUID
-    let date: () -> Date
-    let calendar: Calendar
-    let mainQueue: AnySchedulerOf<DispatchQueue>
-    let timeClient: TimeClient
-    let taskClient: TaskClient
-    let context: NSManagedObjectContext
-    let userDefaults: KeyValueStoreType
-}
-
-let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
-    Reducer { state, action, environment in
-        switch action {
-        case .onStart:
-            struct TimerId: Hashable {}
-            return Effect.timer(
-                id: TimerId(),
-                every: .seconds(30.0),
-                on: environment.mainQueue
-            ).map(AppAction.onUpdate)
-            .eraseToEffect()
-        case .onUpdate:
-            return .concatenate(
-                Effect(value: .day(.onChange)),
-                Effect(value: .year(.onChange)),
-                Effect(value: .tasks(.onChange)),
-                Effect(value: .union(.onChange)),
-                Effect(value: .yourDay(.onChange))
-            )
-        case .settingButtonTapped:
-            return .none
-        default:
-            return .none
-        }
-    },
-    dayReducer.pullback(
-        state: \.dayState,
-        action: /AppAction.day,
-        environment: \.day
-    ),
-    yearReducer.pullback(
-        state: \.yearState,
-        action: /AppAction.year,
-        environment: \.year
-    ),
-    switchReducer.pullback(
-        state: \.switchState,
-        action: /AppAction.union,
-        environment: \.union
-    ),
-    yourDayProgressReducer.pullback(
-        state: \.yourDayState,
-        action: /AppAction.yourDay,
-        environment: \.yourDay
-    ),
-    tasksReducer.pullback(
-        state: \.tasksState,
-        action: /AppAction.tasks,
-        environment: {
-            TasksEnvironment(
-                date: $0.date,
-                calendar: $0.calendar,
-                managedContext: $0.context,
-                timeClient: $0.timeClient,
-                taskClient: $0.taskClient
-            )
-        }
-    )
-)
-
-extension AppEnvironment {
-    var day: DayEnvironment {
-        DayEnvironment(
-            calendar: calendar,
-            date: date,
-            todayProgress: timeClient.todayProgress
-        )
-    }
-    var union: SwitchEnvironment {
-        SwitchEnvironment(
-            calendar: calendar,
-            date: date,
-            todayProgress: timeClient.todayProgress,
-            yearProgress: timeClient.yearProgress
-        )
-    }
-    var yourDay: YourDayProgressEnvironment {
-        YourDayProgressEnvironment(
-            calendar: calendar,
-            date: date,
-            userDefaults: userDefaults,
-            yourDayProgress: timeClient.yourDayProgress
-        )
-    }
-}
-
-extension AppEnvironment {
-    var year: YearEnvironment {
-        YearEnvironment(
-            calendar: calendar,
-            date: date,
-            yearProgress: timeClient.yearProgress
-        )
-    }
-}
 
 
 struct ContentView: View {
@@ -233,30 +92,30 @@ struct ContentView: View {
     }
 }
 
-struct PlusButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .padding(.horizontal, .py_grid(5))
-            .padding(.vertical, .py_grid(3))
-            .background(
-                RoundedRectangle(cornerRadius: 16.0)
-                    .fill(Color.white)
-                    .shadow(color: Color(white: 0.95), radius: 1)
-            )
-    }
-}
 
-let lineWidth: CGFloat = 8.0
+
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             ContentView(
                 store: Store<AppState, AppAction>(
-                    initialState: AppState(),
+                    initialState: AppState(
+                        tasksState: TasksState(filter: .pending)
+                    ),
                     reducer: appReducer,
                     environment: .midDay
                 )
             ).preferredColorScheme(.dark)
+            ContentView(
+                store: Store<AppState, AppAction>(
+                    initialState: AppState(
+                        tasksState: TasksState(filter: .pending)
+                    ),
+                    reducer: appReducer,
+                    environment: .midDay
+                )
+            )
         }
     }
 }
@@ -351,6 +210,19 @@ struct RoundButtonStyle: ButtonStyle {
             .padding(.horizontal, .py_grid(6))
             .background(
                 RoundedRectangle(cornerRadius: .py_grid(4))                .fill(Color(white: 0.97))
+            )
+    }
+}
+
+struct PlusButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .padding(.horizontal, .py_grid(5))
+            .padding(.vertical, .py_grid(3))
+            .background(
+                RoundedRectangle(cornerRadius: 16.0)
+                    .fill(Color.white)
+                    .shadow(color: Color(white: 0.95), radius: 1)
             )
     }
 }

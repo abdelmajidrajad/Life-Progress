@@ -16,6 +16,10 @@
 		0412965D2549B3D0008337A0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0412965F2549B3D0008337A0 /* Localizable.strings */; };
 		041296662549B60D008337A0 /* LocalizedStringKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041296652549B60D008337A0 /* LocalizedStringKey.swift */; };
 		0412966D2549BD2C008337A0 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0412966C2549BD2C008337A0 /* Colors.swift */; };
+		042D302225553CB000C26A12 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D302125553CB000C26A12 /* State.swift */; };
+		042D302B25553CCD00C26A12 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D302A25553CCD00C26A12 /* Action.swift */; };
+		042D303425553CFA00C26A12 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D303325553CFA00C26A12 /* Environment.swift */; };
+		042D303D25553D2400C26A12 /* Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D303C25553D2400C26A12 /* Reducer.swift */; };
 		0430D94F2548878000CA7CFC /* Tasks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; };
 		0430D9502548878600CA7CFC /* Tasks.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04325686254459570050F620 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04325685254459570050F620 /* Grid.swift */; };
@@ -257,6 +261,10 @@
 		041296652549B60D008337A0 /* LocalizedStringKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedStringKey.swift; sourceTree = "<group>"; };
 		0412966C2549BD2C008337A0 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		04215B85254C882900461C9C /* YourDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourDayView.swift; sourceTree = "<group>"; };
+		042D302125553CB000C26A12 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
+		042D302A25553CCD00C26A12 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
+		042D303325553CFA00C26A12 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
+		042D303C25553D2400C26A12 /* Reducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reducer.swift; sourceTree = "<group>"; };
 		04325685254459570050F620 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		0439133225518A1200B62018 /* Settings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Settings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0439133425518A1200B62018 /* Settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
@@ -425,6 +433,17 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		042D302025553C9500C26A12 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				042D302125553CB000C26A12 /* State.swift */,
+				042D302A25553CCD00C26A12 /* Action.swift */,
+				042D303325553CFA00C26A12 /* Environment.swift */,
+				042D303C25553D2400C26A12 /* Reducer.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
 		0439133325518A1200B62018 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -537,6 +556,7 @@
 		04E73C2D2542C2030092B918 /* Life Progress */ = {
 			isa = PBXGroup;
 			children = (
+				042D302025553C9500C26A12 /* Store */,
 				040DD86A255297E80089D29C /* Supporting Files */,
 				0439138225518D4E00B62018 /* App Icons */,
 				04123374254492FA0072ABF3 /* TaskClient */,
@@ -1093,10 +1113,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				04E73C2F2542C2030092B918 /* AppDelegate.swift in Sources */,
+				042D303425553CFA00C26A12 /* Environment.swift in Sources */,
 				04E73C312542C2030092B918 /* SceneDelegate.swift in Sources */,
 				04E73C362542C2030092B918 /* Life_Progress.xcdatamodeld in Sources */,
 				04E73C332542C2030092B918 /* ContentView.swift in Sources */,
+				042D303D25553D2400C26A12 /* Reducer.swift in Sources */,
+				042D302B25553CCD00C26A12 /* Action.swift in Sources */,
 				040DD86C255297FF0089D29C /* ColorValueTransformer.swift in Sources */,
+				042D302225553CB000C26A12 /* State.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

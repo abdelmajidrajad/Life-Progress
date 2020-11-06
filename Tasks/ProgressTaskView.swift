@@ -107,10 +107,20 @@ extension TaskState {
                 taskCellStyle, style: .long),
             progress: NSNumber(value: progress),            
             color: Color(task.color),
-            isCircle: task.style == .circle
+            isCircle: task.style == .circle,
+            status: status,
+            startDate: pendingDateFormatter.string(from: task.startDate),
+            endDate: pendingDateFormatter.string(from: task.endDate)
         )
     }
 }
+
+var pendingDateFormatter: DateFormatter {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "HH:mm a EEEE, d MMM YYYY"
+    return formatter
+}
+
 
 struct ProgressTaskView: View {
     
@@ -120,6 +130,9 @@ struct ProgressTaskView: View {
         let progress: NSNumber
         let color: Color
         let isCircle: Bool
+        let status: TaskState.Status
+        let startDate: String
+        let endDate: String
     }
     
     let store: Store<TaskState, TaskAction>
@@ -155,8 +168,24 @@ struct ProgressTaskView: View {
                                 ).padding(.trailing, .py_grid(4))
                                 .lineLimit(2)
                             
-                            PLabel(attributedText: .constant(viewStore.remaining))
-                                .fixedSize()
+                            switch viewStore.status {
+                            case .active:
+                                PLabel(attributedText: .constant(viewStore.remaining))
+                                    .fixedSize()
+                            case .completed:
+                                HStack {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundColor(Color(.systemGreen))
+                                    Text(viewStore.endDate)
+                                        .font(.preferred(.py_footnote()))
+                                }
+                            case .pending:
+                                HStack {
+                                    Image(systemName: "clock.fill")
+                                    Text(viewStore.startDate)
+                                        .font(.preferred(.py_footnote()))
+                                }
+                            }
                         }
                     }
                     
@@ -170,10 +199,27 @@ struct ProgressTaskView: View {
                                     maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,
                                     alignment: .leading
                                 ).padding(.trailing, .py_grid(5))
-                                .lineLimit(2)
+                                .lineLimit(2)                            
                             
-                            PLabel(attributedText: .constant(viewStore.remaining))
-                                .fixedSize()
+                            switch viewStore.status {
+                            case .active:
+                                PLabel(attributedText: .constant(viewStore.remaining))
+                                    .fixedSize()
+                            case .completed:
+                                HStack {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundColor(Color(.systemGreen))
+                                    Text(viewStore.endDate)
+                                        .font(.preferred(.py_footnote()))
+                                }
+                            case .pending:
+                                HStack {
+                                    Image(systemName: "clock.fill")
+                                    Text(viewStore.startDate)
+                                        .font(.preferred(.py_footnote()))
+                                }
+                            }
+                            
                         }
                         
                         ProgressBar(
@@ -215,7 +261,10 @@ struct ProgressTaskView_Previews: PreviewProvider {
             ProgressTaskView(
                 store:
                     Store(
-                        initialState: TaskState(task: .writeBook),
+                        initialState: TaskState(
+                            task: .writeBook2,
+                            status: .completed
+                        ),
                         reducer: taskReducer,
                         environment: TaskEnvironment(
                             date: Date.init,
@@ -240,7 +289,7 @@ struct ProgressTaskView_Previews: PreviewProvider {
             ProgressTaskView(
                 store:
                     Store(
-                        initialState: TaskState(task: .readBook),
+                        initialState: TaskState(task: .writeBook2),
                         reducer: taskReducer,
                         environment: TaskEnvironment(
                             date: Date.init,
@@ -302,9 +351,10 @@ extension ProgressTask {
         ProgressTask(
             title: "Write my Book2, Write my Book, Write my Book, Write my Book",
             startDate: Date().addingTimeInterval(-3600 * 24 * 1),
-            endDate: Date().addingTimeInterval(3600 * 24 * 3),
+            endDate: Date().addingTimeInterval(-3600 * 24 * 2),
             creationDate: Date(),
-            color: .startPinkColor
+            color: .startPinkColor,
+            style: .circle
         )
     }
 }
