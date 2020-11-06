@@ -1,47 +1,173 @@
 import SwiftUI
 import Core
+import ComposableArchitecture
+
+struct AboutsState: Equatable {
+    let features: [Feature]
+    init(features: [Feature] = appFeatures) {
+        self.features = features
+    }
+}
 
 struct AboutsView: View {
     
-    @Environment(\.colorScheme) var colorScheme
+    let store: Store<AboutsState, Never>
+    public init(store: Store<AboutsState, Never>) {
+        self.store = store
+    }
     
+    @Environment(\.colorScheme) var colorScheme
     private var image: String {
-        colorScheme == .dark ? "blue": "classic"
+        colorScheme == .dark ? "orange": "classic"
     }
     
     var body: some View {
-        VStack {
-            
-            Text("app description")
-                .frame(maxHeight: .infinity)
-            
-            
-            VStack {
-                Image(image, bundle: .settings)
-                    .resizable()
-                    .frame(width: .py_grid(15), height: .py_grid(15))
-                    .clipShape(
-                        RoundedRectangle(
-                            cornerRadius: .py_grid(4))
-                    )
+                                                    
+        WithViewStore(store) { viewStore in
+            List {
                 
-                Text("© Life Progress v\(appVersion)")
-                    .font(.preferred(.py_callout()))
-            }
-            
+                Section(
+                    header:
+                        Text("Features")
+                            .foregroundColor(.gray)
+                            .font(.preferred(.py_headline()))
+                            .padding(.vertical)
+                            .padding(.leading)
+                            .frame(
+                                maxWidth: .infinity,
+                                alignment: .leading
+                            )
+                            .background(Color(.systemBackground))
+                            .listRowInsets(.zero)
+                    ,
+                    footer: VStack {
+                        
+                        Text("Progress Anything ...")
+                            .frame(maxHeight: .infinity, alignment: .bottom)
+                            .multilineTextAlignment(.center)
+                        
+                        Image(image, bundle: .settings)
+                            .resizable()
+                            .frame(
+                                width: .py_grid(15),
+                                height: .py_grid(15)
+                            )
+                            .clipShape(
+                                RoundedRectangle(
+                                    cornerRadius: .py_grid(3),
+                                    style: .continuous
+                                )
+                            )
+                        
+                        Text("© Life Progress v\(appVersion)")
+                            .font(.preferred(.py_callout()))
+                            .foregroundColor(.gray)
+                        
+                    }.frame(maxWidth: .infinity, alignment: .center)
+                    .padding(.top)
+                ) {
+                    ForEach(viewStore.features, content: FeatureView.init)
+                }
                 
-            
-        }.navigationBarTitle(Text("About"))
-                       
+            }.navigationBarTitle(Text("About"), displayMode: .automatic)
+        }
+        
     }
 }
 
 struct AboutsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            AboutsView()
-            AboutsView()
-                .preferredColorScheme(.dark)
+            AboutsView(store: Store<AboutsState, Never>(
+                        initialState: AboutsState(),
+                        reducer: .empty,
+                        environment: ())
+            )
+            NavigationView {
+                AboutsView(store: Store<AboutsState, Never>(
+                            initialState: AboutsState(),
+                            reducer: .empty,
+                            environment: ())
+                ).preferredColorScheme(.dark)
+                    
+            }
         }
+    }
+}
+
+public struct Feature: Identifiable, Equatable {
+    public var id: UUID = UUID()
+    let title: String
+    let subTitle: String
+}
+
+public let appFeatures: [Feature] = [
+    .yearProgress,
+    .todayProgress,
+    .yourDayProgress,
+    .widget,
+    .taskProgress
+]
+
+extension Feature {
+    static var yearProgress: Self {
+        .init(
+            title: "year progress",
+            subTitle: "track daily progress, how much days left to the end"
+        )
+    }
+    
+    static var todayProgress: Self {
+        .init(
+            title: "today progress",
+            subTitle: "track remaining hours to the end of today"
+        )
+    }
+    
+    static var yourDayProgress: Self {
+        .init(
+            title: "your day progress",
+            subTitle: "track remaining hours to the end your day"
+        )
+    }
+    
+    static var widget: Self {
+        .init(
+            title: "Widgets",
+            subTitle: "Add widget on your main screen"
+        )
+    }
+    
+    static var taskProgress: Self {
+        .init(
+            title: "Task Progress",
+            subTitle: "track your tasks and add them on Widgets"
+        )
+    }
+    
+}
+
+
+extension String {
+    func capitalizingFirstLetter() -> String {
+        return prefix(1).capitalized + dropFirst()
+    }
+
+    mutating func capitalizeFirstLetter() {
+        self = self.capitalizingFirstLetter()
+    }
+}
+
+struct FeatureView: View {
+    let feature: Feature
+    var body: some View {
+        VStack(alignment: .leading, spacing: .py_grid(2)) {
+            Text(feature.title.capitalized)
+                .multilineTextAlignment(.center)
+                .font(.preferred(.py_headline()))
+            Text(feature.subTitle.capitalizingFirstLetter())
+                .multilineTextAlignment(.center)
+                .font(.preferred(.py_footnote()))
+        }.padding(.vertical)
     }
 }

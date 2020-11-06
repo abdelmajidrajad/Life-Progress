@@ -1,56 +1,103 @@
 import SwiftUI
 import Core
+import ComposableArchitecture
+import Combine
+
+struct AppIconState: Equatable {
+    let icons: [AppIcon] = AppIcon.allCases
+    var chosenIcon: AppIcon? = nil
+}
+
+enum AppIconAction: Equatable {
+    case onAppear
+    case pickedIcon(AppIcon)
+}
+
+var alternateIconName: Effect<AppIcon, Never>  {
+    Effect<AppIcon, Never>.future { promise in
+        promise(.success(
+            AppIcon(rawValue: UIApplication.shared.alternateIconName ?? "classic") ?? .classic
+        ))
+    }.eraseToEffect()
+}
+
+let appIconReducer =
+Reducer<AppIconState, AppIconAction, Void> { state, action, _ in
+    switch action {
+    case .onAppear:
+        return alternateIconName
+            .map(AppIconAction.pickedIcon)
+    case let .pickedIcon(icon):
+        state.chosenIcon = icon
+        return .none
+    }
+}
 
 struct AppIconsView: View {
     
-    @State var current: AppIcon = .classic
+    let store: Store<AppIconState, AppIconAction>
+    public init(
+        store: Store<AppIconState, AppIconAction>
+    ) {
+        self.store = store
+    }
     
     var body: some View {
-        List {
-            ForEach(AppIcon.allCases, id: \.self) { icon in
-                HStack {
-                    Image(icon.rawValue, bundle: .settings)
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(
-                            width: .py_grid(16),
-                            height: .py_grid(16)
-                        )
-                        .clipShape(
-                            RoundedRectangle(
-                                cornerRadius: .py_grid(3),
-                                style: .continuous
+        WithViewStore(store) { viewStore in
+            List {
+                ForEach(AppIcon.allCases, id: \.self) { icon in
+                    HStack {
+                        Image(icon.rawValue, bundle: .settings)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(
+                                width: .py_grid(16),
+                                height: .py_grid(16)
                             )
+                            .clipShape(
+                                RoundedRectangle(
+                                    cornerRadius: .py_grid(3),
+                                    style: .continuous
+                                )
+                            )
+                        
+                        Text(icon.rawValue)
+                            .font(
+                                Font.preferred(.py_title3()).lowercaseSmallCaps()
+                            ).frame(
+                                maxWidth: .infinity,
+                                alignment: .leading
+                            )
+                        
+                        if icon == viewStore.chosenIcon {
+                            Image(systemName: "checkmark")
+                                .font(.preferred(.py_headline()))
+                        }
+                    }.background(
+                        Rectangle()
+                            .fill(Color(.systemBackground))
                     )
-                    
-                    Text(icon.rawValue)
-                        .font(Font
-                            .preferred(.py_title3()).lowercaseSmallCaps()
-                        )
-                        .frame(
-                            maxWidth: .infinity,
-                            alignment: .leading
-                        )
-                    
-                    if icon == current {
-                        Image(systemName: "checkmark")
-                            .font(.preferred(.py_headline()))
+                    .onTapGesture {
+                        viewStore.send(.pickedIcon(icon))
                     }
-                }.background(
-                    Rectangle()
-                        .fill(Color(.systemBackground))
-                )
-                .onTapGesture {
-                    current = icon
                 }
+            }.navigationBarTitle(Text("App Icons"))
+            .onAppear {
+                viewStore.send(.onAppear)
             }
-        }.navigationBarTitle(Text("App Icons"))
+        }
     }
 }
 
 struct AppIconsView_Previews: PreviewProvider {
     static var previews: some View {
-        AppIconsView()
-            .preferredColorScheme(.dark)
+        AppIconsView(
+            store: Store<AppIconState, AppIconAction>(
+                initialState: AppIconState(),
+                reducer: appIconReducer,
+                environment: ()
+            )
+        ).preferredColorScheme(.dark)
+            
     }
 }

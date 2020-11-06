@@ -21,6 +21,7 @@
 		042D303425553CFA00C26A12 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D303325553CFA00C26A12 /* Environment.swift */; };
 		042D303D25553D2400C26A12 /* Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D303C25553D2400C26A12 /* Reducer.swift */; };
 		042D304625554E2600C26A12 /* SmartProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D304525554E2500C26A12 /* SmartProgressBar.swift */; };
+		042D304F25556E2A00C26A12 /* EdgeInset+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D304E25556E2900C26A12 /* EdgeInset+Extension.swift */; };
 		0430D94F2548878000CA7CFC /* Tasks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; };
 		0430D9502548878600CA7CFC /* Tasks.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04325686254459570050F620 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04325685254459570050F620 /* Grid.swift */; };
@@ -267,6 +268,7 @@
 		042D303325553CFA00C26A12 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		042D303C25553D2400C26A12 /* Reducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reducer.swift; sourceTree = "<group>"; };
 		042D304525554E2500C26A12 /* SmartProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartProgressBar.swift; sourceTree = "<group>"; };
+		042D304E25556E2900C26A12 /* EdgeInset+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EdgeInset+Extension.swift"; sourceTree = "<group>"; };
 		04325685254459570050F620 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		0439133225518A1200B62018 /* Settings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Settings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0439133425518A1200B62018 /* Settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
@@ -616,6 +618,7 @@
 				0490044C254D77E50014CE7D /* DashedLine.swift */,
 				0496727F255036FF0015205E /* KeyValueStorage.swift */,
 				040DD89D25529E250089D29C /* Color+UIKit.swift */,
+				042D304E25556E2900C26A12 /* EdgeInset+Extension.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1151,6 +1154,7 @@
 				04967280255036FF0015205E /* KeyValueStorage.swift in Sources */,
 				0462F01025444433003D2969 /* Operators.swift in Sources */,
 				041296502549B0C3008337A0 /* Blur.swift in Sources */,
+				042D304F25556E2A00C26A12 /* EdgeInset+Extension.swift in Sources */,
 				040DD89E25529E250089D29C /* Color+UIKit.swift in Sources */,
 				04D7BAAC25458329003A9774 /* PLabel.swift in Sources */,
 				0490044D254D77E60014CE7D /* DashedLine.swift in Sources */,

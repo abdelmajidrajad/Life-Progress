@@ -236,16 +236,7 @@ extension TasksEnvironment {
     }
 }
 
-extension EdgeInsets {
-    static var zero: EdgeInsets {
-        EdgeInsets(
-            top: .zero,
-            leading: .zero,
-            bottom: .zero,
-            trailing: .zero
-        )
-    }
-}
+
 
 struct CornerButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {

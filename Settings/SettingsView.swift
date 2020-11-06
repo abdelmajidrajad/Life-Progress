@@ -1,194 +1,277 @@
 import SwiftUI
 import Core
+import ComposableArchitecture
+
+enum SettingItem: Equatable {
+    case appInfo
+    case appIcon
+    case showSettings
+    case nightMode
+    case rateUs
+    case support
+    case notifications
+    case about
+}
+
+
+struct SettingsState: Equatable {
+    var aboutsState: AboutsState
+    var appIconState: AppIconState
+    var section: SettingItem?
+    init(
+        features: [Feature] = appFeatures,
+        section: SettingItem? = nil
+    ) {
+        self.appIconState = AppIconState()
+        self.aboutsState = AboutsState(features: features)
+        self.section = section
+    }
+}
+
+enum SettingAction: Equatable {
+    case sectionTapped(SettingItem?)
+    case mainCellTapped
+    case appIconCellTapped
+    case nightModeCellTapped
+    case rateUsCellTapped
+    case supportCellTapped
+    case aboutCellTapped
+    case appIcon(AppIconAction)
+}
+
+
+let settingReducer = Reducer<SettingsState, SettingAction, Void>.combine(
+    Reducer {
+        state, action, _ in
+        switch action {
+        case .mainCellTapped:
+            return .none
+        case .appIconCellTapped:
+            return .none
+        case .nightModeCellTapped:
+            return .none
+        case .rateUsCellTapped:
+            return .none
+        case .supportCellTapped:
+            return .none
+        case .aboutCellTapped:
+            return .none
+        case let .sectionTapped(section):
+            state.section = section
+            return .none
+        case .appIcon:
+            return .none
+        }
+    },
+    appIconReducer.pullback(
+        state: \.appIconState,
+        action: /SettingAction.appIcon,
+        environment: { $0 }
+    )   
+)
+
 
 public struct SettingsView: View {
-    
-    enum SettingItem {
-        case appInfo
-        case appIcon
-        case showSettings
-        case nightMode
-        case rateUs
-        case support
-        case notifications
-        case about
-    }
-    
-    @State var section: SettingItem? = .none
-    
-    public init() {        
+        
+    let store: Store<SettingsState, SettingAction>
+    init(store: Store<SettingsState, SettingAction>) {
+        self.store = store
     }
     
     public var body: some View {
-        NavigationView {
-            List {
-                Section {
-                                        
-                    //MARK:- Life Progress
-                    NavigationLink(
-                        destination: Text("Destination"),
-                        tag: .appInfo,
-                        selection: $section,
-                        label: {
-                            HStack(spacing: .py_grid(4)) {
-                                Image("classic", bundle: .settings)
-                                    .resizable()
-                                    .frame(
-                                        width: .py_grid(16),
-                                        height: .py_grid(16)
-                                    )
-                                    .clipShape(
-                                        RoundedRectangle(
-                                            cornerRadius: .py_grid(4),
-                                            style: .continuous
-                                        )
-                                    )
+        WithViewStore(store) { viewStore in
+                List {
+                    Section {
+                                            
+                        //MARK:- Life Progress
+                        NavigationLink(
+                            destination: Text("Destination"),
+                            tag: .appInfo,
+                            selection: viewStore.binding(
+                                get: \.section,
+                                send: SettingAction.sectionTapped
+                            ),
+                            label: {
                                 
-                                VStack(alignment: .leading, spacing: .py_grid(2)) {
-                                    Text("Life Progress PLUS+".uppercased())
-                                        .font(
-                                            Font.preferred(
-                                                .py_title3())
-                                                .bold()
-                                                .smallCaps()
+                                HStack(spacing: .py_grid(4)) {
+                                    Image("classic", bundle: .settings)
+                                        .resizable()
+                                        .frame(
+                                            width: .py_grid(16),
+                                            height: .py_grid(16)
+                                        ).clipShape(
+                                            RoundedRectangle(
+                                                cornerRadius: .py_grid(4),
+                                                style: .continuous
+                                            )
                                         )
-                                    Text("Progress your tasks")
+                                                                        
+                                    VStack(alignment: .leading, spacing: .py_grid(2)) {
+                                        Text("Life Progress PLUS+".uppercased())
+                                            .font(
+                                                Font.preferred(
+                                                    .py_title3())
+                                                    .bold()
+                                                    .smallCaps()
+                                            )
+                                        Text("Progress your tasks")
+                                            .font(.preferred(.py_body()))
+                                    }
+                                }.padding(.vertical)
+                                
+                            }).onTapGesture {
+                                //self.section = .appInfo
+                            }
+                                                                
+                        //MARK:- App Icon
+                        NavigationLink(
+                            destination: AppIconsView(
+                                store: store.scope(
+                                    state: \.appIconState,
+                                    action: SettingAction.appIcon
+                                )
+                            ),
+                            tag: .appIcon,
+                            selection: viewStore.binding(
+                                get: \.section,
+                                send: SettingAction.sectionTapped
+                            ),
+                            label: {
+                                HStack {
+                                    LeftImage(
+                                        systemName: "a.circle.fill",
+                                        fillColor: .green
+                                    )
+                                    Text("App Icon")
                                         .font(.preferred(.py_body()))
-                                }
-                            }.padding(.vertical)
-                        }).onTapGesture {
-                            self.section = .appInfo
-                        }
-                                                            
-                    //MARK:- App Icon
-                    NavigationLink(
-                        destination: AppIconsView(),
-                        tag: .appIcon,
-                        selection: $section,
-                        label: {
-                            HStack {
-                                LeftImage(
-                                    systemName: "a.circle.fill",
-                                    fillColor: .green
-                                )
-                                Text("App Icon")
-                                    .font(.preferred(.py_body()))
-                            }.padding(.vertical, .py_grid(1))
-                        })
-                    
-                    //MARK:- Show Settings
-                    //NavigationLink(
-                    //    destination: Text("Settings"),
-                    //    tag: .showSettings,
-                    //    selection: $section,
-                    //    label: {
-                    //        HStack {
-                    //            LeftImage(
-                    //                systemName: "wrench.fill",
-                    //                fillColor: .gray
-                    //            )
-                    //            Text("Show Settings")
-                    //                .font(.preferred(.py_body()))
-                    //        }.padding(.vertical, .py_grid(1))
-                    //})
-                }
-                
-                Section {
-                    //MARK:- Night Mode
-                    NavigationLink(
-                        destination: NightModeView(),
-                        tag: .nightMode,
-                        selection: $section,
-                        label: {
-                            HStack {
-                                LeftImage(
-                                    systemName: "moon.fill",
-                                    fillColor: .purple
-                                )
-                                Text("Night Mode")
-                                    .font(.preferred(.py_body()))
-                            }.padding(.vertical, .py_grid(1))
-                        })
-                    
-                    //MARK:- Notifications
-                    //NavigationLink(
-                    //    destination: Text("Notifications"),
-                    //    tag: .notifications,
-                    //    selection: $section,
-                    //    label: {
-                    //        HStack {
-                    //            LeftImage(
-                    //                systemName: "app.badge",
-                    //                fillColor: .red
-                    //            )
-                    //            Text("Notifications")
-                    //                .font(.preferred(.py_body()))
-                    //        }.padding(.vertical, .py_grid(1))
-                    //})
-                    
-                }
-                
-                
-                Section {
-                    //MARK:- App Store Rating
-                    HStack {
-                        LeftImage(
-                            systemName: "star.fill",
-                            fillColor: .blue
-                        )
-                        Text("Please Rate on App Store")
-                            .font(.preferred(.py_body()))
-                    }.padding(.vertical, .py_grid(1))
-                    
-                }
-                
-                Section {
-                    //MARK:- Support
-                    HStack {
-                        LeftImage(
-                            systemName: "questionmark",
-                            fillColor: .orange
-                        )
-                        Text("Support")
-                            .font(.preferred(.py_body()))
-                    }.padding(.vertical, .py_grid(1))
-                    .onTapGesture {
-                        self.section = .support
+                                }.padding(.vertical, .py_grid(1))
+                            })
+                        
+                        //MARK:- Show Settings
+                        //NavigationLink(
+                        //    destination: Text("Settings"),
+                        //    tag: .showSettings,
+                        //    selection: $section,
+                        //    label: {
+                        //        HStack {
+                        //            LeftImage(
+                        //                systemName: "wrench.fill",
+                        //                fillColor: .gray
+                        //            )
+                        //            Text("Show Settings")
+                        //                .font(.preferred(.py_body()))
+                        //        }.padding(.vertical, .py_grid(1))
+                        //})
                     }
+                    
+                    Section {
+                        //MARK:- Night Mode
+                        NavigationLink(
+                            destination: NightModeView(),
+                            tag: .nightMode,
+                            selection: viewStore.binding(
+                                get: \.section,
+                                send: SettingAction.sectionTapped
+                            ),
+                            label: {
+                                HStack {
+                                    LeftImage(
+                                        systemName: "moon.fill",
+                                        fillColor: .purple
+                                    )
+                                    Text("Night Mode")
+                                        .font(.preferred(.py_body()))
+                                }.padding(.vertical, .py_grid(1))
+                            })
+                        
+                        //MARK:- Notifications
+                        NavigationLink(
+                            destination: Text("Notifications"),
+                            tag: .notifications,
+                            selection: viewStore.binding(
+                                get: \.section,
+                                send: SettingAction.sectionTapped
+                            ),
+                            label: {
+                                HStack {
+                                    LeftImage(
+                                        systemName: "app.badge",
+                                        fillColor: .red
+                                    )
+                                    Text("Notifications")
+                                        .font(.preferred(.py_body()))
+                                }.padding(.vertical, .py_grid(1))
+                        })
+                        
+                    }
+                    
+                    
+                    Section {
+                        //MARK:- App Store Rating
+                        HStack {
+                            LeftImage(
+                                systemName: "star.fill",
+                                fillColor: .blue
+                            )
+                            Text("Please Rate on App Store")
+                                .font(.preferred(.py_body()))
+                        }.padding(.vertical, .py_grid(1))
+                        
+                       
 
-                    //MARK:- About
-                    NavigationLink(
-                        destination: AboutsView(),
-                        tag: .about,
-                        selection: $section,
-                        label: {
-                            HStack {
-                                LeftImage(
-                                    systemName: "exclamationmark",
-                                    fillColor: .pink
-                                )
-                                Text("About")
-                                    .font(.preferred(.py_body()))
-                            }.padding(.vertical, .py_grid(1))
-                        }).onTapGesture {
-                            self.section = .about
-                        }
-                }
-                                                
-            }.navigationBarTitle(
-                Text("Settings"),
-                displayMode: .inline
-            ).listStyle(GroupedListStyle())
-             .sheet(isPresented: .constant(section == .support)) {
-                SupportView(onDismiss: ())
-            }
+                    }
+                    
+                    Section {
+                        //MARK:- Support
+                        HStack {
+                            LeftImage(
+                                systemName: "questionmark",
+                                fillColor: .orange
+                            )
+                            Text("Support")
+                                .font(.preferred(.py_body()))
+                        }.padding(.vertical, .py_grid(1))
+                                            
+                        //MARK:- About
+                        NavigationLink(
+                            destination: AboutsView(
+                                store: store.scope(state: \.aboutsState).actionless
+                            ),
+                            tag: .about,
+                            selection: viewStore.binding(
+                                get: \.section,
+                                send: SettingAction.sectionTapped
+                            ),
+                            label: {
+                                HStack {
+                                    LeftImage(
+                                        systemName: "exclamationmark",
+                                        fillColor: .pink
+                                    )
+                                    Text("About")
+                                        .font(.preferred(.py_body()))
+                                }.padding(.vertical, .py_grid(1))
+                            })
+                    }
+                                                    
+                }.navigationBarTitle(
+                    Text("Settings"),
+                    displayMode: .inline
+                ).listStyle(GroupedListStyle())
+                
         }
     }
 }
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView()
+        NavigationView {
+            SettingsView(store: Store<SettingsState, SettingAction>(
+                            initialState: SettingsState(),
+                            reducer: settingReducer,
+                            environment: ())
+            )
+        }
     }
 }
 
