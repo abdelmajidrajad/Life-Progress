@@ -8,13 +8,13 @@ public struct YourDayState: Equatable {
     var endDate: Date
     var startOfDay: Date
     var endOfDay: Date
-    var dayHours: Int
+    var dayHours: Double
     public init(
         startDate: Date = Date(),
         endDate: Date = Date(),
         startOfDay: Date = Date(),
         endOfDay: Date = Date(),
-        dayHours: Int = .zero
+        dayHours: Double = .zero
     )  {
         self.startDate = startDate
         self.endDate = endDate
@@ -105,9 +105,24 @@ public let yourDayReducer = Reducer<YourDayState, YourDayAction, YourDayEnvironm
             Effect(value: .dayHours)
         )
     case .dayHours:
-        state.dayHours = environment.calendar.dateComponents([.hour], from: state.startDate, to: state.endDate).hour!
+        
+        let component = environment.calendar
+            .dateComponents([.hour, .minute],
+                            from: state.startDate,
+                            to: state.endDate
+            )
+        
+        state.dayHours = Double(component.hour!) + Double(component.minute!) / 60
         return .none
     }
+}
+
+
+let firstStep: (Date) -> Double = {
+    let components = Calendar.current.dateComponents([.hour, .minute], from: $0)
+    guard let hour = components.hour,
+          let minute = components.minute else { return .zero }
+    return Double(hour) + Double(minute / 60)
 }
 
 
@@ -118,8 +133,8 @@ extension YourDayState {
             endDate: endDate,
             startClosedRange: startOfDay...endDate,
             endClosedRange: startDate...endOfDay,
-            dayHours: String(dayHours),
-            percent: NSNumber(value: Double(dayHours) / 24.0)
+            dayHours: Double(dayHours),
+            startHour: firstStep(startDate)
         )
     }
 }
@@ -132,8 +147,8 @@ struct YourDayView: View {
         let endDate: Date
         let startClosedRange: ClosedRange<Date>
         let endClosedRange: ClosedRange<Date>
-        let dayHours: String
-        let percent: NSNumber
+        let dayHours: Double
+        let startHour: Double
     }
     
     let store: Store<YourDayState, YourDayAction>
@@ -145,44 +160,42 @@ struct YourDayView: View {
         WithViewStore(store.scope(state: \.view)) { viewStore in
             ZStack(alignment: .top) {
                 
-                HStack {
-                    Button(action: {
-                        viewStore.send(.cancelButtonTapped)
-                    }) {
-                        Text("Cancel")
-                    }
-                    Text("Your Day")
+                ZStack {
+                    HStack {
+                        Button(action: {
+                            viewStore.send(.cancelButtonTapped)
+                        }) {
+                            Text("Cancel")
+                        }
+                        Spacer()
+                        Button(action: {
+                            viewStore.send(.doneButtonTapped)
+                        }) {
+                            Text("Done")
+                        }
+                    }.padding()
+                    .background(
+                        VisualEffectBlur()
+                    ).font(.headline)
+                    
+                    Text("Make Your Day")
                         .font(Font.preferred(.py_title2()).smallCaps())
                         .frame(maxWidth: .infinity)
-                    Button(action: {
-                        viewStore.send(.doneButtonTapped)
-                    }) {
-                        Text("Done")
-                    }
-                }.padding()
-                .background(
-                    VisualEffectBlur()
-                ).font(.headline)
+                }
                 
                 ScrollView(.vertical, showsIndicators: false) {
                     
-                    ProgressCircle(
-                        color: .blue,
-                        lineWidth: .py_grid(5),
-                        labelHidden: true,
-                        progress: .constant(viewStore.percent)
-                    ).frame(
-                        width: .py_grid(25),
-                        height: .py_grid(25)
-                    )
-                    .background(
-                        VStack {
-                            Text(viewStore.dayHours)
-                            Text("hours")
-                        }.font(.preferred(.py_footnote()))
-                    ).padding(.top)
+                    SmartProgressBar(
+                        maxSteps: 24,
+                        firstStep: viewStore.startHour,
+                        duration: viewStore.dayHours,
+                        color: Color.green
+                    ).padding()
                     
                     VStack(spacing: .py_grid(2)) {
+                        
+                        HDashedLine(color: .green)
+                        
                         Text("start at")
                             .font(
                                 Font.preferred(.py_title3()).smallCaps().bold()
@@ -190,7 +203,7 @@ struct YourDayView: View {
                             .padding(.leading)
                             .frame(maxWidth: .infinity, alignment: .leading)
                         
-                        HDashedLine()
+                        HDashedLine(color: .green)
                         
                         DatePicker("",
                                    selection: viewStore.binding(
@@ -202,15 +215,15 @@ struct YourDayView: View {
                             .labelsHidden()
                     }
                     
-                    
                     VStack(spacing: .py_grid(2)) {
+                        HDashedLine(color: .red)
                         Text("end at")
                             .font(
                                 Font.preferred(.py_title3()).smallCaps().bold()
                             ).foregroundColor(.gray)
-                            .padding(.leading)
+                            .padding(.horizontal)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                        HDashedLine()
+                        HDashedLine(color: .red)
                         DatePicker("",
                                    selection: viewStore.binding(
                                     get: \.endDate,
@@ -222,33 +235,35 @@ struct YourDayView: View {
                     }
                 }.font(.headline)
                 .accentColor(.red)
-                .padding(.top, .py_grid(15))
-                
+                .padding(.top, .py_grid(20))                
             }.onAppear {
                 viewStore.send(.onAppear)
-            }.edgesIgnoringSafeArea(.vertical)
+            }
         }
     }
 }
 
+
 struct YourDayView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
+            YourDayView(
+                store: Store(
+                    initialState: YourDayState(),
+                    reducer: yourDayReducer,
+                    environment: YourDayEnvironment(
+                        date: Date.init,
+                        calendar: .current,
+                        userDefaults: TestUserDefault()
+                    ))
+            )
             YourDayView(store: Store(
                             initialState: YourDayState(),
                             reducer: yourDayReducer,
                             environment: YourDayEnvironment(
                                 date: Date.init,
                                 calendar: .current,
-                                userDefaults: UserDefaults()
-                        )))
-            YourDayView(store: Store(
-                            initialState: YourDayState(),
-                            reducer: yourDayReducer,
-                            environment: YourDayEnvironment(
-                                date: Date.init,
-                                calendar: .current,
-                                userDefaults: UserDefaults()
+                                userDefaults: TestUserDefault()
                             )))
                 .preferredColorScheme(.dark)
         }

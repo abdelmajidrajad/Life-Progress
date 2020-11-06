@@ -9,6 +9,14 @@ extension DateComponent {
     public static var zero: Self {
         Self(hour: .zero, minute: .zero)
     }
+    
+    public static var sevenMorning: Self {
+        Self(hour: 07, minute: 00)
+    }
+    
+    public static var eightTeenNight: Self {
+        Self(hour: 18, minute: .zero)
+    }
 }
 
 public struct DateComponent: Equatable {
@@ -67,11 +75,11 @@ public let yourDayProgressReducer =
         
         let startDate = environment.userDefaults
             .object(forKey: "startDate") as? DateComponent
-            ?? .zero
+            ?? .sevenMorning
         
         let endDate = environment.userDefaults
             .object(forKey: "endDate") as? DateComponent
-            ?? .zero
+            ?? .eightTeenNight
         
         return .concatenate(
             environment.yourDayProgress(
@@ -103,7 +111,8 @@ extension YourDayProgressState {
             today: "Your Day",
             percentage: NSNumber(value: percent),
             title: timeResult.string(widgetStyle),
-            isCircle: style == .circle
+            isCircle: style == .circle,
+            chosenColor: Color(.systemPink)
         )
     }
 }
@@ -115,6 +124,7 @@ public struct YourDayProgressView: View {
         let percentage: NSNumber
         let title: NSAttributedString
         let isCircle: Bool
+        let chosenColor: Color
     }
     
     let store: Store<YourDayProgressState, YourDayProgressAction>
@@ -137,10 +147,11 @@ public struct YourDayProgressView: View {
                     if viewStore.isCircle {
                         ProgressCircle(
                             color: .pink,
-                            lineWidth: .py_grid(3),
+                            lineWidth: .py_grid(2),
                             progress: .constant(viewStore.percentage)
                         ).frame(width: .py_grid(17), height: .py_grid(17))
                         .offset(y: -20)
+                        .saturation(2)
                     } else {
                         ProgressBar(
                             color: .pink,
@@ -166,7 +177,15 @@ public struct YourDayProgressView: View {
                 
             }.onAppear {
                 viewStore.send(.onChange)
-            }
+            }.background(
+                RoundedRectangle(
+                    cornerRadius: .py_grid(4),
+                    style: .continuous
+                ).fill(viewStore
+                        .chosenColor
+                        .opacity(0.05)
+                )
+            )
             
         }
     }
@@ -174,26 +193,50 @@ public struct YourDayProgressView: View {
 
 struct YourDayProgressView_Previews: PreviewProvider {
     static var previews: some View {
-        YourDayProgressView(
-            store: Store<YourDayProgressState, YourDayProgressAction>(
-                initialState: YourDayProgressState(style: .circle),
-                reducer: yourDayProgressReducer,
-                environment: YourDayProgressEnvironment(
-                    calendar: .current,
-                    date: Date.init,
-                    userDefaults: UserDefaults(),
-                    yourDayProgress: { _ in
-                        Just(TimeResponse(
-                            progress: 0.45,
-                            result: TimeResult(
-                                hour: 8,
-                                minute: 2
-                            )
-                        )).eraseToAnyPublisher()
-                    }
+        Group {
+            YourDayProgressView(
+                store: Store<YourDayProgressState, YourDayProgressAction>(
+                    initialState: YourDayProgressState(style: .circle),
+                    reducer: yourDayProgressReducer,
+                    environment: YourDayProgressEnvironment(
+                        calendar: .current,
+                        date: Date.init,
+                        userDefaults: UserDefaults(),
+                        yourDayProgress: { _ in
+                            Just(TimeResponse(
+                                progress: 0.45,
+                                result: TimeResult(
+                                    hour: 8,
+                                    minute: 2
+                                )
+                            )).eraseToAnyPublisher()
+                        }
+                    )
                 )
-            )
-        ).frame(width: 141, height: 141)
+            ).frame(width: 141, height: 141)
+            YourDayProgressView(
+                store: Store<YourDayProgressState, YourDayProgressAction>(
+                    initialState: YourDayProgressState(),
+                    reducer: yourDayProgressReducer,
+                    environment: YourDayProgressEnvironment(
+                        calendar: .current,
+                        date: Date.init,
+                        userDefaults: UserDefaults(),
+                        yourDayProgress: { _ in
+                            Just(TimeResponse(
+                                progress: 0.45,
+                                result: TimeResult(
+                                    hour: 8,
+                                    minute: 2
+                                )
+                            )).eraseToAnyPublisher()
+                        }
+                    )
+                )
+            ).preferredColorScheme(.dark)
+            .environment(\.sizeCategory, .large)
+            .frame(width: 141, height: 141)
+        }
     }
 }
 

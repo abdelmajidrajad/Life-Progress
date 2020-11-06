@@ -26,8 +26,8 @@ public let taskCellStyle: (String, String) -> NSAttributedString = { value, titl
         NSAttributedString(
             string: title,
             attributes: [
-                .font: UIFont.py_subhead(),
-                .foregroundColor: UIColor.darkGray
+                .font: UIFont.py_subhead().italicized,
+                .foregroundColor: UIColor.secondaryLabel
             ]
         )
     )    

@@ -20,6 +20,7 @@
 		042D302B25553CCD00C26A12 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D302A25553CCD00C26A12 /* Action.swift */; };
 		042D303425553CFA00C26A12 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D303325553CFA00C26A12 /* Environment.swift */; };
 		042D303D25553D2400C26A12 /* Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D303C25553D2400C26A12 /* Reducer.swift */; };
+		042D304625554E2600C26A12 /* SmartProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D304525554E2500C26A12 /* SmartProgressBar.swift */; };
 		0430D94F2548878000CA7CFC /* Tasks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; };
 		0430D9502548878600CA7CFC /* Tasks.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04325686254459570050F620 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04325685254459570050F620 /* Grid.swift */; };
@@ -265,6 +266,7 @@
 		042D302A25553CCD00C26A12 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		042D303325553CFA00C26A12 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
 		042D303C25553D2400C26A12 /* Reducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reducer.swift; sourceTree = "<group>"; };
+		042D304525554E2500C26A12 /* SmartProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartProgressBar.swift; sourceTree = "<group>"; };
 		04325685254459570050F620 /* Grid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Grid.swift; sourceTree = "<group>"; };
 		0439133225518A1200B62018 /* Settings.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Settings.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0439133425518A1200B62018 /* Settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Settings.h; sourceTree = "<group>"; };
@@ -646,6 +648,7 @@
 			children = (
 				04E73CD72543597E0092B918 /* ProgressBar.swift */,
 				040C241025470098008BA89B /* ProgressCircle.swift */,
+				042D304525554E2500C26A12 /* SmartProgressBar.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -1154,6 +1157,7 @@
 				04D7BAA62545825B003A9774 /* AttributedString+Value.swift in Sources */,
 				040C241125470098008BA89B /* ProgressCircle.swift in Sources */,
 				04D7BAF625458844003A9774 /* ProgressBar.swift in Sources */,
+				042D304625554E2600C26A12 /* SmartProgressBar.swift in Sources */,
 				04325686254459570050F620 /* Grid.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

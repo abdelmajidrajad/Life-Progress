@@ -403,16 +403,10 @@ struct TasksView_Previews: PreviewProvider {
                     calendar: .current,
                     managedContext: NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType),
                     timeClient: .progress,
-                    taskClient: TaskClient(
-                        tasks: { _ in
-                            Just(
-                                TaskResponse.tasks([.readBook, .writeBook]))
-                                    .setFailureType(to: TaskFailure.self)
-                                    .eraseToAnyPublisher()
-                        })
+                    taskClient: .createBook
                 )
             ))
-            
+                        
             TasksView(store: Store<TasksState, TasksAction>(
                 initialState: TasksState(
                     tasks: []
@@ -423,20 +417,7 @@ struct TasksView_Previews: PreviewProvider {
                     calendar: .current,
                     managedContext: NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType),
                     timeClient: .progress,
-                    taskClient: TaskClient(
-                        create: { _ in
-                            Just(
-                                .created(.writeBook2)
-                            ).setFailureType(to: TaskFailure.self)
-                             .eraseToAnyPublisher()                            
-                        },
-                        tasks: { _ in
-                            Just(
-                                .tasks([.writeBook2, .writeBook])
-                            ).setFailureType(to: TaskFailure.self)
-                            .eraseToAnyPublisher()
-                            
-                        })
+                    taskClient: .createBook
                 )
             )).preferredColorScheme(.dark)
                                     
@@ -464,6 +445,22 @@ extension TimeClient {
     }
 }
 
+extension TaskClient {
+    static var createBook: TaskClient = TaskClient(
+        create: { _ in
+            Just(
+                .created(.writeBook2)
+            ).setFailureType(to: TaskFailure.self)
+            .eraseToAnyPublisher()
+        },
+        tasks: { _ in
+            Just(
+                .tasks([.writeBook2, .writeBook])
+            ).setFailureType(to: TaskFailure.self)
+            .eraseToAnyPublisher()
+            
+        })
+}
 
 
 let dateComponents: (Calendar) -> (ProgressTask) -> DateComponents = { calendar in

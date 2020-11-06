@@ -292,7 +292,7 @@ struct ProgressTaskView_Previews: PreviewProvider {
             ProgressTaskView(
                 store:
                     Store(
-                        initialState: TaskState(task: .writeBook2),
+                        initialState: TaskState(task: .writeBook),
                         reducer: taskReducer,
                         environment: TaskEnvironment(
                             date: Date.init,
