@@ -3,12 +3,19 @@ import Core
 import ComposableArchitecture
 import Combine
 
-struct AppIconState: Equatable {
-    let icons: [AppIcon] = AppIcon.allCases
-    var chosenIcon: AppIcon? = nil
+public struct AppIconState: Equatable {
+    let icons: [AppIcon]
+    var chosenIcon: AppIcon?
+    public init(
+        icons: [AppIcon] = AppIcon.allCases,
+        chosenIcon: AppIcon? = nil
+    ) {
+        self.icons = icons
+        self.chosenIcon = chosenIcon
+    }
 }
 
-enum AppIconAction: Equatable {
+public enum AppIconAction: Equatable {
     case onAppear
     case pickedIcon(AppIcon)
 }
@@ -63,7 +70,8 @@ struct AppIconsView: View {
                         
                         Text(icon.rawValue)
                             .font(
-                                Font.preferred(.py_title3()).lowercaseSmallCaps()
+                                Font.preferred(.py_body())
+                                    .lowercaseSmallCaps()
                             ).frame(
                                 maxWidth: .infinity,
                                 alignment: .leading

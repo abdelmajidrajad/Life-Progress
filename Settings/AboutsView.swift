@@ -45,13 +45,13 @@ struct AboutsView: View {
                                                             
                     VStack {
                         Text(viewStore.title)
-                            .frame(maxHeight: .infinity, alignment: .bottom)
+                            //.frame(maxHeight: .infinity, alignment: .bottom)
                             .multilineTextAlignment(.center)
                         Image(image, bundle: .settings)
                             .resizable()
                             .frame(
-                                width: .py_grid(30),
-                                height: .py_grid(30)
+                                width: .py_grid(15),
+                                height: .py_grid(15)
                             ).clipShape(
                                 RoundedRectangle(
                                     cornerRadius: .py_grid(5),
@@ -173,14 +173,13 @@ struct FeatureView: View {
             LinearGradient(
                 gradient: Gradient(
                     colors: [
-                        Color.blue,
-                        Color.pink,
-                        Color.yellow
+                        .yellow,
+                        .pink,
                     ]
                 ),
                 startPoint: .top,
                 endPoint: .bottom
-            ).padding(.horizontal, 1)
+            ).padding(.horizontal, 0.1)
             
             VStack(alignment: .center, spacing: .py_grid(4)) {
                 
@@ -199,8 +198,8 @@ struct FeatureView: View {
                 }.padding()
                 .opacity(0.2)
                 
-                Text(feature.title.capitalized)
-                    .font(Font.preferred(.py_title1(size: .py_grid(10))).bold())
+                Text(feature.title.uppercased())
+                    .font(Font.preferred(.py_title2(size: .py_grid(8))).bold())
                     .foregroundColor(Color(.systemBackground))
                     .padding()
                 
