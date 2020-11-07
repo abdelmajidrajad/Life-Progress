@@ -10,7 +10,7 @@ public class LocalNotification: NSObject {
     }
     
     public enum Response: Equatable {
-        case requestId(String)
+        case request(UNNotificationRequest)
     }
     
     let identifier: String = UUID().uuidString
@@ -55,13 +55,12 @@ public class LocalNotification: NSObject {
                     if let error = error {
                         promise(.failure(.custom(error.localizedDescription)))
                     } else {
-                        promise(.success(.requestId(request.identifier)))
+                        promise(.success(.request(request)))
                     }
                 }
             }
         }.eraseToAnyPublisher()
     }
-    
 }
 
 extension Date {
@@ -70,3 +69,61 @@ extension Date {
     }
 }
 
+
+import UserNotifications
+
+func dismiss() {
+    UNUserNotificationCenter
+        .current()
+        .requestAuthorization(options: [.alert, .badge, .sound]) { (bool, error) in
+    }
+}
+
+import Combine
+public struct NotificationClient {
+    
+    public enum Response: Equatable {
+        case request(UNNotificationRequest)
+    }
+    
+    public enum Failure: LocalizedError {
+        case notAuthorized
+        case custom(String)
+    }
+    
+    public enum AuthorizationStatus: Equatable {
+        case allow
+        case denied
+    }
+    
+    public let authorizationStatus: AnyPublisher<AuthorizationStatus, Failure>
+    public let send: (Date) -> AnyPublisher<Response, Failure>
+    public let requestAuthorization: () -> Void
+    
+    public init(
+        requestAuthorization: @escaping () -> Void,
+        authorizationStatus: AnyPublisher<AuthorizationStatus, Failure>,
+        send: @escaping (Date) -> AnyPublisher<Response, Failure>
+    ) {
+        self.requestAuthorization = requestAuthorization
+        self.authorizationStatus = authorizationStatus
+        self.send = send
+    }
+}
+
+extension NotificationClient {
+    public static var empty: Self {
+        Self(
+            requestAuthorization: {},
+            authorizationStatus: Just(.allow)
+                .setFailureType(to: Failure.self)
+                .eraseToAnyPublisher(),
+            send: { _ in
+                Just(.request(UNNotificationRequest(identifier: "", content: .init(), trigger: nil)))
+                    .setFailureType(to: Failure.self)
+                    .eraseToAnyPublisher()
+            }
+        )
+    }
+}
+ 

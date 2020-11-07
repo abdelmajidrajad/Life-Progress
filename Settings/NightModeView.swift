@@ -51,7 +51,7 @@ struct NightModeView: View {
                     }
                 }
             }
-        }
+        }.navigationBarTitle(Text("Appearance"))
     }
 }
 

@@ -17,30 +17,38 @@ enum SettingItem: Equatable {
 struct SettingsState: Equatable {
     var aboutsState: AboutsState
     var appIconState: AppIconState
+    var features: AppFeatureState
+    var notifications: NotificationsState
     var section: SettingItem?
+    var isOpen: Bool = false
     init(
         features: [Feature] = appFeatures,
         section: SettingItem? = nil
     ) {
+        self.notifications = NotificationsState()
         self.appIconState = AppIconState()
         self.aboutsState = AboutsState(features: features)
+        self.features = AppFeatureState(features: features)
         self.section = section
     }
 }
 
 enum SettingAction: Equatable {
     case sectionTapped(SettingItem?)
+    case isURLOpenned(Bool)
     case mainCellTapped
     case appIconCellTapped
     case nightModeCellTapped
     case rateUsCellTapped
     case supportCellTapped
     case aboutCellTapped
+    case features(AppFeatureAction)
+    case notifications(NotificationsAction)
     case appIcon(AppIconAction)
 }
 
 
-let settingReducer = Reducer<SettingsState, SettingAction, Void>.combine(
+let settingReducer = Reducer<SettingsState, SettingAction, KeyValueStoreType>.combine(
     Reducer {
         state, action, _ in
         switch action {
@@ -51,7 +59,9 @@ let settingReducer = Reducer<SettingsState, SettingAction, Void>.combine(
         case .nightModeCellTapped:
             return .none
         case .rateUsCellTapped:
-            return .none
+            return openURL(reviewURL(appId: "1527416109"))
+                .map(SettingAction.isURLOpenned)
+                .eraseToEffect()
         case .supportCellTapped:
             return .none
         case .aboutCellTapped:
@@ -59,15 +69,28 @@ let settingReducer = Reducer<SettingsState, SettingAction, Void>.combine(
         case let .sectionTapped(section):
             state.section = section
             return .none
-        case .appIcon:
+        case let .isURLOpenned(isOpen):
+            state.isOpen = isOpen
+            return .none
+        case .appIcon, .notifications, .features:
             return .none
         }
     },
     appIconReducer.pullback(
         state: \.appIconState,
         action: /SettingAction.appIcon,
+        environment: { _ in () }
+    ),
+    notificationReducer.pullback(
+        state: \.notifications,
+        action: /SettingAction.notifications,
         environment: { $0 }
-    )   
+    ),
+    appFeatureReducer.pullback(
+        state: \.features,
+        action: /SettingAction.features,
+        environment: { _ in () }
+    )
 )
 
 
@@ -85,7 +108,13 @@ public struct SettingsView: View {
                                             
                         //MARK:- Life Progress
                         NavigationLink(
-                            destination: Text("Destination"),
+                            destination:
+                                AppFeaturesView(
+                                    store: store.scope(
+                                        state: \.features,
+                                        action: SettingAction.features
+                                    ))
+                            ,
                             tag: .appInfo,
                             selection: viewStore.binding(
                                 get: \.section,
@@ -119,9 +148,7 @@ public struct SettingsView: View {
                                     }
                                 }.padding(.vertical)
                                 
-                            }).onTapGesture {
-                                //self.section = .appInfo
-                            }
+                            })
                                                                 
                         //MARK:- App Icon
                         NavigationLink(
@@ -186,7 +213,13 @@ public struct SettingsView: View {
                         
                         //MARK:- Notifications
                         NavigationLink(
-                            destination: Text("Notifications"),
+                            destination:
+                                NotificationsView(store: store
+                                        .scope(state: \.notifications,
+                                               action: SettingAction.notifications
+                                        )
+                                )
+                            ,
                             tag: .notifications,
                             selection: viewStore.binding(
                                 get: \.section,
@@ -269,7 +302,7 @@ struct SettingsView_Previews: PreviewProvider {
             SettingsView(store: Store<SettingsState, SettingAction>(
                             initialState: SettingsState(),
                             reducer: settingReducer,
-                            environment: ())
+                            environment: TestUserDefault())
             )
         }
     }
@@ -293,8 +326,20 @@ struct LeftImage: View {
 }
 
 
-public let reviewURL: (String) -> URL = { appId in
-     URL.init(string:"itms-apps:itunes.apple.com/us/app/apple-store/id\(appId)?mt=8&action=write-review")!
+
+let openURL: (URL) -> Effect<Bool, Never> = { url in
+    .future { promise in
+        UIApplication
+            .shared
+            .open(url, options: [:]) { isOpenned in
+                promise(.success(isOpenned))
+            }
+    }
+}
+
+
+public func reviewURL(appId: String) -> URL {
+     URL(string: "itms-apps:itunes.apple.com/us/app/apple-store/id\(appId)?mt=8&action=write-review")!
 }
 
 // App Icons
