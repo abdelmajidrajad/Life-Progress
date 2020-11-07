@@ -47,6 +47,7 @@
 		043913C92551A3CA00B62018 /* AppIconsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043913C82551A3CA00B62018 /* AppIconsView.swift */; };
 		043913D22551A87600B62018 /* NightModeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043913D12551A87600B62018 /* NightModeView.swift */; };
 		043913DB2551B71300B62018 /* Mail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043913DA2551B71300B62018 /* Mail.swift */; };
+		043ECC352556898800FF50EC /* LocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043ECC342556898800FF50EC /* LocalNotification.swift */; };
 		0462EFD125442310003D2969 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFD025442310003D2969 /* Fonts.swift */; };
 		0462EFE425442AD7003D2969 /* DayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFE325442AD7003D2969 /* DayProgressView.swift */; };
 		0462EFEB254437B7003D2969 /* SwitchProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFEA254437B7003D2969 /* SwitchProgressView.swift */; };
@@ -292,6 +293,7 @@
 		043913D12551A87600B62018 /* NightModeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NightModeView.swift; sourceTree = "<group>"; };
 		043913DA2551B71300B62018 /* Mail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mail.swift; sourceTree = "<group>"; };
 		043CE055255155FD0018CDF8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		043ECC342556898800FF50EC /* LocalNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNotification.swift; sourceTree = "<group>"; };
 		0462EFD025442310003D2969 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		0462EFD725442A8C003D2969 /* PLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PLabel.swift; sourceTree = "<group>"; };
 		0462EFE325442AD7003D2969 /* DayProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayProgressView.swift; sourceTree = "<group>"; };
@@ -619,6 +621,7 @@
 				0496727F255036FF0015205E /* KeyValueStorage.swift */,
 				040DD89D25529E250089D29C /* Color+UIKit.swift */,
 				042D304E25556E2900C26A12 /* EdgeInset+Extension.swift */,
+				043ECC342556898800FF50EC /* LocalNotification.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1154,6 +1157,7 @@
 				04967280255036FF0015205E /* KeyValueStorage.swift in Sources */,
 				0462F01025444433003D2969 /* Operators.swift in Sources */,
 				041296502549B0C3008337A0 /* Blur.swift in Sources */,
+				043ECC352556898800FF50EC /* LocalNotification.swift in Sources */,
 				042D304F25556E2A00C26A12 /* EdgeInset+Extension.swift in Sources */,
 				040DD89E25529E250089D29C /* Color+UIKit.swift in Sources */,
 				04D7BAAC25458329003A9774 /* PLabel.swift in Sources */,
