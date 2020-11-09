@@ -44,16 +44,25 @@ public struct AppFeaturesView: View {
                 
         WithViewStore(store) { viewStore in
             ZStack(alignment: .topLeading) {
-                                                
+                                                        
+                
                 ZStack(alignment: .bottom) {
+                    
+                    LinearGradient(
+                        gradient: Gradient(
+                            colors: [
+                                .red,
+                                .pink,
+                                .gray
+                            ]
+                        ),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
                     
                     PageView(
                         viewStore.features.map(FeatureView.init),
-                        currentPage: $currentPage
-//                        currentPage: viewStore.binding(
-//                            get: \.currentIndex,
-//                            send: AppFeatureAction.indexChanged
-//                        )
+                        currentPage: $currentPage                    
                     )
                     
                     VStack {

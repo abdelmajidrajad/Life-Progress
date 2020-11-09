@@ -169,18 +169,7 @@ struct FeatureView: View {
     let feature: Feature
     var body: some View {
         ZStack {
-                                                
-            LinearGradient(
-                gradient: Gradient(
-                    colors: [
-                        .yellow,
-                        .pink,
-                    ]
-                ),
-                startPoint: .top,
-                endPoint: .bottom
-            ).padding(.horizontal, 0.1)
-            
+                                                                        
             VStack(alignment: .center, spacing: .py_grid(4)) {
                 
                 HStack {

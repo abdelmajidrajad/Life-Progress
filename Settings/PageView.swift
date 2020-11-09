@@ -17,6 +17,7 @@ struct PageViewController: UIViewControllerRepresentable {
         
         pageViewController.dataSource = context.coordinator
         pageViewController.delegate = context.coordinator
+        pageViewController.view.backgroundColor = .clear
 
         return pageViewController
     }
@@ -78,6 +79,11 @@ struct PageView<Page: View>: View {
     init(_ views: [Page], currentPage: Binding<Int>) {
         self.viewControllers = views
             .map(UIHostingController.init(rootView:))
+        
+        self.viewControllers.forEach {
+            $0.view.backgroundColor = .clear
+        }
+        
         self._currentPage = currentPage
     }
 

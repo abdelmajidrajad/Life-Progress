@@ -215,13 +215,11 @@ public struct SettingsView: View {
                     //MARK:- Notifications
                     NavigationLink(
                         destination:
-                            NotificationsView(store: store
-                                                .scope(
-                                                    state: \.notifications,
-                                                    action: SettingAction.notifications
-                                                )
-                            )
-                        ,
+                        NotificationsView(store:
+                                    store.scope(
+                                    state: \.notifications,
+                                    action: SettingAction.notifications)
+                        ),
                         tag: .notifications,
                         selection: viewStore.binding(
                             get: \.section,
