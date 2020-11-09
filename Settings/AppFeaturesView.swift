@@ -115,21 +115,6 @@ public struct AppFeaturesView: View {
 }
 
 
-struct CloseButtonCircleStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .scaleEffect(configuration.isPressed ? 1.1: 1.0)
-            .padding()
-            .font(.headline)
-            .foregroundColor(Color(.secondaryLabel))
-            .background(
-                VisualEffectBlur(blurStyle: .extraLight)
-                    .clipShape(Circle())
-            )
-
-    }
-}
-
 struct FeatureView: View {
     let feature: Feature
     var body: some View {

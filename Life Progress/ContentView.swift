@@ -92,13 +92,11 @@ struct ContentView: View {
                             }.frame(height: width)
                         }
                         
-                        
                         TasksView(store:
                             store.scope(
                                 state: \.tasksState,
                                 action: AppAction.tasks)
-                        )
-                                               
+                        )                                               
                         
                     }.padding(.leading, .py_grid(1))
                     .onAppear {

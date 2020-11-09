@@ -223,7 +223,9 @@ public struct CreateTaskView: View {
         public var isValid: Bool
     }
     @Environment(\.presentationMode) var presentationMode
+    
     let store: Store<CreateTaskState, CreateTaskAction>
+    
     public init(store: Store<CreateTaskState, CreateTaskAction>) {
         self.store = store
     }
@@ -231,7 +233,7 @@ public struct CreateTaskView: View {
         
         WithViewStore(store.scope(state: \.view)) { viewStore in
             
-            VStack(spacing: .zero) {
+            ZStack(alignment: .bottom) {
                 
                 VStack(spacing: .zero) {
                     
@@ -242,14 +244,9 @@ public struct CreateTaskView: View {
                                     .wrappedValue.dismiss()
                             }) {
                                 Image(systemName: "xmark")
-                                    .accentColor(.gray)
-                                    .padding(.py_grid(3))
-                                    .font(.headline)
-                                    .background(
-                                        Circle()
-                                        .fill(Color(white: 0.95))
-                                    )
-                            }
+                            }.buttonStyle(CloseButtonCircleStyle())
+                             .zIndex(1)
+                            
                             Text("Create A New Task".uppercased())
                                 .font(.preferred(.py_title3()))
                                 .frame(
@@ -258,8 +255,7 @@ public struct CreateTaskView: View {
                                 )
                         }.padding()
                         .background(
-                            VisualEffectBlur()
-                                .blur(radius: 5)
+                            VisualEffectBlur(blurStyle: .light)
                         )
                     }
                 
@@ -335,10 +331,17 @@ public struct CreateTaskView: View {
                                     )
                             )
                         }.padding(.horizontal)
+                    
+                    Rectangle()
+                        .fill(Color.clear)
+                        .frame(height: .py_grid(50))
+                    
                     }.padding(.top)
                     
                 }.font(.preferred(.py_subhead()))
                 .multilineTextAlignment(.center)
+                         
+                
                 
                 VStack(spacing: .py_grid(4)) {
                     
@@ -354,8 +357,6 @@ public struct CreateTaskView: View {
                                 Image(systemName: "xmark")
                             }.buttonStyle(RoundedButtonStyle())
                             .padding()
-                            .transition(.scale)
-                            .animation(.easeOut)
                         }
                     }
                     
@@ -376,18 +377,15 @@ public struct CreateTaskView: View {
                     
                 }.frame(maxWidth: .infinity)
                 .padding(.py_grid(1))
+                .background(
+                    VisualEffectBlur(blurStyle: .extraLight)
+                )
                 
             }
             .edgesIgnoringSafeArea(.vertical)
             .onAppear {
                 viewStore.send(.onAppear)
             }
-//            .onReceive(viewStore.publisher.isRequestSucceed.upstream) { success in
-//                if success {
-//                    self.presentationMode
-//                        .wrappedValue.dismiss()
-//                }
-//            }
             .alert(
                 store.scope(
                     state: \.alert), dismiss: .alertDismissed

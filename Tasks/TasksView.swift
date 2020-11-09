@@ -276,6 +276,15 @@ class SelectedCornerButtonStyle: ButtonStyle {
     }
 }
 
+extension AnyTransition {
+    static var topAndLeft: AnyTransition {
+        AnyTransition.asymmetric(
+            insertion: .move(edge: .bottom),
+            removal: .move(edge: .leading)
+        ).animation(.linear)
+    }
+}
+
 
 public struct TasksView: View {
     let store: Store<TasksState, TasksAction>
@@ -297,7 +306,9 @@ public struct TasksView: View {
                                 
                                 HStack {                                    
                                     Button(action: {
-                                        viewStore.send(.filterPicked(.completed))
+                                        withAnimation {
+                                            viewStore.send(.filterPicked(.completed))
+                                        }
                                     }, label: {
                                         Image(systemName: "checkmark")
                                     }).padding(.vertical)
@@ -308,7 +319,9 @@ public struct TasksView: View {
                                     )
                                     
                                     Button(action: {
-                                        viewStore.send(.filterPicked(.pending))
+                                        withAnimation {
+                                            viewStore.send(.filterPicked(.pending))
+                                        }
                                     }, label: {
                                         Image(systemName: "clock.fill")
                                     }).padding(.vertical)
@@ -318,7 +331,9 @@ public struct TasksView: View {
                                     )
                                     
                                     Button(action: {
-                                        viewStore.send(.filterPicked(.active))
+                                        withAnimation {
+                                            viewStore.send(.filterPicked(.active))
+                                        }
                                     }, label: {
                                         Image(systemName: "chart.bar.fill")
                                     }).padding(.vertical)
@@ -354,7 +369,7 @@ public struct TasksView: View {
                                             taskId: vs.id
                                         )
                                     )
-                                }.padding(.vertical, .py_grid(1))
+                                }.padding(.vertical, .py_grid(1))                                
                             }
                         }
                     )

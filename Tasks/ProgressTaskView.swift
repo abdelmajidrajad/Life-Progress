@@ -251,6 +251,7 @@ struct ProgressTaskView: View {
                     ).padding()
                 }
             ).padding(.horizontal)
+            .transition(.topAndLeft)
             .onAppear {
                 viewStore.send(.onAppear)
             }
