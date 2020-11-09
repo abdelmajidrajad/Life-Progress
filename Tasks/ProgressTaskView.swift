@@ -154,10 +154,10 @@ struct ProgressTaskView: View {
                         
                         ProgressCircle(
                             color: viewStore.color,
-                            lineWidth: .py_grid(3),
+                            lineWidth: .py_grid(1),
                             labelHidden: false,
                             progress: .constant(viewStore.progress)
-                        ).frame(width: .py_grid(20))
+                        ).frame(width: .py_grid(18))
                         
                         VStack(alignment: .leading, spacing: .py_grid(2)) {
                             Text(viewStore.title)

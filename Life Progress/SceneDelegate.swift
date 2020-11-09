@@ -3,7 +3,7 @@ import SwiftUI
 import TimeClientLive
 import TaskClientLive
 import ComposableArchitecture
-import Tasks
+//import Tasks
 import Settings
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -12,35 +12,35 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
-//        let contentView = ContentView(
-//            store: Store(
-//                initialState: AppState(),
-//                reducer: appReducer.debug(),
-//                environment:  AppEnvironment(
-//                    uuid: UUID.init,
-//                    date: Date.init,
-//                    calendar: .current,
-//                    mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
-//                    timeClient: .live,
-//                    taskClient: .live,
-//                    context: (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext,
-//                    userDefaults: UserDefaults.standard
-//                )
-//            )
-//        )
-//
+        let contentView = ContentView(
+            store: Store(
+                initialState: AppState(),
+                reducer: appReducer.debug(),
+                environment:  AppEnvironment(
+                    uuid: UUID.init,
+                    date: Date.init,
+                    calendar: .current,
+                    mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
+                    timeClient: .live,                    
+                    taskClient: .live,
+                    context: (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext,
+                    userDefaults: UserDefaults.standard
+                )
+            )
+        )
+
         
-        let contentView =
-            NavigationView {
-                SettingsView(store: Store(
-                    initialState: SettingState(),
-                    reducer: settingReducer,
-                    environment:
-                        SettingsEnvironment(
-                            userDefaults: UserDefaults.standard
-                        )                    
-                ))
-            }
+//        let contentView =
+//            NavigationView {
+//                SettingsView(store: Store(
+//                    initialState: SettingState(),
+//                    reducer: settingReducer,
+//                    environment:
+//                        SettingsEnvironment(
+//                            userDefaults: UserDefaults.standard
+//                        )
+//                ))
+//            }
         
 //
 //        let contentView = CreateTaskView(store: Store(

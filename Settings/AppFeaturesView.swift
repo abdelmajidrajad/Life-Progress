@@ -44,16 +44,14 @@ public struct AppFeaturesView: View {
                 
         WithViewStore(store) { viewStore in
             ZStack(alignment: .topLeading) {
-                                                        
-                
+                                        
                 ZStack(alignment: .bottom) {
-                    
                     LinearGradient(
                         gradient: Gradient(
                             colors: [
                                 .black,
-                                .black,
-                                .orange
+                                //.black,
+                                Color(white: 0.34)
                             ]
                         ),
                         startPoint: .top,
@@ -70,10 +68,6 @@ public struct AppFeaturesView: View {
                         PageControl(
                             numberOfPages: viewStore.features.count,
                             currentPage: $currentPage
-//                            currentPage: viewStore.binding(
-//                                get: \.currentIndex,
-//                                send: AppFeatureAction.indexChanged
-//                            )
                         ).zIndex(1)
                         
                         Button(action: {
@@ -101,13 +95,11 @@ public struct AppFeaturesView: View {
                 }.edgesIgnoringSafeArea(.all)
                 
                 Button(action: {
-                    //viewStore.send(.closeButtonTapped)
                     presentationMode.wrappedValue.dismiss()
                 }, label: {
                     Image(systemName: "xmark")
                 }).padding()
                 .buttonStyle(CloseButtonCircleStyle())
-                
             }
             
         }        

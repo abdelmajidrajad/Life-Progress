@@ -68,8 +68,7 @@ struct AboutsView: View {
                 .padding(.top)
                 .navigationBarTitle(
                     Text("About"), displayMode: .automatic
-                )
-            
+                ).foregroundColor(Color(.label))
         }
         
     }

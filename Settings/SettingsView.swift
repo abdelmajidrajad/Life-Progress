@@ -153,6 +153,7 @@ public struct SettingsView: View {
                                 )
                             Text("Progress your tasks")
                                 .font(.preferred(.py_body()))
+                                .foregroundColor(Color(.secondaryLabel))
                         }
                     }.padding(.vertical)
                      .frame(maxWidth: .infinity, alignment: .leading)
@@ -327,9 +328,9 @@ public struct SettingsView: View {
                     }
                 
             }.navigationBarTitle(
-                Text("Settings"),
-                displayMode: .inline
+                Text("Settings")
             ).listStyle(GroupedListStyle())
+            .foregroundColor(Color(.label))
             
         }
     }

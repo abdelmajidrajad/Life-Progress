@@ -1,10 +1,7 @@
 import SwiftUI
 import Core
 import ComposableArchitecture
-import TimeClient
-import TaskClient
 import Components
-import CoreData
 import Tasks
 import Settings
 

@@ -3,9 +3,7 @@ import Core
 import ComposableArchitecture
 import TimeClient
 import TaskClient
-import Components
 import CoreData
-import Tasks
 
 
 struct AppEnvironment {
@@ -19,6 +17,7 @@ struct AppEnvironment {
     let userDefaults: KeyValueStoreType
 }
 
+import Components
 extension AppEnvironment {
     var day: DayEnvironment {
         DayEnvironment(

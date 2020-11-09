@@ -17,12 +17,12 @@
 		<key>Life Progress.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>3</integer>
+			<integer>0</integer>
 		</dict>
 		<key>Settings.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>3</integer>
 		</dict>
 		<key>Tasks.xcscheme_^#shared#^_</key>
 		<dict>
@@ -33,6 +33,39 @@
 		<dict>
 			<key>orderHint</key>
 			<integer>3</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>0439133925518A1200B62018</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>04D7BABE254587B7003A9774</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>04E73C2A2542C2030092B918</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>04E73C432542C2040092B918</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>04E73C4E2542C2040092B918</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>04E73CA82543590F0092B918</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>

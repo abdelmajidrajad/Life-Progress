@@ -17,7 +17,6 @@ var dateFormatter: () -> DateFormatter = {
     return formatter
 }
 
-
 public struct CreateTaskState: Equatable {
     public var title: String
     public var validationError: String?

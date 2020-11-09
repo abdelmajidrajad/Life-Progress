@@ -1,8 +1,6 @@
 import SwiftUI
 import Core
 import ComposableArchitecture
-import TimeClient
-import TaskClient
 import Components
 import Tasks
 import Settings
@@ -96,7 +94,7 @@ struct ContentView: View {
                             store.scope(
                                 state: \.tasksState,
                                 action: AppAction.tasks)
-                        )                                               
+                        )
                         
                     }.padding(.leading, .py_grid(1))
                     .onAppear {
@@ -117,7 +115,7 @@ struct ContentView_Previews: PreviewProvider {
             ContentView(
                 store: Store<AppState, AppAction>(
                     initialState: AppState(
-                        tasksState: TasksState(filter: .pending)
+                        //tasksState: TasksState(filter: .pending)
                     ),
                     reducer: appReducer,
                     environment: .midDay
@@ -126,7 +124,7 @@ struct ContentView_Previews: PreviewProvider {
             ContentView(
                 store: Store<AppState, AppAction>(
                     initialState: AppState(
-                        tasksState: TasksState(filter: .pending)
+                        //tasksState: TasksState(filter: .pending)
                     ),
                     reducer: appReducer,
                     environment: .midDay
@@ -136,6 +134,7 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
+import TaskClient
 extension AppEnvironment {
     static var empty: Self {
         Self(
@@ -152,6 +151,7 @@ extension AppEnvironment {
 }
 
 import Combine
+import TimeClient
 extension AppEnvironment {
     static var midDay: Self {
         Self(
@@ -201,7 +201,8 @@ extension AppEnvironment {
                     ).eraseToAnyPublisher()
                 }
                 
-            ), taskClient:
+            ),
+            taskClient:
                 TaskClient(tasks: { _ in
                     Just(TaskResponse.tasks([
                         .readBook, .writeBook, .writeBook2

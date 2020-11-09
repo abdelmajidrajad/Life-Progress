@@ -22,8 +22,6 @@
 		042D303D25553D2400C26A12 /* Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D303C25553D2400C26A12 /* Reducer.swift */; };
 		042D304625554E2600C26A12 /* SmartProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D304525554E2500C26A12 /* SmartProgressBar.swift */; };
 		042D304F25556E2A00C26A12 /* EdgeInset+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D304E25556E2900C26A12 /* EdgeInset+Extension.swift */; };
-		0430D94F2548878000CA7CFC /* Tasks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; };
-		0430D9502548878600CA7CFC /* Tasks.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04325686254459570050F620 /* Grid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04325685254459570050F620 /* Grid.swift */; };
 		0439133B25518A1200B62018 /* Settings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0439133225518A1200B62018 /* Settings.framework */; };
 		0439134225518A1200B62018 /* SettingsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0439134125518A1200B62018 /* SettingsTests.swift */; };
@@ -51,6 +49,13 @@
 		043ECC3E2556930300FF50EC /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043ECC3D2556930300FF50EC /* NotificationsView.swift */; };
 		043ECC472556B44E00FF50EC /* AppFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043ECC462556B44E00FF50EC /* AppFeaturesView.swift */; };
 		043ECC502556B66200FF50EC /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043ECC4F2556B66200FF50EC /* PageView.swift */; };
+		0445F0442559A32500880F91 /* TaskClient in Frameworks */ = {isa = PBXBuildFile; productRef = 0445F0432559A32500880F91 /* TaskClient */; };
+		0445F06E2559A38A00880F91 /* TaskClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0445F0432559A32500880F91 /* TaskClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0445F08C2559A48800880F91 /* TimeClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0496727425500B5E0015205E /* TimeClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0445F0AB2559A6D500880F91 /* Tasks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; };
+		0445F0AD2559A6DA00880F91 /* TaskClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 0445F0AC2559A6DA00880F91 /* TaskClientLive */; };
+		0445F0AE2559A6DA00880F91 /* TaskClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0445F0AC2559A6DA00880F91 /* TaskClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		0445F0AF2559A6E400880F91 /* Tasks.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		044B71662559545D00E357DB /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044B71652559545D00E357DB /* Styles.swift */; };
 		0462EFD125442310003D2969 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFD025442310003D2969 /* Fonts.swift */; };
 		0462EFE425442AD7003D2969 /* DayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFE325442AD7003D2969 /* DayProgressView.swift */; };
@@ -60,19 +65,12 @@
 		04900446254D77310014CE7D /* YourDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04215B85254C882900461C9C /* YourDayView.swift */; };
 		0490044D254D77E60014CE7D /* DashedLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0490044C254D77E50014CE7D /* DashedLine.swift */; };
 		0490045E254DC2EF0014CE7D /* YourDayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0490045D254DC2EF0014CE7D /* YourDayProgressView.swift */; };
-		0496726425500B440015205E /* TaskClient in Frameworks */ = {isa = PBXBuildFile; productRef = 0496726325500B440015205E /* TaskClient */; };
-		0496726625500B440015205E /* TaskClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0496726325500B440015205E /* TaskClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0496726825500B440015205E /* TimeClient in Frameworks */ = {isa = PBXBuildFile; productRef = 0496726725500B440015205E /* TimeClient */; };
 		0496726925500B440015205E /* TimeClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0496726725500B440015205E /* TimeClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		0496727125500B5E0015205E /* TaskClient in Frameworks */ = {isa = PBXBuildFile; productRef = 0496727025500B5E0015205E /* TaskClient */; };
-		0496727325500B5E0015205E /* TaskClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0496727025500B5E0015205E /* TaskClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0496727525500B5E0015205E /* TimeClient in Frameworks */ = {isa = PBXBuildFile; productRef = 0496727425500B5E0015205E /* TimeClient */; };
-		0496727625500B5E0015205E /* TimeClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0496727425500B5E0015205E /* TimeClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		04967280255036FF0015205E /* KeyValueStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0496727F255036FF0015205E /* KeyValueStorage.swift */; };
 		04BA22122556EAB9006C49DA /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BA22112556EAB9006C49DA /* ShareSheet.swift */; };
-		04BC0F3D254EE2BA003D89E1 /* TaskClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 04BC0F3C254EE2BA003D89E1 /* TaskClientLive */; };
 		04BC0F3F254EE2BA003D89E1 /* TimeClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 04BC0F3E254EE2BA003D89E1 /* TimeClientLive */; };
-		04BC0F52254EE31E003D89E1 /* TaskClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 04BC0F3C254EE2BA003D89E1 /* TaskClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		04BC0F53254EE320003D89E1 /* TimeClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 04BC0F3E254EE2BA003D89E1 /* TimeClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		04D7BAA62545825B003A9774 /* AttributedString+Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D7BAA52545825B003A9774 /* AttributedString+Value.swift */; };
 		04D7BAAC25458329003A9774 /* PLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFD725442A8C003D2969 /* PLabel.swift */; };
@@ -83,6 +81,8 @@
 		04D7BAE5254587DF003A9774 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73C86254357E60092B918 /* Core.framework */; };
 		04D7BAF625458844003A9774 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73CD72543597E0092B918 /* ProgressBar.swift */; };
 		04D7BB0625458893003A9774 /* TasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D7BB0525458893003A9774 /* TasksView.swift */; };
+		04E5137425596C0000A6BE95 /* Components.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73CA12543590F0092B918 /* Components.framework */; };
+		04E5137525596C0000A6BE95 /* Components.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73CA12543590F0092B918 /* Components.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04E73C2F2542C2030092B918 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73C2E2542C2030092B918 /* AppDelegate.swift */; };
 		04E73C312542C2030092B918 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73C302542C2030092B918 /* SceneDelegate.swift */; };
 		04E73C332542C2030092B918 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73C322542C2030092B918 /* ContentView.swift */; };
@@ -99,19 +99,17 @@
 		04E73CAA2543590F0092B918 /* Components.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73CA12543590F0092B918 /* Components.framework */; };
 		04E73CB12543590F0092B918 /* ComponentsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73CB02543590F0092B918 /* ComponentsTests.swift */; };
 		04E73CB32543590F0092B918 /* Components.h in Headers */ = {isa = PBXBuildFile; fileRef = 04E73CA32543590F0092B918 /* Components.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		04E73CB62543590F0092B918 /* Components.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73CA12543590F0092B918 /* Components.framework */; };
-		04E73CB72543590F0092B918 /* Components.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73CA12543590F0092B918 /* Components.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04E73CD02543594E0092B918 /* YearProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73CCF2543594E0092B918 /* YearProgressView.swift */; };
 		04E73CE125435F370092B918 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73C86254357E60092B918 /* Core.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		0430D94D2548877B00CA7CFC /* PBXContainerItemProxy */ = {
+		041E6DC7255967F9000861FF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 04E73C232542C2030092B918 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 04D7BAB6254587B7003A9774;
-			remoteInfo = Tasks;
+			remoteGlobalIDString = 04E73CA02543590F0092B918;
+			remoteInfo = Components;
 		};
 		0439133C25518A1200B62018 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -141,12 +139,12 @@
 			remoteGlobalIDString = 04E73C85254357E60092B918;
 			remoteInfo = Core;
 		};
-		049A38DD2548871300EE676B /* PBXContainerItemProxy */ = {
+		0445F0A92559A6D000880F91 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 04E73C232542C2030092B918 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 04E73C85254357E60092B918;
-			remoteInfo = Core;
+			remoteGlobalIDString = 04D7BAB6254587B7003A9774;
+			remoteInfo = Tasks;
 		};
 		04D7BAC1254587B7003A9774 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -161,6 +159,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 04E73C2A2542C2030092B918;
 			remoteInfo = "Life Progress";
+		};
+		04E513AA255978AF00A6BE95 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04E73C232542C2030092B918 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04E73C85254357E60092B918;
+			remoteInfo = Core;
 		};
 		04E73C452542C2040092B918 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -197,23 +202,30 @@
 			remoteGlobalIDString = 04E73C2A2542C2030092B918;
 			remoteInfo = "Life Progress";
 		};
-		04E73CB42543590F0092B918 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 04E73C232542C2030092B918 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 04E73CA02543590F0092B918;
-			remoteInfo = Components;
-		};
-		04E73CDE25435F320092B918 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 04E73C232542C2030092B918 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 04E73C85254357E60092B918;
-			remoteInfo = Core;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		0445F06F2559A38A00880F91 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0445F08C2559A48800880F91 /* TimeClient in Embed Frameworks */,
+				0445F06E2559A38A00880F91 /* TaskClient in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0445F0B72559A79C00880F91 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		0496726525500B440015205E /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -221,19 +233,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				0496726925500B440015205E /* TimeClient in Embed Frameworks */,
-				0496726625500B440015205E /* TaskClient in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0496727225500B5E0015205E /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				0496727625500B5E0015205E /* TimeClient in Embed Frameworks */,
-				0496727325500B5E0015205E /* TaskClient in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -244,12 +243,12 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				04BC0F53254EE320003D89E1 /* TimeClientLive in Embed Frameworks */,
-				04BC0F52254EE31E003D89E1 /* TaskClientLive in Embed Frameworks */,
-				04E73CB72543590F0092B918 /* Components.framework in Embed Frameworks */,
+				0445F0AF2559A6E400880F91 /* Tasks.framework in Embed Frameworks */,
 				04E73C8E254357E60092B918 /* Core.framework in Embed Frameworks */,
-				0430D9502548878600CA7CFC /* Tasks.framework in Embed Frameworks */,
+				0445F0AE2559A6DA00880F91 /* TaskClientLive in Embed Frameworks */,
+				04E5137525596C0000A6BE95 /* Components.framework in Embed Frameworks */,
 				0439134825518A1200B62018 /* Settings.framework in Embed Frameworks */,
+				04BC0F53254EE320003D89E1 /* TimeClientLive in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -302,6 +301,7 @@
 		043ECC3D2556930300FF50EC /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		043ECC462556B44E00FF50EC /* AppFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeaturesView.swift; sourceTree = "<group>"; };
 		043ECC4F2556B66200FF50EC /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
+		0445F03B2559A10300880F91 /* Life Progress.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Life Progress.entitlements"; sourceTree = "<group>"; };
 		044B71652559545D00E357DB /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
 		0462EFD025442310003D2969 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		0462EFD725442A8C003D2969 /* PLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PLabel.swift; sourceTree = "<group>"; };
@@ -370,7 +370,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0496727125500B5E0015205E /* TaskClient in Frameworks */,
+				0445F0442559A32500880F91 /* TaskClient in Frameworks */,
 				04D7BAE5254587DF003A9774 /* Core.framework in Frameworks */,
 				0496727525500B5E0015205E /* TimeClient in Frameworks */,
 			);
@@ -388,12 +388,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04BC0F3F254EE2BA003D89E1 /* TimeClientLive in Frameworks */,
-				04BC0F3D254EE2BA003D89E1 /* TaskClientLive in Frameworks */,
-				0430D94F2548878000CA7CFC /* Tasks.framework in Frameworks */,
-				04E73CB62543590F0092B918 /* Components.framework in Frameworks */,
+				0445F0AD2559A6DA00880F91 /* TaskClientLive in Frameworks */,
+				0445F0AB2559A6D500880F91 /* Tasks.framework in Frameworks */,
 				04E73C8D254357E60092B918 /* Core.framework in Frameworks */,
+				04E5137425596C0000A6BE95 /* Components.framework in Frameworks */,
 				0439134725518A1200B62018 /* Settings.framework in Frameworks */,
+				04BC0F3F254EE2BA003D89E1 /* TimeClientLive in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,7 +424,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0496726425500B440015205E /* TaskClient in Frameworks */,
 				04E73CE125435F370092B918 /* Core.framework in Frameworks */,
 				0496726825500B440015205E /* TimeClient in Frameworks */,
 			);
@@ -575,6 +574,7 @@
 		04E73C2D2542C2030092B918 /* Life Progress */ = {
 			isa = PBXGroup;
 			children = (
+				0445F03B2559A10300880F91 /* Life Progress.entitlements */,
 				042D302025553C9500C26A12 /* Store */,
 				040DD86A255297E80089D29C /* Supporting Files */,
 				0439138225518D4E00B62018 /* App Icons */,
@@ -765,17 +765,17 @@
 				04D7BAB3254587B7003A9774 /* Sources */,
 				04D7BAB4254587B7003A9774 /* Frameworks */,
 				04D7BAB5254587B7003A9774 /* Resources */,
-				0496727225500B5E0015205E /* Embed Frameworks */,
+				0445F06F2559A38A00880F91 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				049A38DE2548871300EE676B /* PBXTargetDependency */,
+				04E513AB255978AF00A6BE95 /* PBXTargetDependency */,
 			);
 			name = Tasks;
 			packageProductDependencies = (
-				0496727025500B5E0015205E /* TaskClient */,
 				0496727425500B5E0015205E /* TimeClient */,
+				0445F0432559A32500880F91 /* TaskClient */,
 			);
 			productName = Tasks;
 			productReference = 04D7BAB7254587B7003A9774 /* Tasks.framework */;
@@ -808,19 +808,21 @@
 				04E73C282542C2030092B918 /* Frameworks */,
 				04E73C292542C2030092B918 /* Resources */,
 				04E73C8F254357E60092B918 /* Embed Frameworks */,
+				0445F0B72559A79C00880F91 /* CopyFiles */,
+				0445F0B82559A7B400880F91 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				0430D94E2548877B00CA7CFC /* PBXTargetDependency */,
+				0445F0AA2559A6D000880F91 /* PBXTargetDependency */,
+				041E6DC8255967F9000861FF /* PBXTargetDependency */,
 				04E73C8C254357E60092B918 /* PBXTargetDependency */,
-				04E73CB52543590F0092B918 /* PBXTargetDependency */,
 				0439134625518A1200B62018 /* PBXTargetDependency */,
 			);
 			name = "Life Progress";
 			packageProductDependencies = (
-				04BC0F3C254EE2BA003D89E1 /* TaskClientLive */,
 				04BC0F3E254EE2BA003D89E1 /* TimeClientLive */,
+				0445F0AC2559A6DA00880F91 /* TaskClientLive */,
 			);
 			productName = "Life Progress";
 			productReference = 04E73C2B2542C2030092B918 /* Life Progress.app */;
@@ -897,11 +899,9 @@
 			buildRules = (
 			);
 			dependencies = (
-				04E73CDF25435F320092B918 /* PBXTargetDependency */,
 			);
 			name = Components;
 			packageProductDependencies = (
-				0496726325500B440015205E /* TaskClient */,
 				0496726725500B440015205E /* TimeClient */,
 			);
 			productName = Components;
@@ -1090,6 +1090,26 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		0445F0B82559A7B400880F91 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "find \"${CODESIGNING_FOLDER_PATH}\" -name '*.framework' -print0 | while read -d $'\\0' framework \ndo \n    codesign --force --deep --sign \"${EXPANDED_CODE_SIGN_IDENTITY}\" --preserve-metadata=identifier,entitlements --timestamp=none \"${framework}\" \ndone\n\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		0439132E25518A1200B62018 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1213,10 +1233,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		0430D94E2548877B00CA7CFC /* PBXTargetDependency */ = {
+		041E6DC8255967F9000861FF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 04D7BAB6254587B7003A9774 /* Tasks */;
-			targetProxy = 0430D94D2548877B00CA7CFC /* PBXContainerItemProxy */;
+			target = 04E73CA02543590F0092B918 /* Components */;
+			targetProxy = 041E6DC7255967F9000861FF /* PBXContainerItemProxy */;
 		};
 		0439133D25518A1200B62018 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1238,10 +1258,10 @@
 			target = 04E73C85254357E60092B918 /* Core */;
 			targetProxy = 0439135E25518A4900B62018 /* PBXContainerItemProxy */;
 		};
-		049A38DE2548871300EE676B /* PBXTargetDependency */ = {
+		0445F0AA2559A6D000880F91 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 04E73C85254357E60092B918 /* Core */;
-			targetProxy = 049A38DD2548871300EE676B /* PBXContainerItemProxy */;
+			target = 04D7BAB6254587B7003A9774 /* Tasks */;
+			targetProxy = 0445F0A92559A6D000880F91 /* PBXContainerItemProxy */;
 		};
 		04D7BAC2254587B7003A9774 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1252,6 +1272,11 @@
 			isa = PBXTargetDependency;
 			target = 04E73C2A2542C2030092B918 /* Life Progress */;
 			targetProxy = 04D7BAC3254587B7003A9774 /* PBXContainerItemProxy */;
+		};
+		04E513AB255978AF00A6BE95 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04E73C85254357E60092B918 /* Core */;
+			targetProxy = 04E513AA255978AF00A6BE95 /* PBXContainerItemProxy */;
 		};
 		04E73C462542C2040092B918 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1277,16 +1302,6 @@
 			isa = PBXTargetDependency;
 			target = 04E73C2A2542C2030092B918 /* Life Progress */;
 			targetProxy = 04E73CAD2543590F0092B918 /* PBXContainerItemProxy */;
-		};
-		04E73CB52543590F0092B918 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 04E73CA02543590F0092B918 /* Components */;
-			targetProxy = 04E73CB42543590F0092B918 /* PBXContainerItemProxy */;
-		};
-		04E73CDF25435F320092B918 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 04E73C85254357E60092B918 /* Core */;
-			targetProxy = 04E73CDE25435F320092B918 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1411,6 +1426,8 @@
 		04D7BACF254587B7003A9774 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -1428,6 +1445,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.majid.Tasks;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1439,6 +1458,8 @@
 		04D7BAD0254587B7003A9774 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -1456,6 +1477,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.majid.Tasks;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=macosx*]" = "";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1507,6 +1530,7 @@
 		04E73C562542C2040092B918 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1568,6 +1592,7 @@
 		04E73C572542C2040092B918 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
@@ -1626,9 +1651,12 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Life Progress/Life Progress.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Life Progress/Preview Content\"";
 				DEVELOPMENT_TEAM = NFA6K259X7;
+				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Life Progress/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1636,7 +1664,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.majid.Life-Progress";
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.majid.YearProgress;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1649,9 +1678,12 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "Life Progress/Life Progress.entitlements";
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Life Progress/Preview Content\"";
 				DEVELOPMENT_TEAM = NFA6K259X7;
+				ENABLE_HARDENED_RUNTIME = NO;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Life Progress/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -1659,7 +1691,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.majid.Life-Progress";
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.majid.YearProgress;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -2028,30 +2061,26 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0445F0432559A32500880F91 /* TaskClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TaskClient;
+		};
+		0445F0AC2559A6DA00880F91 /* TaskClientLive */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TaskClientLive;
+		};
 		0467BFF4254AABAD007FC8A3 /* Validated */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0467BFF3254AABAD007FC8A3 /* XCRemoteSwiftPackageReference "swift-validated" */;
 			productName = Validated;
 		};
-		0496726325500B440015205E /* TaskClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TaskClient;
-		};
 		0496726725500B440015205E /* TimeClient */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TimeClient;
 		};
-		0496727025500B5E0015205E /* TaskClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TaskClient;
-		};
 		0496727425500B5E0015205E /* TimeClient */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TimeClient;
-		};
-		04BC0F3C254EE2BA003D89E1 /* TaskClientLive */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TaskClientLive;
 		};
 		04BC0F3E254EE2BA003D89E1 /* TimeClientLive */ = {
 			isa = XCSwiftPackageProductDependency;

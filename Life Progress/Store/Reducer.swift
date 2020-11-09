@@ -20,7 +20,7 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
             return .concatenate(
                 Effect(value: .day(.onChange)),
                 Effect(value: .year(.onChange)),
-                Effect(value: .tasks(.onChange)),
+                //Effect(value: .tasks(.onChange)),
                 Effect(value: .union(.onChange)),
                 Effect(value: .yourDay(.onChange))
             )

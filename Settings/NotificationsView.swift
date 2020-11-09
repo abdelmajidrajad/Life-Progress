@@ -89,7 +89,8 @@ struct NotificationsView: View {
                 
             }.font(.preferred(.py_subhead()))
              .listStyle(GroupedListStyle())
-            .onAppear { viewStore.send(.onAppear) }
+             .onAppear { viewStore.send(.onAppear) }
+             .foregroundColor(Color(.label))
         }.navigationBarTitle(Text("Notifications"))
     }
 }

@@ -26,7 +26,7 @@
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" systemColor="labelColor"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="aEZ-Zn-hqw" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="OQf-0N-0or"/>
                             <constraint firstItem="aEZ-Zn-hqw" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="ueH-Kd-0Vf"/>
@@ -40,8 +40,8 @@
     </scenes>
     <resources>
         <image name="classic" width="180" height="180"/>
-        <systemColor name="labelColor">
-            <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
     </resources>
 </document>

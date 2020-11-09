@@ -21,11 +21,11 @@ public let nightModeReducer =
         state, action, _ in
         switch action {
         case .onAppear:
-            let currentStyle: NightModeState.Style =
+            return Effect(value: .setStyle(
                 UIScreen.main.traitCollection.userInterfaceStyle == .dark
                 ? .dark
                 : .light
-            return Effect(value: .setStyle(currentStyle))
+            ))
         case let .onStyleChanged(newStyle):
             state.currentStyle = newStyle
             return .fireAndForget {
@@ -41,7 +41,7 @@ public let nightModeReducer =
     }
 
 public struct NightModeView: View {
-    
+    @Environment(\.colorScheme) var colorScheme
     let store: Store<NightModeState, NightModeAction>
     
     public init(store: Store<NightModeState, NightModeAction>) {
@@ -88,10 +88,11 @@ public struct NightModeView: View {
                     ).onTapGesture {
                         viewStore.send(.onStyleChanged(style))
                     }
-                }.onAppear {
-                    viewStore.send(.onAppear)
                 }
             }.navigationBarTitle(Text("Appearance"))
+            .onAppear {
+                viewStore.send(.onAppear)
+            }.foregroundColor(Color(.label))
             
         }
     }
