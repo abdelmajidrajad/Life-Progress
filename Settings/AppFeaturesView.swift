@@ -51,9 +51,9 @@ public struct AppFeaturesView: View {
                     LinearGradient(
                         gradient: Gradient(
                             colors: [
-                                .red,
-                                .pink,
-                                .gray
+                                .black,
+                                .black,
+                                .orange
                             ]
                         ),
                         startPoint: .top,
@@ -127,6 +127,73 @@ struct CloseButtonCircleStyle: ButtonStyle {
                     .clipShape(Circle())
             )
 
+    }
+}
+
+struct FeatureView: View {
+    let feature: Feature
+    var body: some View {
+        ZStack {
+            VStack(
+                alignment: .center,
+                spacing: .py_grid(4)
+            ) {
+                HStack {
+                    ForEach(1 ..< 6) { item in
+                        VisualEffectBlur(
+                            blurStyle: .extraLight
+                        ).frame(
+                            width: .py_grid(3),
+                            height: .py_grid(9)
+                        )
+                        .opacity(Double(item) / 5.0)
+                        .clipShape(Capsule())
+                        
+                    }
+                }.padding()
+                .opacity(0.2)
+                
+                Text(feature.title.uppercased())
+                    .font(Font.preferred(.py_title2(size: .py_grid(8))).bold())
+                    .foregroundColor(Color(.systemBackground))
+                    .padding()
+                
+                Image(systemName: feature.imageSystemName)
+                    .foregroundColor(.white)
+                    .font(Font.title.bold())
+                    .padding(.py_grid(8))
+                    .background(
+                        RoundedRectangle(
+                            cornerRadius: .py_grid(4),
+                            style: .continuous
+                        ).fill(
+                            LinearGradient(
+                                gradient: Gradient(
+                                    colors: [
+                                        Color.gray,
+                                        Color.black,
+                                        Color.black
+                                    ]
+                                ),
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                    )
+                
+                Text(feature.subTitle.capitalizingFirstLetter())
+                    .font(.preferred(
+                        .py_body(size: .py_grid(6)))
+                    )
+                    .padding(.horizontal)
+                    .foregroundColor(.white)
+                
+            }.padding(.vertical)
+            .multilineTextAlignment(.center)
+            .padding(.top, .py_grid(20))
+            .frame(maxHeight: .infinity, alignment: .top)
+        }
+        
     }
 }
 

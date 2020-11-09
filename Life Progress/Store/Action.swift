@@ -6,6 +6,7 @@ import TaskClient
 import Components
 import CoreData
 import Tasks
+import Settings
 
 enum AppAction: Equatable {
     case onStart
@@ -16,4 +17,5 @@ enum AppAction: Equatable {
     case union(SwitchAction)
     case tasks(TasksAction)
     case yourDay(YourDayProgressAction)
+    case settings(SettingAction)
 }

@@ -1,6 +1,7 @@
 import SwiftUI
 import ComposableArchitecture
 import Tasks
+import Settings
 import Components
 
 
@@ -60,6 +61,13 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
                 timeClient: $0.timeClient,
                 taskClient: $0.taskClient
             )
+        }
+    ),
+    settingReducer.optional().pullback(
+        state: \.settingState,
+        action: /AppAction.settings,
+        environment: {
+            SettingsEnvironment(userDefaults: $0.userDefaults)
         }
     )
 )

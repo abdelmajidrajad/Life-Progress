@@ -33,9 +33,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let contentView =
             NavigationView {
                 SettingsView(store: Store(
-                    initialState: SettingsState(),
+                    initialState: SettingState(),
                     reducer: settingReducer,
-                    environment: UserDefaults.standard
+                    environment:
+                        SettingsEnvironment(
+                            userDefaults: UserDefaults.standard
+                        )                    
                 ))
             }
         

@@ -14,11 +14,12 @@ public enum SettingItem: Equatable, Identifiable {
     case about
 }
 
-public struct SettingsState: Equatable {
+public struct SettingState: Equatable {
     var aboutsState: AboutsState
     var appIconState: AppIconState
     var features: AppFeatureState
     var notifications: NotificationsState
+    var nightMode: NightModeState
     var section: SettingItem?
     var isURLOpenned: Bool = false
     public init(
@@ -29,6 +30,7 @@ public struct SettingsState: Equatable {
         self.appIconState = AppIconState()
         self.aboutsState = AboutsState(features: features)
         self.features = AppFeatureState(features: features)
+        self.nightMode = NightModeState()
         self.section = section
     }
 }
@@ -45,6 +47,7 @@ public enum SettingAction: Equatable {
     case features(AppFeatureAction)
     case notifications(NotificationsAction)
     case appIcon(AppIconAction)
+    case nightMode(NightModeAction)
 }
 
 
@@ -56,7 +59,7 @@ public struct SettingsEnvironment {
 }
 
 public let settingReducer =
-    Reducer<SettingsState, SettingAction, SettingsEnvironment>.combine(
+    Reducer<SettingState, SettingAction, SettingsEnvironment>.combine(
         Reducer {
             state, action, _ in
             switch action {
@@ -67,7 +70,8 @@ public let settingReducer =
             case .nightModeCellTapped:
                 return .none
             case .rateUsCellTapped:
-                return openURL(reviewURL(appId: "1527416109"))
+                //https://apps.apple.com/app/id1527416109
+                return openURL(reviewURL(appId: "id1527416109"))
                     .map(SettingAction.isURLOpenned)
                     .eraseToEffect()
             case .supportCellTapped:
@@ -82,7 +86,10 @@ public let settingReducer =
             case let .isURLOpenned(isOpen):
                 state.isURLOpenned = isOpen
                 return .none
-            case .appIcon, .notifications, .features:
+            case .appIcon,
+                 .notifications,
+                 .features,
+                 .nightMode:
                 return .none
             }
         },
@@ -100,16 +107,20 @@ public let settingReducer =
             state: \.features,
             action: /SettingAction.features,
             environment: { _ in () }
-        )
+        ),
+        nightModeReducer.pullback(
+            state: \.nightMode,
+            action: /SettingAction.nightMode,
+            environment: { _ in () })
     )
 
 
 public struct SettingsView: View {
     
-    let store: Store<SettingsState, SettingAction>
+    let store: Store<SettingState, SettingAction>
     
     public init(
-        store: Store<SettingsState, SettingAction>
+        store: Store<SettingState, SettingAction>
     ) {
         self.store = store
     }
@@ -204,7 +215,13 @@ public struct SettingsView: View {
                 Section {
                     //MARK:- Night Mode
                     NavigationLink(
-                        destination: NightModeView(),
+                        destination: NightModeView(store:
+                                store.scope(
+                                    state: \.nightMode,
+                                    action: SettingAction.nightMode
+                                )
+
+                        ),
                         tag: .nightMode,
                         selection: viewStore.binding(
                             get: \.section,
@@ -322,8 +339,8 @@ struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             NavigationView {
-                SettingsView(store: Store<SettingsState, SettingAction>(
-                                initialState: SettingsState(),
+                SettingsView(store: Store<SettingState, SettingAction>(
+                                initialState: SettingState(),
                                 reducer: settingReducer,
                                 environment:
                                     SettingsEnvironment(
@@ -332,8 +349,8 @@ struct SettingsView_Previews: PreviewProvider {
                 )
             }
             NavigationView {
-                SettingsView(store: Store<SettingsState, SettingAction>(
-                                initialState: SettingsState(),
+                SettingsView(store: Store<SettingState, SettingAction>(
+                                initialState: SettingState(),
                                 reducer: settingReducer,
                                 environment:
                                     SettingsEnvironment(
