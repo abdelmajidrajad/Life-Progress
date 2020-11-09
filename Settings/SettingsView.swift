@@ -4,13 +4,13 @@ import ComposableArchitecture
 
 public enum SettingItem: Equatable, Identifiable {
     public var id: UUID { UUID() }
-    case appInfo
+    case main
     case appIcon
     case showSettings
     case nightMode
+    case notifications
     case rateUs
     case support
-    case notifications
     case about
 }
 
@@ -20,7 +20,7 @@ public struct SettingsState: Equatable {
     var features: AppFeatureState
     var notifications: NotificationsState
     var section: SettingItem?
-    var isOpen: Bool = false
+    var isURLOpenned: Bool = false
     public init(
         features: [Feature] = appFeatures,
         section: SettingItem? = nil
@@ -48,59 +48,69 @@ public enum SettingAction: Equatable {
 }
 
 
-public let settingReducer = Reducer<SettingsState, SettingAction, KeyValueStoreType>.combine(
-    Reducer {
-        state, action, _ in
-        switch action {
-        case .mainCellTapped:
-            return .none
-        case .appIconCellTapped:
-            return .none
-        case .nightModeCellTapped:
-            return .none
-        case .rateUsCellTapped:
-            return openURL(reviewURL(appId: "1527416109"))
-                .map(SettingAction.isURLOpenned)
-                .eraseToEffect()
-        case .supportCellTapped:
-            state.section = .support
-            return .none
-        case .aboutCellTapped:
-            state.section = .about
-            return .none
-        case let .sectionTapped(section):
-            state.section = section
-            return .none
-        case let .isURLOpenned(isOpen):
-            state.isOpen = isOpen
-            return .none
-        case .appIcon, .notifications, .features:
-            return .none
-        }
-    },
-    appIconReducer.pullback(
-        state: \.appIconState,
-        action: /SettingAction.appIcon,
-        environment: { _ in () }
-    ),
-    notificationReducer.pullback(
-        state: \.notifications,
-        action: /SettingAction.notifications,
-        environment: { $0 }
-    ),
-    appFeatureReducer.pullback(
-        state: \.features,
-        action: /SettingAction.features,
-        environment: { _ in () }
+public struct SettingsEnvironment {
+    let userDefaults: KeyValueStoreType
+    public init(userDefaults: KeyValueStoreType) {
+        self.userDefaults = userDefaults
+    }
+}
+
+public let settingReducer =
+    Reducer<SettingsState, SettingAction, SettingsEnvironment>.combine(
+        Reducer {
+            state, action, _ in
+            switch action {
+            case .mainCellTapped:
+                return .none
+            case .appIconCellTapped:
+                return .none
+            case .nightModeCellTapped:
+                return .none
+            case .rateUsCellTapped:
+                return openURL(reviewURL(appId: "1527416109"))
+                    .map(SettingAction.isURLOpenned)
+                    .eraseToEffect()
+            case .supportCellTapped:
+                state.section = .support
+                return .none
+            case .aboutCellTapped:
+                state.section = .about
+                return .none
+            case let .sectionTapped(section):
+                state.section = section
+                return .none
+            case let .isURLOpenned(isOpen):
+                state.isURLOpenned = isOpen
+                return .none
+            case .appIcon, .notifications, .features:
+                return .none
+            }
+        },
+        appIconReducer.pullback(
+            state: \.appIconState,
+            action: /SettingAction.appIcon,
+            environment: { _ in () }
+        ),
+        notificationReducer.pullback(
+            state: \.notifications,
+            action: /SettingAction.notifications,
+            environment: { $0.userDefaults }
+        ),
+        appFeatureReducer.pullback(
+            state: \.features,
+            action: /SettingAction.features,
+            environment: { _ in () }
+        )
     )
-)
 
 
 public struct SettingsView: View {
     
     let store: Store<SettingsState, SettingAction>
     
-    public init(store: Store<SettingsState, SettingAction>) {
+    public init(
+        store: Store<SettingsState, SettingAction>
+    ) {
         self.store = store
     }
     
@@ -108,7 +118,6 @@ public struct SettingsView: View {
         WithViewStore(store) { viewStore in
             List {
                 Section {
-                    
                     //MARK:- Life Progress
                     HStack(spacing: .py_grid(4)) {
                         Image("classic", bundle: .settings)
@@ -135,20 +144,20 @@ public struct SettingsView: View {
                                 .font(.preferred(.py_body()))
                         }
                     }.padding(.vertical)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(
-                        Color(.secondarySystemGroupedBackground)
-                    ).sheet(isPresented: viewStore.binding(
-                                get: { $0.section == .appInfo },
+                     .frame(maxWidth: .infinity, alignment: .leading)
+                     .background(
+                         Color(.secondarySystemGroupedBackground)
+                     ).sheet(isPresented: viewStore.binding(
+                                get: { $0.section == .main },
                                 send: { _ in .sectionTapped(nil) }),
-                            content: {
+                             content: {
                                 AppFeaturesView(store: store.scope(
                                     state: \.features,
                                     action: SettingAction.features
                                 ))
-                            })
+                     })
                     .onTapGesture {
-                        viewStore.send(.sectionTapped(.appInfo))
+                        viewStore.send(.sectionTapped(.main))
                     }
                     
                     //MARK:- App Icon
@@ -264,13 +273,16 @@ public struct SettingsView: View {
                         Text("Support")
                             .font(.preferred(.py_body()))
                     }.padding(.vertical, .py_grid(1))
-                    .sheet(isPresented: viewStore.binding(
+                    .sheet(
+                        isPresented: viewStore.binding(
                             get: { $0.section == .support },
                             send: { _ in .sectionTapped(nil) }),
-                           content: {
+                        content: {
                             SupportView(onDismiss: viewStore.send(.sectionTapped(nil))
                             )
-                           })
+                    })
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color(.secondarySystemGroupedBackground))
                     .onTapGesture {
                         viewStore.send(.supportCellTapped)
                     }
@@ -295,7 +307,7 @@ public struct SettingsView: View {
                                     .font(.preferred(.py_body()))
                             }.padding(.vertical, .py_grid(1))
                         })
-                }
+                    }
                 
             }.navigationBarTitle(
                 Text("Settings"),
@@ -313,14 +325,20 @@ struct SettingsView_Previews: PreviewProvider {
                 SettingsView(store: Store<SettingsState, SettingAction>(
                                 initialState: SettingsState(),
                                 reducer: settingReducer,
-                                environment: TestUserDefault())
+                                environment:
+                                    SettingsEnvironment(
+                                        userDefaults: TestUserDefault())
+                                )
                 )
             }
             NavigationView {
                 SettingsView(store: Store<SettingsState, SettingAction>(
                                 initialState: SettingsState(),
                                 reducer: settingReducer,
-                                environment: TestUserDefault())
+                                environment:
+                                    SettingsEnvironment(
+                                        userDefaults: TestUserDefault())
+                            )
                 )
             }
             .preferredColorScheme(.dark)
