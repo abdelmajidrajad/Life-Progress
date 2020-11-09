@@ -12,6 +12,7 @@ enum AppAction: Equatable {
     case onStart
     case onUpdate(DispatchQueue.SchedulerTimeType)
     case settingButtonTapped
+    case viewDismissed
     case year(YearAction)
     case day(DayAction)
     case union(SwitchAction)

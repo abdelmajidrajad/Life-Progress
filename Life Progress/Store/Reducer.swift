@@ -25,6 +25,10 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
                 Effect(value: .yourDay(.onChange))
             )
         case .settingButtonTapped:
+            state.settingState = SettingState()
+            return .none
+        case .viewDismissed:
+            state.settingState = nil
             return .none
         default:
             return .none

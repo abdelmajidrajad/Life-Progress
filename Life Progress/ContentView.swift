@@ -5,6 +5,7 @@ import TimeClient
 import TaskClient
 import Components
 import Tasks
+import Settings
 
 
 struct ContentView: View {
@@ -32,9 +33,26 @@ struct ContentView: View {
                                 Button(action: {
                                     viewStore.send(.settingButtonTapped)
                                 }, label: {
-                                    Image(systemName: "gear")
+                                    Image(systemName: "gearshape.fill")
                                         .foregroundColor(.gray)
                                 })
+                                .sheet(
+                                    isPresented: viewStore.binding(
+                                        get: { $0.settingState != nil },
+                                        send: AppAction.viewDismissed
+                                    )
+                                ) {
+                                    IfLetStore(store.scope(
+                                        state: \.settingState,
+                                        action: AppAction.settings
+                                    )) { settingStore in
+                                        NavigationView {
+                                            SettingsView(store: settingStore)
+                                        }
+                                    }
+                                }
+                                
+                                
                             }.padding()
                              .font(Font
                                     .preferred(.py_title2()).bold()
