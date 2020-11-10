@@ -234,7 +234,7 @@ public struct CreateTaskView: View {
             
             ZStack(alignment: .bottom) {
                 
-                VStack(spacing: .zero) {
+                ZStack(alignment: .top) {
                     
                     VStack(spacing: .zero) {                       
                         ZStack(alignment: .leading) {
@@ -244,7 +244,7 @@ public struct CreateTaskView: View {
                             }) {
                                 Image(systemName: "xmark")
                             }.buttonStyle(CloseButtonCircleStyle())
-                             .zIndex(1)
+                            .zIndex(1)
                             
                             Text("Create A New Task".uppercased())
                                 .font(.preferred(.py_title3()))
@@ -254,13 +254,13 @@ public struct CreateTaskView: View {
                                 )
                         }.padding()
                         .background(
-                            VisualEffectBlur(blurStyle: .light)
+                            VisualEffectBlur(blurStyle: .extraLight)
                         )
                     }
                 
                 
-                ScrollView(.vertical) {
-                                                            
+                    ScrollView(.vertical) {
+                        
                         TextField(String.taskTitle, text: viewStore.binding(
                             get: \.title,
                             send: CreateTaskAction.titleChanged
@@ -289,6 +289,21 @@ public struct CreateTaskView: View {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
                                 Spacer(minLength: .py_grid(2))
+                                
+                                if #available(iOS 14.0, *) {
+                                    ColorPicker("",
+                                                selection:
+                                                    viewStore.binding(
+                                                        get: \.chosenColor,
+                                                        send: CreateTaskAction.selectColor
+                                                    )
+                                    )
+                                    .frame(
+                                        width: .py_grid(10),
+                                        height: .py_grid(10)
+                                    ).labelsHidden()
+                                }
+                                
                                 ForEach(colors(), id: \.self) { color in
                                     RoundedRectangle(
                                         cornerRadius: .py_grid(3),
@@ -335,7 +350,7 @@ public struct CreateTaskView: View {
                         .fill(Color.clear)
                         .frame(height: .py_grid(50))
                     
-                    }.padding(.top)
+                    }.padding(.top, .py_grid(20))
                     
                 }.font(.preferred(.py_subhead()))
                 .multilineTextAlignment(.center)

@@ -12,6 +12,11 @@
 		040C241925471DCD008BA89B /* CreateTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C241825471DCD008BA89B /* CreateTaskView.swift */; };
 		040DD86C255297FF0089D29C /* ColorValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DD86B255297FF0089D29C /* ColorValueTransformer.swift */; };
 		040DD89E25529E250089D29C /* Color+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DD89D25529E250089D29C /* Color+UIKit.swift */; };
+		040F19C4255A95F2003DAD80 /* LifeProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F19C3255A95F2003DAD80 /* LifeProgressView.swift */; };
+		040F19CD255AA7C3003DAD80 /* life_average in Resources */ = {isa = PBXBuildFile; fileRef = 040F19CC255AA7C3003DAD80 /* life_average */; };
+		040F19D6255AA7E9003DAD80 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F19D5255AA7E9003DAD80 /* Parser.swift */; };
+		040F19E0255AA967003DAD80 /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F19DF255AA967003DAD80 /* Bundle.swift */; };
+		040F19F0255AB32C003DAD80 /* CountryCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F19EF255AB32C003DAD80 /* CountryCode.swift */; };
 		041296502549B0C3008337A0 /* Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0412964F2549B0C2008337A0 /* Blur.swift */; };
 		0412965D2549B3D0008337A0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0412965F2549B3D0008337A0 /* Localizable.strings */; };
 		041296662549B60D008337A0 /* LocalizedStringKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041296652549B60D008337A0 /* LocalizedStringKey.swift */; };
@@ -261,6 +266,11 @@
 		040C241825471DCD008BA89B /* CreateTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskView.swift; sourceTree = "<group>"; };
 		040DD86B255297FF0089D29C /* ColorValueTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorValueTransformer.swift; sourceTree = "<group>"; };
 		040DD89D25529E250089D29C /* Color+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+UIKit.swift"; sourceTree = "<group>"; };
+		040F19C3255A95F2003DAD80 /* LifeProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeProgressView.swift; sourceTree = "<group>"; };
+		040F19CC255AA7C3003DAD80 /* life_average */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = life_average; sourceTree = "<group>"; };
+		040F19D5255AA7E9003DAD80 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		040F19DF255AA967003DAD80 /* Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
+		040F19EF255AB32C003DAD80 /* CountryCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
 		0412336D254475C20072ABF3 /* ProgressTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressTaskView.swift; sourceTree = "<group>"; };
 		04123374254492FA0072ABF3 /* TaskClient */ = {isa = PBXFileReference; lastKnownFileType = folder; name = TaskClient; path = ../../TaskClient; sourceTree = "<group>"; };
 		0412964F2549B0C2008337A0 /* Blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blur.swift; sourceTree = "<group>"; };
@@ -444,6 +454,15 @@
 			isa = PBXGroup;
 			children = (
 				040DD86B255297FF0089D29C /* ColorValueTransformer.swift */,
+			);
+			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		040F19DE255AA95B003DAD80 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				040F19DF255AA967003DAD80 /* Bundle.swift */,
+				040F19EF255AB32C003DAD80 /* CountryCode.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -637,6 +656,7 @@
 				043ECC342556898800FF50EC /* LocalNotification.swift */,
 				04BA22112556EAB9006C49DA /* ShareSheet.swift */,
 				044B71652559545D00E357DB /* Styles.swift */,
+				040F19D5255AA7E9003DAD80 /* Parser.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -644,6 +664,8 @@
 		04E73CA22543590F0092B918 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				040F19DE255AA95B003DAD80 /* Supporting Files */,
+				040F19CC255AA7C3003DAD80 /* life_average */,
 				04215B85254C882900461C9C /* YourDayView.swift */,
 				04E73CA32543590F0092B918 /* Components.h */,
 				04E73CA42543590F0092B918 /* Info.plist */,
@@ -651,6 +673,7 @@
 				0462EFE325442AD7003D2969 /* DayProgressView.swift */,
 				0462EFEA254437B7003D2969 /* SwitchProgressView.swift */,
 				0490045D254DC2EF0014CE7D /* YourDayProgressView.swift */,
+				040F19C3255A95F2003DAD80 /* LifeProgressView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1078,6 +1101,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				040F19CD255AA7C3003DAD80 /* life_average in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1206,6 +1230,7 @@
 				040C241125470098008BA89B /* ProgressCircle.swift in Sources */,
 				04D7BAF625458844003A9774 /* ProgressBar.swift in Sources */,
 				042D304625554E2600C26A12 /* SmartProgressBar.swift in Sources */,
+				040F19D6255AA7E9003DAD80 /* Parser.swift in Sources */,
 				04325686254459570050F620 /* Grid.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1215,6 +1240,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				04900446254D77310014CE7D /* YourDayView.swift in Sources */,
+				040F19E0255AA967003DAD80 /* Bundle.swift in Sources */,
+				040F19C4255A95F2003DAD80 /* LifeProgressView.swift in Sources */,
+				040F19F0255AB32C003DAD80 /* CountryCode.swift in Sources */,
 				04E73CD02543594E0092B918 /* YearProgressView.swift in Sources */,
 				0462EFE425442AD7003D2969 /* DayProgressView.swift in Sources */,
 				0490045E254DC2EF0014CE7D /* YourDayProgressView.swift in Sources */,

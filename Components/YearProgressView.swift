@@ -155,7 +155,7 @@ public struct YearProgressView: View {
                         cornerRadius: .py_grid(4),
                         style: .continuous
                     ).stroke(Color.white)
-                    .shadow(color: Color(white: 0.95), radius: 1)
+                    .shadow(radius: 1)
                 )
             }.onAppear { viewStore.send(.onChange) }
             

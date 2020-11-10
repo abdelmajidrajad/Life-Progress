@@ -86,7 +86,8 @@ struct ContentView: View {
                                 
                                                             
                                 }.padding(.vertical)
-                                .padding(.horizontal, .py_grid(1))
+                                 .padding(.horizontal, .py_grid(1))
+                                 .frame(height: width)
                             }.frame(height: width)
                         }
                         
@@ -207,8 +208,8 @@ extension AppEnvironment {
                     Just(TaskResponse.tasks([
                         .readBook, .writeBook, .writeBook2
                     ]))
-                        .setFailureType(to: TaskFailure.self)
-                        .eraseToAnyPublisher()
+                    .setFailureType(to: TaskFailure.self)
+                    .eraseToAnyPublisher()
                 }),
             context: .init(concurrencyType: .privateQueueConcurrencyType),
             userDefaults: UserDefaults()
