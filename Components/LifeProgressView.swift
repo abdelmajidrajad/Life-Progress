@@ -1,100 +1,182 @@
 import SwiftUI
 import Core
-
-struct CountryLife: Identifiable {
-    var id: Int
-    let country: String
-    let overall: Double
-    let female: Double
-    let male: Double
-    
-}
+import ComposableArchitecture
+import TimeClient
+import Combine
 
 
-let countryId = Parser
-    .prefix("| ")
-    .take(Parser.int)
-    .skip("\n")
-    .map { $1 }
-
-let countryName = Parser
-    .prefix("| ")
-    .skip("{{flag|")
-    .take(Parser.prefix(upTo: "}}"))
-    .map { $1 }
-    .map(String.init)
-    
-  
-let lifeValue = Parser
-    .prefix("| ")
-    .take(Parser.double)
-    .map { $1 }
-
-let countryParser = zip(
-    countryId,
-    countryName.skip("}}\n"),
-    lifeValue.skip("\n"),
-    lifeValue.skip("\n"),
-    lifeValue.skip("\n")
-).map(CountryLife.init(id:country:overall:female:male:))
-
-func flag(country:String) -> String {
-    let base = 127397
-    var usv = String.UnicodeScalarView()
-    for i in country.utf16 {
-        usv.append(UnicodeScalar(base + Int(i))!)
+public struct LifeProgressState: Equatable {
+    var timeResult: TimeResult
+    var percent: Double
+    var style: ProgressStyle
+    public init(
+        timeResult: TimeResult = .init(),
+        style: ProgressStyle = .bar,
+        percent: Double = .zero
+    ) {
+        self.style = style
+        self.timeResult = timeResult
+        self.percent = percent
     }
-    return String(usv)
 }
 
-let numberFormatter: () -> NumberFormatter = {
-    let formatter = NumberFormatter()
-    formatter.allowsFloats = true
-    formatter.numberStyle = .decimal
-    return formatter
+public enum LifeProgressAction: Equatable {
+    case onChange
+    case response(TimeResponse)
 }
 
-struct LifeProgressView: View {
-    @State var countries: [CountryLife] = []
-    var body: some View {
-        List {
-            
-            RoundedRectangle(cornerRadius: .py_grid(5))
-            
-            ForEach(countries) { life in
-                VStack {
-                    Text(
-                        flag(country:
-                                countryCodes[
-                                    life.country
-                                ] ?? ""
+public struct LifeEnvironment {
+    let calendar: Calendar
+    let date: () -> Date
+    let todayProgress: (TodayRequest) -> AnyPublisher<TimeResponse, Never>
+    public init(
+        calendar: Calendar,
+        date: @escaping () -> Date,
+        todayProgress: @escaping (TodayRequest) -> AnyPublisher<TimeResponse, Never>
+    ) {
+        self.calendar = calendar
+        self.date = date
+        self.todayProgress = todayProgress
+    }
+}
+
+public let lifeReducer =
+    Reducer<LifeProgressState, LifeProgressAction, LifeEnvironment> { state, action, environment in
+    switch action {
+    case .onChange:
+        return .concatenate(
+            environment.todayProgress(
+                TodayRequest(
+                    date: environment.date(),
+                    calendar: environment.calendar
+                )).map(LifeProgressAction.response)
+                .eraseToEffect()
+        )
+    case let .response(response):
+        state.percent = response.progress
+        state.timeResult = response.result
+        return .none
+    }
+}
+
+extension LifeProgressState {
+    var view: LifeProgressView.ViewState {
+        LifeProgressView.ViewState(
+            today: "heart.fill",
+            percentage: NSNumber(value: percent),
+            title: timeResult.string(widgetStyle),
+            isCircle: style == .circle
+        )
+    }
+}
+
+public struct LifeProgressView: View {
+    
+    struct ViewState: Equatable {
+        let today: String
+        let percentage: NSNumber
+        let title: NSAttributedString
+        let isCircle: Bool
+    }
+    
+    let store: Store<LifeProgressState, LifeProgressAction>
+    
+    public init(
+        store: Store<LifeProgressState, LifeProgressAction>) {
+            self.store = store
+    }
+    
+    public var body: some View {
+        WithViewStore(store.scope(state: \.view)) { viewStore in
+            HStack(spacing: .py_grid(2)) {
+                
+                VStack(alignment: .leading) {
+                    
+                    Image(systemName: viewStore.today)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .font(.title)
+                        .foregroundColor(.pink)
+                    
+                    if viewStore.isCircle {
+                        ProgressCircle(
+                            color: .pink,
+                            lineWidth: .py_grid(3),
+                            progress: .constant(viewStore.percentage)
+                        ).frame(width: .py_grid(17), height: .py_grid(17))
+                        .offset(y: -20)
+                    } else {
+                        ProgressBar(
+                            color: .pink,
+                            progress: .constant(viewStore.percentage)
                         )
-                    ).font(.title)
-                    Text("Male ") + 
-                    Text(NSNumber(value: life.male), formatter: numberFormatter())
-                    Text("female \(life.female)")
-                    Text("overall \(life.overall)")
-                }
-            }
-        }.onAppear {
-            
-            guard let fileURL = Bundle.component
-                    .url(forResource: "life_average", withExtension: nil),
-                  let countries = try? String(contentsOf: fileURL)
-            else { return }
-            
-            self.countries = countryParser
-                .zeroOrMore(separatedBy: "|-\n")
-                .run(countries).match ?? []
-            
-            
-            
+                    }
+                    Spacer()
+                    HStack(
+                        alignment: .lastTextBaseline,
+                        spacing: .py_grid(1)) {
+                        PLabel(
+                            attributedText:
+                                .constant(viewStore.title)
+                        ).fixedSize()
+                        Text("remaining")
+                            .font(.caption)
+                            .foregroundColor(.gray)
+                            .italic()
+                            .lineLimit(1)
+                    }
+                }.padding()
+                .background(
+                    RoundedRectangle(
+                        cornerRadius: .py_grid(5),
+                        style: .continuous
+                    ).stroke(Color.white)
+                    .shadow(radius: 1)
+                )
+            }.onAppear { viewStore.send(.onChange) }
         }
     }
 }
 
 struct LifeProgressView_Previews: PreviewProvider {
     static var previews: some View {
-        LifeProgressView()
+        Group {
+            LifeProgressView(
+                store: Store<LifeProgressState, LifeProgressAction>(
+                    initialState: LifeProgressState(style: .circle),
+                    reducer: lifeReducer,
+                    environment: LifeEnvironment(
+                        calendar: .current,
+                        date: Date.init,
+                        todayProgress: { _ in
+                            Just(TimeResponse(
+                                progress: 0.8,
+                                result: TimeResult(
+                                    year: 23
+                                )
+                            )).eraseToAnyPublisher()
+                        }
+                    )
+                )
+            ).frame(width: 141, height: 141)
+            LifeProgressView(
+                store: Store<LifeProgressState, LifeProgressAction>(
+                    initialState: LifeProgressState(style: .bar),
+                    reducer: lifeReducer,
+                    environment: LifeEnvironment(
+                        calendar: .current,
+                        date: Date.init,
+                        todayProgress: { _ in
+                            Just(TimeResponse(
+                                progress: 0.8,
+                                result: TimeResult(
+                                    year: 23
+                                )
+                            )).eraseToAnyPublisher()
+                        }
+                    )
+                )
+            ).preferredColorScheme(.dark).frame(width: 141, height: 141)
+        }
     }
 }
+

@@ -12,7 +12,7 @@
 		040C241925471DCD008BA89B /* CreateTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C241825471DCD008BA89B /* CreateTaskView.swift */; };
 		040DD86C255297FF0089D29C /* ColorValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DD86B255297FF0089D29C /* ColorValueTransformer.swift */; };
 		040DD89E25529E250089D29C /* Color+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DD89D25529E250089D29C /* Color+UIKit.swift */; };
-		040F19C4255A95F2003DAD80 /* LifeProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F19C3255A95F2003DAD80 /* LifeProgressView.swift */; };
+		040F19C4255A95F2003DAD80 /* LifeSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F19C3255A95F2003DAD80 /* LifeSettingView.swift */; };
 		040F19CD255AA7C3003DAD80 /* life_average in Resources */ = {isa = PBXBuildFile; fileRef = 040F19CC255AA7C3003DAD80 /* life_average */; };
 		040F19D6255AA7E9003DAD80 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F19D5255AA7E9003DAD80 /* Parser.swift */; };
 		040F19E0255AA967003DAD80 /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F19DF255AA967003DAD80 /* Bundle.swift */; };
@@ -86,6 +86,8 @@
 		04D7BAE5254587DF003A9774 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73C86254357E60092B918 /* Core.framework */; };
 		04D7BAF625458844003A9774 /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73CD72543597E0092B918 /* ProgressBar.swift */; };
 		04D7BB0625458893003A9774 /* TasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D7BB0525458893003A9774 /* TasksView.swift */; };
+		04DCD65D255B03D200DCA41C /* CountryLifeAverage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCD65C255B03D200DCA41C /* CountryLifeAverage.swift */; };
+		04DCD674255B12AF00DCA41C /* LifeProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCD673255B12AF00DCA41C /* LifeProgressView.swift */; };
 		04E5137425596C0000A6BE95 /* Components.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73CA12543590F0092B918 /* Components.framework */; };
 		04E5137525596C0000A6BE95 /* Components.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73CA12543590F0092B918 /* Components.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04E73C2F2542C2030092B918 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73C2E2542C2030092B918 /* AppDelegate.swift */; };
@@ -266,7 +268,7 @@
 		040C241825471DCD008BA89B /* CreateTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskView.swift; sourceTree = "<group>"; };
 		040DD86B255297FF0089D29C /* ColorValueTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorValueTransformer.swift; sourceTree = "<group>"; };
 		040DD89D25529E250089D29C /* Color+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+UIKit.swift"; sourceTree = "<group>"; };
-		040F19C3255A95F2003DAD80 /* LifeProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeProgressView.swift; sourceTree = "<group>"; };
+		040F19C3255A95F2003DAD80 /* LifeSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeSettingView.swift; sourceTree = "<group>"; };
 		040F19CC255AA7C3003DAD80 /* life_average */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = life_average; sourceTree = "<group>"; };
 		040F19D5255AA7E9003DAD80 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		040F19DF255AA967003DAD80 /* Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
@@ -330,6 +332,8 @@
 		04D7BAC6254587B7003A9774 /* TasksTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksTests.swift; sourceTree = "<group>"; };
 		04D7BAC8254587B7003A9774 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04D7BB0525458893003A9774 /* TasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksView.swift; sourceTree = "<group>"; };
+		04DCD65C255B03D200DCA41C /* CountryLifeAverage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryLifeAverage.swift; sourceTree = "<group>"; };
+		04DCD673255B12AF00DCA41C /* LifeProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeProgressView.swift; sourceTree = "<group>"; };
 		04E73C2B2542C2030092B918 /* Life Progress.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Life Progress.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04E73C2E2542C2030092B918 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04E73C302542C2030092B918 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -463,6 +467,7 @@
 			children = (
 				040F19DF255AA967003DAD80 /* Bundle.swift */,
 				040F19EF255AB32C003DAD80 /* CountryCode.swift */,
+				04DCD65C255B03D200DCA41C /* CountryLifeAverage.swift */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -673,7 +678,8 @@
 				0462EFE325442AD7003D2969 /* DayProgressView.swift */,
 				0462EFEA254437B7003D2969 /* SwitchProgressView.swift */,
 				0490045D254DC2EF0014CE7D /* YourDayProgressView.swift */,
-				040F19C3255A95F2003DAD80 /* LifeProgressView.swift */,
+				040F19C3255A95F2003DAD80 /* LifeSettingView.swift */,
+				04DCD673255B12AF00DCA41C /* LifeProgressView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1240,9 +1246,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				04900446254D77310014CE7D /* YourDayView.swift in Sources */,
+				04DCD65D255B03D200DCA41C /* CountryLifeAverage.swift in Sources */,
 				040F19E0255AA967003DAD80 /* Bundle.swift in Sources */,
-				040F19C4255A95F2003DAD80 /* LifeProgressView.swift in Sources */,
+				040F19C4255A95F2003DAD80 /* LifeSettingView.swift in Sources */,
 				040F19F0255AB32C003DAD80 /* CountryCode.swift in Sources */,
+				04DCD674255B12AF00DCA41C /* LifeProgressView.swift in Sources */,
 				04E73CD02543594E0092B918 /* YearProgressView.swift in Sources */,
 				0462EFE425442AD7003D2969 /* DayProgressView.swift in Sources */,
 				0490045E254DC2EF0014CE7D /* YourDayProgressView.swift in Sources */,

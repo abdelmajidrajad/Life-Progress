@@ -354,9 +354,7 @@ public struct CreateTaskView: View {
                     
                 }.font(.preferred(.py_subhead()))
                 .multilineTextAlignment(.center)
-                         
-                
-                
+                                
                 VStack(spacing: .py_grid(4)) {
                     
                     if viewStore.isDiff {

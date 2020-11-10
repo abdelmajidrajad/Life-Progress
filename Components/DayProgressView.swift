@@ -5,7 +5,6 @@ import TimeClient
 import Combine
 
 
-
 public struct DayState: Equatable {
     var timeResult: TimeResult
     var percent: Double
