@@ -27,12 +27,13 @@ public enum LifeSettingAction: Equatable {
     case onAppear
     case setAge(Float)
     case setLife(Float)
+    case saveButtonTapped
 }
 
 import ComposableArchitecture
 public let lifeSettingReducer =
-    Reducer<LifeSettingState, LifeSettingAction, Void> {
-        state, action, _ in
+    Reducer<LifeSettingState, LifeSettingAction, KeyValueStoreType> {
+        state, action, storage in
         switch action {
         case .onAppear:
             return .none
@@ -40,12 +41,13 @@ public let lifeSettingReducer =
             state.age = age
             return .none
         case let .setLife(life):
-            
             if life < state.age {
                 state.age = life
             }
-            
             state.life = life
+            return .none
+        case .saveButtonTapped:
+            //save life & age 
             return .none
         }
     }
@@ -191,7 +193,7 @@ struct LifeSettingView_Previews: PreviewProvider {
             LifeSettingView(store: Store(
                 initialState: LifeSettingState(),
                 reducer: lifeSettingReducer,
-                environment: ()
+                environment: TestUserDefault()
             )).navigationBarTitle(Text("Life Progress"))
             .navigationBarItems(trailing:
                                     Button(action: {}, label: {

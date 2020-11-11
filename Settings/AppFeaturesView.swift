@@ -46,21 +46,10 @@ public struct AppFeaturesView: View {
             ZStack(alignment: .topLeading) {
                                         
                 ZStack(alignment: .bottom) {
-                    LinearGradient(
-                        gradient: Gradient(
-                            colors: [
-                                .black,
-                                //.black,
-                                Color(white: 0.34)
-                            ]
-                        ),
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                    
+                                        
                     PageView(
                         viewStore.features.map(FeatureView.init),
-                        currentPage: $currentPage                    
+                        currentPage: $currentPage.animation()
                     )
                     
                     VStack {
@@ -76,19 +65,18 @@ public struct AppFeaturesView: View {
                             Text("Full 2.99$")
                                 .font(Font.preferred(.py_title3()).bold())
                                 .foregroundColor(Color(.label))
-                                .padding()
-                                .padding(.horizontal)
+                                .padding(.py_grid(3))
+                                .padding(.horizontal, .py_grid(10))
                                 .background(
                                     Capsule()
-                                        .fill(Color.white)
+                                        .fill(Color(.systemBackground))
                                 )
                         }).frame(
                             maxWidth: .infinity,
-                            maxHeight: .py_grid(25)
+                            maxHeight: .py_grid(20)
                         ).padding(.bottom)
                          .background(
                             VisualEffectBlur(blurStyle: .extraLight)
-                                .cornerRadius(.py_grid(10))
                         )                                                
                     }
                     
@@ -116,6 +104,7 @@ struct FeatureView: View {
                 spacing: .py_grid(4)
             ) {
                 HStack {
+                    
                     ForEach(1 ..< 6) { item in
                         VisualEffectBlur(
                             blurStyle: .extraLight
@@ -128,11 +117,11 @@ struct FeatureView: View {
                         
                     }
                 }.padding()
-                .opacity(0.2)
+                
                 
                 Text(feature.title.uppercased())
-                    .font(Font.preferred(.py_title2(size: .py_grid(8))).bold())
-                    .foregroundColor(Color(.systemBackground))
+                    .font(Font.preferred(.py_title3(size: .py_grid(8))).bold())
+                    .foregroundColor(Color(.label))
                     .padding()
                 
                 Image(systemName: feature.imageSystemName)
@@ -147,23 +136,26 @@ struct FeatureView: View {
                             LinearGradient(
                                 gradient: Gradient(
                                     colors: [
-                                        Color.gray,
-                                        Color.black,
-                                        Color.black
+                                        Color.pink,
+                                        Color.orange
                                     ]
                                 ),
                                 startPoint: .top,
                                 endPoint: .bottom
                             )
                         )
-                    )
+                ).transition(.asymmetric(
+                    insertion: .scale,
+                    removal: .scale(scale: 0.5)
+                ))
+                .animation(.linear)
                 
                 Text(feature.subTitle.capitalizingFirstLetter())
                     .font(.preferred(
-                        .py_body(size: .py_grid(6)))
+                        .py_body())
                     )
                     .padding(.horizontal)
-                    .foregroundColor(.white)
+                    .foregroundColor(Color(.secondaryLabel))
                 
             }.padding(.vertical)
             .multilineTextAlignment(.center)
@@ -176,10 +168,19 @@ struct FeatureView: View {
 
 struct AppFeaturesView_Previews: PreviewProvider {
     static var previews: some View {
-        AppFeaturesView(store: Store(
-                            initialState: AppFeatureState(features: appFeatures),
-                            reducer: appFeatureReducer,
-                            environment: ()
-        ))
+        Group {
+            AppFeaturesView(store: Store(
+                                initialState: AppFeatureState(features: appFeatures),
+                                reducer: appFeatureReducer,
+                                environment: ()
+            ))
+            AppFeaturesView(store: Store(
+                initialState: AppFeatureState(features: appFeatures),
+                reducer: appFeatureReducer,
+                environment: ()
+            ))
+            .preferredColorScheme(.dark)
+            .previewDevice("iPhone 12")
+        }
     }
 }

@@ -26,17 +26,14 @@ public enum LifeProgressAction: Equatable {
 }
 
 public struct LifeEnvironment {
-    let calendar: Calendar
-    let date: () -> Date
-    let todayProgress: (TodayRequest) -> AnyPublisher<TimeResponse, Never>
+    let userDefaults: KeyValueStoreType
+    let lifeProgress: (LifeRequest) -> AnyPublisher<TimeResponse, Never>
     public init(
-        calendar: Calendar,
-        date: @escaping () -> Date,
-        todayProgress: @escaping (TodayRequest) -> AnyPublisher<TimeResponse, Never>
+        userDefaults: KeyValueStoreType,
+        lifeProgress: @escaping (LifeRequest) -> AnyPublisher<TimeResponse, Never>
     ) {
-        self.calendar = calendar
-        self.date = date
-        self.todayProgress = todayProgress
+        self.userDefaults = userDefaults
+        self.lifeProgress = lifeProgress
     }
 }
 
@@ -45,12 +42,12 @@ public let lifeReducer =
     switch action {
     case .onChange:
         return .concatenate(
-            environment.todayProgress(
-                TodayRequest(
-                    date: environment.date(),
-                    calendar: environment.calendar
+            environment.lifeProgress(
+                LifeRequest(
+                    expectedLife: environment.userDefaults.integer(forKey: "life"),
+                    age: environment.userDefaults.integer(forKey: "age")
                 )).map(LifeProgressAction.response)
-                .eraseToEffect()
+                 .eraseToEffect()
         )
     case let .response(response):
         state.percent = response.progress
@@ -103,7 +100,7 @@ public struct LifeProgressView: View {
                             lineWidth: .py_grid(3),
                             progress: .constant(viewStore.percentage)
                         ).frame(width: .py_grid(17), height: .py_grid(17))
-                        .offset(y: -20)
+                        .offset(y: .py_grid(-7))
                     } else {
                         ProgressBar(
                             color: .pink,
@@ -145,13 +142,12 @@ struct LifeProgressView_Previews: PreviewProvider {
                     initialState: LifeProgressState(style: .circle),
                     reducer: lifeReducer,
                     environment: LifeEnvironment(
-                        calendar: .current,
-                        date: Date.init,
-                        todayProgress: { _ in
+                        userDefaults: TestUserDefault(),
+                        lifeProgress: { request in
                             Just(TimeResponse(
-                                progress: 0.8,
+                                progress: Double(request.age) / Double(request.expectedLife),
                                 result: TimeResult(
-                                    year: 23
+                                    year: request.expectedLife - request.age
                                 )
                             )).eraseToAnyPublisher()
                         }
@@ -163,11 +159,10 @@ struct LifeProgressView_Previews: PreviewProvider {
                     initialState: LifeProgressState(style: .bar),
                     reducer: lifeReducer,
                     environment: LifeEnvironment(
-                        calendar: .current,
-                        date: Date.init,
-                        todayProgress: { _ in
+                        userDefaults: TestUserDefault(),
+                        lifeProgress: { _ in
                             Just(TimeResponse(
-                                progress: 0.8,
+                                progress: 0.2,
                                 result: TimeResult(
                                     year: 23
                                 )
