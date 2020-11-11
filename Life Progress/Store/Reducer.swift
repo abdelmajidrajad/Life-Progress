@@ -71,7 +71,11 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
         state: \.settingState,
         action: /AppAction.settings,
         environment: {
-            SettingsEnvironment(userDefaults: $0.userDefaults)
+            SettingsEnvironment(
+                date: $0.date,
+                calendar: $0.calendar,
+                userDefaults: $0.userDefaults
+            )
         }
     )
 )

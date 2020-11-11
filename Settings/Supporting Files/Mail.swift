@@ -1,8 +1,8 @@
 import SwiftUI
 import MessageUI
 
-let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
-let appBuild = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
+public let appVersion = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as! String
+public let appBuild = Bundle.main.infoDictionary?["CFBundleVersion"] as! String
 
 
 struct SupportView: UIViewControllerRepresentable {

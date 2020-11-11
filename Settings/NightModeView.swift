@@ -6,8 +6,15 @@ public struct NightModeState: Equatable {
     public enum Style: CaseIterable, Equatable {
         case dark, light
     }
-    let styles: [Style] = Style.allCases
+    let styles: [Style]
     var currentStyle: Style = .light
+    public init(
+        styles: [Style] = Style.allCases,
+        currentStyle: Style = .light
+    ) {
+        self.styles = styles
+        self.currentStyle = currentStyle
+    }
 }
 
 public enum NightModeAction: Equatable {

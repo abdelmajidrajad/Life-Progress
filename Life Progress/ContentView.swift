@@ -27,12 +27,13 @@ struct ContentView: View {
                                     .frame(
                                         maxWidth: .infinity,
                                         alignment: .leading
-                                    )
+                                    ).foregroundColor(Color(.label))
+                                    
                                 Button(action: {
                                     viewStore.send(.settingButtonTapped)
                                 }, label: {
                                     Image(systemName: "gearshape.fill")
-                                        .foregroundColor(.gray)
+                                        .foregroundColor(Color(.label))
                                 })
                                 .sheet(
                                     isPresented: viewStore.binding(
@@ -59,6 +60,17 @@ struct ContentView: View {
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack(spacing: .py_grid(4)) {
                                     
+                                    LifeProgressView(store: Store<LifeProgressState, LifeProgressAction>(
+                                            initialState:
+                                                LifeProgressState(
+                                                    timeResult: TimeResult(year: 23),
+                                                    style: .bar,
+                                                    percent: 0.77
+                                                ),
+                                            reducer: .empty,
+                                            environment: ())
+                                    )
+                                    
                                     YourDayProgressView(
                                         store: store.scope(
                                             state: \.yourDayState,
@@ -83,6 +95,8 @@ struct ContentView: View {
                                             state: \.yearState,
                                             action: AppAction.year)
                                     )
+                                    
+                                   
                                 
                                                             
                                 }.padding(.vertical)

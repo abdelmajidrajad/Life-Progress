@@ -252,10 +252,7 @@ public struct CreateTaskView: View {
                                     maxWidth: .infinity,
                                     alignment: .bottom
                                 )
-                        }.padding()
-                        .background(
-                            VisualEffectBlur(blurStyle: .extraLight)
-                        )
+                        }.padding()                        
                     }
                 
                 
@@ -424,10 +421,10 @@ struct AddButtonStyle: ButtonStyle {
                     .stroke(
                         configuration.isPressed
                             ? Color.blue
-                            : Color.white
+                            : Color.white.opacity(0.2)
                     )
             ).scaleEffect(configuration.isPressed ? 1.1: 1)
-            .animation(.linear(duration: 0.5))
+            .animation(.linear(duration: 0.2))
         
     }
 }

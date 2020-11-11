@@ -1,13 +1,13 @@
 import SwiftUI
 import Core
 
+
 let numberFormatter: () -> NumberFormatter = {
     let formatter = NumberFormatter()
     formatter.allowsFloats = true
     formatter.numberStyle = .decimal
     return formatter
 }
-
 
 public struct LifeSettingState: Equatable {
     var life: Float
@@ -27,28 +27,35 @@ public enum LifeSettingAction: Equatable {
     case onAppear
     case setAge(Float)
     case setLife(Float)
-    case saveButtonTapped
 }
 
 import ComposableArchitecture
 public let lifeSettingReducer =
     Reducer<LifeSettingState, LifeSettingAction, KeyValueStoreType> {
         state, action, storage in
+        
         switch action {
         case .onAppear:
             return .none
         case let .setAge(age):
+            struct AgeId: Hashable {}
             state.age = age
-            return .none
+            return Effect.fireAndForget {
+                storage.set(age, forKey: "age")
+            }.debounce(id: AgeId(), for: 2.0, scheduler: DispatchQueue.global().eraseToAnyScheduler())
+             .eraseToEffect()
         case let .setLife(life):
+            struct LifeId: Hashable {}
             if life < state.age {
                 state.age = life
             }
+            let age = state.age
             state.life = life
-            return .none
-        case .saveButtonTapped:
-            //save life & age 
-            return .none
+            return Effect.fireAndForget {
+                storage.set(age, forKey: "age")
+                storage.set(life, forKey: "life")
+            }.debounce(id: LifeId(), for: 2.0, scheduler: DispatchQueue.global().eraseToAnyScheduler())
+            .eraseToEffect()
         }
     }
 
@@ -65,7 +72,7 @@ extension LifeSettingState {
     }
 }
 
-struct LifeSettingView: View {
+public struct LifeSettingView: View {
     
     struct ViewState: Equatable {
         var life: Float
@@ -77,22 +84,24 @@ struct LifeSettingView: View {
     }
     
     let store: Store<LifeSettingState, LifeSettingAction>
-    init(store: Store<LifeSettingState, LifeSettingAction>) {
+    public init(store: Store<LifeSettingState, LifeSettingAction>) {
         self.store = store
     }
     
-    var body: some View {
+    public var body: some View {
                             
         WithViewStore(store.scope(state: \.view)) { viewStore in
             VStack {
                                                                        
                 VStack(alignment: .leading, spacing: .py_grid(3)) {
+                    
                     Text("Life")
                         .font(Font.preferred(.py_title2()).bold())
+                        .foregroundColor(Color(.label))
                     
                     Text("Set the age you want to achieve all your dreams")
-                        .font(Font.preferred(.py_footnote()).bold())
-                        .foregroundColor(.gray)
+                        .font(Font.preferred(.py_body()))
+                        .foregroundColor(Color(.secondaryLabel))
                     
                     HStack(spacing: .py_grid(4)) {
                         
@@ -112,10 +121,10 @@ struct LifeSettingView: View {
                         
                         Text(NSNumber(value: viewStore.life), formatter: numberFormatter())
                             .font(.preferred(.py_headline()))
-                            .foregroundColor(.white)
+                            .foregroundColor(Color.red)
                             .background(
                                 RoundedRectangle(cornerRadius: .py_grid(4))
-                                    .fill(Color(.systemRed))
+                                    .fill(Color.red.opacity(0.1))
                                     .frame(width: .py_grid(10), height: .py_grid(10))
                             )
                     }
@@ -123,10 +132,11 @@ struct LifeSettingView: View {
                     
                     Text("Age")
                         .font(Font.preferred(.py_title2()).bold())
+                        .foregroundColor(Color(.label))
                     
                     Text("Set your current age")
-                        .font(Font.preferred(.py_footnote()).bold())
-                        .foregroundColor(.gray)
+                        .font(Font.preferred(.py_body()))
+                        .foregroundColor(Color(.secondaryLabel))
                     
                     HStack(spacing: .py_grid(4)) {
                         
@@ -146,10 +156,10 @@ struct LifeSettingView: View {
                         
                         Text(NSNumber(value: viewStore.age), formatter: numberFormatter())
                             .font(.preferred(.py_headline()))
-                            .foregroundColor(.white)
+                            .foregroundColor(Color.green)
                             .background(
                                 RoundedRectangle(cornerRadius: .py_grid(4))
-                                    .fill(Color(.systemGreen))
+                                    .fill(Color.green.opacity(0.1))
                                     .frame(width: .py_grid(10), height: .py_grid(10))
                             )
                     }
@@ -172,7 +182,7 @@ struct LifeSettingView: View {
                 
                 Spacer()
                 
-                Text("This will allow you to see the progres of your life toward your dreams")
+                Text("Never say too late, make an action and make an action now")
                     .multilineTextAlignment(.center)
                     .font(.preferred(.py_footnote()))
                     .foregroundColor(Color(.secondaryLabel))
@@ -195,17 +205,7 @@ struct LifeSettingView_Previews: PreviewProvider {
                 reducer: lifeSettingReducer,
                 environment: TestUserDefault()
             )).navigationBarTitle(Text("Life Progress"))
-            .navigationBarItems(trailing:
-                                    Button(action: {}, label: {
-                                        Text("Done")
-                                            .foregroundColor(.white)
-                                            .font(.preferred(.py_headline()))
-                                            .padding()
-                                            .background(
-                                                Capsule().fill(Color.green)
-                                            )
-                                    })
-            )
+            
         }
     }
 }

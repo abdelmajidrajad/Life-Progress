@@ -20,17 +20,24 @@ public struct SettingState: Equatable {
     var features: AppFeatureState
     var notifications: NotificationsState
     var nightMode: NightModeState
+    var moreSettings: MoreSettingsState
     var section: SettingItem?
     var isURLOpenned: Bool = false
     public init(
-        features: [Feature] = appFeatures,
-        section: SettingItem? = nil
+        section: SettingItem? = nil,
+        notifications: NotificationsState = NotificationsState(),
+        moreSettings: MoreSettingsState = MoreSettingsState(),
+        appIconState: AppIconState = AppIconState(),
+        aboutsState: AboutsState = AboutsState(features: appFeatures),
+        features: AppFeatureState = AppFeatureState(features: appFeatures),
+        nightMode: NightModeState = NightModeState()
     ) {
-        self.notifications = NotificationsState()
-        self.appIconState = AppIconState()
-        self.aboutsState = AboutsState(features: features)
-        self.features = AppFeatureState(features: features)
-        self.nightMode = NightModeState()
+        self.notifications = notifications
+        self.appIconState = appIconState
+        self.moreSettings = moreSettings
+        self.aboutsState = aboutsState
+        self.features = features
+        self.nightMode = nightMode
         self.section = section
     }
 }
@@ -48,12 +55,21 @@ public enum SettingAction: Equatable {
     case notifications(NotificationsAction)
     case appIcon(AppIconAction)
     case nightMode(NightModeAction)
+    case more(MoreSettingsAction)
 }
 
 
 public struct SettingsEnvironment {
     let userDefaults: KeyValueStoreType
-    public init(userDefaults: KeyValueStoreType) {
+    let date: () -> Date
+    let calendar: Calendar
+    public init(
+        date: @escaping () -> Date,
+        calendar: Calendar,
+        userDefaults: KeyValueStoreType
+    ) {
+        self.date = date
+        self.calendar = calendar
         self.userDefaults = userDefaults
     }
 }
@@ -89,7 +105,8 @@ public let settingReducer =
             case .appIcon,
                  .notifications,
                  .features,
-                 .nightMode:
+                 .nightMode,
+                 .more:
                 return .none
             }
         },
@@ -111,7 +128,18 @@ public let settingReducer =
         nightModeReducer.pullback(
             state: \.nightMode,
             action: /SettingAction.nightMode,
-            environment: { _ in () })
+            environment: { _ in () }),
+        moreSettingsReducer.pullback(
+            state: \.moreSettings,
+            action: /SettingAction.more,
+            environment: {
+                MoreSettingsEnvironment(
+                    date: $0.date,
+                    calendar: $0.calendar,
+                    userDefaults: $0.userDefaults
+                )
+            })
+        
     )
 
 
@@ -196,21 +224,32 @@ public struct SettingsView: View {
                             }.padding(.vertical, .py_grid(1))
                         })
                     
-                    //MARK:- Show Settings
-                    //NavigationLink(
-                    //    destination: Text("Settings"),
-                    //    tag: .showSettings,
-                    //    selection: $section,
-                    //    label: {
-                    //        HStack {
-                    //            LeftImage(
-                    //                systemName: "wrench.fill",
-                    //                fillColor: .gray
-                    //            )
-                    //            Text("Show Settings")
-                    //                .font(.preferred(.py_body()))
-                    //        }.padding(.vertical, .py_grid(1))
-                    //})
+                    //MARK:- More Settings
+                    NavigationLink(
+                        destination:
+                            AppSettingsView(store:
+                                                store.scope(
+                                                    state: \.moreSettings,
+                                                    action: SettingAction.more
+                                                )
+                            
+                            )
+                                .navigationBarTitle(Text("More")),
+                        tag: .showSettings,
+                        selection: viewStore.binding(
+                            get: \.section,
+                            send: SettingAction.sectionTapped
+                        ),
+                        label: {
+                            HStack {
+                                LeftImage(
+                                    systemName: "wrench.fill",
+                                    fillColor: .gray
+                                )
+                                Text("More Settings")
+                                    .font(.preferred(.py_body()))
+                            }.padding(.vertical, .py_grid(1))
+                    })
                 }
                 
                 Section {
@@ -341,26 +380,32 @@ struct SettingsView_Previews: PreviewProvider {
         Group {
             NavigationView {
                 SettingsView(store: Store<SettingState, SettingAction>(
-                                initialState: SettingState(),
-                                reducer: settingReducer,
-                                environment:
-                                    SettingsEnvironment(
-                                        userDefaults: TestUserDefault())
-                                )
-                )
+                        initialState: SettingState(),
+                        reducer: settingReducer,
+                        environment: .mock
+                ))
             }
             NavigationView {
-                SettingsView(store: Store<SettingState, SettingAction>(
-                                initialState: SettingState(),
-                                reducer: settingReducer,
-                                environment:
-                                    SettingsEnvironment(
-                                        userDefaults: TestUserDefault())
-                            )
+                SettingsView(
+                    store: Store<SettingState, SettingAction>(
+                            initialState: SettingState(),
+                            reducer: settingReducer,
+                            environment: .mock
+                    )
                 )
             }
             .preferredColorScheme(.dark)
         }
+    }
+}
+
+extension SettingsEnvironment {
+    static var mock: Self {
+        Self(
+            date: Date.init,
+            calendar: .current,
+            userDefaults: TestUserDefault()
+        )
     }
 }
 

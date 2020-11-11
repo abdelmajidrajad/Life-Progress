@@ -2,11 +2,11 @@ import SwiftUI
 import Core
 import ComposableArchitecture
 
-struct AboutsState: Equatable {
+public struct AboutsState: Equatable {
     let features: [Feature]
     var title: String
     var version: String
-    init(
+    public init(
         features: [Feature] = appFeatures,
         title: String = "Progress Anything ....",
         version: String = "© Life Progress v\(appVersion)"

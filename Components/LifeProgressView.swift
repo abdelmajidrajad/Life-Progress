@@ -41,6 +41,7 @@ public let lifeReducer =
     Reducer<LifeProgressState, LifeProgressAction, LifeEnvironment> { state, action, environment in
     switch action {
     case .onChange:
+        
         return .concatenate(
             environment.lifeProgress(
                 LifeRequest(

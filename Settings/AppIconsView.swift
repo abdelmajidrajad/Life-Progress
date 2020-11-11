@@ -69,6 +69,7 @@ struct AppIconsView: View {
                             )
                         
                         Text(icon.rawValue)
+                            .foregroundColor(Color(.label))
                             .font(
                                 Font.preferred(.py_body())
                                     .lowercaseSmallCaps()
@@ -79,6 +80,7 @@ struct AppIconsView: View {
                         
                         if icon == viewStore.chosenIcon {
                             Image(systemName: "checkmark")
+                                .foregroundColor(Color(.label))
                                 .font(.preferred(.py_headline()))
                         }
                     }.background(

@@ -10,9 +10,12 @@
 		0401718D25541C9F00A2613C /* AboutsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0401718C25541C9F00A2613C /* AboutsView.swift */; };
 		040C241125470098008BA89B /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C241025470098008BA89B /* ProgressCircle.swift */; };
 		040C241925471DCD008BA89B /* CreateTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C241825471DCD008BA89B /* CreateTaskView.swift */; };
+		040CB907255C2F2600FFABB2 /* LifeSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F19C3255A95F2003DAD80 /* LifeSettingView.swift */; };
+		040CB910255C30F700FFABB2 /* AppSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040CB90F255C30F700FFABB2 /* AppSettingsView.swift */; };
+		040CB918255C345300FFABB2 /* YourDaySettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04215B85254C882900461C9C /* YourDaySettingView.swift */; };
+		040CB921255C351100FFABB2 /* Date+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040CB920255C351100FFABB2 /* Date+extensions.swift */; };
 		040DD86C255297FF0089D29C /* ColorValueTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DD86B255297FF0089D29C /* ColorValueTransformer.swift */; };
 		040DD89E25529E250089D29C /* Color+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040DD89D25529E250089D29C /* Color+UIKit.swift */; };
-		040F19C4255A95F2003DAD80 /* LifeSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F19C3255A95F2003DAD80 /* LifeSettingView.swift */; };
 		040F19CD255AA7C3003DAD80 /* life_average in Resources */ = {isa = PBXBuildFile; fileRef = 040F19CC255AA7C3003DAD80 /* life_average */; };
 		040F19D6255AA7E9003DAD80 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F19D5255AA7E9003DAD80 /* Parser.swift */; };
 		040F19E0255AA967003DAD80 /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F19DF255AA967003DAD80 /* Bundle.swift */; };
@@ -67,7 +70,6 @@
 		0462EFEB254437B7003D2969 /* SwitchProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFEA254437B7003D2969 /* SwitchProgressView.swift */; };
 		0462F01025444433003D2969 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462F00F25444433003D2969 /* Operators.swift */; };
 		0467BFF5254AABAD007FC8A3 /* Validated in Frameworks */ = {isa = PBXBuildFile; productRef = 0467BFF4254AABAD007FC8A3 /* Validated */; };
-		04900446254D77310014CE7D /* YourDayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04215B85254C882900461C9C /* YourDayView.swift */; };
 		0490044D254D77E60014CE7D /* DashedLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0490044C254D77E50014CE7D /* DashedLine.swift */; };
 		0490045E254DC2EF0014CE7D /* YourDayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0490045D254DC2EF0014CE7D /* YourDayProgressView.swift */; };
 		0496726825500B440015205E /* TimeClient in Frameworks */ = {isa = PBXBuildFile; productRef = 0496726725500B440015205E /* TimeClient */; };
@@ -266,6 +268,8 @@
 		0401718C25541C9F00A2613C /* AboutsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutsView.swift; sourceTree = "<group>"; };
 		040C241025470098008BA89B /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
 		040C241825471DCD008BA89B /* CreateTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskView.swift; sourceTree = "<group>"; };
+		040CB90F255C30F700FFABB2 /* AppSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsView.swift; sourceTree = "<group>"; };
+		040CB920255C351100FFABB2 /* Date+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+extensions.swift"; sourceTree = "<group>"; };
 		040DD86B255297FF0089D29C /* ColorValueTransformer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorValueTransformer.swift; sourceTree = "<group>"; };
 		040DD89D25529E250089D29C /* Color+UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+UIKit.swift"; sourceTree = "<group>"; };
 		040F19C3255A95F2003DAD80 /* LifeSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeSettingView.swift; sourceTree = "<group>"; };
@@ -279,7 +283,7 @@
 		0412965E2549B3D0008337A0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		041296652549B60D008337A0 /* LocalizedStringKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedStringKey.swift; sourceTree = "<group>"; };
 		0412966C2549BD2C008337A0 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		04215B85254C882900461C9C /* YourDayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourDayView.swift; sourceTree = "<group>"; };
+		04215B85254C882900461C9C /* YourDaySettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourDaySettingView.swift; sourceTree = "<group>"; };
 		042D302125553CB000C26A12 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		042D302A25553CCD00C26A12 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		042D303325553CFA00C26A12 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
@@ -486,9 +490,11 @@
 		0439133325518A1200B62018 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				04215B85254C882900461C9C /* YourDaySettingView.swift */,
 				0439137125518B8100B62018 /* Supporting Files */,
 				043CE055255155FD0018CDF8 /* SettingsView.swift */,
 				0439133425518A1200B62018 /* Settings.h */,
+				040F19C3255A95F2003DAD80 /* LifeSettingView.swift */,
 				0439133525518A1200B62018 /* Info.plist */,
 				0439136825518AF200B62018 /* Assets.xcassets */,
 				043913C82551A3CA00B62018 /* AppIconsView.swift */,
@@ -497,6 +503,7 @@
 				043ECC3D2556930300FF50EC /* NotificationsView.swift */,
 				043ECC462556B44E00FF50EC /* AppFeaturesView.swift */,
 				043ECC4F2556B66200FF50EC /* PageView.swift */,
+				040CB90F255C30F700FFABB2 /* AppSettingsView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -662,6 +669,7 @@
 				04BA22112556EAB9006C49DA /* ShareSheet.swift */,
 				044B71652559545D00E357DB /* Styles.swift */,
 				040F19D5255AA7E9003DAD80 /* Parser.swift */,
+				040CB920255C351100FFABB2 /* Date+extensions.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -671,14 +679,12 @@
 			children = (
 				040F19DE255AA95B003DAD80 /* Supporting Files */,
 				040F19CC255AA7C3003DAD80 /* life_average */,
-				04215B85254C882900461C9C /* YourDayView.swift */,
 				04E73CA32543590F0092B918 /* Components.h */,
 				04E73CA42543590F0092B918 /* Info.plist */,
 				04E73CCF2543594E0092B918 /* YearProgressView.swift */,
 				0462EFE325442AD7003D2969 /* DayProgressView.swift */,
 				0462EFEA254437B7003D2969 /* SwitchProgressView.swift */,
 				0490045D254DC2EF0014CE7D /* YourDayProgressView.swift */,
-				040F19C3255A95F2003DAD80 /* LifeSettingView.swift */,
 				04DCD673255B12AF00DCA41C /* LifeProgressView.swift */,
 			);
 			path = Components;
@@ -1145,7 +1151,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				040CB918255C345300FFABB2 /* YourDaySettingView.swift in Sources */,
 				043913DB2551B71300B62018 /* Mail.swift in Sources */,
+				040CB907255C2F2600FFABB2 /* LifeSettingView.swift in Sources */,
+				040CB910255C30F700FFABB2 /* AppSettingsView.swift in Sources */,
 				043913D22551A87600B62018 /* NightModeView.swift in Sources */,
 				0401718D25541C9F00A2613C /* AboutsView.swift in Sources */,
 				043ECC472556B44E00FF50EC /* AppFeaturesView.swift in Sources */,
@@ -1224,6 +1233,7 @@
 				0462EFD125442310003D2969 /* Fonts.swift in Sources */,
 				04BA22122556EAB9006C49DA /* ShareSheet.swift in Sources */,
 				04967280255036FF0015205E /* KeyValueStorage.swift in Sources */,
+				040CB921255C351100FFABB2 /* Date+extensions.swift in Sources */,
 				0462F01025444433003D2969 /* Operators.swift in Sources */,
 				041296502549B0C3008337A0 /* Blur.swift in Sources */,
 				043ECC352556898800FF50EC /* LocalNotification.swift in Sources */,
@@ -1245,10 +1255,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04900446254D77310014CE7D /* YourDayView.swift in Sources */,
 				04DCD65D255B03D200DCA41C /* CountryLifeAverage.swift in Sources */,
 				040F19E0255AA967003DAD80 /* Bundle.swift in Sources */,
-				040F19C4255A95F2003DAD80 /* LifeSettingView.swift in Sources */,
 				040F19F0255AB32C003DAD80 /* CountryCode.swift in Sources */,
 				04DCD674255B12AF00DCA41C /* LifeProgressView.swift in Sources */,
 				04E73CD02543594E0092B918 /* YearProgressView.swift in Sources */,

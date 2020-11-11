@@ -6,7 +6,7 @@ public struct CloseButtonCircleStyle: ButtonStyle {
             .scaleEffect(configuration.isPressed ? 1.1: 1.0)
             .padding()
             .font(.headline)
-            .foregroundColor(Color(.secondaryLabel))
+            .foregroundColor(Color(.darkGray))
             .background(
                 VisualEffectBlur(blurStyle: .extraLight)
                     .clipShape(Circle())
