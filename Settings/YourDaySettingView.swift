@@ -145,6 +145,8 @@ struct YourDaySettingView: View {
     }
     
     let store: Store<YourDaySettingsState, YourDaySettingsAction>
+    @Environment(\.presentationMode) var presentationMode
+    
     public init(store: Store<YourDaySettingsState, YourDaySettingsAction>) {
         self.store = store
     }
@@ -212,6 +214,7 @@ struct YourDaySettingView: View {
                 trailing:
                     Button(action: {
                         viewStore.send(.doneButtonTapped)
+                        presentationMode.wrappedValue.dismiss()
                     }) {
                         Text("Done")
                             .foregroundColor(
@@ -219,7 +222,7 @@ struct YourDaySettingView: View {
                             )
                     }.disabled(!viewStore.didChange)
             ).navigationBarTitle(Text("Make Your Day"), displayMode: .inline)
-            .environment(\.locale, Locale(identifier: "ma"))            
+            .environment(\.locale, Locale(identifier: "ma"))
         }
     }
 }

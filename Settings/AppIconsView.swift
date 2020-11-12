@@ -36,7 +36,14 @@ Reducer<AppIconState, AppIconAction, Void> { state, action, _ in
             .map(AppIconAction.pickedIcon)
     case let .pickedIcon(icon):
         state.chosenIcon = icon
-        return .none
+        return .fireAndForget {
+            UIApplication
+                .shared
+                .setAlternateIconName(icon == .classic
+                    ? nil
+                    : icon.rawValue
+                )
+        }
     }
 }
 
