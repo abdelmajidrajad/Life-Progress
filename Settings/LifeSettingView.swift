@@ -12,7 +12,7 @@ let numberFormatter: () -> NumberFormatter = {
 public struct LifeSettingState: Equatable {
     var life: Float
     var age: Float
-    
+    var didChange: Bool = false
     public init(
         life: Float = 120,
         age: Float = 30
@@ -27,6 +27,7 @@ public enum LifeSettingAction: Equatable {
     case onAppear
     case setAge(Float)
     case setLife(Float)
+    case saveButtonTapped
 }
 
 public struct LifeSettingEnvironment {
@@ -42,30 +43,37 @@ public let lifeSettingReducer =
         
         switch action {
         case .onAppear:
-            
-            state.age = Float(environment.userDefaults.integer(forKey: "age"))
-            state.life = Float(environment.userDefaults.integer(forKey: "life"))
-            
+            state.age = Float(
+                environment.userDefaults.integer(forKey: "age") == .zero
+                ? 5
+                : environment.userDefaults.integer(forKey: "age")
+            )
+            state.life = Float(
+                environment.userDefaults.integer(forKey: "life") == 0
+                    ? 80
+                    : environment.userDefaults.integer(forKey: "life")
+            )
             return .none
         case let .setAge(age):
-            struct AgeId: Hashable {}
             state.age = age
-            return Effect.fireAndForget {
-                environment.userDefaults.set(age, forKey: "age")
-            }.debounce(id: AgeId(), for: 2.0, scheduler: environment.mainQueue)
-             .eraseToEffect()
+            state.didChange = environment
+                .userDefaults
+                .integer(forKey: "age") != Int(age)
+            return .none
         case let .setLife(life):
-            struct LifeId: Hashable {}
             if life < state.age {
                 state.age = life
             }
             let age = state.age
             state.life = life
-            return Effect.fireAndForget {
-                environment.userDefaults.set(age, forKey: "age")
-                environment.userDefaults.set(life, forKey: "life")
-            }.debounce(id: LifeId(), for: 2.0, scheduler: environment.mainQueue)
-            .eraseToEffect()
+            state.didChange = environment
+                .userDefaults
+                .integer(forKey: "life") != Int(life)
+            return .none
+        case .saveButtonTapped:
+            environment.userDefaults.set(state.age, forKey: "age")
+            environment.userDefaults.set(state.life, forKey: "life")
+            return .none
         }
     }
 
@@ -74,6 +82,7 @@ extension LifeSettingState {
         .init(
             life: life,
             age: age,
+            didChange: didChange,
             lifeRange: 20...120,
             ageRange: 5...life,
             lifeStep: 2,
@@ -87,6 +96,7 @@ public struct LifeSettingView: View {
     struct ViewState: Equatable {
         var life: Float
         var age: Float
+        var didChange: Bool
         var lifeRange: ClosedRange<Float>
         var ageRange: ClosedRange<Float>
         var lifeStep: Float
@@ -94,6 +104,9 @@ public struct LifeSettingView: View {
     }
     
     let store: Store<LifeSettingState, LifeSettingAction>
+    
+    @Environment(\.presentationMode) var presentationMode
+    
     public init(store: Store<LifeSettingState, LifeSettingAction>) {
         self.store = store
     }
@@ -132,13 +145,12 @@ public struct LifeSettingView: View {
                         Text(NSNumber(value: viewStore.life), formatter: numberFormatter())
                             .font(.preferred(.py_headline()))
                             .foregroundColor(Color.red)
+                            .frame(width: .py_grid(10), height: .py_grid(10))
                             .background(
                                 RoundedRectangle(cornerRadius: .py_grid(4))
                                     .fill(Color.red.opacity(0.1))
-                                    .frame(width: .py_grid(10), height: .py_grid(10))
                             )
                     }
-                               
                     
                     Text("Age")
                         .font(Font.preferred(.py_title2()).bold())
@@ -167,10 +179,10 @@ public struct LifeSettingView: View {
                         Text(NSNumber(value: viewStore.age), formatter: numberFormatter())
                             .font(.preferred(.py_headline()))
                             .foregroundColor(Color.green)
+                            .frame(width: .py_grid(10), height: .py_grid(10))
                             .background(
                                 RoundedRectangle(cornerRadius: .py_grid(4))
                                     .fill(Color.green.opacity(0.1))
-                                    .frame(width: .py_grid(10), height: .py_grid(10))
                             )
                     }
                     
@@ -200,10 +212,22 @@ public struct LifeSettingView: View {
                     .frame(maxWidth: .infinity)
                     .background(
                         Rectangle().fill(Color(.systemGroupedBackground))
-                    )            
+                    )
             }.onAppear {
                 viewStore.send(.onAppear)
-            }
+            }.navigationBarItems(trailing:
+                    Button(
+                        action: {
+                            viewStore.send(.saveButtonTapped)
+                            presentationMode.wrappedValue.dismiss()
+                        },
+                        label: {
+                            Text("Save")
+                                .foregroundColor(
+                                    viewStore.didChange ? Color.blue: .gray
+                                )
+                    }).disabled(!viewStore.didChange)
+            )
         }
     }
 }

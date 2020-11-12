@@ -8,24 +8,26 @@ public struct YourDaySettingsState: Equatable {
     var startOfDay: Date
     var endOfDay: Date
     var dayHours: Double
+    var didChange: Bool
     public init(
         startDate: Date = Date().addingTimeInterval(-3600 * 10),
         endDate: Date = Date().addingTimeInterval(3600 * 10),
         startOfDay: Date = Date().addingTimeInterval(-3600 * 11),
         endOfDay: Date = Date().addingTimeInterval(3600 * 11),
-        dayHours: Double = .zero
+        dayHours: Double = .zero,
+        didChange: Bool = false
     )  {
         self.startDate = startDate
         self.endDate = endDate
         self.startOfDay = startOfDay
         self.endOfDay = endOfDay
         self.dayHours = dayHours
+        self.didChange = didChange
     }
 }
 
 public enum YourDaySettingsAction: Equatable {
     case doneButtonTapped
-    case cancelButtonTapped
     case onAppear
     case didStartDateChanged(Date)
     case didEndDateChanged(Date)
@@ -53,8 +55,10 @@ public struct YourDaySettingsEnvironment {
 public let yourDayReducer = Reducer<YourDaySettingsState, YourDaySettingsAction, YourDaySettingsEnvironment> { state, action, environment in
     switch action {
     case .doneButtonTapped:
-        return .none
-    case .cancelButtonTapped:
+        environment.userDefaults
+            .set(state.startDate, forKey: "startDate")
+        environment.userDefaults
+            .set(state.endDate, forKey: "endDate")
         return .none
     case .onAppear:
         
@@ -86,41 +90,19 @@ public let yourDayReducer = Reducer<YourDaySettingsState, YourDaySettingsAction,
         
         return Effect(value: .dayHours)
     case let .didStartDateChanged(date):
-        struct StartDateId: Hashable {}
         state.startDate = date
-        return .concatenate(
-            Effect.fireAndForget {
-                environment.userDefaults
-                    .set(date, forKey: "startDate")
-            }.debounce(
-                id: StartDateId(),
-                for: 2.0,
-                scheduler: environment.mainQueue
-            ),
-            Effect(value: .dayHours)
-        )
+        state.didChange = environment.userDefaults.object(forKey: "startDate") as? Date != date
+        return Effect(value: .dayHours)
     case let .didEndDateChanged(date):
-        struct EndDateId: Hashable {}
         state.endDate = date
-        return .concatenate(
-            Effect.fireAndForget {
-                environment.userDefaults
-                    .set(date, forKey: "endDate")
-            }.debounce(
-                id: EndDateId(),
-                for: 2.0,
-                scheduler: environment.mainQueue
-            ),
-            Effect(value: .dayHours)
-        )
+        state.didChange = environment.userDefaults.object(forKey: "endDate") as? Date != date
+        return Effect(value: .dayHours)
     case .dayHours:
-        
         let component = environment.calendar
             .dateComponents([.hour, .minute],
                             from: state.startDate,
                             to: state.endDate
             )
-        
         state.dayHours = Double(component.hour!) + Double(component.minute!) / 60
         return .none
     }
@@ -143,7 +125,8 @@ extension YourDaySettingsState {
             startClosedRange: startOfDay...endDate,
             endClosedRange: startDate...endOfDay.addingTimeInterval(3600),
             dayHours: Double(dayHours),
-            startHour: firstStep(startDate)
+            startHour: firstStep(startDate),
+            didChange: didChange
         )
     }
 }
@@ -158,6 +141,7 @@ struct YourDaySettingView: View {
         let endClosedRange: ClosedRange<Date>
         let dayHours: Double
         let startHour: Double
+        let didChange: Bool
     }
     
     let store: Store<YourDaySettingsState, YourDaySettingsAction>
@@ -225,14 +209,17 @@ struct YourDaySettingView: View {
                     viewStore.send(.onAppear)
                 }
             }.navigationBarItems(
-                trailing: Button(action: {
-                    viewStore.send(.doneButtonTapped)
-                }) {
-                    Text("Done")
-                }
+                trailing:
+                    Button(action: {
+                        viewStore.send(.doneButtonTapped)
+                    }) {
+                        Text("Done")
+                            .foregroundColor(
+                                viewStore.didChange ? .blue: .gray
+                            )
+                    }.disabled(!viewStore.didChange)
             ).navigationBarTitle(Text("Make Your Day"), displayMode: .inline)
-            .environment(\.locale, Locale(identifier: "ma"))
-            
+            .environment(\.locale, Locale(identifier: "ma"))            
         }
     }
 }

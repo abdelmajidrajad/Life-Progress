@@ -20,7 +20,7 @@ public struct LifeProgressState: Equatable {
     }
 }
 
-public enum LifeProgressAction: Equatable {
+public enum LifeProgressAction: Equatable {    
     case onChange
     case response(TimeResponse)
 }
@@ -41,15 +41,12 @@ public let lifeReducer =
     Reducer<LifeProgressState, LifeProgressAction, LifeEnvironment> { state, action, environment in
     switch action {
     case .onChange:
-        
-        return .concatenate(
-            environment.lifeProgress(
-                LifeRequest(
-                    expectedLife: environment.userDefaults.integer(forKey: "life"),
-                    age: environment.userDefaults.integer(forKey: "age")
-                )).map(LifeProgressAction.response)
-                 .eraseToEffect()
-        )
+        return environment.lifeProgress(
+            LifeRequest(
+                expectedLife: environment.userDefaults.integer(forKey: "life"),
+                age: environment.userDefaults.integer(forKey: "age")
+            )).map(LifeProgressAction.response)
+              .eraseToEffect()
     case let .response(response):
         state.percent = response.progress
         state.timeResult = response.result
