@@ -29,20 +29,30 @@ public enum LifeSettingAction: Equatable {
     case setLife(Float)
 }
 
+public struct LifeSettingEnvironment {
+    let userDefaults: KeyValueStoreType
+    let mainQueue: AnySchedulerOf<DispatchQueue>
+}
+
+
 import ComposableArchitecture
 public let lifeSettingReducer =
-    Reducer<LifeSettingState, LifeSettingAction, KeyValueStoreType> {
-        state, action, storage in
+    Reducer<LifeSettingState, LifeSettingAction, LifeSettingEnvironment> {
+        state, action, environment in
         
         switch action {
         case .onAppear:
+            
+            state.age = Float(environment.userDefaults.integer(forKey: "age"))
+            state.life = Float(environment.userDefaults.integer(forKey: "life"))
+            
             return .none
         case let .setAge(age):
             struct AgeId: Hashable {}
             state.age = age
             return Effect.fireAndForget {
-                storage.set(age, forKey: "age")
-            }.debounce(id: AgeId(), for: 2.0, scheduler: DispatchQueue.global().eraseToAnyScheduler())
+                environment.userDefaults.set(age, forKey: "age")
+            }.debounce(id: AgeId(), for: 2.0, scheduler: environment.mainQueue)
              .eraseToEffect()
         case let .setLife(life):
             struct LifeId: Hashable {}
@@ -52,9 +62,9 @@ public let lifeSettingReducer =
             let age = state.age
             state.life = life
             return Effect.fireAndForget {
-                storage.set(age, forKey: "age")
-                storage.set(life, forKey: "life")
-            }.debounce(id: LifeId(), for: 2.0, scheduler: DispatchQueue.global().eraseToAnyScheduler())
+                environment.userDefaults.set(age, forKey: "age")
+                environment.userDefaults.set(life, forKey: "life")
+            }.debounce(id: LifeId(), for: 2.0, scheduler: environment.mainQueue)
             .eraseToEffect()
         }
     }
@@ -190,8 +200,9 @@ public struct LifeSettingView: View {
                     .frame(maxWidth: .infinity)
                     .background(
                         Rectangle().fill(Color(.systemGroupedBackground))
-                    )
-            
+                    )            
+            }.onAppear {
+                viewStore.send(.onAppear)
             }
         }
     }
@@ -203,7 +214,10 @@ struct LifeSettingView_Previews: PreviewProvider {
             LifeSettingView(store: Store(
                 initialState: LifeSettingState(),
                 reducer: lifeSettingReducer,
-                environment: TestUserDefault()
+                environment: LifeSettingEnvironment(
+                    userDefaults: TestUserDefault(),
+                    mainQueue: DispatchQueue.main.eraseToAnyScheduler()
+                )
             )).navigationBarTitle(Text("Life Progress"))
             
         }

@@ -33,6 +33,7 @@ public struct MoreSettingsEnvironment {
     let date: () -> Date
     let calendar: Calendar
     let userDefaults: KeyValueStoreType
+    let mainQueue: AnySchedulerOf<DispatchQueue>
 }
 
 let moreSettingsReducer =
@@ -50,7 +51,10 @@ let moreSettingsReducer =
             state: \.lifeSetting,
             action: /MoreSettingsAction.life,
             environment: {
-                $0.userDefaults
+                LifeSettingEnvironment(
+                    userDefaults: $0.userDefaults,
+                    mainQueue: $0.mainQueue
+                )                
             }
         ),
         yourDayReducer.pullback(
@@ -60,7 +64,8 @@ let moreSettingsReducer =
                 YourDaySettingsEnvironment(
                     date: $0.date,
                     calendar: $0.calendar,
-                    userDefaults: $0.userDefaults
+                    userDefaults: $0.userDefaults,
+                    mainQueue: $0.mainQueue
                 )
             }
         )
@@ -83,10 +88,10 @@ struct AppSettingsView: View {
                 NavigationLink(
                     destination:
                         LifeSettingView(store: store.scope(
-                                            state: \.lifeSetting,
-                                            action: MoreSettingsAction.life
-                            )
-                        ).navigationBarTitle(Text("Life Progress"), displayMode: .inline)
+                                state: \.lifeSetting,
+                                action: MoreSettingsAction.life
+                        )).navigationBarTitle(Text("Life Progress"), displayMode: .inline)
+                        
                     ,
                     tag: MoreSettingsState.Section.life,
                     selection: viewStore.binding(
@@ -108,14 +113,10 @@ struct AppSettingsView: View {
                 
                 NavigationLink(
                     destination:
-                        YourDaySettingView(store: Store(
-                                initialState: YourDaySettingsState(),
-                                reducer: yourDayReducer,
-                                environment: YourDaySettingsEnvironment(
-                                    date: Date.init,
-                                    calendar: .current,
-                                    userDefaults: TestUserDefault()
-                                ))
+                        YourDaySettingView(store:
+                                    store.scope(
+                                            state: \.yourDaySetting,
+                                            action: MoreSettingsAction.day)
                         )
                     ,
                     tag: .day,

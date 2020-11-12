@@ -19,17 +19,6 @@ extension DateComponent {
     }
 }
 
-public struct DateComponent: Equatable {
-    let hour, minute: Int
-    public init(
-        hour: Int,
-        minute: Int
-    ) {
-        self.hour = hour
-        self.minute = minute
-    }
-}
-
 public struct YourDayProgressState: Equatable {
     var timeResult: TimeResult
     var percent: Double
@@ -68,31 +57,50 @@ public struct YourDayProgressEnvironment {
     }
 }
 
+
+extension Date {
+    var minAndHour: (Calendar) -> (min: Int, hour: Int) {
+        return {
+            let components = $0.dateComponents([.minute, .hour], from: self)
+            return (components.minute!, components.hour!)
+        }
+    }
+}
+
+
+extension Date {
+    
+}
+
+
 public let yourDayProgressReducer =
     Reducer<YourDayProgressState, YourDayProgressAction, YourDayProgressEnvironment> { state, action, environment in
     switch action {
     case .onChange:
         
         let startDate = environment.userDefaults
-            .object(forKey: "startDate") as? DateComponent
-            ?? .sevenMorning
+            .object(forKey: "startDate") as? Date
         
         let endDate = environment.userDefaults
-            .object(forKey: "endDate") as? DateComponent
-            ?? .eightTeenNight
+            .object(forKey: "endDate") as? Date
         
+        let startMinAndHour: (minute: Int, hour: Int) = startDate?.minAndHour(environment.calendar) ?? (8, 00)
+        
+        let endMinAndHour: (minute: Int, hour: Int) =
+            endDate?.minAndHour(environment.calendar) ?? (18, 00)
+                
         return .concatenate(
             environment.yourDayProgress(
                 YourDayRequest(
                     date: environment.date(),
                     calendar: environment.calendar,
                     start: YourDayRequest.DateComponent(
-                        minute: startDate.minute,
-                        hour: startDate.hour
+                        minute: startMinAndHour.minute,
+                        hour: startMinAndHour.hour
                     ),
                     end: YourDayRequest.DateComponent(
-                        minute: endDate.minute,
-                        hour: endDate.hour
+                        minute: endMinAndHour.minute,
+                        hour: endMinAndHour.hour
                     )
                 )
             ).map(YourDayProgressAction.response)

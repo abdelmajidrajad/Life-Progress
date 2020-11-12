@@ -74,7 +74,8 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
             SettingsEnvironment(
                 date: $0.date,
                 calendar: $0.calendar,
-                userDefaults: $0.userDefaults
+                userDefaults: $0.userDefaults,
+                mainQueue: $0.mainQueue
             )
         }
     )

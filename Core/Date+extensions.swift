@@ -8,3 +8,15 @@ extension Calendar {
         return self.date(byAdding: components, to: self.startOfDay(for: today))!
     }
 }
+
+
+public struct DateComponent: Equatable {
+    public let hour, minute: Int
+    public init(
+        hour: Int,
+        minute: Int
+    ) {
+        self.hour = hour
+        self.minute = minute
+    }
+}

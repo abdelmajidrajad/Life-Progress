@@ -63,14 +63,17 @@ public struct SettingsEnvironment {
     let userDefaults: KeyValueStoreType
     let date: () -> Date
     let calendar: Calendar
+    let mainQueue: AnySchedulerOf<DispatchQueue>
     public init(
         date: @escaping () -> Date,
         calendar: Calendar,
-        userDefaults: KeyValueStoreType
+        userDefaults: KeyValueStoreType,
+        mainQueue: AnySchedulerOf<DispatchQueue>
     ) {
         self.date = date
         self.calendar = calendar
         self.userDefaults = userDefaults
+        self.mainQueue = mainQueue
     }
 }
 
@@ -136,7 +139,8 @@ public let settingReducer =
                 MoreSettingsEnvironment(
                     date: $0.date,
                     calendar: $0.calendar,
-                    userDefaults: $0.userDefaults
+                    userDefaults: $0.userDefaults,
+                    mainQueue: $0.mainQueue
                 )
             })
         
@@ -404,7 +408,8 @@ extension SettingsEnvironment {
         Self(
             date: Date.init,
             calendar: .current,
-            userDefaults: TestUserDefault()
+            userDefaults: TestUserDefault(),
+            mainQueue: DispatchQueue.main.eraseToAnyScheduler()
         )
     }
 }

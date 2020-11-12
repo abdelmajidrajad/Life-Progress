@@ -9,10 +9,10 @@ public struct YourDaySettingsState: Equatable {
     var endOfDay: Date
     var dayHours: Double
     public init(
-        startDate: Date = Date(),
-        endDate: Date = Date(),
-        startOfDay: Date = Date(),
-        endOfDay: Date = Date(),
+        startDate: Date = Date().addingTimeInterval(-3600 * 10),
+        endDate: Date = Date().addingTimeInterval(3600 * 10),
+        startOfDay: Date = Date().addingTimeInterval(-3600 * 11),
+        endOfDay: Date = Date().addingTimeInterval(3600 * 11),
         dayHours: Double = .zero
     )  {
         self.startDate = startDate
@@ -36,14 +36,17 @@ public struct YourDaySettingsEnvironment {
     let date: () -> Date
     let calendar: Calendar
     let userDefaults: KeyValueStoreType
+    let mainQueue: AnySchedulerOf<DispatchQueue>
     public init(
         date: @escaping () -> Date,
         calendar: Calendar,
-        userDefaults: KeyValueStoreType
+        userDefaults: KeyValueStoreType,
+        mainQueue: AnySchedulerOf<DispatchQueue>
     )  {
         self.date = date
         self.calendar = calendar
         self.userDefaults = userDefaults
+        self.mainQueue = mainQueue
     }
 }
 
@@ -54,56 +57,60 @@ public let yourDayReducer = Reducer<YourDaySettingsState, YourDaySettingsAction,
     case .cancelButtonTapped:
         return .none
     case .onAppear:
-        state.startOfDay = environment.calendar
+        
+        state.startOfDay = environment
+            .calendar
             .startOfDay(for: environment.date())
-        state.endOfDay = environment.calendar
+        
+        state.endOfDay = environment
+            .calendar
             .dayEnd(of: environment.date())
-        state.startDate =
-            environment.calendar
-            .date(
-                bySettingHour: 08,
-                minute: 00,
-                second: 00,
-                of: environment.date()
-            )
-            ?? environment.date()
-        state.endDate = environment
-            .calendar.date(
-                bySettingHour: 18,
-                minute: 00,
-                second: 00,
-                of: environment.date())
-            ?? environment.date()
+        
+        state.startDate = environment.userDefaults.object(forKey: "startDate") as? Date
+            ?? environment.calendar
+                .date(
+                    bySettingHour: 08,
+                    minute: 00,
+                    second: 00,
+                    of: environment.date()
+                )!
+            
+        state.endDate = environment.userDefaults.object(forKey: "endDate") as? Date
+            ?? environment
+                .calendar.date(
+                    bySettingHour: 18,
+                    minute: 00,
+                    second: 00,
+                    of: environment.date()
+                )!
+        
         return Effect(value: .dayHours)
     case let .didStartDateChanged(date):
+        struct StartDateId: Hashable {}
         state.startDate = date
-        let dateComponents = environment.calendar
-            .dateComponents(
-                [.hour, .minute],
-                from: date
-            )
         return .concatenate(
-            .fireAndForget {
+            Effect.fireAndForget {
                 environment.userDefaults
-                    .set((
-                        hour: dateComponents.hour!,
-                        minute: dateComponents.minute!
-                    ),
-                    forKey: "startDate")
-            },
+                    .set(date, forKey: "startDate")
+            }.debounce(
+                id: StartDateId(),
+                for: 2.0,
+                scheduler: environment.mainQueue
+            ),
             Effect(value: .dayHours)
         )
     case let .didEndDateChanged(date):
+        struct EndDateId: Hashable {}
         state.endDate = date
-        let dateComponents = environment.calendar.dateComponents([.hour, .minute], from: date)
         return .concatenate(
-            .fireAndForget {
+            Effect.fireAndForget {
                 environment.userDefaults
-                    .set(
-                        (hour: dateComponents.hour!,
-                         minute: dateComponents.minute!),
-                        forKey: "endDate")
-            },
+                    .set(date, forKey: "endDate")
+            }.debounce(
+                id: EndDateId(),
+                for: 2.0,
+                scheduler: environment.mainQueue
+            ),
             Effect(value: .dayHours)
         )
     case .dayHours:
@@ -134,7 +141,7 @@ extension YourDaySettingsState {
             startDate: startDate,
             endDate: endDate,
             startClosedRange: startOfDay...endDate,
-            endClosedRange: startDate...endOfDay,
+            endClosedRange: startDate...endOfDay.addingTimeInterval(3600),
             dayHours: Double(dayHours),
             startHour: firstStep(startDate)
         )
@@ -202,10 +209,11 @@ struct YourDaySettingView: View {
                         .padding(.horizontal)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     HDashedLine(color: .red)
+                                                           
                     DatePicker("",
                                selection: viewStore.binding(
-                                get: \.endDate,
-                                send: YourDaySettingsAction.didEndDateChanged),
+                                    get: \.endDate,
+                                    send: YourDaySettingsAction.didEndDateChanged),
                                in: viewStore.endClosedRange,
                                displayedComponents: [.hourAndMinute])
                         .datePickerStyle(WheelDatePickerStyle())
@@ -213,8 +221,9 @@ struct YourDaySettingView: View {
                     
                 }.font(.headline)
                 .accentColor(.red)
-            }.onAppear {
-                viewStore.send(.onAppear)
+                .onAppear {
+                    viewStore.send(.onAppear)
+                }
             }.navigationBarItems(
                 trailing: Button(action: {
                     viewStore.send(.doneButtonTapped)
@@ -222,6 +231,7 @@ struct YourDaySettingView: View {
                     Text("Done")
                 }
             ).navigationBarTitle(Text("Make Your Day"), displayMode: .inline)
+            .environment(\.locale, Locale(identifier: "ma"))
             
         }
     }
@@ -239,7 +249,8 @@ struct YourDayView_Previews: PreviewProvider {
                         environment: YourDaySettingsEnvironment(
                             date: Date.init,
                             calendar: .current,
-                            userDefaults: TestUserDefault()
+                            userDefaults: TestUserDefault(),
+                            mainQueue: DispatchQueue.main.eraseToAnyScheduler()
                         ))
                 )
             }
@@ -248,8 +259,9 @@ struct YourDayView_Previews: PreviewProvider {
                             reducer: yourDayReducer,
                             environment: YourDaySettingsEnvironment(
                                 date: Date.init,
-                                calendar: .current,
-                                userDefaults: TestUserDefault()
+                                calendar: Calendar(identifier: .iso8601),
+                                userDefaults: TestUserDefault(),
+                                mainQueue: DispatchQueue.main.eraseToAnyScheduler()
                             )))
                 .preferredColorScheme(.dark)
         }
