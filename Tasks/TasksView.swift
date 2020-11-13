@@ -14,17 +14,17 @@ public enum Filter: LocalizedStringKey, CaseIterable, Hashable {
 
 public struct TasksState: Equatable {
     var tasks: IdentifiedArrayOf<TaskState>
-    var actionSheet: ActionSheetState<TasksAction>?
+    //var actionSheet: ActionSheetState<TasksAction>?
     var createTask: CreateTaskState?
     var filter: Filter
     public init(
         tasks: IdentifiedArrayOf<TaskState> = [],
-        actionSheet: ActionSheetState<TasksAction>? = nil,
+        //actionSheet: ActionSheetState<TasksAction>? = nil,
         createTask: CreateTaskState? = nil,
         filter: Filter = .active
     ) {
         self.tasks = tasks
-        self.actionSheet = actionSheet
+       // self.actionSheet = actionSheet
         self.createTask = createTask
         self.filter = filter
     }
@@ -99,15 +99,15 @@ public let tasksReducer =
                 let value = Double(item?.first?.value ?? .zero) / 4.0
                 let key = item?.first?.key.string ?? ""
                 
-                state.actionSheet = ActionSheetState(
-                    title: LocalizedStringKey(task.title),
-                    buttons: [                        
-                        .default("+\(valueFormatter().string(for: value) ?? "") \(key)", send: .addMore(item ?? [:], taskId: taskId)),
-                        .default("Completed", send: .completeTask(id: taskId)),
-                        .destructive("Delete", send: .deleteTask(id: taskId)),
-                        .cancel(send: .actionSheetDismissed)
-                    ]
-                )
+//                state.actionSheet = ActionSheetState(
+//                    title: LocalizedStringKey(task.title),
+//                    buttons: [
+//                        .default("+\(valueFormatter().string(for: value) ?? "") \(key)", send: .addMore(item ?? [:], taskId: taskId)),
+//                        .default("Completed", send: .completeTask(id: taskId)),
+//                        .destructive("Delete", send: .deleteTask(id: taskId)),
+//                        .cancel(send: .actionSheetDismissed)
+//                    ]
+//                )
                 return .none
             case let .createTask(.response(.success(.created(task)))):
                 state.tasks.append(
@@ -117,10 +117,10 @@ public let tasksReducer =
             case let .createTask(.response(.success(.updated(task)))):
                 state.tasks[id: task.id] = TaskState(task: task)
                 return .none
-            case .cell, .createTask:
+            case .createTask:
                 return .none
             case .actionSheetDismissed:
-                state.actionSheet = nil
+                //state.actionSheet = nil
                 return .none
             case .addMore:
                 return Effect(value: .actionSheetDismissed)
@@ -158,12 +158,12 @@ public let tasksReducer =
                 )
                 return .none
             case let .response(.failure(error)):
-                state.actionSheet = ActionSheetState(
-                    title: LocalizedStringKey(error.errorDescription),
-                    buttons: [
-                        .cancel(send: .actionSheetDismissed)
-                    ]
-                )
+//                state.actionSheet = ActionSheetState(
+//                    title: LocalizedStringKey(error.errorDescription),
+//                    buttons: [
+//                        .cancel(send: .actionSheetDismissed)
+//                    ]
+//                )
                 return .none
             case let .response(.success(.deleted(id: taskId))):
                 state.tasks.removeAll { $0.id == taskId }
@@ -182,12 +182,15 @@ public let tasksReducer =
             case .onChange:
                 return .concatenate(
                     state.tasks
-                        .map { task in
-                            Effect(value: .cell(id: task.id, action: .onAppear))
+                        .map {
+                            Effect(value:
+                            .cell(id: $0.id, action: .onAppear))
                         }
                 )
             case let .filterPicked(filter):
                 state.filter = filter
+                return .none
+            case .cell:
                 return .none
             }
         },
@@ -203,7 +206,53 @@ public let tasksReducer =
                 action: /TasksAction.createTask,
                 environment: \.createTask
             )
-)
+).cellReducer
+
+
+
+extension Reducer where
+    State == TasksState,
+    Action == TasksAction,
+    Environment == TasksEnvironment {
+    var cellReducer: Self {
+        Self { state, action, environment in
+            let effects = self(&state, action, environment)
+            switch action {
+            case let .cell(id: id, action: action):
+                switch action {
+                case .onAppear,
+                     .response,
+                     .ellipseButtonTapped,
+                     .actionSheetDismissed:
+                    return .none
+                case .deleteTapped:
+                    state.tasks.remove(id: id)
+                    return .none
+                case .startAgainTapped:
+                    state.tasks[id: id]?.status = .active
+                    return .none
+                case .startNowTapped:
+                    state.tasks[id: id]?.status = .active
+                    return .none
+                case .duplicateTapped:
+                    if let duplicateTask = state.tasks[id: id] {
+                        state.tasks.append(duplicateTask)
+                    }
+                    return .none
+                case .completeTapped:
+                    state.tasks[id: id]?.status = .completed
+                    return .none
+                case .startTomorrowTapped:
+                    state.tasks[id: id]?.status = .pending
+                    return .none
+                }
+            default:
+                return effects
+            }
+        }
+    }
+}
+
 
 
 extension TasksEnvironment {
@@ -235,8 +284,6 @@ extension TasksEnvironment {
         )
     }
 }
-
-
 
 struct CornerButtonStyle: ButtonStyle {
     func makeBody(configuration: Configuration) -> some View {
@@ -362,15 +409,16 @@ public struct TasksView: View {
                             state: \.filteredTasks,
                             action: TasksAction.cell(id:action:)),
                         content: { store in
-                            WithViewStore(store) { vs in
-                                ProgressTaskView(store: store) {
-                                    viewStore.send(
-                                        .ellipseButtonTapped(
-                                            taskId: vs.id
-                                        )
-                                    )
-                                }.padding(.vertical, .py_grid(1))                                
-                            }
+                            ProgressTaskView(store: store)
+//                            WithViewStore(store) { vs in
+//                                ProgressTaskView(store: store) {
+//                                    viewStore.send(
+//                                        .ellipseButtonTapped(
+//                                            taskId: vs.id
+//                                        )
+//                                    )
+//                                }.padding(.vertical, .py_grid(1))
+//                            }
                         }
                     )
                 }
@@ -388,10 +436,11 @@ public struct TasksView: View {
                     then: CreateTaskView.init(store:)
                 )
             }
-        }.actionSheet(
-            store.scope(state: \.actionSheet),
-            dismiss: .actionSheetDismissed
-        )
+        }
+//        .actionSheet(
+//            store.scope(state: \.actionSheet),
+//            dismiss: .actionSheetDismissed
+//        )
     }
 }
 

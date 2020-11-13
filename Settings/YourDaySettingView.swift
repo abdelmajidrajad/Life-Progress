@@ -52,6 +52,94 @@ public struct YourDaySettingsEnvironment {
     }
 }
 
+
+extension YourDaySettingsEnvironment {
+    var endDate: Effect<Date, Never> {
+    .future { promise in
+        let endDate = calendar
+            .dateComponents([.hour, .minute, .second],
+                            from: userDefaults.object(forKey: "endDate") as? Date
+                                ?? calendar.date(
+                                    bySettingHour: 18,
+                                    minute: 00,
+                                    second: 00,
+                                    of: date()
+                                )!
+            )
+        
+        promise(.success(calendar.date(
+                    bySettingHour: endDate.hour!,
+                    minute: endDate.minute!,
+                    second: endDate.second!,
+                    of: date()
+                )!)
+        )
+    }
+}
+}
+
+extension YourDaySettingsEnvironment {
+    var startDate: Effect<Date, Never> {
+        .future { promise in
+            let startDate = calendar
+                .dateComponents(
+                    [.hour, .minute, .second],
+                    from: userDefaults.object(forKey: "startDate") as? Date
+                        ??
+                        calendar.date(
+                            bySettingHour: 08,
+                            minute: 00,
+                            second: 00,
+                            of: date()
+                        )!
+                )
+            
+            
+            promise(.success(
+                        calendar
+                            .date(
+                                bySettingHour: startDate.hour!,
+                                minute: startDate.minute!,
+                                second: startDate.second!,
+                                of: date()
+                            )!)
+            )
+        }
+    }
+}
+
+
+func startDate(environment: YourDaySettingsEnvironment) -> Effect<Date, Never> {
+    .future { promise in
+    let startDate = environment.calendar
+        .dateComponents(
+            [.hour, .minute, .second],
+            from: environment.userDefaults.object(forKey: "startDate") as? Date
+                ?? environment
+                .calendar.date(
+                    bySettingHour: 08,
+                    minute: 00,
+                    second: 00,
+                    of: environment.date()
+                )!
+        )
+        
+    
+        promise(.success(
+                    environment.calendar
+                        .date(
+                            bySettingHour: startDate.hour!,
+                            minute: startDate.minute!,
+                            second: startDate.second!,
+                            of: environment.date()
+                        )!)
+        )
+    }
+}
+
+
+
+
 public let yourDayReducer = Reducer<YourDaySettingsState, YourDaySettingsAction, YourDaySettingsEnvironment> { state, action, environment in
     switch action {
     case .doneButtonTapped:
@@ -69,26 +157,16 @@ public let yourDayReducer = Reducer<YourDaySettingsState, YourDaySettingsAction,
         state.endOfDay = environment
             .calendar
             .dayEnd(of: environment.date())
-        
-        state.startDate = environment.userDefaults.object(forKey: "startDate") as? Date
-            ?? environment.calendar
-                .date(
-                    bySettingHour: 08,
-                    minute: 00,
-                    second: 00,
-                    of: environment.date()
-                )!
-            
-        state.endDate = environment.userDefaults.object(forKey: "endDate") as? Date
-            ?? environment
-                .calendar.date(
-                    bySettingHour: 18,
-                    minute: 00,
-                    second: 00,
-                    of: environment.date()
-                )!
-        
-        return Effect(value: .dayHours)
+                        
+        return .concatenate(
+            Effect(value: .dayHours),
+            environment.startDate
+                .map(YourDaySettingsAction.didStartDateChanged)
+                .eraseToEffect(),
+            environment.endDate
+                .map(YourDaySettingsAction.didEndDateChanged)
+                .eraseToEffect()
+        )
     case let .didStartDateChanged(date):
         state.startDate = date
         state.didChange = environment.userDefaults.object(forKey: "startDate") as? Date != date

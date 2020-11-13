@@ -19,13 +19,15 @@ public struct TaskState: Equatable, Identifiable {
     var progress: Double
     var status: Status
     var isSelected: Bool
+    var actionSheet: ActionSheetState<TaskAction>?
     public init(
         task: ProgressTask,
         remainingTime: NSAttributedString = .init(),
         progress: Double = .zero,
         result: TimeResult = .init(),
         status: Status = .active,
-        isSelected: Bool = false
+        isSelected: Bool = false,
+        actionSheet: ActionSheetState<TaskAction>? = nil
     ) {
         self.task = task
         self.progress = progress
@@ -33,6 +35,7 @@ public struct TaskState: Equatable, Identifiable {
         self.result = result
         self.isSelected = isSelected
         self.status = status
+        self.actionSheet = actionSheet
     }
     public init(
         task: ProgressTask
@@ -43,6 +46,7 @@ public struct TaskState: Equatable, Identifiable {
         self.result = .init()
         self.isSelected = false
         self.status = .active
+        self.actionSheet = nil
     }
 }
 
@@ -66,6 +70,13 @@ public enum TaskAction: Equatable {
     case onAppear
     case response(TimeResponse)
     case ellipseButtonTapped
+    case actionSheetDismissed
+    case deleteTapped
+    case startAgainTapped
+    case startNowTapped
+    case duplicateTapped
+    case completeTapped
+    case startTomorrowTapped
 }
 
 import ComposableArchitecture
@@ -92,8 +103,52 @@ public let taskReducer =
             state.result = response.result
             state.progress = response.progress
             return .none
+        case .actionSheetDismissed:
+            state.actionSheet = nil
+            return .none
+        case .deleteTapped:
+            return .none
         case .ellipseButtonTapped:
+            
+            var actionButtons: [ActionSheetState<TaskAction>.Button] = []
+            
+            switch state.status {
+            case .completed:
+                actionButtons.append(contentsOf: [
+                    .default("Start Again", send: .startAgainTapped),
+                    .default("Duplicate", send: .duplicateTapped)
+                ])
+            case .active:
+                actionButtons.append(contentsOf: [
+                    .default("Start Tomorrow", send: .startTomorrowTapped),
+                    .default("End", send: .completeTapped)
+                ])
+            case .pending:
+                actionButtons.append(contentsOf: [
+                    .default("Start Now", send: .startNowTapped)
+                ])
+            }
+            
+            actionButtons.append(contentsOf: [
+                .destructive("Delete", send: .deleteTapped),
+                .cancel(send: .actionSheetDismissed)
+            ])
+                                    
+            state.actionSheet = ActionSheetState(
+                title: LocalizedStringKey(state.title),
+                buttons: actionButtons
+            )
             state.isSelected.toggle()
+            return .none
+        case .startAgainTapped:
+            return .none
+        case .startNowTapped:
+            return .none
+        case .duplicateTapped:
+            return .none
+        case .completeTapped:
+            return .none
+        case .startTomorrowTapped:
             return .none
         }
     }
@@ -136,15 +191,11 @@ struct ProgressTaskView: View {
     }
     
     let store: Store<TaskState, TaskAction>
-    let ellipseButtonTapped: () -> Void
     
-    init(
-        store: Store<TaskState, TaskAction>,
-        ellipseButtonTapped: @escaping () -> Void = {}
-    ) {
+    init(store: Store<TaskState, TaskAction>) {
         self.store = store
-        self.ellipseButtonTapped = ellipseButtonTapped
     }
+    
     var body: some View {
         
         WithViewStore(self.store.scope(state: \.view)) { viewStore in
@@ -242,7 +293,9 @@ struct ProgressTaskView: View {
                         style: .continuous
                     ).stroke(Color(white: 0.95))
                     
-                    Button(action: ellipseButtonTapped,
+                    Button(action: {
+                        viewStore.send(.ellipseButtonTapped)
+                    },
                            label: {
                             Image(systemName: "ellipsis")
                                 .font(.headline)
@@ -253,8 +306,11 @@ struct ProgressTaskView: View {
             ).padding(.horizontal)
             .transition(.topAndLeft)
             .onAppear {
-                viewStore.send(.onAppear)
-            }
+                //viewStore.send(.onAppear)
+            }.actionSheet(
+                store.scope(state: \.actionSheet),
+                dismiss: .actionSheetDismissed
+            )
         }
     }
 }
@@ -267,7 +323,7 @@ struct ProgressTaskView_Previews: PreviewProvider {
                     Store(
                         initialState: TaskState(
                             task: .writeBook2,
-                            status: .completed
+                            status: .active
                         ),
                         reducer: taskReducer,
                         environment: TaskEnvironment(
