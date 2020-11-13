@@ -14,17 +14,14 @@ public enum Filter: LocalizedStringKey, CaseIterable, Hashable {
 
 public struct TasksState: Equatable {
     var tasks: IdentifiedArrayOf<TaskState>
-    //var actionSheet: ActionSheetState<TasksAction>?
     var createTask: CreateTaskState?
     var filter: Filter
     public init(
         tasks: IdentifiedArrayOf<TaskState> = [],
-        //actionSheet: ActionSheetState<TasksAction>? = nil,
         createTask: CreateTaskState? = nil,
         filter: Filter = .active
     ) {
         self.tasks = tasks
-       // self.actionSheet = actionSheet
         self.createTask = createTask
         self.filter = filter
     }
@@ -49,11 +46,10 @@ public enum TasksAction: Equatable {
     case response(Result<TaskResponse, TaskFailure>)
     case ellipseButtonTapped(taskId: UUID)
     case plusButtonTapped
-    case actionSheetDismissed
     case viewDismissed
-    case addMore([Calendar.Component: Int], taskId: UUID)
+    //case addMore([Calendar.Component: Int], taskId: UUID)
     case completeTask(id: UUID)
-    case deleteTask(id: UUID)
+    //case deleteTask(id: UUID)
     case createTask(CreateTaskAction)
     case cell(id: UUID, action: TaskAction)
 }
@@ -119,11 +115,6 @@ public let tasksReducer =
                 return .none
             case .createTask:
                 return .none
-            case .actionSheetDismissed:
-                //state.actionSheet = nil
-                return .none
-            case .addMore:
-                return Effect(value: .actionSheetDismissed)
             case let .completeTask(id: taskId):
                 let updatedTask = state.tasks[id: taskId]!.task
                     |> (prop(\.endDate)) { _ in environment.date() }
@@ -137,20 +128,7 @@ public let tasksReducer =
                             )
                         )
                         .catchToEffect()
-                        .map(TasksAction.response),
-                    Effect(value: .actionSheetDismissed)
-                )
-            case let .deleteTask(id: id):
-                return .concatenate(
-                    environment.taskClient
-                        .delete(
-                            TaskRequest(
-                                viewContext: environment.managedContext,
-                                task: state.tasks[id: id]!.task
-                            )
-                        ).catchToEffect()
-                        .map(TasksAction.response),
-                    Effect(value: .actionSheetDismissed)
+                        .map(TasksAction.response)
                 )
             case let .response(.success(.tasks(tasks))):
                 state.tasks = IdentifiedArray(
@@ -159,19 +137,12 @@ public let tasksReducer =
                 return .none
             case let .response(.failure(error)):
 //                state.actionSheet = ActionSheetState(
-//                    title: LocalizedStringKey(error.errorDescription),
-//                    buttons: [
-//                        .cancel(send: .actionSheetDismissed)
-//                    ]
-//                )
                 return .none
             case let .response(.success(.deleted(id: taskId))):
-                state.tasks.removeAll { $0.id == taskId }
+                state.tasks.remove(id: taskId)
                 return .none
             case let .response(.success(.updated(task))):
                 state.tasks[id: task.id]?.task = task
-                return .none
-            case .response:
                 return .none
             case .plusButtonTapped:
                 state.createTask = CreateTaskState()
@@ -183,12 +154,13 @@ public let tasksReducer =
                 return .concatenate(
                     state.tasks
                         .map {
-                            Effect(value:
-                            .cell(id: $0.id, action: .onAppear))
+                            Effect(value: .cell(id: $0.id, action: .onAppear))
                         }
                 )
             case let .filterPicked(filter):
                 state.filter = filter
+                return .none
+            case let .response(.success(.created(task))):
                 return .none
             case .cell:
                 return .none
@@ -226,8 +198,14 @@ extension Reducer where
                      .actionSheetDismissed:
                     return .none
                 case .deleteTapped:
-                    state.tasks.remove(id: id)
-                    return .none
+                    //state.tasks.remove(id: id)
+                    return environment.taskClient
+                        .delete(TaskRequest(
+                            viewContext: environment.managedContext,
+                            task: state.tasks[id: id]!.task
+                        )).catchToEffect()
+                        .map(TasksAction.response)
+                        .eraseToEffect()
                 case .startAgainTapped:
                     state.tasks[id: id]?.status = .active
                     return .none
@@ -240,8 +218,17 @@ extension Reducer where
                     }
                     return .none
                 case .completeTapped:
-                    state.tasks[id: id]?.status = .completed
-                    return .none
+                    let updatedTask = state.tasks[id: id]!.task
+                        |> (prop(\.endDate)) { _ in environment.date() }
+                    return environment
+                        .taskClient
+                        .update(
+                            TaskRequest(
+                                viewContext: environment.managedContext,
+                                task: updatedTask
+                            )
+                        ).catchToEffect()
+                         .map(TasksAction.response)
                 case .startTomorrowTapped:
                     state.tasks[id: id]?.status = .pending
                     return .none

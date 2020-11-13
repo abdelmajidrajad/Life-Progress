@@ -58,10 +58,11 @@ public struct YourDayProgressEnvironment {
 }
 
 
-extension Date {
-    var minAndHour: (Calendar) -> (min: Int, hour: Int) {
+extension Calendar {
+    var minAndHour: (Date?) -> (min: Int, hour: Int)? {
         return {
-            let components = $0.dateComponents([.minute, .hour], from: self)
+            guard let date = $0 else { return nil }
+            let components = self.dateComponents([.minute, .hour], from: date)
             return (components.minute!, components.hour!)
         }
     }
@@ -84,10 +85,10 @@ public let yourDayProgressReducer =
         let endDate = environment.userDefaults
             .object(forKey: "endDate") as? Date
         
-        let startMinAndHour: (minute: Int, hour: Int) = startDate?.minAndHour(environment.calendar) ?? (8, 00)
+        let startMinAndHour: (minute: Int, hour: Int) = environment.calendar.minAndHour(startDate) ?? (8, 00)
         
         let endMinAndHour: (minute: Int, hour: Int) =
-            endDate?.minAndHour(environment.calendar) ?? (18, 00)
+            environment.calendar.minAndHour(endDate) ?? (18, 00)
                 
         return .concatenate(
             environment.yourDayProgress(

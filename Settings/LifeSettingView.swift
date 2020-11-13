@@ -80,8 +80,11 @@ public let lifeSettingReducer =
 extension LifeSettingState {
     var view: LifeSettingView.ViewState {
         .init(
-            life: life,
             age: age,
+            life: life,
+            lifeFormatted: numberFormatter().string(from: NSNumber(value: life)) ?? "",
+            ageFormatted: numberFormatter().string(from: NSNumber(value: age)) ?? "",
+            progress: NSNumber(value: age / life),
             didChange: didChange,
             lifeRange: 20...120,
             ageRange: 5...life,
@@ -94,8 +97,10 @@ extension LifeSettingState {
 public struct LifeSettingView: View {
     
     struct ViewState: Equatable {
-        var life: Float
-        var age: Float
+        var age, life: Float
+        var lifeFormatted: String
+        var ageFormatted: String
+        var progress: NSNumber
         var didChange: Bool
         var lifeRange: ClosedRange<Float>
         var ageRange: ClosedRange<Float>
@@ -142,7 +147,7 @@ public struct LifeSettingView: View {
                         ).labelsHidden()
                         .accentColor(.red)
                         
-                        Text(NSNumber(value: viewStore.life), formatter: numberFormatter())
+                        Text(viewStore.lifeFormatted)
                             .font(.preferred(.py_headline()))
                             .foregroundColor(Color.red)
                             .frame(width: .py_grid(10), height: .py_grid(10))
@@ -176,7 +181,7 @@ public struct LifeSettingView: View {
                         ).labelsHidden()
                         .accentColor(.green)
                         
-                        Text(NSNumber(value: viewStore.age), formatter: numberFormatter())
+                        Text(viewStore.ageFormatted)
                             .font(.preferred(.py_headline()))
                             .foregroundColor(Color.green)
                             .frame(width: .py_grid(10), height: .py_grid(10))
@@ -194,9 +199,7 @@ public struct LifeSettingView: View {
                     color: .green,
                     lineWidth: .py_grid(5),
                     labelHidden: false,
-                    progress: .constant(
-                        NSNumber(value: viewStore.age / viewStore.life)
-                    )
+                    progress: .constant(viewStore.progress)
                 ).frame(
                     width: .py_grid(30),
                     height: .py_grid(30)
