@@ -105,6 +105,30 @@ extension UIFont {
         return UIFont(descriptor: monospacedDescriptor, size: 0.0)
     }
     
+    public var upperCaseSmallCaps: UIFont {
+        let smallCapsDesc = self.fontDescriptor.addingAttributes([
+            UIFontDescriptor.AttributeName.featureSettings: [
+                [
+                    UIFontDescriptor.FeatureKey.featureIdentifier: kUpperCaseType,
+                    UIFontDescriptor.FeatureKey.typeIdentifier: kUpperCaseSmallCapsSelector
+                ]
+            ]
+        ])
+        return UIFont(descriptor: smallCapsDesc, size: 0.0)
+    }
+    
+    public var lowerCaseSmallCaps: UIFont {
+        let smallCapsDesc = self.fontDescriptor.addingAttributes([
+            UIFontDescriptor.AttributeName.featureSettings: [
+                [
+                    UIFontDescriptor.FeatureKey.featureIdentifier: kLowerCaseType,
+                    UIFontDescriptor.FeatureKey.typeIdentifier: kLowerCaseSmallCapsSelector
+                ]
+            ]
+        ])
+        return UIFont(descriptor: smallCapsDesc, size: 0.0)
+    }
+    
     public static func preferredFont(style: UIFont.TextStyle, size: CGFloat? = nil) -> UIFont {
         
         let defaultSize: CGFloat

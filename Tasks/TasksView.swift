@@ -44,29 +44,29 @@ public enum TasksAction: Equatable {
     case onChange
     case filterPicked(Filter)
     case response(Result<TaskResponse, TaskFailure>)
-    case ellipseButtonTapped(taskId: UUID)
     case plusButtonTapped
     case viewDismissed
-    //case addMore([Calendar.Component: Int], taskId: UUID)
-    case completeTask(id: UUID)
-    //case deleteTask(id: UUID)
+    case duplicateTask(CreateTaskState)
     case createTask(CreateTaskAction)
     case cell(id: UUID, action: TaskAction)
 }
 
 public struct TasksEnvironment {
+    let uuid: () -> UUID
     let date: () -> Date
     let calendar: Calendar
     let managedContext: NSManagedObjectContext
     let timeClient: TimeClient
     let taskClient: TaskClient
     public init(
+        uuid: @escaping () -> UUID,
         date: @escaping () -> Date,
         calendar: Calendar,
         managedContext: NSManagedObjectContext,
         timeClient: TimeClient,
         taskClient: TaskClient
     ) {
+        self.uuid = uuid
         self.date = date
         self.calendar = calendar
         self.managedContext = managedContext
@@ -84,52 +84,17 @@ public let tasksReducer =
                     .tasks(environment.managedContext)
                     .catchToEffect()
                     .map(TasksAction.response)
-            case let .ellipseButtonTapped(taskId: taskId):
-                
-                let task = state.tasks[id: taskId]!.task
-
-                let item: [Calendar.Component: Int]? = task
-                    |> dateComponents(environment.calendar)
-                    >>> suggestedComponent
-                
-                let value = Double(item?.first?.value ?? .zero) / 4.0
-                let key = item?.first?.key.string ?? ""
-                
-//                state.actionSheet = ActionSheetState(
-//                    title: LocalizedStringKey(task.title),
-//                    buttons: [
-//                        .default("+\(valueFormatter().string(for: value) ?? "") \(key)", send: .addMore(item ?? [:], taskId: taskId)),
-//                        .default("Completed", send: .completeTask(id: taskId)),
-//                        .destructive("Delete", send: .deleteTask(id: taskId)),
-//                        .cancel(send: .actionSheetDismissed)
-//                    ]
-//                )
-                return .none
             case let .createTask(.response(.success(.created(task)))):
-                state.tasks.append(
-                    TaskState(task: task)
-                )
+                state.tasks.append(TaskState(task: task))
                 return .none
             case let .createTask(.response(.success(.updated(task)))):
                 state.tasks[id: task.id] = TaskState(task: task)
                 return .none
             case .createTask:
                 return .none
-            case let .completeTask(id: taskId):
-                let updatedTask = state.tasks[id: taskId]!.task
-                    |> (prop(\.endDate)) { _ in environment.date() }
-                return Effect.concatenate(
-                    environment
-                        .taskClient
-                        .update(
-                            TaskRequest(
-                                viewContext: environment.managedContext,
-                                task: updatedTask
-                            )
-                        )
-                        .catchToEffect()
-                        .map(TasksAction.response)
-                )
+            case let .duplicateTask(task):
+                state.createTask = task
+                return .none
             case let .response(.success(.tasks(tasks))):
                 state.tasks = IdentifiedArray(
                     tasks.map(TaskState.init(task:))
@@ -143,9 +108,12 @@ public let tasksReducer =
                 return .none
             case let .response(.success(.updated(task))):
                 state.tasks[id: task.id]?.task = task
-                return .none
+                return Effect(value: .cell(id: task.id, action: .onAppear))
             case .plusButtonTapped:
-                state.createTask = CreateTaskState()
+                state.createTask = CreateTaskState(
+                    startDate: environment.date(),
+                    endDate: environment.date()
+                )
                 return .none
             case .viewDismissed:
                 state.createTask = nil
@@ -182,6 +150,12 @@ public let tasksReducer =
 
 
 
+extension Calendar.Component {
+    static var all: Set<Calendar.Component> {
+        [.hour, .year, .day, .hour, .minute]
+    }
+}
+
 extension Reducer where
     State == TasksState,
     Action == TasksAction,
@@ -192,34 +166,87 @@ extension Reducer where
             switch action {
             case let .cell(id: id, action: action):
                 switch action {
-                case .onAppear,
-                     .response,
-                     .ellipseButtonTapped,
-                     .actionSheetDismissed:
-                    return .none
                 case .deleteTapped:
-                    //state.tasks.remove(id: id)
+                    
+                    guard let taskState = state.tasks[id: id] else { fatalError() }
+                    
                     return environment.taskClient
                         .delete(TaskRequest(
                             viewContext: environment.managedContext,
-                            task: state.tasks[id: id]!.task
+                            task: taskState.task
                         )).catchToEffect()
                         .map(TasksAction.response)
                         .eraseToEffect()
-                case .startAgainTapped:
-                    state.tasks[id: id]?.status = .active
-                    return .none
                 case .startNowTapped:
-                    state.tasks[id: id]?.status = .active
-                    return .none
+                    
+                    guard let taskState = state.tasks[id: id] else { fatalError() }
+                    
+                    let components = environment.calendar
+                        .dateComponents(Calendar.Component.all,
+                                        from: taskState.startDate,
+                                        to: taskState.endDate
+                        )
+                    
+                    let updatedTask = taskState.task
+                        |> (prop(\.startDate)) { _ in environment.date() }
+                        <> (prop(\.endDate)) { _ in
+                            environment.calendar.date(byAdding: components, to: environment.date())!
+                        }
+                                                               
+                    return environment
+                         .taskClient
+                         .update(
+                            TaskRequest(
+                                viewContext: environment.managedContext,
+                                task: updatedTask
+                            )
+                        ).catchToEffect()
+                         .map(TasksAction.response)
                 case .duplicateTapped:
-                    if let duplicateTask = state.tasks[id: id] {
-                        state.tasks.append(duplicateTask)
-                    }
-                    return .none
+                    
+                    guard let task = state.tasks[id: id] else { fatalError() }
+                    
+                    let components = environment.calendar
+                        .dateComponents(Calendar.Component.all,
+                                        from: task.startDate,
+                                        to: task.endDate
+                        )
+                    
+                    let duplicateTask = state.tasks[id: id]!.task
+                        |> (prop(\.id)) { _ in environment.uuid() }
+                        <> (prop(\.startDate)) { _ in environment.date() }
+                        <> (prop(\.creationDate)) { _ in environment.date() }
+                        <> (prop(\.endDate)) { _ in
+                            environment.calendar.date(byAdding: components, to: environment.date())!
+                        }
+                
+                    return environment
+                        .timeClient
+                        .taskProgress(
+                            ProgressTaskRequest(
+                                currentDate: environment.date(),
+                                calendar: environment.calendar,
+                                startAt: duplicateTask.startDate,
+                                endAt: duplicateTask.endDate
+                            )).map(\.result)
+                              .map {
+                                CreateTaskState(
+                                    taskTitle: duplicateTask.title,
+                                    startDate: duplicateTask.startDate,
+                                    endDate: duplicateTask.endDate,
+                                    chosenColor: Color(duplicateTask.color),
+                                    progressStyle: .bar,
+                                    diff: $0
+                                )
+                              }.map(TasksAction.duplicateTask)
+                        .eraseToEffect()
                 case .completeTapped:
-                    let updatedTask = state.tasks[id: id]!.task
+                    
+                    guard let taskState = state.tasks[id: id] else { fatalError() }
+                    
+                    let updatedTask = taskState.task
                         |> (prop(\.endDate)) { _ in environment.date() }
+                    
                     return environment
                         .taskClient
                         .update(
@@ -229,9 +256,34 @@ extension Reducer where
                             )
                         ).catchToEffect()
                          .map(TasksAction.response)
+                    
                 case .startTomorrowTapped:
-                    state.tasks[id: id]?.status = .pending
-                    return .none
+                    
+                    guard let taskState = state.tasks[id: id] else { fatalError() }
+                    guard let startDate = environment
+                            .calendar
+                            .date(byAdding: .day, value: 1, to: taskState.startDate) else { fatalError()}
+                    guard let endDate = environment
+                            .calendar
+                            .date(byAdding: .day, value: 1, to: taskState.endDate) else {
+                        fatalError()
+                    }
+                                                            
+                    let updatedTask = taskState.task
+                        |> (prop(\.startDate)) { _ in startDate }
+                        <> (prop(\.endDate)) { _ in endDate }
+                    
+                    return environment
+                        .taskClient
+                        .update(
+                            TaskRequest(
+                                viewContext: environment.managedContext,
+                                task: updatedTask
+                            )
+                        ).catchToEffect()
+                         .map(TasksAction.response)
+                default:
+                    return effects
                 }
             default:
                 return effects
@@ -395,18 +447,7 @@ public struct TasksView: View {
                         store.scope(
                             state: \.filteredTasks,
                             action: TasksAction.cell(id:action:)),
-                        content: { store in
-                            ProgressTaskView(store: store)
-//                            WithViewStore(store) { vs in
-//                                ProgressTaskView(store: store) {
-//                                    viewStore.send(
-//                                        .ellipseButtonTapped(
-//                                            taskId: vs.id
-//                                        )
-//                                    )
-//                                }.padding(.vertical, .py_grid(1))
-//                            }
-                        }
+                        content: ProgressTaskView.init(store:)
                     )
                 }
             }.onAppear {
@@ -424,10 +465,6 @@ public struct TasksView: View {
                 )
             }
         }
-//        .actionSheet(
-//            store.scope(state: \.actionSheet),
-//            dismiss: .actionSheetDismissed
-//        )
     }
 }
 
@@ -441,6 +478,7 @@ struct TasksView_Previews: PreviewProvider {
                 ),
                 reducer: tasksReducer,
                 environment: TasksEnvironment(
+                    uuid: UUID.init,
                     date: Date.init,
                     calendar: .current,
                     managedContext: NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType),
@@ -455,6 +493,7 @@ struct TasksView_Previews: PreviewProvider {
                 ),
                 reducer: tasksReducer,
                 environment: TasksEnvironment(
+                    uuid: UUID.init,
                     date: Date.init,
                     calendar: .current,
                     managedContext: NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType),
@@ -462,6 +501,8 @@ struct TasksView_Previews: PreviewProvider {
                     taskClient: .createBook
                 )
             )).preferredColorScheme(.dark)
+            
+            
                                     
         }
     }
@@ -473,25 +514,24 @@ extension TimeClient {
         TimeClient(taskProgress: { request in
             Just(
                 TimeResponse(
-                    progress: ((Int.random(in: 1...10) % 2) != 0) ? 0: 0,
+                    progress: 0.4,
                     result: TimeResult(
-                        //year: 2,
-                        //month: 1,
-                        //day: 7,
-                        hour: 12
-                        //minute: 44
+                        hour: 12,
+                        minute: 30
                     )
                 )
             ).eraseToAnyPublisher()
         })
+        
+        
     }
 }
 
 extension TaskClient {
-    static var createBook: TaskClient = TaskClient(
+    public static var createBook: TaskClient = TaskClient(
         create: { _ in
             Just(
-                .created(.writeBook2)
+                .created(.writeBook)
             ).setFailureType(to: TaskFailure.self)
             .eraseToAnyPublisher()
         },
@@ -505,8 +545,7 @@ extension TaskClient {
 }
 
 
-let dateComponents: (Calendar) -> (ProgressTask) -> DateComponents = { calendar in
-    {
+let dateComponents: (Calendar) -> (ProgressTask) -> DateComponents = { calendar in {
         calendar.dateComponents(
             [.day, .hour, .minute, .month, .year],
             from: $0.startDate,

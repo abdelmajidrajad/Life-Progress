@@ -60,10 +60,12 @@ public let switchReducer =
         switch action {
         case .onChange:
             return .concatenate(
-                currentYear(
-                    environment.calendar,
-                    environment.date()
-                ).map(SwitchAction.setYear)
+                environment
+                    .calendar
+                    .currentYear(
+                        environment.date()
+                    )
+                .map(SwitchAction.setYear)
                 .eraseToEffect(),
                 environment.todayProgress(
                     TodayRequest(
@@ -128,7 +130,8 @@ public struct SwitchProgressView: View {
     public var body: some View {
         
         WithViewStore(store.scope(state: \.view)) { viewStore in
-            HStack(spacing: 8.0) {
+            
+            HStack(spacing: .py_grid(2)) {
                 
                 VStack(alignment: .leading) {
                                             
@@ -141,7 +144,8 @@ public struct SwitchProgressView: View {
                                 progress: .constant(viewStore.yearPercent)
                             ).frame(
                                 width: .py_grid(16),
-                                height: .py_grid(16))
+                                height: .py_grid(16)
+                            )
                             
                             ProgressCircle(
                                 color: .pink,
@@ -152,14 +156,15 @@ public struct SwitchProgressView: View {
                                 width: .py_grid(10),
                                 height: .py_grid(10)
                             )
-                            
                         }
+                        
                         Image(systemName: "hourglass")
                             .frame(
                                 maxWidth: .infinity,
                                 alignment: .trailing
-                        ).font(.title)
-                        .foregroundColor(.pink)
+                            )
+                            .foregroundColor(.pink)
+                            .font(.preferred(.py_title2()))
                     }
             
                     Spacer()
@@ -203,12 +208,14 @@ public struct SwitchProgressView: View {
                 }.padding()
                 .background(
                     RoundedRectangle(
-                        cornerRadius: 20.0,
+                        cornerRadius: .py_grid(5),
                         style: .continuous
                     ).stroke(Color.white)
-                    .shadow(radius: 1)
+                     .shadow(radius: 1)
                 )
-            }.onAppear { viewStore.send(.onChange) }
+            }.onAppear {
+                viewStore.send(.onChange)
+            }
             
         }
     }
@@ -225,20 +232,21 @@ struct SwitchProgressView_Previews: PreviewProvider {
                     date: Date.init,
                     todayProgress: { _ in
                         Just(TimeResponse(
-                            progress: 0.8,
+                            progress: 0.56,
                             result: TimeResult(
                                 hour: 12,
                                 minute: 9
                             )
                         )).eraseToAnyPublisher()
                     }, yearProgress: { _ in
-                        Just(TimeResponse(
-                            progress: 0.22,
-                            result: TimeResult(
-                                day: 200,
-                                hour: 22,
-                                minute: 12
-                            )
+                        Just(
+                            TimeResponse(
+                                progress: 0.38,
+                                result: TimeResult(
+                                    day: 200,
+                                    hour: 22,
+                                    minute: 12
+                                )
                         )).eraseToAnyPublisher()
                     }
                 )

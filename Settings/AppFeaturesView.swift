@@ -28,7 +28,7 @@ let appFeatureReducer =
         
     }
 
-
+//Binding<PresentationMode>
 
 public struct AppFeaturesView: View {
     let store: Store<AppFeatureState, AppFeatureAction>
@@ -49,7 +49,7 @@ public struct AppFeaturesView: View {
                                         
                     PageView(
                         viewStore.features.map(FeatureView.init),
-                        currentPage: $currentPage.animation()
+                        currentPage: $currentPage
                     )
                     
                     VStack {
@@ -76,13 +76,14 @@ public struct AppFeaturesView: View {
                             maxHeight: .py_grid(20)
                         ).padding(.bottom)
                          .background(
-                            VisualEffectBlur(blurStyle: .extraLight)
+                            VisualEffectBlur()
                         )                                                
                     }
                     
                 }.edgesIgnoringSafeArea(.all)
                 
                 Button(action: {
+                    viewStore.send(.closeButtonTapped)
                     presentationMode.wrappedValue.dismiss()
                 }, label: {
                     Image(systemName: "xmark")
@@ -136,8 +137,9 @@ struct FeatureView: View {
                             LinearGradient(
                                 gradient: Gradient(
                                     colors: [
-                                        Color.pink,
-                                        Color.orange
+                                        .orange,
+                                        .pink,
+                                        .orange
                                     ]
                                 ),
                                 startPoint: .top,
@@ -151,9 +153,7 @@ struct FeatureView: View {
                 .animation(.linear)
                 
                 Text(feature.subTitle.capitalizingFirstLetter())
-                    .font(.preferred(
-                        .py_body())
-                    )
+                    .font(.preferred(.py_body()))
                     .padding(.horizontal)
                     .foregroundColor(Color(.secondaryLabel))
                 

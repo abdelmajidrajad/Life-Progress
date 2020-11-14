@@ -12,7 +12,7 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
             struct TimerId: Hashable {}
             return Effect.timer(
                 id: TimerId(),
-                every: .seconds(30.0),
+                every: .seconds(15.0),
                 on: environment.mainQueue
             ).map(AppAction.onUpdate)
             .eraseToEffect()
@@ -59,6 +59,7 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
         action: /AppAction.tasks,
         environment: {
             TasksEnvironment(
+                uuid: $0.uuid,
                 date: $0.date,
                 calendar: $0.calendar,
                 managedContext: $0.context,
@@ -80,3 +81,17 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
         }
     )
 )
+
+
+extension AppEnvironment {
+    var tasks: TasksEnvironment {
+        TasksEnvironment(
+            uuid: self.uuid,
+            date: self.date,
+            calendar: self.calendar,
+            managedContext: self.context,
+            timeClient: self.timeClient,
+            taskClient: self.taskClient
+        )
+    }
+}

@@ -3,14 +3,17 @@ import UIKit
 public let widgetStyle: (String, String) -> NSAttributedString = { value, title in
     let attributedString = NSMutableAttributedString(
         string: value,
-        attributes: [.font: UIFont.py_title1()]
+        attributes: [
+            .font: UIFont.py_title2(),
+            .foregroundColor: UIColor.label
+        ]
     )
     attributedString.append(
         NSAttributedString(
             string: title,
             attributes: [
-                .font: UIFont.py_headline().italicized,
-                .foregroundColor: UIColor.darkGray
+                .font: UIFont.py_subhead().lowerCaseSmallCaps,
+                .foregroundColor: UIColor.secondaryLabel
             ]
         )
     )

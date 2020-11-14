@@ -120,6 +120,7 @@ extension YourDayProgressState {
             today: "Your Day",
             percentage: NSNumber(value: percent),
             title: timeResult.string(widgetStyle),
+            statusDescription: percent < 1.0 ? "remaining": "Your day was ended",
             isCircle: style == .circle,
             chosenColor: Color(.systemPink)
         )
@@ -132,6 +133,7 @@ public struct YourDayProgressView: View {
         let today: String
         let percentage: NSNumber
         let title: NSAttributedString
+        let statusDescription: String
         let isCircle: Bool
         let chosenColor: Color
     }
@@ -145,7 +147,8 @@ public struct YourDayProgressView: View {
     public var body: some View {
         
         WithViewStore(store.scope(state: \.view)) { viewStore in
-            HStack(spacing: 8.0) {
+            
+            HStack(spacing: .py_grid(2)) {
                 
                 VStack(alignment: .leading) {
                                         
@@ -158,8 +161,11 @@ public struct YourDayProgressView: View {
                             color: .pink,
                             lineWidth: .py_grid(2),
                             progress: .constant(viewStore.percentage)
-                        ).frame(width: .py_grid(17), height: .py_grid(17))
-                        .offset(y: -20)
+                        ).frame(
+                            width: .py_grid(17),
+                            height: .py_grid(17)
+                        )
+                        .offset(y: .py_grid(-5))
                         .saturation(2)
                     } else {
                         ProgressBar(
@@ -171,14 +177,14 @@ public struct YourDayProgressView: View {
                     Spacer()
                     
                     HStack(alignment: .lastTextBaseline, spacing: .py_grid(1)) {
-                        PLabel(attributedText:
-                                .constant(viewStore.title)
+                        
+                        PLabel(
+                            attributedText: .constant(viewStore.title)
                         ).fixedSize()
                                                         
-                        Text("remaining")
-                            .font(.caption)
-                            .foregroundColor(.gray)
-                            .italic()
+                        Text(viewStore.statusDescription)
+                            .font(Font.preferred(.py_caption1()).italic())
+                            .foregroundColor(Color(.secondaryLabel))
                             .lineLimit(1)
                     }
                     
@@ -188,13 +194,11 @@ public struct YourDayProgressView: View {
                 viewStore.send(.onChange)
             }.background(
                 RoundedRectangle(
-                    cornerRadius: .py_grid(4),
+                    cornerRadius: .py_grid(5),
                     style: .continuous
-                ).stroke(
-                    Color.white
-                ).shadow(radius: 1)
+                ).stroke(Color(.white), lineWidth: 1)
+                 .shadow(radius: 1)
             )
-            
         }
     }
 }
@@ -212,16 +216,17 @@ struct YourDayProgressView_Previews: PreviewProvider {
                         userDefaults: UserDefaults(),
                         yourDayProgress: { _ in
                             Just(TimeResponse(
-                                progress: 0.45,
+                                progress: 1,
                                 result: TimeResult(
-                                    hour: 8,
-                                    minute: 2
+                                    hour: 0,
+                                    minute: 0
                                 )
                             )).eraseToAnyPublisher()
                         }
                     )
                 )
-            ).frame(width: 141, height: 141)
+            )
+            .frame(width: 167, height: 167)
             YourDayProgressView(
                 store: Store<YourDayProgressState, YourDayProgressAction>(
                     initialState: YourDayProgressState(),
@@ -243,7 +248,7 @@ struct YourDayProgressView_Previews: PreviewProvider {
                 )
             ).preferredColorScheme(.dark)
             .environment(\.sizeCategory, .large)
-            .frame(width: 141, height: 141)
+            .frame(width: 167, height: 167)
         }
     }
 }

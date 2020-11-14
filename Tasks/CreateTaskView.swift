@@ -19,7 +19,7 @@ var dateFormatter: () -> DateFormatter = {
 
 public struct CreateTaskState: Equatable {
     public var title: String
-    public var validationError: String?
+    public var isValidTitle: Bool
     public var startDate: Date
     public var endDate: Date
     public var chosenColor: Color
@@ -29,9 +29,9 @@ public struct CreateTaskState: Equatable {
     public var isRequestSucceed: Bool = false
     public init(
         taskTitle: String = "",
-        validationError: String? = nil,
-        startDate: Date = Date(),
-        endDate: Date = Date(),
+        isValidTitle: Bool = false,
+        startDate: Date,
+        endDate: Date,
         chosenColor: Color = Color(.endBlueLightColor),
         progressStyle: ProgressStyle = .bar,
         diff: TimeResult = .zero,
@@ -39,7 +39,7 @@ public struct CreateTaskState: Equatable {
         isRequestSucceed: Bool = false
     ) {
         self.title = taskTitle
-        self.validationError = validationError
+        self.isValidTitle = isValidTitle
         self.startDate = startDate
         self.endDate = endDate
         self.chosenColor = chosenColor
@@ -61,9 +61,9 @@ public enum CreateTaskAction: Equatable {
     case selectColor(Color)
     case reset
     case alertDismissed
+    case cancelButtonTapped
     case endDate(DateControlAction)
     case startDate(DateControlAction)
-    case cancelButtonTapped
 }
 
 import CoreData
@@ -128,14 +128,14 @@ public let createTaskReducer = Reducer<CreateTaskState, CreateTaskAction, Create
         case let .titleChanged(title):
             state.title = title
             return Effect(value:
-                    .validation(validate(title: title))
-                    )
+                    .validation(validate(title: title)))
         case let .selectColor(color):
             state.chosenColor = color
             return .none
-        case let .startDate(.newDate(date)):
-            if date <= state.endDate {
-                state.startDate = date
+        case let .startDate(.newDate(startDate)):
+            state.startDate = startDate
+            if startDate >= state.endDate {
+                state.endDate = startDate
             }
             return environment
                 .timeClient
@@ -164,14 +164,12 @@ public let createTaskReducer = Reducer<CreateTaskState, CreateTaskAction, Create
             state.diff = result
             return .none
         case .onAppear:
-            state.startDate = environment.date()
-            state.endDate = environment.date()
-            return Effect(value: .titleChanged(""))
-        case .validation(.valid):
-            state.validationError = nil
             return .none
-        case let .validation(.invalid(errors)):
-            state.validationError = errors.first
+        case .validation(.valid):
+            state.isValidTitle = true
+            return .none
+        case .validation(.invalid(_)):
+            state.isValidTitle = false
             return .none
         case .startDate, .endDate:
             return .none
@@ -202,9 +200,9 @@ extension CreateTaskState {
             endDate: endDate,
             chosenColor: chosenColor,
             progressStyle: progressStyle,
-            diff: diff.string(taskCellStyle, style: .long),
+            diff: diff.string(widgetStyle, style: .long),
             isDiff: diff != .zero,
-            isValid: validationError == nil && diff != .zero
+            isValid: isValidTitle && diff != .zero
         )
     }
 }
@@ -289,12 +287,11 @@ public struct CreateTaskView: View {
                                 
                                 if #available(iOS 14.0, *) {
                                     ColorPicker("",
-                                                selection:
-                                                    viewStore.binding(
-                                                        get: \.chosenColor,
-                                                        send: CreateTaskAction.selectColor
-                                                    )
-                                    )
+                                    selection:
+                                    viewStore.binding(
+                                        get: \.chosenColor,
+                                        send: CreateTaskAction.selectColor
+                                    ))
                                     .frame(
                                         width: .py_grid(10),
                                         height: .py_grid(10)
@@ -352,7 +349,7 @@ public struct CreateTaskView: View {
                 }.font(.preferred(.py_subhead()))
                 .multilineTextAlignment(.center)
                                 
-                VStack(spacing: .py_grid(4)) {
+                VStack(spacing: .py_grid(2)) {
                     
                     if viewStore.isDiff {
                         ZStack(alignment: .leading) {
@@ -366,7 +363,7 @@ public struct CreateTaskView: View {
                                 Image(systemName: "xmark")
                             }.buttonStyle(RoundedButtonStyle())
                             .padding()
-                        }
+                        }.transition(.opacity)
                     }
                     
                     Button(
@@ -385,19 +382,18 @@ public struct CreateTaskView: View {
                     .disabled(!viewStore.isValid)
                     
                 }.frame(maxWidth: .infinity)
-                .padding(.py_grid(1))
                 .background(
                     VisualEffectBlur(blurStyle: .extraLight)
+                        .edgesIgnoringSafeArea(.vertical)
                 )
                 
             }
-            .edgesIgnoringSafeArea(.vertical)
             .onAppear {
                 viewStore.send(.onAppear)
             }
             .alert(
-                store.scope(
-                    state: \.alert), dismiss: .alertDismissed
+                store.scope(state: \.alert),
+                dismiss: .alertDismissed
             )
         }
     }
@@ -655,6 +651,8 @@ struct CreateTaskView_Previews: PreviewProvider {
         Group {
             CreateTaskView(store: Store(
                 initialState: CreateTaskState(
+                    startDate: Date(),
+                    endDate: Date(),
                     diff: .init(year: 1, month: 1, day: 1, hour: 1, minute: 1)
                 ),
                 reducer: createTaskReducer,
@@ -692,6 +690,8 @@ struct CreateTaskView_Previews: PreviewProvider {
             
             CreateTaskView(store: Store(
                 initialState: CreateTaskState(
+                    startDate: Date(),
+                    endDate: Date(),
                     diff: .init(year: 1, month: 1, day: 1, hour: 1, minute: 1)
                 ),
                 reducer: createTaskReducer,

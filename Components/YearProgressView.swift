@@ -48,7 +48,9 @@ public let yearReducer =
     switch action {
     case .onChange:
         return .concatenate(
-            currentYear(environment.calendar, environment.date())
+            environment
+                .calendar
+                .currentYear(environment.date())
                 .map(YearAction.setYear)
                 .eraseToEffect(),
             environment.yearProgress(
@@ -68,10 +70,15 @@ public let yearReducer =
     }
 }
 
-
-let currentYear: (Calendar, Date) -> Just<Int> = { calendar, date in
-    Just(calendar.dateComponents([.year], from: date).year!)
+extension Calendar {
+    var currentYear: (Date) -> Effect<Int, Never> {
+        return {
+            Effect(
+                value: self.dateComponents([.year], from: $0).year!)
+        }
+    }
 }
+
 
 extension YearState {
     var view: YearProgressView.ViewState {
@@ -79,6 +86,9 @@ extension YearState {
             year: "\(year)",
             percentage: NSNumber(value: percent),
             title: result.string(widgetStyle),
+            statusDescription: percent < 1.0
+            ? "remaining"
+            : "ended",
             isCircle: style == .circle
         )
     }
@@ -90,6 +100,7 @@ public struct YearProgressView: View {
         let year: String
         let percentage: NSNumber
         let title: NSAttributedString
+        let statusDescription: String
         let isCircle: Bool
     }
     
@@ -137,8 +148,8 @@ public struct YearProgressView: View {
                     ) {
                         PLabel(attributedText: .constant(viewStore.title))
                             .fixedSize()
-                            
-                        Text("remaining")
+                                                    
+                        Text(viewStore.statusDescription)
                             .font(.caption)
                             .foregroundColor(.gray)
                             .italic()
@@ -203,7 +214,38 @@ struct YearProgressView_Previews: PreviewProvider {
                     )
                 )
             ).preferredColorScheme(.dark).frame(width: 141, height: 141)
+            
+            
+            VStack {
+                PLabel(attributedText: .constant(
+                    TimeResult(year: 300, month: 12, day: 1, hour: 1, minute: 1).string(mockStyle)
+                ))
+                
+                PLabel(attributedText: .constant(
+                    TimeResult(year: 300, month: 12, day: 1, hour: 1, minute: 1).string(mockStyle)
+                ))//.preferredColorScheme(.dark)
+            }
         }
     }
+}
+
+public let mockStyle: (String, String) -> NSAttributedString = { value, title in
+    let attributedString = NSMutableAttributedString(
+        string: value,
+        attributes: [
+            .font: UIFont.py_title2(),
+            .foregroundColor: UIColor.label
+        ]
+    )
+    attributedString.append(
+        NSAttributedString(
+            string: title,
+            attributes: [
+                .font: UIFont.py_subhead().lowerCaseSmallCaps,
+                .foregroundColor: UIColor.secondaryLabel
+            ]
+        )
+    )
+    return attributedString
 }
 

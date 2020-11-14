@@ -72,7 +72,6 @@ public enum TaskAction: Equatable {
     case ellipseButtonTapped
     case actionSheetDismissed
     case deleteTapped
-    case startAgainTapped
     case startNowTapped
     case duplicateTapped
     case completeTapped
@@ -115,17 +114,19 @@ public let taskReducer =
             switch state.status {
             case .completed:
                 actionButtons.append(contentsOf: [
-                    .default("Start Again", send: .startAgainTapped),
+                    .default("Start Again", send: .startNowTapped),
                     .default("Duplicate", send: .duplicateTapped)
                 ])
             case .active:
                 actionButtons.append(contentsOf: [
                     .default("Start Tomorrow", send: .startTomorrowTapped),
-                    .default("End", send: .completeTapped)
+                    .default("End", send: .completeTapped),
+                    .default("Duplicate", send: .duplicateTapped)
                 ])
             case .pending:
                 actionButtons.append(contentsOf: [
-                    .default("Start Now", send: .startNowTapped)
+                    .default("Start Now", send: .startNowTapped),
+                    .default("Duplicate", send: .duplicateTapped)
                 ])
             }
             
@@ -139,9 +140,7 @@ public let taskReducer =
                 buttons: actionButtons
             )
             state.isSelected.toggle()
-            return .none
-        case .startAgainTapped:
-            return .none
+            return .none        
         case .startNowTapped:
             return .none
         case .duplicateTapped:
@@ -306,7 +305,7 @@ struct ProgressTaskView: View {
             ).padding(.horizontal)
             .transition(.topAndLeft)
             .onAppear {
-                //viewStore.send(.onAppear)
+                viewStore.send(.onAppear)
             }.actionSheet(
                 store.scope(state: \.actionSheet),
                 dismiss: .actionSheetDismissed
@@ -322,7 +321,7 @@ struct ProgressTaskView_Previews: PreviewProvider {
                 store:
                     Store(
                         initialState: TaskState(
-                            task: .writeBook2,
+                            task: .writeBook,
                             status: .active
                         ),
                         reducer: taskReducer,
@@ -334,8 +333,6 @@ struct ProgressTaskView_Previews: PreviewProvider {
                                     TimeResponse(
                                         progress: 0.4,
                                         result: TimeResult(
-                                            //year: 2,
-                                            //month: 1,
                                             day: 7,
                                             hour: 12,
                                             minute: 44
@@ -349,7 +346,7 @@ struct ProgressTaskView_Previews: PreviewProvider {
             ProgressTaskView(
                 store:
                     Store(
-                        initialState: TaskState(task: .writeBook),
+                        initialState: TaskState(task: .writeBook2),
                         reducer: taskReducer,
                         environment: TaskEnvironment(
                             date: Date.init,
@@ -359,8 +356,6 @@ struct ProgressTaskView_Previews: PreviewProvider {
                                     TimeResponse(
                                         progress: 0.4,
                                         result: TimeResult(
-                                            //year: 2,
-                                            //month: 1,
                                             day: 7,
                                             hour: 12,
                                             minute: 44
@@ -397,7 +392,7 @@ extension ProgressTask {
     public static var writeBook: Self {
         ProgressTask(
             title: "Write my Book, Write my Book, Write my Book, Write my Book",
-            startDate: Date(),
+            startDate: Date().addingTimeInterval(-3600 * 24 * 1),
             endDate: Date().addingTimeInterval(3600 * 24 * 10),
             creationDate: Date(),
             color: .endRedColor,
