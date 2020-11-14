@@ -16,16 +16,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             store: Store(
                 initialState: AppState(),
                 reducer: appReducer.debug(),
-                environment:  AppEnvironment(
-                    uuid: UUID.init,
-                    date: Date.init,
-                    calendar: .current,
-                    mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
-                    timeClient: .live,                    
-                    taskClient: .live,
-                    context: (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext,
-                    userDefaults: UserDefaults.standard
-                )
+                environment:  .live(context:
+                    (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext)
             )
         )
 

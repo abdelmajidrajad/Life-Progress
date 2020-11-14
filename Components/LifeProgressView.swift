@@ -59,7 +59,7 @@ extension LifeProgressState {
         LifeProgressView.ViewState(
             today: "heart.fill",
             percentage: NSNumber(value: percent),
-            title: timeResult.string(widgetStyle),
+            result: timeResult,
             isCircle: style == .circle
         )
     }
@@ -70,7 +70,7 @@ public struct LifeProgressView: View {
     struct ViewState: Equatable {
         let today: String
         let percentage: NSNumber
-        let title: NSAttributedString
+        let result: TimeResult
         let isCircle: Bool
     }
     
@@ -109,10 +109,9 @@ public struct LifeProgressView: View {
                     HStack(
                         alignment: .lastTextBaseline,
                         spacing: .py_grid(1)) {
-                        PLabel(
-                            attributedText:
-                                .constant(viewStore.title)
-                        ).fixedSize()
+                                               
+                        label(viewStore.result)
+                        
                         Text("remaining")
                             .font(.caption)
                             .foregroundColor(.gray)

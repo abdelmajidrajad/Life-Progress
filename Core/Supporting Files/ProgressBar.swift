@@ -22,9 +22,9 @@ public struct ProgressBar: View {
         GeometryReader { proxy in
             VStack(alignment: .trailing) {
                 ZStack(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: 6.0)
+                    RoundedRectangle(cornerRadius: lineWidth * 0.5)
                         .fill(color.opacity(0.2))
-                    RoundedRectangle(cornerRadius: 6.0)
+                    RoundedRectangle(cornerRadius: lineWidth * 0.5)
                         .fill(
                             LinearGradient(
                                 gradient: Gradient(
@@ -37,7 +37,7 @@ public struct ProgressBar: View {
                         ).frame(
                             width: proxy.size.width * CGFloat(progress.doubleValue)
                         ).animation(.interactiveSpring())
-                        
+                    
                 }.frame(height: lineWidth)
                 if !labelHidden {
                     Text(percentFormatter().string(from: progress) ?? "")

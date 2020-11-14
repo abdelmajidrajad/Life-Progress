@@ -2,6 +2,7 @@ import SwiftUI
 public struct PLabel: UIViewRepresentable {
             
     @Binding var attributedText: NSAttributedString
+    
     public init(attributedText: Binding<NSAttributedString>) {
         self._attributedText = attributedText
     }

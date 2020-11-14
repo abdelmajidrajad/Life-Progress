@@ -5,7 +5,6 @@ import TimeClient
 import TaskClient
 import CoreData
 
-
 struct AppEnvironment {
     let uuid: () -> UUID
     let date: () -> Date
@@ -53,3 +52,24 @@ extension AppEnvironment {
         )
     }
 }
+
+
+//Live Implementation
+import TimeClientLive
+import TaskClientLive
+extension AppEnvironment {
+    public static func live(context: NSManagedObjectContext) -> AppEnvironment {
+        AppEnvironment(
+            uuid: UUID.init,
+            date: Date.init,
+            calendar: .current,
+            mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
+            timeClient: .live,
+            taskClient: .live,
+            context: context,
+            userDefaults: UserDefaults.standard
+        )
+    }
+}
+
+

@@ -64,18 +64,39 @@ extension DayState {
         DayProgressView.ViewState(
             today: "Today",
             percentage: NSNumber(value: percent),
-            title: timeResult.string(widgetStyle),
+            result: timeResult,
+                //.string(widgetStyle),
             isCircle: style == .circle
         )
     }
 }
+
+func label(_ result: TimeResult) -> some View {
+    return  result.component
+        .filter { $0 != .empty }
+        .map(label(from:))
+        .reduce(Text(""), +)
+}
+
+
+func label
+    (from component: TimeResult.Component)
+-> Text {
+    return Text(String(component.value))
+            .font(.preferred(.py_headline()))
+            .foregroundColor(Color(.label))
+        + Text(component.string(true))
+            .font(.preferred(UIFont.py_caption2().lowerCaseSmallCaps))
+            .foregroundColor(Color(.secondaryLabel))
+}
+
 
 public struct DayProgressView: View {
     
     struct ViewState: Equatable {
         let today: String
         let percentage: NSNumber
-        let title: NSAttributedString
+        let result: TimeResult
         let isCircle: Bool
     }
     
@@ -110,10 +131,10 @@ public struct DayProgressView: View {
                     HStack(
                         alignment: .lastTextBaseline,
                         spacing: .py_grid(1)) {
-                        PLabel(
-                            attributedText:
-                                .constant(viewStore.title)
-                        ).fixedSize()
+                        
+                        label(viewStore.result)
+                            .layoutPriority(1)
+                        
                         Text("remaining")
                             .font(.caption)
                             .foregroundColor(.gray)
@@ -154,6 +175,16 @@ struct DayProgressView_Previews: PreviewProvider {
                 )
             )
         ).frame(width: 141, height: 141)
+        
+        label(TimeResult(
+                    year: 10,
+                    month: 20,
+                    day: 20,
+                    hour: 2,
+                    minute: 9
+        ))
+        
+        
     }
 }
 

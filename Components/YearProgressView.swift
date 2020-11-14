@@ -85,10 +85,10 @@ extension YearState {
         YearProgressView.ViewState(
             year: "\(year)",
             percentage: NSNumber(value: percent),
-            title: result.string(widgetStyle),
+            result: result,
             statusDescription: percent < 1.0
-            ? "remaining"
-            : "ended",
+                ? "remaining"
+                : "ended",
             isCircle: style == .circle
         )
     }
@@ -99,7 +99,7 @@ public struct YearProgressView: View {
     struct ViewState: Equatable {
         let year: String
         let percentage: NSNumber
-        let title: NSAttributedString
+        let result: TimeResult
         let statusDescription: String
         let isCircle: Bool
     }
@@ -146,8 +146,9 @@ public struct YearProgressView: View {
                         alignment: .lastTextBaseline,
                         spacing: 2
                     ) {
-                        PLabel(attributedText: .constant(viewStore.title))
-                            .fixedSize()
+                        
+                        label(viewStore.result)
+                            .layoutPriority(1)
                                                     
                         Text(viewStore.statusDescription)
                             .font(.caption)

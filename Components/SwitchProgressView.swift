@@ -102,7 +102,7 @@ extension SwitchState {
             year: "\(year)",
             yearPercent: NSNumber(value: yearPercent),
             todayPercent: NSNumber(value: todayPercent),
-            yearTitle: yearResult.string(taskCellStyle),
+            result: yearResult,
             dayTitle: todayResult.string(taskCellStyle),
             isCircle: style == .circle
         )
@@ -116,7 +116,7 @@ public struct SwitchProgressView: View {
         let year: String
         let yearPercent: NSNumber
         let todayPercent: NSNumber
-        let yearTitle: NSAttributedString
+        let result: TimeResult
         let dayTitle: NSAttributedString
         let isCircle: Bool
     }
@@ -170,18 +170,14 @@ public struct SwitchProgressView: View {
                     Spacer()
                                                     
                     HStack(alignment: .lastTextBaseline, spacing: 2) {
-                        PLabel(attributedText: .constant(viewStore.yearTitle))
+                                            
+                        label(viewStore.result)
+                        
                         Text("left")
                             .font(Font.preferred(.py_caption2()).italic())
-                    }.foregroundColor(Color.green)
+                            .foregroundColor(Color.green)
+                    }
                     .fixedSize()
-                    
-//                    HStack(alignment: .lastTextBaseline, spacing: 2) {
-//                        PLabel(attributedText: .constant(viewStore.dayTitle))
-//                        Text("left")
-//                            .font(Font.preferred(.py_caption2()).italic())
-//                    }.foregroundColor(Color.pink)
-//                     .fixedSize()
                     
                     HStack {
                         HStack(spacing: .py_grid(1)) {

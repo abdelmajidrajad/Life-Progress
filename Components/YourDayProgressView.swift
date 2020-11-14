@@ -119,7 +119,7 @@ extension YourDayProgressState {
         YourDayProgressView.ViewState(
             today: "Your Day",
             percentage: NSNumber(value: percent),
-            title: timeResult.string(widgetStyle),
+            result: timeResult,
             statusDescription: percent < 1.0 ? "remaining": "Your day was ended",
             isCircle: style == .circle,
             chosenColor: Color(.systemPink)
@@ -132,7 +132,7 @@ public struct YourDayProgressView: View {
     struct ViewState: Equatable {
         let today: String
         let percentage: NSNumber
-        let title: NSAttributedString
+        let result: TimeResult
         let statusDescription: String
         let isCircle: Bool
         let chosenColor: Color
@@ -178,9 +178,7 @@ public struct YourDayProgressView: View {
                     
                     HStack(alignment: .lastTextBaseline, spacing: .py_grid(1)) {
                         
-                        PLabel(
-                            attributedText: .constant(viewStore.title)
-                        ).fixedSize()
+                        label(viewStore.result)
                                                         
                         Text(viewStore.statusDescription)
                             .font(Font.preferred(.py_caption1()).italic())

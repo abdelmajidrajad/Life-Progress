@@ -383,7 +383,7 @@ public struct CreateTaskView: View {
                     
                 }.frame(maxWidth: .infinity)
                 .background(
-                    VisualEffectBlur(blurStyle: .extraLight)
+                    VisualEffectBlur(blurStyle: .light)
                         .edgesIgnoringSafeArea(.vertical)
                 )
                 
