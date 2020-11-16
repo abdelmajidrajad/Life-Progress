@@ -73,5 +73,21 @@ extension AppEnvironment {
     }
 }
 
+extension AppEnvironment {
+    public static func live(future date: @autoclosure @escaping () -> Date) -> AppEnvironment {
+        AppEnvironment(
+            uuid: UUID.init,
+            date: date,
+            calendar: .current,
+            mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
+            timeClient: .live,
+            taskClient: .live,
+            context: LPPersistentContainer.context,
+            userDefaults: UserDefaults(suiteName: "group.progress.app") ?? .standard,
+            ubiquitousStore: .default
+        )
+    }
+}
+
 
 

@@ -166,7 +166,7 @@ public struct YearProgressView: View {
                     RoundedRectangle(
                         cornerRadius: .py_grid(4),
                         style: .continuous
-                    ).stroke(Color.white)
+                    ).stroke(Color.white.opacity(0.1))
                     .shadow(radius: 1)
                 )
             }.onAppear { viewStore.send(.onChange) }

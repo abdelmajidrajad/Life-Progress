@@ -25,7 +25,7 @@ struct MyDayProvider: IntentTimelineProvider {
         for configuration: ConfigurationIntent,
         in context: Context,
         completion: @escaping (Timeline<MyDayEntry>) -> ()) {
-        let oneDay: TimeInterval = 60 * 60 * 24
+        let halfHour: TimeInterval = 60 * 30
         var currentDate = Date()
         let endDate = Calendar.current.dayEnd(of: currentDate)
         var entries: [MyDayEntry] = []
@@ -38,11 +38,10 @@ struct MyDayProvider: IntentTimelineProvider {
             let store = Store(
                 initialState: myDayState,
                 reducer: yourDayProgressReducer,
-                environment: AppEnvironment.live.yourDay
+                environment: AppEnvironment
+                    .live//(future: currentDate)
+                    .yourDay
             )
-            
-            
-            
             
             let viewStore = ViewStore(store)
             
@@ -53,7 +52,7 @@ struct MyDayProvider: IntentTimelineProvider {
                 configuration: configuration
             )
             
-            currentDate += oneDay
+            currentDate += halfHour
             
             entries.append(entry)
         }

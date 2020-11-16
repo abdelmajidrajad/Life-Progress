@@ -7,7 +7,7 @@ struct ProgressBundle: WidgetBundle {
     @WidgetBundleBuilder
     var body: some Widget {
         YearProgressWidget()
-        DayProgressWidget()
+        ToDayProgressWidget()
         LifeProgressWidget()
         MyDayProgressWidget()
     }

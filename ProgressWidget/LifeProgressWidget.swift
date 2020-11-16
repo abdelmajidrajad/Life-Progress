@@ -38,11 +38,10 @@ struct LifeProvider: IntentTimelineProvider {
             let store = Store(
                 initialState: lifeState,
                 reducer: lifeReducer,
-                environment: AppEnvironment.live.life
+                environment: AppEnvironment
+                    .live//(future: currentDate)
+                    .life
             )
-            
-            
-            
             
             let viewStore = ViewStore(store)
             

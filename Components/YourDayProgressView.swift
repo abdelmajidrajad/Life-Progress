@@ -188,7 +188,7 @@ public struct YourDayProgressView: View {
                 RoundedRectangle(
                     cornerRadius: .py_grid(5),
                     style: .continuous
-                ).stroke(Color(.white), lineWidth: 1)
+                ).stroke(Color.white.opacity(0.1))
                  .shadow(radius: 1)
             )
         }

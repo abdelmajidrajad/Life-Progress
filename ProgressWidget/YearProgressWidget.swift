@@ -38,7 +38,9 @@ struct YearProvider: IntentTimelineProvider {
             let store = Store(
                 initialState: yearState,
                 reducer: yearReducer,
-                environment: AppEnvironment.live.year
+                environment: AppEnvironment
+                    .live//(future: currentDate)
+                    .year
             )
             
             let viewStore = ViewStore(store)

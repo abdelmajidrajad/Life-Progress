@@ -33,11 +33,13 @@ struct Provider: IntentTimelineProvider {
         )
 
         while currentDate < endDate {
-            
+                                    
             let store = Store(
                 initialState: dayState,
                 reducer: dayReducer,
-                environment: AppEnvironment.live.day
+                environment: AppEnvironment
+                    .live//(future: currentDate)
+                    .day
             )
             
             let viewStore = ViewStore(store)
@@ -99,7 +101,7 @@ struct DayProgressWidgetEntryView : View {
     }
 }
 
-struct DayProgressWidget: Widget {
+struct ToDayProgressWidget: Widget {
                     
     let kind: String = "TodayProgressWidget"
                    

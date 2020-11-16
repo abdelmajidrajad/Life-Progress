@@ -98,7 +98,6 @@ public let switchReducer =
 extension SwitchState {
     var view: SwitchProgressView.ViewState {
         SwitchProgressView.ViewState(
-            title: "Progress",
             year: "\(year)",
             yearPercent: NSNumber(value: yearPercent),
             todayPercent: NSNumber(value: todayPercent),
@@ -112,7 +111,6 @@ extension SwitchState {
 public struct SwitchProgressView: View {
     
     struct ViewState: Equatable {
-        let title: String
         let year: String
         let yearPercent: NSNumber
         let todayPercent: NSNumber
@@ -155,7 +153,7 @@ public struct SwitchProgressView: View {
                             ).frame(
                                 width: .py_grid(10),
                                 height: .py_grid(10)
-                            )
+                            ).shadow(radius: 1.0)
                         }
                         
                         Image(systemName: "hourglass")
@@ -189,7 +187,10 @@ public struct SwitchProgressView: View {
                             Text("Today")
                                 .font(Font.preferred(.py_caption2()))
                         }
-                    }.frame(maxWidth: .infinity, alignment: .trailing)
+                    }.frame(
+                        maxWidth: .infinity,
+                        alignment: .trailing
+                    )
                     
                                                     
                     HStack(
@@ -209,7 +210,7 @@ public struct SwitchProgressView: View {
                     RoundedRectangle(
                         cornerRadius: .py_grid(5),
                         style: .continuous
-                    ).stroke(Color.white)
+                    ).stroke(Color.white.opacity(0.1))
                      .shadow(radius: 1)
                 )
             }.onAppear {

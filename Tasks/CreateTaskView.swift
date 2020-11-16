@@ -233,35 +233,47 @@ public struct CreateTaskView: View {
             ZStack(alignment: .bottom) {
                 
                 ZStack(alignment: .top) {
+                                                            
+                    ZStack(alignment: .leading) {
+                        Button(action: {
+                            self.presentationMode
+                                .wrappedValue.dismiss()
+                        }) {
+                            Image(systemName: "xmark")
+                        }.buttonStyle(CloseButtonCircleStyle())
+                        .zIndex(1)
+                        
+                        Text("New Task".uppercased())
+                            .font(Font
+                                    .preferred(.py_title3())
+                                    .bold())
+                            .frame(
+                                maxWidth: .infinity,
+                                alignment: .bottom
+                            )
+                    }.padding()
+                    .background(
+                        VisualEffectBlur(blurStyle: .light)
+                    ).zIndex(2)
                     
-                    VStack(spacing: .zero) {                       
-                        ZStack(alignment: .leading) {
-                            Button(action: {
-                                self.presentationMode
-                                    .wrappedValue.dismiss()
-                            }) {
-                                Image(systemName: "xmark")
-                            }.buttonStyle(CloseButtonCircleStyle())
-                            .zIndex(1)
-                            
-                            Text("Create A New Task".uppercased())
-                                .font(.preferred(.py_title3()))
-                                .frame(
-                                    maxWidth: .infinity,
-                                    alignment: .bottom
-                                )
-                        }.padding()                        
-                    }
                 
                 
                     ScrollView(.vertical) {
                         
-                        TextField(String.taskTitle, text: viewStore.binding(
-                            get: \.title,
-                            send: CreateTaskAction.titleChanged
-                        ))
-                        .font(Font.preferred(.py_title3()).bold())
-                        .padding()
+                                                                       
+                        VStack {
+                            
+                            Rectangle()
+                                .fill(Color.clear)
+                                .frame(width: 100, height: 80)
+                            
+                            TextField(String.taskTitle, text: viewStore.binding(
+                                get: \.title,
+                                send: CreateTaskAction.titleChanged
+                            ))
+                            .font(Font.preferred(.py_title3()).bold())
+                            .padding()
+                        }
                         
                         TitleLined(.startDate)
                         
@@ -306,7 +318,7 @@ public struct CreateTaskView: View {
                                             .opacity(
                                                 viewStore.chosenColor == color
                                                     ? 1
-                                                    : 0.35)
+                                                    : 0.3)
                                     ).frame(
                                         width: .py_grid(10),
                                         height: .py_grid(10)
@@ -343,13 +355,13 @@ public struct CreateTaskView: View {
                     Rectangle()
                         .fill(Color.clear)
                         .frame(height: .py_grid(50))
-                    
-                    }.padding(.top, .py_grid(20))
+                    }
                     
                 }.font(.preferred(.py_subhead()))
                 .multilineTextAlignment(.center)
+                
                                 
-                VStack(spacing: .py_grid(2)) {
+                VStack(spacing: .zero) {
                     
                     if viewStore.isDiff {
                         ZStack(alignment: .leading) {
@@ -378,12 +390,14 @@ public struct CreateTaskView: View {
                             isValid: viewStore.isValid,
                             color: viewStore.chosenColor
                         )
-                    ).padding(.bottom)
-                    .disabled(!viewStore.isValid)
+                    ).disabled(!viewStore.isValid)
+                    .padding()
+                    
                     
                 }.frame(maxWidth: .infinity)
                 .background(
                     VisualEffectBlur(blurStyle: .light)
+                        .cornerRadius(.py_grid(8), corners: [.topLeft, .topRight])
                         .edgesIgnoringSafeArea(.vertical)
                 )
                 
@@ -453,13 +467,35 @@ struct CreateButtonStyle: ButtonStyle {
             .foregroundColor(.white)
             .font(Font.preferred(.py_title2()).bold().smallCaps())
             .padding()
-            .padding(.horizontal)
+            .padding(.horizontal, .py_grid(10))
             .background(
-                RoundedRectangle(cornerRadius: .py_grid(4))
-                    .fill(color.opacity(isValid ? 1: 0.5))
+                RoundedRectangle(
+                    cornerRadius: .py_grid(4),
+                    style: .continuous
+                ).fill(color.opacity(isValid ? 1: 0.5))
+                .saturation(isValid ? 3.0: 1.0)
+                    
             )
     }
 }
+
+struct RoundedCorner: Shape {
+
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        return Path(path.cgPath)
+    }
+}
+
+extension View {
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape( RoundedCorner(radius: radius, corners: corners) )
+    }
+}
+
 
 struct ProgressBarStyleView: View {
     @Binding var color: Color
@@ -691,8 +727,7 @@ struct CreateTaskView_Previews: PreviewProvider {
             CreateTaskView(store: Store(
                 initialState: CreateTaskState(
                     startDate: Date(),
-                    endDate: Date(),
-                    diff: .init(year: 1, month: 1, day: 1, hour: 1, minute: 1)
+                    endDate: Date()
                 ),
                 reducer: createTaskReducer,
                 environment: CreateTaskEnvironment(
@@ -703,17 +738,7 @@ struct CreateTaskView_Previews: PreviewProvider {
                             Just(
                                 TimeResponse(
                                     progress: 0.3,
-                                    result: TimeResult(
-                                        year: Int.random(in: 1...10),
-                                        month:
-                                            request.calendar
-                                            .dateComponents([.month],
-                                                            from: request.startAt,
-                                                            to: request.endAt).month!,
-                                        day: Int.random(in: 1...10),
-                                        hour: 1,
-                                        minute: 1
-                                    )
+                                    result: .zero
                                 )
                             ).eraseToAnyPublisher()
                         }
