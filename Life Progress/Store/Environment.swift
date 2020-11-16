@@ -14,6 +14,7 @@ struct AppEnvironment {
     let taskClient: TaskClient
     let context: NSManagedObjectContext
     let userDefaults: KeyValueStoreType
+    let ubiquitousStore: NSUbiquitousKeyValueStore
 }
 
 import Components
@@ -53,12 +54,11 @@ extension AppEnvironment {
     }
 }
 
-
-//Live Implementation
 import TimeClientLive
 import TaskClientLive
+
 extension AppEnvironment {
-    public static func live(context: NSManagedObjectContext) -> AppEnvironment {
+    public static var live: AppEnvironment {
         AppEnvironment(
             uuid: UUID.init,
             date: Date.init,
@@ -66,10 +66,12 @@ extension AppEnvironment {
             mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
             timeClient: .live,
             taskClient: .live,
-            context: context,
-            userDefaults: UserDefaults.standard
+            context: LPPersistentContainer.context,
+            userDefaults: UserDefaults(suiteName: "group.progress.app") ?? .standard,
+            ubiquitousStore: .default
         )
     }
 }
+
 
 

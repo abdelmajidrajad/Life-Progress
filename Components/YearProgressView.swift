@@ -113,7 +113,7 @@ public struct YearProgressView: View {
     public var body: some View {
         
         WithViewStore(store.scope(state: \.view)) { viewStore in
-            HStack(spacing: 8.0) {
+            HStack(spacing: .py_grid(2)) {
                 
                 VStack(alignment: .leading) {
                     
@@ -131,7 +131,7 @@ public struct YearProgressView: View {
                         ).frame(
                             width: .py_grid(17),
                             height: .py_grid(17)
-                        ).offset(y: -20)
+                        ).offset(y: -.py_grid(5))
                         
                     } else {
                         ProgressBar(
@@ -147,7 +147,7 @@ public struct YearProgressView: View {
                         spacing: 2
                     ) {
                         
-                        label(viewStore.result)
+                        buildText(from: viewStore.result)
                             .layoutPriority(1)
                                                     
                         Text(viewStore.statusDescription)

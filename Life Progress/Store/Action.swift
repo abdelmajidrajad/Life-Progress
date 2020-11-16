@@ -15,6 +15,7 @@ enum AppAction: Equatable {
     case day(DayAction)
     case union(SwitchAction)
     case tasks(TasksAction)
+    case life(LifeProgressAction)
     case yourDay(YourDayProgressAction)
     case settings(SettingAction)
 }

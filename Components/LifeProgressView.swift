@@ -58,7 +58,13 @@ extension LifeProgressState {
     var view: LifeProgressView.ViewState {
         LifeProgressView.ViewState(
             today: "heart.fill",
-            percentage: NSNumber(value: percent),
+            percentage: percent <= 1
+                ? NSNumber(value: percent)
+                : 1.0
+            ,
+            status: percent <= 1
+                ? "remaining"
+                : "never too late",
             result: timeResult,
             isCircle: style == .circle
         )
@@ -70,6 +76,7 @@ public struct LifeProgressView: View {
     struct ViewState: Equatable {
         let today: String
         let percentage: NSNumber
+        let status: String
         let result: TimeResult
         let isCircle: Bool
     }
@@ -110,9 +117,10 @@ public struct LifeProgressView: View {
                         alignment: .lastTextBaseline,
                         spacing: .py_grid(1)) {
                                                
-                        label(viewStore.result)
+                        buildText(from: viewStore.result)
+                            .layoutPriority(1)
                         
-                        Text("remaining")
+                        Text(viewStore.status)
                             .font(.caption)
                             .foregroundColor(.gray)
                             .italic()

@@ -23,6 +23,7 @@ public struct DayState: Equatable {
 public enum DayAction: Equatable {
     case onChange
     case response(TimeResponse)
+    case changeStyle(ProgressStyle)
 }
 
 public struct DayEnvironment {
@@ -56,6 +57,9 @@ public let dayReducer =
         state.percent = response.progress
         state.timeResult = response.result
         return .none
+    case let .changeStyle(newStyle):
+        state.style = newStyle
+        return .none
     }
 }
 
@@ -71,7 +75,7 @@ extension DayState {
     }
 }
 
-func label(_ result: TimeResult) -> some View {
+func buildText(from result: TimeResult) -> some View {
     return  result.component
         .filter { $0 != .empty }
         .map(label(from:))
@@ -132,7 +136,7 @@ public struct DayProgressView: View {
                         alignment: .lastTextBaseline,
                         spacing: .py_grid(1)) {
                         
-                        label(viewStore.result)
+                        buildText(from: viewStore.result)
                             .layoutPriority(1)
                         
                         Text("remaining")
@@ -176,7 +180,7 @@ struct DayProgressView_Previews: PreviewProvider {
             )
         ).frame(width: 141, height: 141)
         
-        label(TimeResult(
+        buildText(from: TimeResult(
                     year: 10,
                     month: 20,
                     day: 20,

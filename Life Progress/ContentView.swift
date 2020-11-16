@@ -14,13 +14,15 @@ struct ContentView: View {
         self.store = store
     }
     
+    @State var isScaled: Bool = false
+    
     var body: some View {
         GeometryReader { proxy -> AnyView in
             let width = proxy.size.width * 0.5 - 8.0
-            return AnyView(
+                        return AnyView(
                 WithViewStore(store) { viewStore in
                     ScrollView {
-                        
+
                         Section(header:
                             ZStack(alignment: .trailing) {
                                 Text("Widgets")
@@ -28,7 +30,7 @@ struct ContentView: View {
                                         maxWidth: .infinity,
                                         alignment: .leading
                                     ).foregroundColor(Color(.label))
-                                    
+
                                 Button(action: {
                                     viewStore.send(.settingButtonTapped)
                                 }, label: {
@@ -50,26 +52,19 @@ struct ContentView: View {
                                         }
                                     }
                                 }
-                                
-                                
+
                             }.padding()
-                             .font(Font
-                                    .preferred(.py_title2()).bold()
-                             ).foregroundColor(Color(.lightText))
+                             .font(Font.preferred(.py_title2()).bold())
+                             .foregroundColor(Color(.lightText))
                         ) {
                             ScrollView(.horizontal, showsIndicators: false) {
                                 HStack(spacing: .py_grid(4)) {
                                     
-                                    LifeProgressView(store: Store<LifeProgressState, LifeProgressAction>(
-                                            initialState:
-                                                LifeProgressState(
-                                                    timeResult: TimeResult(year: 23),
-                                                    style: .bar,
-                                                    percent: 0.77
-                                                ),
-                                            reducer: .empty,
-                                            environment: ())
-                                    )
+                                    LifeProgressView(store:
+                                        store.scope(
+                                            state: \.life,
+                                            action: AppAction.life
+                                    ))
                                     
                                     YourDayProgressView(
                                         store: store.scope(
@@ -96,21 +91,18 @@ struct ContentView: View {
                                             action: AppAction.year)
                                     )
                                     
-                                   
-                                
-                                                            
                                 }.padding(.vertical)
                                  .padding(.horizontal, .py_grid(1))
                                  .frame(height: width)
                             }.frame(height: width)
                         }
-                        
+
                         TasksView(store:
                             store.scope(
                                 state: \.tasksState,
                                 action: AppAction.tasks)
                         )
-                        
+
                     }.padding(.leading, .py_grid(1))
                     .onAppear {
                         viewStore.send(.onStart)
@@ -129,9 +121,7 @@ struct ContentView_Previews: PreviewProvider {
         Group {
             ContentView(
                 store: Store<AppState, AppAction>(
-                    initialState: AppState(
-                        //tasksState: TasksState(filter: .pending)
-                    ),
+                    initialState: AppState(),
                     reducer: appReducer,
                     environment: .midDay
                 )
@@ -150,86 +140,6 @@ struct ContentView_Previews: PreviewProvider {
 }
 
 import TaskClient
-extension AppEnvironment {
-    static var empty: Self {
-        Self(
-            uuid: UUID.init,
-            date: Date.init,
-            calendar: .current,
-            mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
-            timeClient: .empty,
-            taskClient: .empty,
-            context: .init(concurrencyType: .privateQueueConcurrencyType),
-            userDefaults: UserDefaults()
-        )
-    }
-}
-
-import Combine
-import TimeClient
-extension AppEnvironment {
-    static var midDay: Self {
-        Self(
-            uuid: UUID.init,
-            date: { Date(timeIntervalSince1970: 3600 * 24 * 6) },
-            calendar: .current,
-            mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
-            timeClient: TimeClient(
-                yearProgress: { _ in Just(TimeResponse(
-                    progress: 0.38,
-                    result: TimeResult(
-                        hour: 13, minute: 12
-                    )
-                )).eraseToAnyPublisher()
-                }, todayProgress: { _ in
-                    Just(TimeResponse(
-                    progress: 0.8,
-                    result: TimeResult(
-                        day: 19, hour: 13
-                    )
-                )).eraseToAnyPublisher()
-                }, taskProgress: { _ in
-                    Just(
-                        TimeResponse(
-                            progress: 0.76,
-                            result: TimeResult(
-                                //year: 2,
-                                //month: 1,
-                                day: 7,
-                                hour: 12,
-                                minute: 44
-                            )
-                        )
-                    ).eraseToAnyPublisher()
-                }, yourDayProgress: { _ in
-                    Just(
-                        TimeResponse(
-                            progress: 0.76,
-                            result: TimeResult(
-                                //year: 2,
-                                //month: 1,
-                                //day: 7,
-                                hour: 6,
-                                minute: 44
-                            )
-                        )
-                    ).eraseToAnyPublisher()
-                }
-                
-            ),
-            taskClient:
-                TaskClient(tasks: { _ in
-                    Just(TaskResponse.tasks([
-                        .readBook, .writeBook, .writeBook2
-                    ]))
-                    .setFailureType(to: TaskFailure.self)
-                    .eraseToAnyPublisher()
-                }),
-            context: .init(concurrencyType: .privateQueueConcurrencyType),
-            userDefaults: UserDefaults()
-        )
-    }
-}
 
 
 

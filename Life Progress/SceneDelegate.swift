@@ -6,6 +6,8 @@ import ComposableArchitecture
 //import Tasks
 import Settings
 
+import Components
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
@@ -15,12 +17,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let contentView = ContentView(
             store: Store(
                 initialState: AppState(),
-                reducer: appReducer.debug(),
-                environment:  .live(context:
-                    (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext)
+                reducer: appReducer,
+                environment:  .live
             )
         )
 
+        //let contentView = FullProgressView().frame(width: 170, height: 170, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
         
 //        let contentView =
 //            NavigationView {
@@ -46,7 +48,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 //                managedContext: (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 //            )
 //        ))
-        
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController = UIHostingController(rootView: contentView)
@@ -65,9 +66,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {        
     }
 
-    func sceneDidEnterBackground(_ scene: UIScene) {
-        // Save changes in the application's managed object context when the
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+    func sceneDidEnterBackground(_ scene: UIScene) {        
+        LPPersistentContainer.saveContext()
     }
     
     

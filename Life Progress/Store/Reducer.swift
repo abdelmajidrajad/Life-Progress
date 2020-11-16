@@ -12,7 +12,7 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
             struct TimerId: Hashable {}
             return Effect.timer(
                 id: TimerId(),
-                every: .seconds(15.0),
+                every: .seconds(1.0),
                 on: environment.mainQueue
             ).map(AppAction.onUpdate)
             .eraseToEffect()
@@ -20,7 +20,7 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
             return .concatenate(
                 Effect(value: .day(.onChange)),
                 Effect(value: .year(.onChange)),
-                //Effect(value: .tasks(.onChange)),
+                Effect(value: .life(.onChange)),
                 Effect(value: .union(.onChange)),
                 Effect(value: .yourDay(.onChange))
             )
@@ -49,6 +49,11 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
         action: /AppAction.union,
         environment: \.union
     ),
+    lifeReducer.pullback(
+        state: \.life,
+        action: /AppAction.life,
+        environment: \.life
+    ),
     yourDayProgressReducer.pullback(
         state: \.yourDayState,
         action: /AppAction.yourDay,
@@ -71,17 +76,20 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
     settingReducer.optional().pullback(
         state: \.settingState,
         action: /AppAction.settings,
-        environment: {
-            SettingsEnvironment(
-                date: $0.date,
-                calendar: $0.calendar,
-                userDefaults: $0.userDefaults,
-                mainQueue: $0.mainQueue
-            )
-        }
+        environment: \.settings
     )
 )
 
+extension AppEnvironment {
+    var settings: SettingsEnvironment {
+        SettingsEnvironment(
+            date: self.date,
+            calendar: self.calendar,
+            userDefaults: self.userDefaults,
+            mainQueue: self.mainQueue
+        )
+    }
+}
 
 extension AppEnvironment {
     var tasks: TasksEnvironment {
@@ -92,6 +100,15 @@ extension AppEnvironment {
             managedContext: self.context,
             timeClient: self.timeClient,
             taskClient: self.taskClient
+        )
+    }
+}
+
+extension AppEnvironment {
+    var life: LifeEnvironment {
+        LifeEnvironment(
+            userDefaults: userDefaults,
+            lifeProgress: timeClient.lifeProgress
         )
     }
 }

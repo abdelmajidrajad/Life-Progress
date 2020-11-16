@@ -22,17 +22,14 @@ public struct ProgressCircle: View {
             Circle()
                 .trim(from: .zero, to: CGFloat(progress.doubleValue))
                 .stroke(
-                    LinearGradient(
-                        gradient: Gradient(colors: [color, color.opacity(0.7)]),
-                        startPoint: .top,
-                        endPoint: .bottom
-                       ),
+                    color,
                     style: StrokeStyle(
                     lineWidth: lineWidth,
                     lineCap: .round,
                     lineJoin: .round
-                )).animation(.interactiveSpring())
-                .rotationEffect(Angle(degrees: -90))
+                )
+                ).animation(.interactiveSpring())
+                .rotationEffect(Angle(radians: -.pi * 0.5))
                 .background(
                     Circle()
                         .stroke(color.opacity(0.1), style: StrokeStyle(

@@ -178,7 +178,7 @@ public struct YourDayProgressView: View {
                     
                     HStack(alignment: .lastTextBaseline, spacing: .py_grid(1)) {
                         
-                        label(viewStore.result)
+                        buildText(from: viewStore.result)
                                                         
                         Text(viewStore.statusDescription)
                             .font(Font.preferred(.py_caption1()).italic())

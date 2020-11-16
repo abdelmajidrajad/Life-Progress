@@ -2,19 +2,20 @@ import WidgetKit
 import SwiftUI
 import Intents
 import ComposableArchitecture
+import Combine
 
-struct Provider: IntentTimelineProvider {
+struct LifeProvider: IntentTimelineProvider {
     
-    func placeholder(in context: Context) -> DayEntry {
-        DayEntry(
-            dayState: DayState(timeResult: .zero, style: .circle, percent: 0.2),
+    func placeholder(in context: Context) -> LifeEntry {
+        LifeEntry(
+            lifeState: LifeProgressState(style: .circle, percent: 0.2),
             configuration: ConfigurationIntent()
         )
     }
 
-    func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (DayEntry) -> ()) {
-        let entry = DayEntry(
-            dayState: DayState(),
+    func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (LifeEntry) -> ()) {
+        let entry = LifeEntry(
+            lifeState: LifeProgressState(),
             configuration: configuration
         )
         completion(entry)
@@ -23,33 +24,36 @@ struct Provider: IntentTimelineProvider {
     func getTimeline(
         for configuration: ConfigurationIntent,
         in context: Context,
-        completion: @escaping (Timeline<DayEntry>) -> ()) {
-        let thirtyMinute: TimeInterval = 60 * 5
+        completion: @escaping (Timeline<LifeEntry>) -> ()) {
+        let oneDay: TimeInterval = 60 * 60 * 24
         var currentDate = Date()
         let endDate = Calendar.current.dayEnd(of: currentDate)
-        var entries: [DayEntry] = []
-        let dayState = DayState(
+        var entries: [LifeEntry] = []
+        let lifeState = LifeProgressState(
             style: configuration.style == .bar ? .bar: .circle
         )
 
         while currentDate < endDate {
             
             let store = Store(
-                initialState: dayState,
-                reducer: dayReducer,
-                environment: AppEnvironment.live.day
+                initialState: lifeState,
+                reducer: lifeReducer,
+                environment: AppEnvironment.live.life
             )
+            
+            
+            
             
             let viewStore = ViewStore(store)
             
             viewStore.send(.onChange)
             
-            let entry = DayEntry(
-                dayState: viewStore.state,
+            let entry = LifeEntry(
+                lifeState: viewStore.state,
                 configuration: configuration
             )
             
-            currentDate += thirtyMinute
+            currentDate += oneDay
             
             entries.append(entry)
         }
@@ -61,34 +65,33 @@ struct Provider: IntentTimelineProvider {
         completion(timeline)
     }
 }
-import CoreData
-struct DayEntry: TimelineEntry {
+
+
+struct LifeEntry: TimelineEntry {
     var date: Date {
         Date()
     }
-    let dayState: DayState
+    let lifeState: LifeProgressState
     let configuration: ConfigurationIntent
 }
 
-import TimeClient
-import Combine
 
-struct DayProgressWidgetEntryView : View {
+struct LifeProgressWidgetEntryView : View {
     
     @Environment(\.widgetFamily) var widgetFamily
     
-    let entry: Provider.Entry
+    let entry: LifeProvider.Entry
     
-    init(entry: Provider.Entry) {
+    init(entry: LifeProvider.Entry) {
         self.entry = entry
     }
     
     var body: some View {
         switch widgetFamily {
         case .systemSmall:
-            DayProgressView(
+            LifeProgressView(
                 store: Store(
-                    initialState: entry.dayState,
+                    initialState: entry.lifeState,
                     reducer: .empty,
                     environment: ()
                 )
@@ -99,31 +102,33 @@ struct DayProgressWidgetEntryView : View {
     }
 }
 
-struct DayProgressWidget: Widget {
-                    
-    let kind: String = "TodayProgressWidget"
-                   
+struct LifeProgressWidget: Widget {
+    
+    let kind: String = "LifeProgressWidget"
+    
     var body: some WidgetConfiguration {
         IntentConfiguration(
             kind: kind,
             intent: ConfigurationIntent.self,
-            provider: Provider()) { entry in
-            DayProgressWidgetEntryView(
-                entry: entry
-            )
-        }
-        .configurationDisplayName("Today Progress")
-        .description("Track Today Progress")
+            provider: LifeProvider(), content: LifeProgressWidgetEntryView.init(entry:)
+        )
+        .configurationDisplayName("Your Life Progress")
+        .description("Track Your Life Progress")
         .supportedFamilies([.systemSmall])
     }
 }
 
-struct DayProgressWidget_Previews: PreviewProvider {
+import TimeClient
+struct LifeProgressWidget_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            DayProgressWidgetEntryView(
-                entry: DayEntry(
-                    dayState: DayState(style: .circle, percent: 0.3),
+            LifeProgressWidgetEntryView(
+                entry: LifeEntry(
+                    lifeState: LifeProgressState(
+                        timeResult: TimeResult(year: 19, month: 12),
+                        style: .bar,
+                        percent: 0.3
+                    ),
                     configuration: ConfigurationIntent()
                 )
             )
@@ -131,3 +136,4 @@ struct DayProgressWidget_Previews: PreviewProvider {
         }
     }
 }
+

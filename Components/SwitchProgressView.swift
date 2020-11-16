@@ -167,17 +167,7 @@ public struct SwitchProgressView: View {
                             .font(.preferred(.py_title2()))
                     }
             
-                    Spacer()
-                                                    
-                    HStack(alignment: .lastTextBaseline, spacing: 2) {
-                                            
-                        label(viewStore.result)
-                        
-                        Text("left")
-                            .font(Font.preferred(.py_caption2()).italic())
-                            .foregroundColor(Color.green)
-                    }
-                    .fixedSize()
+                    Spacer(minLength: .zero)                    
                     
                     HStack {
                         HStack(spacing: .py_grid(1)) {
@@ -200,6 +190,19 @@ public struct SwitchProgressView: View {
                                 .font(Font.preferred(.py_caption2()))
                         }
                     }.frame(maxWidth: .infinity, alignment: .trailing)
+                    
+                                                    
+                    HStack(
+                        alignment: .lastTextBaseline,
+                        spacing: 2)
+                    {
+                        buildText(from: viewStore.result)
+                        Text("left")
+                            .font(Font.preferred(.py_caption2()).italic())
+                            .foregroundColor(Color.green)
+                    }
+                    .fixedSize()
+                                        
                     
                 }.padding()
                 .background(

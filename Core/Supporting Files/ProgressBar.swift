@@ -70,8 +70,8 @@ struct ProgressBar_Previews: PreviewProvider {
                 color: .blue,
                 lineWidth: 10.0,
                 labelHidden: false,
-                progress: .constant(0.4)
-            )
+                progress: .constant(0.2)
+            ).frame(width: 100, height: 100)
         }.previewLayout(.sizeThatFits)
     }
 }

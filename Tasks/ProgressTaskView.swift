@@ -396,7 +396,7 @@ extension ProgressTask {
             endDate: Date().addingTimeInterval(3600 * 24 * 10),
             creationDate: Date(),
             color: .endRedColor,
-            style: .bar
+            style: .circle
         )
     }
 }

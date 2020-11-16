@@ -24,6 +24,19 @@
 		0412965D2549B3D0008337A0 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0412965F2549B3D0008337A0 /* Localizable.strings */; };
 		041296662549B60D008337A0 /* LocalizedStringKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041296652549B60D008337A0 /* LocalizedStringKey.swift */; };
 		0412966D2549BD2C008337A0 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0412966C2549BD2C008337A0 /* Colors.swift */; };
+		0425916D25628BDE00087394 /* FullProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0425916C25628BDE00087394 /* FullProgressView.swift */; };
+		04259176256294E700087394 /* PersistantContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04259175256294E700087394 /* PersistantContainer.swift */; };
+		0425917E2562956F00087394 /* PersistantContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04259175256294E700087394 /* PersistantContainer.swift */; };
+		04259188256296D700087394 /* AppEnvironment+Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04259187256296D700087394 /* AppEnvironment+Mocks.swift */; };
+		042591902562970900087394 /* AppEnvironment+Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04259187256296D700087394 /* AppEnvironment+Mocks.swift */; };
+		042591A82562AC5700087394 /* YearProgressWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0425919F2562AB9400087394 /* YearProgressWidget.swift */; };
+		042591B72562AC8500087394 /* YearProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73CCF2543594E0092B918 /* YearProgressView.swift */; };
+		042591CF2562B0FE00087394 /* LifeProgressWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042591BF2562B06E00087394 /* LifeProgressWidget.swift */; };
+		042591D72562B11F00087394 /* LifeProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCD673255B12AF00DCA41C /* LifeProgressView.swift */; };
+		042591F82562B90D00087394 /* TaskClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 042591F72562B90D00087394 /* TaskClientLive */; };
+		042591F92562B90D00087394 /* TaskClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 042591F72562B90D00087394 /* TaskClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		042591FB2562B90D00087394 /* TimeClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 042591FA2562B90D00087394 /* TimeClientLive */; };
+		042591FC2562B90D00087394 /* TimeClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 042591FA2562B90D00087394 /* TimeClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		042D302225553CB000C26A12 /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D302125553CB000C26A12 /* State.swift */; };
 		042D302B25553CCD00C26A12 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D302A25553CCD00C26A12 /* Action.swift */; };
 		042D303425553CFA00C26A12 /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D303325553CFA00C26A12 /* Environment.swift */; };
@@ -57,6 +70,7 @@
 		043ECC3E2556930300FF50EC /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043ECC3D2556930300FF50EC /* NotificationsView.swift */; };
 		043ECC472556B44E00FF50EC /* AppFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043ECC462556B44E00FF50EC /* AppFeaturesView.swift */; };
 		043ECC502556B66200FF50EC /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043ECC4F2556B66200FF50EC /* PageView.swift */; };
+		04422FE62561470F00AB5F03 /* WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04422FDD256146B900AB5F03 /* WidgetBundle.swift */; };
 		0445F0442559A32500880F91 /* TaskClient in Frameworks */ = {isa = PBXBuildFile; productRef = 0445F0432559A32500880F91 /* TaskClient */; };
 		0445F06E2559A38A00880F91 /* TaskClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0445F0432559A32500880F91 /* TaskClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		0445F08C2559A48800880F91 /* TimeClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0496727425500B5E0015205E /* TimeClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -84,12 +98,12 @@
 		04A4430B255FF0F400731A3C /* ProgressWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 04A44306255FF0F300731A3C /* ProgressWidget.intentdefinition */; };
 		04A4430E255FF0F400731A3C /* ProgressWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 04A442FE255FF0F300731A3C /* ProgressWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		04A443DF256006E800731A3C /* DayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFE325442AD7003D2969 /* DayProgressView.swift */; };
-		04A443E92560070E00731A3C /* TaskClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 04A443E82560070E00731A3C /* TaskClientLive */; };
-		04A443EA2560070E00731A3C /* TaskClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 04A443E82560070E00731A3C /* TaskClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		04A443EC2560070E00731A3C /* TimeClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 04A443EB2560070E00731A3C /* TimeClientLive */; };
-		04A443ED2560070E00731A3C /* TimeClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 04A443EB2560070E00731A3C /* TimeClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		04A443F625602CCC00731A3C /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73C86254357E60092B918 /* Core.framework */; };
 		04A443F725602CCC00731A3C /* Core.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73C86254357E60092B918 /* Core.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04A4440F25604A5100731A3C /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D302125553CB000C26A12 /* State.swift */; };
+		04A4441025604A5100731A3C /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D302A25553CCD00C26A12 /* Action.swift */; };
+		04A4441125604A5100731A3C /* Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D303C25553D2400C26A12 /* Reducer.swift */; };
+		04A4441225604A5100731A3C /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D303325553CFA00C26A12 /* Environment.swift */; };
 		04BA22122556EAB9006C49DA /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BA22112556EAB9006C49DA /* ShareSheet.swift */; };
 		04BC0F3F254EE2BA003D89E1 /* TimeClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 04BC0F3E254EE2BA003D89E1 /* TimeClientLive */; };
 		04BC0F53254EE320003D89E1 /* TimeClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 04BC0F3E254EE2BA003D89E1 /* TimeClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -291,9 +305,9 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				04A443ED2560070E00731A3C /* TimeClientLive in Embed Frameworks */,
+				042591F92562B90D00087394 /* TaskClientLive in Embed Frameworks */,
 				04A443F725602CCC00731A3C /* Core.framework in Embed Frameworks */,
-				04A443EA2560070E00731A3C /* TaskClientLive in Embed Frameworks */,
+				042591FC2562B90D00087394 /* TimeClientLive in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -336,6 +350,11 @@
 		041296652549B60D008337A0 /* LocalizedStringKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedStringKey.swift; sourceTree = "<group>"; };
 		0412966C2549BD2C008337A0 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		04215B85254C882900461C9C /* YourDaySettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourDaySettingView.swift; sourceTree = "<group>"; };
+		0425916C25628BDE00087394 /* FullProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FullProgressView.swift; sourceTree = "<group>"; };
+		04259175256294E700087394 /* PersistantContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistantContainer.swift; sourceTree = "<group>"; };
+		04259187256296D700087394 /* AppEnvironment+Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppEnvironment+Mocks.swift"; sourceTree = "<group>"; };
+		0425919F2562AB9400087394 /* YearProgressWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearProgressWidget.swift; sourceTree = "<group>"; };
+		042591BF2562B06E00087394 /* LifeProgressWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeProgressWidget.swift; sourceTree = "<group>"; };
 		042D302125553CB000C26A12 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		042D302A25553CCD00C26A12 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		042D303325553CFA00C26A12 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
@@ -369,6 +388,7 @@
 		043ECC3D2556930300FF50EC /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		043ECC462556B44E00FF50EC /* AppFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFeaturesView.swift; sourceTree = "<group>"; };
 		043ECC4F2556B66200FF50EC /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
+		04422FDD256146B900AB5F03 /* WidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetBundle.swift; sourceTree = "<group>"; };
 		0445F03B2559A10300880F91 /* Life Progress.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Life Progress.entitlements"; sourceTree = "<group>"; };
 		044B71652559545D00E357DB /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
 		0462EFD025442310003D2969 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
@@ -448,8 +468,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04A443EC2560070E00731A3C /* TimeClientLive in Frameworks */,
-				04A443E92560070E00731A3C /* TaskClientLive in Frameworks */,
+				042591FB2562B90D00087394 /* TimeClientLive in Frameworks */,
+				042591F82562B90D00087394 /* TaskClientLive in Frameworks */,
 				04A44302255FF0F300731A3C /* SwiftUI.framework in Frameworks */,
 				04A443F625602CCC00731A3C /* Core.framework in Frameworks */,
 				04A44300255FF0F300731A3C /* WidgetKit.framework in Frameworks */,
@@ -548,9 +568,18 @@
 			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		042591862562968A00087394 /* Mocks */ = {
+			isa = PBXGroup;
+			children = (
+				04259187256296D700087394 /* AppEnvironment+Mocks.swift */,
+			);
+			path = Mocks;
+			sourceTree = "<group>";
+		};
 		042D302025553C9500C26A12 /* Store */ = {
 			isa = PBXGroup;
 			children = (
+				042591862562968A00087394 /* Mocks */,
 				042D302125553CB000C26A12 /* State.swift */,
 				042D302A25553CCD00C26A12 /* Action.swift */,
 				042D303325553CFA00C26A12 /* Environment.swift */,
@@ -622,6 +651,9 @@
 				04A44306255FF0F300731A3C /* ProgressWidget.intentdefinition */,
 				04A44307255FF0F400731A3C /* Assets.xcassets */,
 				04A44309255FF0F400731A3C /* Info.plist */,
+				04422FDD256146B900AB5F03 /* WidgetBundle.swift */,
+				0425919F2562AB9400087394 /* YearProgressWidget.swift */,
+				042591BF2562B06E00087394 /* LifeProgressWidget.swift */,
 			);
 			path = ProgressWidget;
 			sourceTree = "<group>";
@@ -705,6 +737,7 @@
 				04E73C3F2542C2040092B918 /* Info.plist */,
 				04E73C342542C2030092B918 /* Life_Progress.xcdatamodeld */,
 				04E73C392542C2040092B918 /* Preview Content */,
+				04259175256294E700087394 /* PersistantContainer.swift */,
 			);
 			path = "Life Progress";
 			sourceTree = "<group>";
@@ -772,6 +805,7 @@
 				0462EFEA254437B7003D2969 /* SwitchProgressView.swift */,
 				0490045D254DC2EF0014CE7D /* YourDayProgressView.swift */,
 				04DCD673255B12AF00DCA41C /* LifeProgressView.swift */,
+				0425916C25628BDE00087394 /* FullProgressView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -896,8 +930,8 @@
 			);
 			name = ProgressWidgetExtension;
 			packageProductDependencies = (
-				04A443E82560070E00731A3C /* TaskClientLive */,
-				04A443EB2560070E00731A3C /* TimeClientLive */,
+				042591F72562B90D00087394 /* TaskClientLive */,
+				042591FA2562B90D00087394 /* TimeClientLive */,
 			);
 			productName = ProgressWidgetExtension;
 			productReference = 04A442FE255FF0F300731A3C /* ProgressWidgetExtension.appex */;
@@ -1305,7 +1339,18 @@
 			files = (
 				04A443DF256006E800731A3C /* DayProgressView.swift in Sources */,
 				04A44305255FF0F300731A3C /* ProgressWidget.swift in Sources */,
+				04422FE62561470F00AB5F03 /* WidgetBundle.swift in Sources */,
+				04A4441125604A5100731A3C /* Reducer.swift in Sources */,
+				04A4441225604A5100731A3C /* Environment.swift in Sources */,
+				042591D72562B11F00087394 /* LifeProgressView.swift in Sources */,
+				042591902562970900087394 /* AppEnvironment+Mocks.swift in Sources */,
 				04A4430A255FF0F400731A3C /* ProgressWidget.intentdefinition in Sources */,
+				0425917E2562956F00087394 /* PersistantContainer.swift in Sources */,
+				042591A82562AC5700087394 /* YearProgressWidget.swift in Sources */,
+				04A4441025604A5100731A3C /* Action.swift in Sources */,
+				042591B72562AC8500087394 /* YearProgressView.swift in Sources */,
+				042591CF2562B0FE00087394 /* LifeProgressWidget.swift in Sources */,
+				04A4440F25604A5100731A3C /* State.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1337,12 +1382,14 @@
 				042D303425553CFA00C26A12 /* Environment.swift in Sources */,
 				04E73C312542C2030092B918 /* SceneDelegate.swift in Sources */,
 				04E73C362542C2030092B918 /* Life_Progress.xcdatamodeld in Sources */,
+				04259176256294E700087394 /* PersistantContainer.swift in Sources */,
 				04E73C332542C2030092B918 /* ContentView.swift in Sources */,
 				04A4430B255FF0F400731A3C /* ProgressWidget.intentdefinition in Sources */,
 				042D303D25553D2400C26A12 /* Reducer.swift in Sources */,
 				042D302B25553CCD00C26A12 /* Action.swift in Sources */,
 				040DD86C255297FF0089D29C /* ColorValueTransformer.swift in Sources */,
 				042D302225553CB000C26A12 /* State.swift in Sources */,
+				04259188256296D700087394 /* AppEnvironment+Mocks.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1395,6 +1442,7 @@
 				040F19E0255AA967003DAD80 /* Bundle.swift in Sources */,
 				040F19F0255AB32C003DAD80 /* CountryCode.swift in Sources */,
 				04DCD674255B12AF00DCA41C /* LifeProgressView.swift in Sources */,
+				0425916D25628BDE00087394 /* FullProgressView.swift in Sources */,
 				04E73CD02543594E0092B918 /* YearProgressView.swift in Sources */,
 				0462EFE425442AD7003D2969 /* DayProgressView.swift in Sources */,
 				0490045E254DC2EF0014CE7D /* YourDayProgressView.swift in Sources */,
@@ -2312,6 +2360,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		042591F72562B90D00087394 /* TaskClientLive */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TaskClientLive;
+		};
+		042591FA2562B90D00087394 /* TimeClientLive */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = TimeClientLive;
+		};
 		0445F0432559A32500880F91 /* TaskClient */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TaskClient;
@@ -2332,14 +2388,6 @@
 		0496727425500B5E0015205E /* TimeClient */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = TimeClient;
-		};
-		04A443E82560070E00731A3C /* TaskClientLive */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TaskClientLive;
-		};
-		04A443EB2560070E00731A3C /* TimeClientLive */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TimeClientLive;
 		};
 		04BC0F3E254EE2BA003D89E1 /* TimeClientLive */ = {
 			isa = XCSwiftPackageProductDependency;
