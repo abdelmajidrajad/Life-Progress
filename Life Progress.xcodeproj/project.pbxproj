@@ -138,6 +138,8 @@
 		04E73CB32543590F0092B918 /* Components.h in Headers */ = {isa = PBXBuildFile; fileRef = 04E73CA32543590F0092B918 /* Components.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		04E73CD02543594E0092B918 /* YearProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73CCF2543594E0092B918 /* YearProgressView.swift */; };
 		04E73CE125435F370092B918 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73C86254357E60092B918 /* Core.framework */; };
+		04F0AEB32562C46800DED036 /* YourDayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0490045D254DC2EF0014CE7D /* YourDayProgressView.swift */; };
+		04F0AEBB2562C66300DED036 /* MyDayProgressWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0425920C2562BC5C00087394 /* MyDayProgressWidget.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -355,6 +357,7 @@
 		04259187256296D700087394 /* AppEnvironment+Mocks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppEnvironment+Mocks.swift"; sourceTree = "<group>"; };
 		0425919F2562AB9400087394 /* YearProgressWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearProgressWidget.swift; sourceTree = "<group>"; };
 		042591BF2562B06E00087394 /* LifeProgressWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeProgressWidget.swift; sourceTree = "<group>"; };
+		0425920C2562BC5C00087394 /* MyDayProgressWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyDayProgressWidget.swift; sourceTree = "<group>"; };
 		042D302125553CB000C26A12 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		042D302A25553CCD00C26A12 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 		042D303325553CFA00C26A12 /* Environment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Environment.swift; sourceTree = "<group>"; };
@@ -654,6 +657,7 @@
 				04422FDD256146B900AB5F03 /* WidgetBundle.swift */,
 				0425919F2562AB9400087394 /* YearProgressWidget.swift */,
 				042591BF2562B06E00087394 /* LifeProgressWidget.swift */,
+				0425920C2562BC5C00087394 /* MyDayProgressWidget.swift */,
 			);
 			path = ProgressWidget;
 			sourceTree = "<group>";
@@ -1338,8 +1342,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				04A443DF256006E800731A3C /* DayProgressView.swift in Sources */,
+				04F0AEBB2562C66300DED036 /* MyDayProgressWidget.swift in Sources */,
 				04A44305255FF0F300731A3C /* ProgressWidget.swift in Sources */,
 				04422FE62561470F00AB5F03 /* WidgetBundle.swift in Sources */,
+				04F0AEB32562C46800DED036 /* YourDayProgressView.swift in Sources */,
 				04A4441125604A5100731A3C /* Reducer.swift in Sources */,
 				04A4441225604A5100731A3C /* Environment.swift in Sources */,
 				042591D72562B11F00087394 /* LifeProgressView.swift in Sources */,

@@ -68,12 +68,6 @@ extension Calendar {
     }
 }
 
-
-extension Date {
-    
-}
-
-
 public let yourDayProgressReducer =
     Reducer<YourDayProgressState, YourDayProgressAction, YourDayProgressEnvironment> { state, action, environment in
     switch action {
@@ -117,7 +111,7 @@ public let yourDayProgressReducer =
 extension YourDayProgressState {
     var view: YourDayProgressView.ViewState {
         YourDayProgressView.ViewState(
-            today: "Your Day",
+            title: "My Day",
             percentage: NSNumber(value: percent),
             result: timeResult,
             statusDescription: percent < 1.0 ? "remaining": "Your day was ended",
@@ -130,7 +124,7 @@ extension YourDayProgressState {
 public struct YourDayProgressView: View {
     
     struct ViewState: Equatable {
-        let today: String
+        let title: String
         let percentage: NSNumber
         let result: TimeResult
         let statusDescription: String
@@ -152,7 +146,7 @@ public struct YourDayProgressView: View {
                 
                 VStack(alignment: .leading) {
                                         
-                    Text(viewStore.today)
+                    Text(viewStore.title)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                         .font(.preferred(.py_caption2()))
                                                             

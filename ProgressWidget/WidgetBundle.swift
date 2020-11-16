@@ -8,6 +8,7 @@ struct ProgressBundle: WidgetBundle {
     var body: some Widget {
         YearProgressWidget()
         DayProgressWidget()
-        LifeProgressWidget()            
+        LifeProgressWidget()
+        MyDayProgressWidget()
     }
 }
