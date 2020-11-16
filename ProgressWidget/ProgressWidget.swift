@@ -7,14 +7,22 @@ struct Provider: IntentTimelineProvider {
     
     func placeholder(in context: Context) -> DayEntry {
         DayEntry(
-            dayState: DayState(timeResult: .zero, style: .circle, percent: 0.2),
+            dayState: DayState(
+                timeResult: .init(hour: 10, minute: 30),
+                style: .circle,
+                percent: 0.7
+            ),
             configuration: ConfigurationIntent()
         )
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (DayEntry) -> ()) {
         let entry = DayEntry(
-            dayState: DayState(),
+            dayState: DayState(
+                timeResult: .init(hour: 10, minute: 30),
+                style: .circle,
+                percent: 0.7            
+            ),
             configuration: configuration
         )
         completion(entry)

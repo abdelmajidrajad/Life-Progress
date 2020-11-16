@@ -8,14 +8,20 @@ struct LifeProvider: IntentTimelineProvider {
     
     func placeholder(in context: Context) -> LifeEntry {
         LifeEntry(
-            lifeState: LifeProgressState(style: .circle, percent: 0.2),
+            lifeState: LifeProgressState(
+                style: .bar,
+                percent: 0.8
+            ),
             configuration: ConfigurationIntent()
         )
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (LifeEntry) -> ()) {
         let entry = LifeEntry(
-            lifeState: LifeProgressState(),
+            lifeState: LifeProgressState(
+                style: .bar,
+                percent: 0.8
+            ),
             configuration: configuration
         )
         completion(entry)

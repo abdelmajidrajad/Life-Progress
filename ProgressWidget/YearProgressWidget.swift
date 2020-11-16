@@ -8,14 +8,21 @@ struct YearProvider: IntentTimelineProvider {
     
     func placeholder(in context: Context) -> YearEntry {
         YearEntry(
-            yearState: YearState(style: .circle, percent: 0.2),
+            yearState: YearState(
+               
+            ),
             configuration: ConfigurationIntent()
         )
     }
 
     func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (YearEntry) -> ()) {
         let entry = YearEntry(
-            yearState: YearState(),
+            yearState: YearState(
+                year: 2020,
+                result: .init(month: 2, day: 10),
+                style: .bar,
+                percent: 0.8
+            ),
             configuration: configuration
         )
         completion(entry)

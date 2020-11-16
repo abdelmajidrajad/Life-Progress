@@ -255,12 +255,9 @@ public struct CreateTaskView: View {
                     .background(
                         VisualEffectBlur(blurStyle: .light)
                     ).zIndex(2)
-                    
-                
-                
+                                                
                     ScrollView(.vertical) {
-                        
-                                                                       
+                                                            
                         VStack {
                             
                             Rectangle()

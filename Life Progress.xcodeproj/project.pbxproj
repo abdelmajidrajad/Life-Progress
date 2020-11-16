@@ -107,6 +107,8 @@
 		04BA22122556EAB9006C49DA /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BA22112556EAB9006C49DA /* ShareSheet.swift */; };
 		04BC0F3F254EE2BA003D89E1 /* TimeClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 04BC0F3E254EE2BA003D89E1 /* TimeClientLive */; };
 		04BC0F53254EE320003D89E1 /* TimeClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 04BC0F3E254EE2BA003D89E1 /* TimeClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		04C9D1032562EC6D00F924A8 /* SwitchProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFEA254437B7003D2969 /* SwitchProgressView.swift */; };
+		04C9D10C2562EC8A00F924A8 /* YearDayProgressWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C9D10B2562EC8A00F924A8 /* YearDayProgressWidget.swift */; };
 		04D7BAA62545825B003A9774 /* AttributedString+Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D7BAA52545825B003A9774 /* AttributedString+Value.swift */; };
 		04D7BAAC25458329003A9774 /* PLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFD725442A8C003D2969 /* PLabel.swift */; };
 		04D7BAC0254587B7003A9774 /* Tasks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; };
@@ -411,6 +413,7 @@
 		04A44309255FF0F400731A3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04A4430F255FF0F400731A3C /* ProgressWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ProgressWidgetExtension.entitlements; sourceTree = "<group>"; };
 		04BA22112556EAB9006C49DA /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
+		04C9D10B2562EC8A00F924A8 /* YearDayProgressWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearDayProgressWidget.swift; sourceTree = "<group>"; };
 		04D7BAA52545825B003A9774 /* AttributedString+Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AttributedString+Value.swift"; sourceTree = "<group>"; };
 		04D7BAB7254587B7003A9774 /* Tasks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Tasks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		04D7BAB9254587B7003A9774 /* Tasks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tasks.h; sourceTree = "<group>"; };
@@ -658,6 +661,7 @@
 				0425919F2562AB9400087394 /* YearProgressWidget.swift */,
 				042591BF2562B06E00087394 /* LifeProgressWidget.swift */,
 				0425920C2562BC5C00087394 /* MyDayProgressWidget.swift */,
+				04C9D10B2562EC8A00F924A8 /* YearDayProgressWidget.swift */,
 			);
 			path = ProgressWidget;
 			sourceTree = "<group>";
@@ -1343,12 +1347,14 @@
 			files = (
 				04A443DF256006E800731A3C /* DayProgressView.swift in Sources */,
 				04F0AEBB2562C66300DED036 /* MyDayProgressWidget.swift in Sources */,
+				04C9D10C2562EC8A00F924A8 /* YearDayProgressWidget.swift in Sources */,
 				04A44305255FF0F300731A3C /* ProgressWidget.swift in Sources */,
 				04422FE62561470F00AB5F03 /* WidgetBundle.swift in Sources */,
 				04F0AEB32562C46800DED036 /* YourDayProgressView.swift in Sources */,
 				04A4441125604A5100731A3C /* Reducer.swift in Sources */,
 				04A4441225604A5100731A3C /* Environment.swift in Sources */,
 				042591D72562B11F00087394 /* LifeProgressView.swift in Sources */,
+				04C9D1032562EC6D00F924A8 /* SwitchProgressView.swift in Sources */,
 				042591902562970900087394 /* AppEnvironment+Mocks.swift in Sources */,
 				04A4430A255FF0F400731A3C /* ProgressWidget.intentdefinition in Sources */,
 				0425917E2562956F00087394 /* PersistantContainer.swift in Sources */,

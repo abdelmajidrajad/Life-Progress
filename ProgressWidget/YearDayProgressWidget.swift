@@ -4,25 +4,31 @@ import Intents
 import ComposableArchitecture
 import Combine
 
-struct MyDayProvider: IntentTimelineProvider {
+struct YearDayProvider: IntentTimelineProvider {
     
-    func placeholder(in context: Context) -> MyDayEntry {
-        MyDayEntry(
-            state: YourDayProgressState(
-                timeResult: .init(hour: 08, minute: 50),
+    func placeholder(in context: Context) -> YearDayEntry {
+        YearDayEntry(
+            state: SwitchState(
+                timeResult: .init(day: 45, hour: 10, minute: 20),
+                dayResult: .zero,
                 style: .bar,
-                percent: 0.8
+                yearPercent: 0.7,
+                todayPercent: 0.7,
+                year: 2020
             ),
             configuration: ConfigurationIntent()
         )
     }
 
-    func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (MyDayEntry) -> ()) {
-        let entry = MyDayEntry(
-            state: YourDayProgressState(
-                timeResult: .init(hour: 08, minute: 50),
+    func getSnapshot(for configuration: ConfigurationIntent, in context: Context, completion: @escaping (YearDayEntry) -> ()) {
+        let entry = YearDayEntry(
+            state: SwitchState(
+                timeResult: .init(day: 45, hour: 10, minute: 20),
+                dayResult: .zero,
                 style: .bar,
-                percent: 0.8
+                yearPercent: 0.7,
+                todayPercent: 0.7,
+                year: 2020
             ),
             configuration: configuration
         )
@@ -32,30 +38,30 @@ struct MyDayProvider: IntentTimelineProvider {
     func getTimeline(
         for configuration: ConfigurationIntent,
         in context: Context,
-        completion: @escaping (Timeline<MyDayEntry>) -> ()) {
+        completion: @escaping (Timeline<YearDayEntry>) -> ()) {
         let halfHour: TimeInterval = 60 * 30
         var currentDate = Date()
         let endDate = Calendar.current.dayEnd(of: currentDate)
-        var entries: [MyDayEntry] = []
-        let myDayState = YourDayProgressState(
+        var entries: [YearDayEntry] = []
+        let YearDayState = SwitchState(
             style: configuration.style == .bar ? .bar: .circle
         )
 
         while currentDate < endDate {
             
             let store = Store(
-                initialState: myDayState,
-                reducer: yourDayProgressReducer,
+                initialState: YearDayState,
+                reducer: switchReducer,
                 environment: AppEnvironment
                     .live//(future: currentDate)
-                    .yourDay
+                    .union
             )
             
             let viewStore = ViewStore(store)
             
             viewStore.send(.onChange)
             
-            let entry = MyDayEntry(
+            let entry = YearDayEntry(
                 state: viewStore.state,
                 configuration: configuration
             )
@@ -74,29 +80,29 @@ struct MyDayProvider: IntentTimelineProvider {
 }
 
 
-struct MyDayEntry: TimelineEntry {
+struct YearDayEntry: TimelineEntry {
     var date: Date {
         Date()
     }
-    let state: YourDayProgressState
+    let state: SwitchState
     let configuration: ConfigurationIntent
 }
 
 
-struct MyDayProgressWidgetEntryView : View {
+struct YearDayProgressWidgetEntryView : View {
     
     @Environment(\.widgetFamily) var widgetFamily
     
-    let entry: MyDayProvider.Entry
+    let entry: YearDayProvider.Entry
     
-    init(entry: MyDayProvider.Entry) {
+    init(entry: YearDayProvider.Entry) {
         self.entry = entry
     }
     
     var body: some View {
         switch widgetFamily {
         case .systemSmall:
-            YourDayProgressView(
+            SwitchProgressView(
                 store: Store(
                     initialState: entry.state,
                     reducer: .empty,
@@ -109,33 +115,35 @@ struct MyDayProgressWidgetEntryView : View {
     }
 }
 
-struct MyDayProgressWidget: Widget {
+struct YearDayProgressWidget: Widget {
     
-    let kind: String = "MyDayProgressWidget"
+    let kind: String = "YearDayProgressWidget"
     
     var body: some WidgetConfiguration {
         IntentConfiguration(
             kind: kind,
             intent: ConfigurationIntent.self,
-            provider: MyDayProvider(),
-            content: MyDayProgressWidgetEntryView.init(entry:)
-        ).configurationDisplayName("My Day Progress")
-         .description("Track Your Day Progress")
+            provider: YearDayProvider(),
+            content: YearDayProgressWidgetEntryView.init(entry:)
+        ).configurationDisplayName("Year & Today Progress")
+         .description("Track Today and This Year Progress")
          .supportedFamilies([.systemSmall])
     }
 }
 
 import TimeClient
-struct MyDayProgressWidget_Previews: PreviewProvider {
+struct YearDayProgressWidget_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            MyDayProgressWidgetEntryView(
-                entry: MyDayEntry(
-                    state: YourDayProgressState(),
+            YearDayProgressWidgetEntryView(
+                entry: YearDayEntry(
+                    state: SwitchState(
+                    ),
                     configuration: ConfigurationIntent()
                 )
             )
             .previewContext(WidgetPreviewContext(family: .systemSmall))
+            
         }
     }
 }

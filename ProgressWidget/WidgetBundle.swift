@@ -10,5 +10,6 @@ struct ProgressBundle: WidgetBundle {
         ToDayProgressWidget()
         LifeProgressWidget()
         MyDayProgressWidget()
+        YearDayProgressWidget()
     }
 }
