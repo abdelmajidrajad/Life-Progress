@@ -63,7 +63,8 @@ extension LifeProgressState {
                 : 1.0
             ,
             status: percent <= 1
-                ? "remaining"
+                ? percent == 1 ?
+            "configure on settings": "remaining"
                 : "never too late",
             result: timeResult,
             isCircle: style == .circle

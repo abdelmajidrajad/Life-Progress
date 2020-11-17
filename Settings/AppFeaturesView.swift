@@ -62,21 +62,24 @@ public struct AppFeaturesView: View {
                         Button(action: {
                             viewStore.send(.buyButtonTapped)
                         }, label: {
-                            Text("Full 2.99$")
+                            Text("2.99$")
                                 .font(Font.preferred(.py_title3()).bold())
-                                .foregroundColor(Color(.label))
+                                .foregroundColor(Color.white)
                                 .padding(.py_grid(3))
-                                .padding(.horizontal, .py_grid(10))
+                                .padding(.horizontal, .py_grid(3))
                                 .background(
                                     Capsule()
-                                        .fill(Color(.systemBackground))
+                                        .fill(Color.blue)
                                 )
                         }).frame(
                             maxWidth: .infinity,
                             maxHeight: .py_grid(20)
-                        ).padding(.bottom)
+                        )
                          .background(
                             VisualEffectBlur()
+                                .edgesIgnoringSafeArea(.bottom)
+                                .cornerRadius(.py_grid(4),
+                                              corners: [.topLeft, .topRight])
                         )                                                
                     }
                     
