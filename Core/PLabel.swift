@@ -21,3 +21,5 @@ let plabelStyle: (UILabel) -> Void = {
     $0.textAlignment = .left
     $0.adjustsFontSizeToFitWidth = true
 }
+
+

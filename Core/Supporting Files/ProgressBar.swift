@@ -30,10 +30,12 @@ public struct ProgressBar: View {
                                 gradient: Gradient(
                                     colors: [
                                         color.opacity(0.1),
-                                        color]
+                                        color
+                                    ]
                                 ),
                                 startPoint: .leading,
-                                endPoint: .trailing)
+                                endPoint: .trailing
+                            )
                         ).frame(
                             width: proxy.size.width * CGFloat(progress.doubleValue)
                         ).animation(.interactiveSpring())

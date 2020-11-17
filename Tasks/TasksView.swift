@@ -100,8 +100,7 @@ public let tasksReducer =
                     tasks.map(TaskState.init(task:))
                 )
                 return .none
-            case let .response(.failure(error)):
-//                state.actionSheet = ActionSheetState(
+            case let .response(.failure(error)):                
                 return .none
             case let .response(.success(.deleted(id: taskId))):
                 state.tasks.remove(id: taskId)

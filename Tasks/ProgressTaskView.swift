@@ -5,6 +5,25 @@ import Combine
 import TaskClient
 
 
+func buildText(from result: TimeResult) -> some View {
+    return  result.component
+        .filter { $0 != .empty }
+        .map(label(from:))
+        .reduce(Text(""), +)
+}
+
+func label
+    (from component: TimeResult.Component)
+-> Text {
+    return Text(String(component.value))
+            .font(.preferred(.py_headline()))
+            .foregroundColor(Color(.label))
+        + Text(component.string(true))
+            .font(.preferred(UIFont.py_caption2().lowerCaseSmallCaps))
+            .foregroundColor(Color(.secondaryLabel))
+}
+
+
 @dynamicMemberLookup
 public struct TaskState: Equatable, Identifiable {
     
@@ -88,7 +107,8 @@ public let taskReducer =
                 environment.date() >= state.task.endDate
                 ? .completed
                 : environment.date() < state.task.startDate
-                ? .pending: .active
+                ? .pending
+                : .active
                 
             return environment.taskProgress(
                 ProgressTaskRequest(
@@ -157,14 +177,16 @@ extension TaskState {
     var view: ProgressTaskView.ViewState {
         .init(
             title: task.title,
-            remaining: result.string(
-                taskCellStyle, style: .long),
+            result: result,
+                //.string(
+                //taskCellStyle, style: .long),
             progress: NSNumber(value: progress),            
             color: Color(task.color),
             isCircle: task.style == .circle,
             status: status,
             startDate: pendingDateFormatter.string(from: task.startDate),
-            endDate: pendingDateFormatter.string(from: task.endDate)
+            endDate: pendingDateFormatter.string(from: task.endDate),
+            isActive: status == .active
         )
     }
 }
@@ -180,13 +202,14 @@ struct ProgressTaskView: View {
     
     struct ViewState: Equatable {
         let title: String
-        let remaining: NSAttributedString
+        let result: TimeResult//NSAttributedString
         let progress: NSNumber
         let color: Color
         let isCircle: Bool
         let status: TaskState.Status
         let startDate: String
         let endDate: String
+        let isActive: Bool
     }
     
     let store: Store<TaskState, TaskAction>
@@ -202,12 +225,14 @@ struct ProgressTaskView: View {
                 if viewStore.isCircle {
                     HStack {
                         
-                        ProgressCircle(
-                            color: viewStore.color,
-                            lineWidth: .py_grid(1),
-                            labelHidden: false,
-                            progress: .constant(viewStore.progress)
-                        ).frame(width: .py_grid(18))
+                        if viewStore.isActive {
+                            ProgressCircle(
+                                color: viewStore.color,
+                                lineWidth: .py_grid(2),
+                                labelHidden: false,
+                                progress: .constant(viewStore.progress)
+                            ).frame(width: .py_grid(18))
+                        }
                         
                         VStack(alignment: .leading, spacing: .py_grid(2)) {
                             Text(viewStore.title)
@@ -220,8 +245,10 @@ struct ProgressTaskView: View {
                             
                             switch viewStore.status {
                             case .active:
-                                PLabel(attributedText: .constant(viewStore.remaining))
-                                    .fixedSize()
+//                                PLabel(attributedText: .constant(viewStore.remaining))
+//                                    .fixedSize()
+                                buildText(from: viewStore.result)                            
+                            
                             case .completed:
                                 HStack {
                                     Text(viewStore.endDate)
@@ -246,22 +273,27 @@ struct ProgressTaskView: View {
                     VStack(alignment: .leading, spacing: .py_grid(2)) {
                         
                         VStack(alignment: .leading, spacing: .py_grid(2)) {
+                            
                             Text(viewStore.title)
-                                .font(.preferred(.py_body()))
+                                .font(.preferred(.py_headline()))
                                 .frame(
                                     maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,
                                     alignment: .leading
                                 ).padding(.trailing, .py_grid(5))
-                                .lineLimit(2)
+                                 .lineLimit(2)
                             
                             switch viewStore.status {
                             case .active:
-                                PLabel(attributedText: .constant(viewStore.remaining))
-                                    .fixedSize()
+//                                PLabel(attributedText: .constant(viewStore.remaining))
+//                                    .fixedSize()
+                            
+                                buildText(from: viewStore.result)
+                            
                             case .completed:
                                 HStack {
                                     Image(systemName: "checkmark.circle.fill")
                                         .foregroundColor(Color(.systemGreen))
+                                        
                                     Text(viewStore.endDate)
                                         .font(.preferred(.py_footnote()))
                                 }
@@ -275,12 +307,14 @@ struct ProgressTaskView: View {
                             
                         }
                         
-                        ProgressBar(
-                            color: viewStore.color,
-                            lineWidth: .py_grid(1),
-                            labelHidden: true,
-                            progress: .constant(viewStore.progress)
-                        )
+                        if viewStore.isActive {
+                            ProgressBar(
+                                color: viewStore.color,
+                                lineWidth: .py_grid(1),
+                                labelHidden: true,
+                                progress: .constant(viewStore.progress)
+                            )
+                        }
                         
                     }
                 }
@@ -295,11 +329,11 @@ struct ProgressTaskView: View {
                     Button(action: {
                         viewStore.send(.ellipseButtonTapped)
                     },
-                           label: {
-                            Image(systemName: "ellipsis")
-                                .font(.headline)
-                                .accentColor(.gray)
-                           }
+                    label: {
+                        Image(systemName: "ellipsis")
+                            .font(.headline)
+                            .accentColor(.gray)
+                    }
                     ).padding()
                 }
             ).padding(.horizontal)
@@ -354,7 +388,7 @@ struct ProgressTaskView_Previews: PreviewProvider {
                             taskProgress: { _ in
                                 Just(
                                     TimeResponse(
-                                        progress: 0.4,
+                                        progress: 0.47,
                                         result: TimeResult(
                                             day: 7,
                                             hour: 12,

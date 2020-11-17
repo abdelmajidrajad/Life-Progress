@@ -38,10 +38,11 @@ public struct ProgressCircle: View {
                             lineJoin: .round
                         ))
                         .rotationEffect(Angle(degrees: -90))
+                        .colorMultiply(color)
                 )
                 .aspectRatio(contentMode: .fit)
-                .padding(4.0)
-            
+                .padding(.py_grid(1))
+                                            
             if !labelHidden {
                 Text(percentFormatter().string(from: progress) ?? "\(progress)")
                     .font(.preferred(.py_footnote()))

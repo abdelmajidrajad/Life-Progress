@@ -109,6 +109,7 @@
 		04BC0F53254EE320003D89E1 /* TimeClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 04BC0F3E254EE2BA003D89E1 /* TimeClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		04C9D1032562EC6D00F924A8 /* SwitchProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFEA254437B7003D2969 /* SwitchProgressView.swift */; };
 		04C9D10C2562EC8A00F924A8 /* YearDayProgressWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C9D10B2562EC8A00F924A8 /* YearDayProgressWidget.swift */; };
+		04C9D1472562F59500F924A8 /* NewColor+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C9D1462562F59500F924A8 /* NewColor+Color.swift */; };
 		04D7BAA62545825B003A9774 /* AttributedString+Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D7BAA52545825B003A9774 /* AttributedString+Value.swift */; };
 		04D7BAAC25458329003A9774 /* PLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFD725442A8C003D2969 /* PLabel.swift */; };
 		04D7BAC0254587B7003A9774 /* Tasks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; };
@@ -414,6 +415,7 @@
 		04A4430F255FF0F400731A3C /* ProgressWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ProgressWidgetExtension.entitlements; sourceTree = "<group>"; };
 		04BA22112556EAB9006C49DA /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		04C9D10B2562EC8A00F924A8 /* YearDayProgressWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearDayProgressWidget.swift; sourceTree = "<group>"; };
+		04C9D1462562F59500F924A8 /* NewColor+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewColor+Color.swift"; sourceTree = "<group>"; };
 		04D7BAA52545825B003A9774 /* AttributedString+Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AttributedString+Value.swift"; sourceTree = "<group>"; };
 		04D7BAB7254587B7003A9774 /* Tasks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Tasks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		04D7BAB9254587B7003A9774 /* Tasks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tasks.h; sourceTree = "<group>"; };
@@ -653,6 +655,7 @@
 		04A44303255FF0F300731A3C /* ProgressWidget */ = {
 			isa = PBXGroup;
 			children = (
+				04C9D1452562F58400F924A8 /* Supporting Files */,
 				04A44304255FF0F300731A3C /* ProgressWidget.swift */,
 				04A44306255FF0F300731A3C /* ProgressWidget.intentdefinition */,
 				04A44307255FF0F400731A3C /* Assets.xcassets */,
@@ -664,6 +667,14 @@
 				04C9D10B2562EC8A00F924A8 /* YearDayProgressWidget.swift */,
 			);
 			path = ProgressWidget;
+			sourceTree = "<group>";
+		};
+		04C9D1452562F58400F924A8 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				04C9D1462562F59500F924A8 /* NewColor+Color.swift */,
+			);
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		04D7BAB8254587B7003A9774 /* Tasks */ = {
@@ -1353,6 +1364,7 @@
 				04F0AEB32562C46800DED036 /* YourDayProgressView.swift in Sources */,
 				04A4441125604A5100731A3C /* Reducer.swift in Sources */,
 				04A4441225604A5100731A3C /* Environment.swift in Sources */,
+				04C9D1472562F59500F924A8 /* NewColor+Color.swift in Sources */,
 				042591D72562B11F00087394 /* LifeProgressView.swift in Sources */,
 				04C9D1032562EC6D00F924A8 /* SwitchProgressView.swift in Sources */,
 				042591902562970900087394 /* AppEnvironment+Mocks.swift in Sources */,

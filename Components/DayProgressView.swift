@@ -75,13 +75,12 @@ extension DayState {
     }
 }
 
-func buildText(from result: TimeResult) -> some View {
+public func buildText(from result: TimeResult) -> some View {
     return  result.component
         .filter { $0 != .empty }
         .map(label(from:))
         .reduce(Text(""), +)
 }
-
 
 func label
     (from component: TimeResult.Component)

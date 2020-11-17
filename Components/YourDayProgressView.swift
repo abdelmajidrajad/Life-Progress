@@ -170,7 +170,9 @@ public struct YourDayProgressView: View {
                                                                     
                     Spacer()
                     
-                    HStack(alignment: .lastTextBaseline, spacing: .py_grid(1)) {
+                    HStack(
+                        alignment: .lastTextBaseline,
+                        spacing: .py_grid(1)) {
                         
                         buildText(from: viewStore.result)
                             .layoutPriority(1)

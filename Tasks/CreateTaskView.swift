@@ -253,7 +253,7 @@ public struct CreateTaskView: View {
                             )
                     }.padding()
                     .background(
-                        VisualEffectBlur(blurStyle: .light)
+                        VisualEffectBlur(blurStyle: .extraLight)
                     ).zIndex(2)
                                                 
                     ScrollView(.vertical) {
