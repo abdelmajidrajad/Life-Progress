@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -17,18 +17,25 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="classic" translatesAutoresizingMaskIntoConstraints="NO" id="aEZ-Zn-hqw">
-                                <rect key="frame" x="107" y="348" width="200" height="200"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="progressIcon" translatesAutoresizingMaskIntoConstraints="NO" id="aEZ-Zn-hqw">
+                                <rect key="frame" x="127" y="368" width="160" height="160"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="jtZ-ca-2FZ"/>
-                                    <constraint firstAttribute="width" constant="200" id="uGB-zw-2iU"/>
+                                    <constraint firstAttribute="height" constant="160" id="jtZ-ca-2FZ"/>
+                                    <constraint firstAttribute="width" constant="160" id="uGB-zw-2iU"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Progress Anything" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vLk-wU-isc">
+                                <rect key="frame" x="108" y="552" width="198.5" height="26"/>
+                                <fontDescription key="fontDescription" name="Futura-Bold" family="Futura" pointSize="20"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="vLk-wU-isc" firstAttribute="top" secondItem="aEZ-Zn-hqw" secondAttribute="bottom" constant="24" id="4U2-bu-GbE"/>
                             <constraint firstItem="aEZ-Zn-hqw" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="OQf-0N-0or"/>
+                            <constraint firstItem="vLk-wU-isc" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="nEz-iT-KB4"/>
                             <constraint firstItem="aEZ-Zn-hqw" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="ueH-Kd-0Vf"/>
                         </constraints>
                     </view>
@@ -39,7 +46,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="classic" width="180" height="180"/>
+        <image name="progressIcon" width="1024" height="1024"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -132,7 +132,7 @@ public struct SwitchProgressView: View {
             HStack(spacing: .py_grid(2)) {
                 
                 VStack(alignment: .leading) {
-                                            
+                    
                     HStack(alignment: .top) {
                         ZStack {
                             ProgressCircle(
@@ -151,9 +151,11 @@ public struct SwitchProgressView: View {
                                 labelHidden: true,
                                 progress: .constant(viewStore.todayPercent)
                             ).frame(
-                                width: .py_grid(10),
-                                height: .py_grid(10)
-                            ).shadow(radius: 1.0)
+                                width: .py_grid(9),
+                                height: .py_grid(9)
+                            )
+                            .shadow(radius: 1.0)
+                            
                         }
                         
                         Image(systemName: "hourglass")
@@ -164,7 +166,7 @@ public struct SwitchProgressView: View {
                             .foregroundColor(.pink)
                             .font(.preferred(.py_title2()))
                     }
-            
+                    
                     Spacer(minLength: .zero)                    
                     
                     HStack {
@@ -192,7 +194,7 @@ public struct SwitchProgressView: View {
                         alignment: .trailing
                     )
                     
-                                                    
+                    
                     HStack(
                         alignment: .lastTextBaseline,
                         spacing: 2)
@@ -204,19 +206,17 @@ public struct SwitchProgressView: View {
                     }
                     .fixedSize()
                                         
-                    
                 }.padding()
                 .background(
                     RoundedRectangle(
                         cornerRadius: .py_grid(5),
                         style: .continuous
                     ).stroke(Color.white.opacity(0.1))
-                     .shadow(radius: 1)
+                    .shadow(radius: 1)
                 )
             }.onAppear {
                 viewStore.send(.onChange)
             }
-            
         }
     }
 }

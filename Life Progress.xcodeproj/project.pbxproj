@@ -69,7 +69,6 @@
 		043ECC352556898800FF50EC /* LocalNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043ECC342556898800FF50EC /* LocalNotification.swift */; };
 		043ECC3E2556930300FF50EC /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043ECC3D2556930300FF50EC /* NotificationsView.swift */; };
 		043ECC472556B44E00FF50EC /* AppFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043ECC462556B44E00FF50EC /* AppFeaturesView.swift */; };
-		043ECC502556B66200FF50EC /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043ECC4F2556B66200FF50EC /* PageView.swift */; };
 		04422FE62561470F00AB5F03 /* WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04422FDD256146B900AB5F03 /* WidgetBundle.swift */; };
 		0445F0442559A32500880F91 /* TaskClient in Frameworks */ = {isa = PBXBuildFile; productRef = 0445F0432559A32500880F91 /* TaskClient */; };
 		0445F06E2559A38A00880F91 /* TaskClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0445F0432559A32500880F91 /* TaskClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -83,6 +82,11 @@
 		0462EFE425442AD7003D2969 /* DayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFE325442AD7003D2969 /* DayProgressView.swift */; };
 		0462EFEB254437B7003D2969 /* SwitchProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFEA254437B7003D2969 /* SwitchProgressView.swift */; };
 		0462F01025444433003D2969 /* Operators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462F00F25444433003D2969 /* Operators.swift */; };
+		04660F362565340D0090497B /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D44644256413A10036991F /* ShareView.swift */; };
+		04660F6D2565490E0090497B /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D44644256413A10036991F /* ShareView.swift */; };
+		04660F7E2565560C0090497B /* Sharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04660F7D2565560C0090497B /* Sharing.swift */; };
+		04660F8E25655AEB0090497B /* View+Snap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04660F8D25655AEB0090497B /* View+Snap.swift */; };
+		04660F9625655B150090497B /* View+Snap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04660F8D25655AEB0090497B /* View+Snap.swift */; };
 		0467BFF5254AABAD007FC8A3 /* Validated in Frameworks */ = {isa = PBXBuildFile; productRef = 0467BFF4254AABAD007FC8A3 /* Validated */; };
 		0490044D254D77E60014CE7D /* DashedLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0490044C254D77E50014CE7D /* DashedLine.swift */; };
 		0490045E254DC2EF0014CE7D /* YourDayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0490045D254DC2EF0014CE7D /* YourDayProgressView.swift */; };
@@ -111,6 +115,7 @@
 		04C9D10C2562EC8A00F924A8 /* YearDayProgressWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C9D10B2562EC8A00F924A8 /* YearDayProgressWidget.swift */; };
 		04C9D1472562F59500F924A8 /* NewColor+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C9D1462562F59500F924A8 /* NewColor+Color.swift */; };
 		04D446352563F32F0036991F /* View+Corners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D446342563F32F0036991F /* View+Corners.swift */; };
+		04D4464D256428600036991F /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043ECC4F2556B66200FF50EC /* PageView.swift */; };
 		04D7BAA62545825B003A9774 /* AttributedString+Value.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D7BAA52545825B003A9774 /* AttributedString+Value.swift */; };
 		04D7BAAC25458329003A9774 /* PLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFD725442A8C003D2969 /* PLabel.swift */; };
 		04D7BAC0254587B7003A9774 /* Tasks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; };
@@ -403,6 +408,8 @@
 		0462EFE325442AD7003D2969 /* DayProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayProgressView.swift; sourceTree = "<group>"; };
 		0462EFEA254437B7003D2969 /* SwitchProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchProgressView.swift; sourceTree = "<group>"; };
 		0462F00F25444433003D2969 /* Operators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operators.swift; sourceTree = "<group>"; };
+		04660F7D2565560C0090497B /* Sharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sharing.swift; sourceTree = "<group>"; };
+		04660F8D25655AEB0090497B /* View+Snap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Snap.swift"; sourceTree = "<group>"; };
 		0490044C254D77E50014CE7D /* DashedLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashedLine.swift; sourceTree = "<group>"; };
 		0490045D254DC2EF0014CE7D /* YourDayProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourDayProgressView.swift; sourceTree = "<group>"; };
 		0496727F255036FF0015205E /* KeyValueStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueStorage.swift; sourceTree = "<group>"; };
@@ -418,6 +425,7 @@
 		04C9D10B2562EC8A00F924A8 /* YearDayProgressWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearDayProgressWidget.swift; sourceTree = "<group>"; };
 		04C9D1462562F59500F924A8 /* NewColor+Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NewColor+Color.swift"; sourceTree = "<group>"; };
 		04D446342563F32F0036991F /* View+Corners.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Corners.swift"; sourceTree = "<group>"; };
+		04D44644256413A10036991F /* ShareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareView.swift; sourceTree = "<group>"; };
 		04D7BAA52545825B003A9774 /* AttributedString+Value.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AttributedString+Value.swift"; sourceTree = "<group>"; };
 		04D7BAB7254587B7003A9774 /* Tasks.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Tasks.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		04D7BAB9254587B7003A9774 /* Tasks.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tasks.h; sourceTree = "<group>"; };
@@ -613,7 +621,6 @@
 				0401718C25541C9F00A2613C /* AboutsView.swift */,
 				043ECC3D2556930300FF50EC /* NotificationsView.swift */,
 				043ECC462556B44E00FF50EC /* AppFeaturesView.swift */,
-				043ECC4F2556B66200FF50EC /* PageView.swift */,
 				040CB90F255C30F700FFABB2 /* AppSettingsView.swift */,
 			);
 			path = Settings;
@@ -652,6 +659,15 @@
 				0439138325518D5B00B62018 /* dark_app_icon@3x.png */,
 			);
 			path = "App Icons";
+			sourceTree = "<group>";
+		};
+		04660F462565426D0090497B /* Share */ = {
+			isa = PBXGroup;
+			children = (
+				04D44644256413A10036991F /* ShareView.swift */,
+				04660F7D2565560C0090497B /* Sharing.swift */,
+			);
+			path = Share;
 			sourceTree = "<group>";
 		};
 		04A44303255FF0F300731A3C /* ProgressWidget */ = {
@@ -744,6 +760,7 @@
 		04E73C2D2542C2030092B918 /* Life Progress */ = {
 			isa = PBXGroup;
 			children = (
+				04660F462565426D0090497B /* Share */,
 				0445F03B2559A10300880F91 /* Life Progress.entitlements */,
 				042D302025553C9500C26A12 /* Store */,
 				040DD86A255297E80089D29C /* Supporting Files */,
@@ -792,6 +809,7 @@
 		04E73C87254357E60092B918 /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				043ECC4F2556B66200FF50EC /* PageView.swift */,
 				04E73CD6254359680092B918 /* Supporting Files */,
 				0462EFD725442A8C003D2969 /* PLabel.swift */,
 				04E73C88254357E60092B918 /* Core.h */,
@@ -811,6 +829,7 @@
 				040F19D5255AA7E9003DAD80 /* Parser.swift */,
 				040CB920255C351100FFABB2 /* Date+extensions.swift */,
 				04D446342563F32F0036991F /* View+Corners.swift */,
+				04660F8D25655AEB0090497B /* View+Snap.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1342,7 +1361,6 @@
 				0439135625518A1C00B62018 /* SettingsView.swift in Sources */,
 				0439137325518B9000B62018 /* Bundle.swift in Sources */,
 				043913C92551A3CA00B62018 /* AppIconsView.swift in Sources */,
-				043ECC502556B66200FF50EC /* PageView.swift in Sources */,
 				043ECC3E2556930300FF50EC /* NotificationsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1359,6 +1377,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04660F6D2565490E0090497B /* ShareView.swift in Sources */,
 				04A443DF256006E800731A3C /* DayProgressView.swift in Sources */,
 				04F0AEBB2562C66300DED036 /* MyDayProgressWidget.swift in Sources */,
 				04C9D10C2562EC8A00F924A8 /* YearDayProgressWidget.swift in Sources */,
@@ -1370,6 +1389,7 @@
 				04C9D1472562F59500F924A8 /* NewColor+Color.swift in Sources */,
 				042591D72562B11F00087394 /* LifeProgressView.swift in Sources */,
 				04C9D1032562EC6D00F924A8 /* SwitchProgressView.swift in Sources */,
+				04660F9625655B150090497B /* View+Snap.swift in Sources */,
 				042591902562970900087394 /* AppEnvironment+Mocks.swift in Sources */,
 				04A4430A255FF0F400731A3C /* ProgressWidget.intentdefinition in Sources */,
 				0425917E2562956F00087394 /* PersistantContainer.swift in Sources */,
@@ -1409,11 +1429,13 @@
 				042D303425553CFA00C26A12 /* Environment.swift in Sources */,
 				04E73C312542C2030092B918 /* SceneDelegate.swift in Sources */,
 				04E73C362542C2030092B918 /* Life_Progress.xcdatamodeld in Sources */,
+				04660F7E2565560C0090497B /* Sharing.swift in Sources */,
 				04259176256294E700087394 /* PersistantContainer.swift in Sources */,
 				04E73C332542C2030092B918 /* ContentView.swift in Sources */,
 				04A4430B255FF0F400731A3C /* ProgressWidget.intentdefinition in Sources */,
 				042D303D25553D2400C26A12 /* Reducer.swift in Sources */,
 				042D302B25553CCD00C26A12 /* Action.swift in Sources */,
+				04660F362565340D0090497B /* ShareView.swift in Sources */,
 				040DD86C255297FF0089D29C /* ColorValueTransformer.swift in Sources */,
 				042D302225553CB000C26A12 /* State.swift in Sources */,
 				04259188256296D700087394 /* AppEnvironment+Mocks.swift in Sources */,
@@ -1445,12 +1467,14 @@
 				04967280255036FF0015205E /* KeyValueStorage.swift in Sources */,
 				040CB921255C351100FFABB2 /* Date+extensions.swift in Sources */,
 				0462F01025444433003D2969 /* Operators.swift in Sources */,
+				04D4464D256428600036991F /* PageView.swift in Sources */,
 				041296502549B0C3008337A0 /* Blur.swift in Sources */,
 				043ECC352556898800FF50EC /* LocalNotification.swift in Sources */,
 				042D304F25556E2A00C26A12 /* EdgeInset+Extension.swift in Sources */,
 				040DD89E25529E250089D29C /* Color+UIKit.swift in Sources */,
 				04D7BAAC25458329003A9774 /* PLabel.swift in Sources */,
 				0490044D254D77E60014CE7D /* DashedLine.swift in Sources */,
+				04660F8E25655AEB0090497B /* View+Snap.swift in Sources */,
 				04D7BAA62545825B003A9774 /* AttributedString+Value.swift in Sources */,
 				044B71662559545D00E357DB /* Styles.swift in Sources */,
 				040C241125470098008BA89B /* ProgressCircle.swift in Sources */,

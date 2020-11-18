@@ -29,6 +29,16 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
             return .none
         case .viewDismissed:
             state.settingState = nil
+            state.shareState = nil
+            return .none
+        case .shareButtonTapped:
+            state.shareState = ShareState(
+                yearState: state.yearState,
+                dayState: state.dayState,
+                switchState: state.switchState,
+                yourDayState: state.yourDayState,
+                life: state.life
+            )
             return .none
         default:
             return .none

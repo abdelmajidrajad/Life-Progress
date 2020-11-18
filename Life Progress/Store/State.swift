@@ -13,6 +13,7 @@ struct AppState: Equatable {
     var yourDayState: YourDayProgressState
     var life: LifeProgressState
     var settingState: SettingState?
+    var shareState: ShareState?
     public init(
         yearState: YearState = .init(style: .circle),
         dayState: DayState = .init(style: .circle),
@@ -20,7 +21,8 @@ struct AppState: Equatable {
         tasksState: TasksState = .init(),
         yourDayState: YourDayProgressState = .init(),
         life: LifeProgressState = LifeProgressState(),
-        settingState: SettingState? = nil
+        settingState: SettingState? = nil,
+        shareState: ShareState? = nil
     ) {
         self.settingState = settingState
         self.yearState = yearState
@@ -29,5 +31,6 @@ struct AppState: Equatable {
         self.tasksState = tasksState
         self.yourDayState = yourDayState
         self.life = life
+        self.shareState = shareState
     }
 }

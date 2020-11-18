@@ -66,17 +66,17 @@ struct PageViewController: UIViewControllerRepresentable {
     }
 }
 
-struct PageView<Page: View>: View {
+public struct PageView<Page: View>: View {
     var viewControllers: [UIHostingController<Page>]
     @Binding var currentPage: Int
 
-    init(_ views: Page..., currentPage: Binding<Int>) {
+    public init(_ views: Page..., currentPage: Binding<Int>) {
         self.viewControllers = views
             .map(UIHostingController.init(rootView:))
         self._currentPage = currentPage
     }
     
-    init(_ views: [Page], currentPage: Binding<Int>) {
+    public init(_ views: [Page], currentPage: Binding<Int>) {
         self.viewControllers = views
             .map(UIHostingController.init(rootView:))
         
@@ -87,7 +87,7 @@ struct PageView<Page: View>: View {
         self._currentPage = currentPage
     }
 
-    var body: some View {
+    public var body: some View {
         PageViewController(
             controllers: viewControllers,
             currentPage: $currentPage,
@@ -98,15 +98,20 @@ struct PageView<Page: View>: View {
 }
 
 
-struct PageControl: UIViewRepresentable {
+public struct PageControl: UIViewRepresentable {
     var numberOfPages: Int
     @Binding var currentPage: Int
+    
+    public init(numberOfPages: Int, currentPage: Binding<Int>) {
+        self.numberOfPages = numberOfPages
+        self._currentPage = currentPage        
+    }
 
-    func makeCoordinator() -> Coordinator {
+    public func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
 
-    func makeUIView(context: Context) -> UIPageControl {
+    public func makeUIView(context: Context) -> UIPageControl {
         let control = UIPageControl()
         control.addTarget(context.coordinator, action: #selector(context.coordinator.updateCurrentPage(sender:)), for: .touchUpInside)
         control.numberOfPages = numberOfPages
@@ -121,11 +126,11 @@ struct PageControl: UIViewRepresentable {
         return control
     }
 
-    func updateUIView(_ pageControl: UIPageControl, context: Context) {
+    public func updateUIView(_ pageControl: UIPageControl, context: Context) {
         pageControl.currentPage = currentPage
     }
 
-    class Coordinator: NSObject, UIPageViewControllerDelegate {
+    public class Coordinator: NSObject, UIPageViewControllerDelegate {
         var control: PageControl
 
         init(_ control: PageControl) {

@@ -7,9 +7,11 @@ import Tasks
 import Settings
 
 enum AppAction: Equatable {
+    case run 
     case onStart
     case onUpdate(DispatchQueue.SchedulerTimeType)
     case settingButtonTapped
+    case shareButtonTapped
     case viewDismissed
     case year(YearAction)
     case day(DayAction)
@@ -18,4 +20,5 @@ enum AppAction: Equatable {
     case life(LifeProgressAction)
     case yourDay(YourDayProgressAction)
     case settings(SettingAction)
+    case share(ShareAction)
 }

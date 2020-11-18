@@ -323,44 +323,6 @@ extension TasksEnvironment {
     }
 }
 
-struct CornerButtonStyle: ButtonStyle {
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .font(.headline)
-            .padding()
-            .background(
-                RoundedRectangle(
-                    cornerRadius: .py_grid(4),
-                    style: .continuous
-                ).stroke(Color.white)
-            )
-    }
-}
-
-
-class SelectedCornerButtonStyle: ButtonStyle {
-    let isSelected: Bool
-    
-    init(isSelected: Bool = false) {
-        self.isSelected = isSelected
-    }
-    
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .font(.headline)
-            .padding()
-            .background(
-                RoundedRectangle(
-                    cornerRadius: .py_grid(4),
-                    style: .continuous
-                ).stroke(isSelected
-                            ? Color(.label)
-                            : Color(.systemBackground)
-                )
-            )
-    }
-}
-
 extension AnyTransition {
     static var topAndLeft: AnyTransition {
         AnyTransition.asymmetric(

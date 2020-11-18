@@ -151,8 +151,8 @@ public struct YearProgressView: View {
                             .layoutPriority(1)
                                                     
                         Text(viewStore.statusDescription)
-                            .font(.caption)
-                            .foregroundColor(.gray)
+                            .font(.preferred(.py_caption2()))
+                            .foregroundColor(Color(.secondaryLabel))
                             .italic()
                             .lineLimit(1)
                         
@@ -166,8 +166,9 @@ public struct YearProgressView: View {
                     RoundedRectangle(
                         cornerRadius: .py_grid(4),
                         style: .continuous
-                    ).stroke(Color.white.opacity(0.1))
+                    ).stroke(Color(.secondaryLabel).opacity(0.2))
                     .shadow(radius: 1)
+                    
                 )
             }.onAppear { viewStore.send(.onChange) }
             
