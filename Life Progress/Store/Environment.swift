@@ -15,6 +15,7 @@ struct AppEnvironment {
     let context: NSManagedObjectContext
     let userDefaults: KeyValueStoreType
     let ubiquitousStore: NSUbiquitousKeyValueStore
+    //let shareClient: ShareClient
 }
 
 import Components
@@ -54,6 +55,7 @@ extension AppEnvironment {
     }
 }
 
+
 import TimeClientLive
 import TaskClientLive
 
@@ -69,6 +71,7 @@ extension AppEnvironment {
             context: LPPersistentContainer.context,
             userDefaults: UserDefaults(suiteName: "group.progress.app") ?? .standard,
             ubiquitousStore: .default
+            //shareClient: .live
         )
     }
 }
@@ -85,6 +88,7 @@ extension AppEnvironment {
             context: LPPersistentContainer.context,
             userDefaults: UserDefaults(suiteName: "group.progress.app") ?? .standard,
             ubiquitousStore: .default
+          //  shareClient: .mock
         )
     }
 }

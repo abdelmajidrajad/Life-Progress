@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		0401718D25541C9F00A2613C /* AboutsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0401718C25541C9F00A2613C /* AboutsView.swift */; };
+		040B21CC256592050078F51D /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D303325553CFA00C26A12 /* Environment.swift */; };
+		040B21F1256592AF0078F51D /* RootController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040B21F0256592AF0078F51D /* RootController.swift */; };
 		040C241125470098008BA89B /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C241025470098008BA89B /* ProgressCircle.swift */; };
 		040C241925471DCD008BA89B /* CreateTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C241825471DCD008BA89B /* CreateTaskView.swift */; };
 		040CB907255C2F2600FFABB2 /* LifeSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F19C3255A95F2003DAD80 /* LifeSettingView.swift */; };
@@ -28,7 +30,6 @@
 		04259176256294E700087394 /* PersistantContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04259175256294E700087394 /* PersistantContainer.swift */; };
 		0425917E2562956F00087394 /* PersistantContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04259175256294E700087394 /* PersistantContainer.swift */; };
 		04259188256296D700087394 /* AppEnvironment+Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04259187256296D700087394 /* AppEnvironment+Mocks.swift */; };
-		042591902562970900087394 /* AppEnvironment+Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04259187256296D700087394 /* AppEnvironment+Mocks.swift */; };
 		042591A82562AC5700087394 /* YearProgressWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0425919F2562AB9400087394 /* YearProgressWidget.swift */; };
 		042591B72562AC8500087394 /* YearProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73CCF2543594E0092B918 /* YearProgressView.swift */; };
 		042591CF2562B0FE00087394 /* LifeProgressWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042591BF2562B06E00087394 /* LifeProgressWidget.swift */; };
@@ -107,7 +108,6 @@
 		04A4440F25604A5100731A3C /* State.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D302125553CB000C26A12 /* State.swift */; };
 		04A4441025604A5100731A3C /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D302A25553CCD00C26A12 /* Action.swift */; };
 		04A4441125604A5100731A3C /* Reducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D303C25553D2400C26A12 /* Reducer.swift */; };
-		04A4441225604A5100731A3C /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D303325553CFA00C26A12 /* Environment.swift */; };
 		04BA22122556EAB9006C49DA /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BA22112556EAB9006C49DA /* ShareSheet.swift */; };
 		04BC0F3F254EE2BA003D89E1 /* TimeClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 04BC0F3E254EE2BA003D89E1 /* TimeClientLive */; };
 		04BC0F53254EE320003D89E1 /* TimeClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 04BC0F3E254EE2BA003D89E1 /* TimeClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -343,6 +343,7 @@
 
 /* Begin PBXFileReference section */
 		0401718C25541C9F00A2613C /* AboutsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutsView.swift; sourceTree = "<group>"; };
+		040B21F0256592AF0078F51D /* RootController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootController.swift; sourceTree = "<group>"; };
 		040C241025470098008BA89B /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
 		040C241825471DCD008BA89B /* CreateTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskView.swift; sourceTree = "<group>"; };
 		040CB90F255C30F700FFABB2 /* AppSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsView.swift; sourceTree = "<group>"; };
@@ -666,6 +667,7 @@
 			children = (
 				04D44644256413A10036991F /* ShareView.swift */,
 				04660F7D2565560C0090497B /* Sharing.swift */,
+				040B21F0256592AF0078F51D /* RootController.swift */,
 			);
 			path = Share;
 			sourceTree = "<group>";
@@ -1385,12 +1387,11 @@
 				04422FE62561470F00AB5F03 /* WidgetBundle.swift in Sources */,
 				04F0AEB32562C46800DED036 /* YourDayProgressView.swift in Sources */,
 				04A4441125604A5100731A3C /* Reducer.swift in Sources */,
-				04A4441225604A5100731A3C /* Environment.swift in Sources */,
 				04C9D1472562F59500F924A8 /* NewColor+Color.swift in Sources */,
 				042591D72562B11F00087394 /* LifeProgressView.swift in Sources */,
+				040B21CC256592050078F51D /* Environment.swift in Sources */,
 				04C9D1032562EC6D00F924A8 /* SwitchProgressView.swift in Sources */,
 				04660F9625655B150090497B /* View+Snap.swift in Sources */,
-				042591902562970900087394 /* AppEnvironment+Mocks.swift in Sources */,
 				04A4430A255FF0F400731A3C /* ProgressWidget.intentdefinition in Sources */,
 				0425917E2562956F00087394 /* PersistantContainer.swift in Sources */,
 				042591A82562AC5700087394 /* YearProgressWidget.swift in Sources */,
@@ -1430,6 +1431,7 @@
 				04E73C312542C2030092B918 /* SceneDelegate.swift in Sources */,
 				04E73C362542C2030092B918 /* Life_Progress.xcdatamodeld in Sources */,
 				04660F7E2565560C0090497B /* Sharing.swift in Sources */,
+				040B21F1256592AF0078F51D /* RootController.swift in Sources */,
 				04259176256294E700087394 /* PersistantContainer.swift in Sources */,
 				04E73C332542C2030092B918 /* ContentView.swift in Sources */,
 				04A4430B255FF0F400731A3C /* ProgressWidget.intentdefinition in Sources */,
@@ -1716,6 +1718,7 @@
 		04A44311255FF0F400731A3C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = ProgressWidgetExtension.entitlements;
@@ -1742,6 +1745,7 @@
 		04A44312255FF0F400731A3C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = ProgressWidgetExtension.entitlements;
@@ -1991,6 +1995,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Life Progress/Life Progress.entitlements";
@@ -2019,6 +2024,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Life Progress/Life Progress.entitlements";

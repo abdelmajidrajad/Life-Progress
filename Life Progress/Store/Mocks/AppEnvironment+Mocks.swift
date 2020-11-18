@@ -80,6 +80,7 @@ extension AppEnvironment {
             context: .init(concurrencyType: .privateQueueConcurrencyType),
             userDefaults: UserDefaults(),
             ubiquitousStore: .init()
+            //shareClient: .mock
         )
     }
 }

@@ -36,7 +36,6 @@ public struct ShareState: Equatable {
     }
 }
 
-
 extension ShareState {
     var views: [AnyView] {
         [
@@ -62,7 +61,11 @@ public enum ShareAction: Equatable {
     case moreButtonTapped
 }
 
-public struct ShareEnvironment {}
+import Combine
+struct ShareClient {
+    let share: ([Any]) -> AnyPublisher<Never, Never>
+    let snapShot: (AnyView) -> AnyPublisher<UIImage, Never>
+}
 
 extension Store {
     convenience init(initialState: State) {
