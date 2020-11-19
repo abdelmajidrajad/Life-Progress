@@ -2,7 +2,7 @@ import SwiftUI
 import Core
 
 public struct FullProgressView: View {
-    public init() { }
+    public init() { }
     public var body: some View {
         ZStack {
             ZStack(alignment: .topLeading) {

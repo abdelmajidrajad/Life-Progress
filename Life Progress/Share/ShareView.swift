@@ -19,13 +19,15 @@ public struct ShareState: Equatable {
     let switchState: SwitchState
     let yourDayState: YourDayProgressState
     let life: LifeProgressState
+    let numberOfStates: Int
     public init(
         yearState: YearState = YearState(),
         dayState: DayState = DayState(),
         switchState: SwitchState = SwitchState(),
         yourDayState: YourDayProgressState = YourDayProgressState(),
         life: LifeProgressState = LifeProgressState(),
-        currentIndex: Int = .zero
+        currentIndex: Int = .zero,
+        numberOfStates: Int = 5
     ) {
         self.yearState = yearState
         self.dayState = dayState
@@ -33,6 +35,7 @@ public struct ShareState: Equatable {
         self.yourDayState = yourDayState
         self.life = life
         self.currentIndex = currentIndex
+        self.numberOfStates = numberOfStates
     }
 }
 
@@ -59,6 +62,8 @@ public enum ShareAction: Equatable {
     case activityButtonTapped(activity: ActivityType)
     case didScroll(to: Int)
     case moreButtonTapped
+    case nextButtonTapped
+    case previousButtonTapped
 }
 
 import Combine
@@ -85,12 +90,42 @@ enum ShareProgressData: String, CaseIterable {
     case switchprogress = "Year-Day Progress"
 }
 
+extension ShareState {
+    var view: ShareView.ViewState {
+        ShareView.ViewState(
+            viewControllers:
+                [
+                    YearProgressView(store: Store(initialState: yearState)).anyView(),
+                    DayProgressView(store: Store(initialState: dayState)).anyView(),
+                    YourDayProgressView(store: Store(initialState: yourDayState)).anyView(),
+                    LifeProgressView(store: Store(initialState: life)).anyView(),
+                    SwitchProgressView(store: Store(initialState: switchState)).anyView()
+
+                ]
+                .map { $0.frame(
+                    width: .py_grid(50),
+                    height: .py_grid(50)
+                )}
+                .map { UIHostingController(rootView: $0) },
+            count: 5,
+            currentIndex: currentIndex
+        )
+    }
+}
+
 
 public struct ShareView: View {
     
     let store: Store<ShareState, ShareAction>
     @Environment(\.presentationMode) var presentationMode
-            
+       
+    
+    struct ViewState: Equatable {
+        var viewControllers: [UIViewController]
+        var count: Int
+        var currentIndex: Int
+    }
+    
     init(store: Store<ShareState, ShareAction>) {
         self.store = store
     }
@@ -122,25 +157,32 @@ public struct ShareView: View {
                 )
                 
                 VStack {
-                                                                             
+                                                            
                     PageView(viewStore.views
                                 .map { $0.frame(
                                     width: .py_grid(50),
                                     height: .py_grid(50)
-                                ) },
-                             currentPage: viewStore.binding(
-                                get: \.currentIndex,
-                                send: ShareAction.didScroll(to:)
-                            ))
-                                    
-                    PageControl(
-                        numberOfPages: viewStore.views.count,
-                        currentPage: viewStore.binding(
-                            get: \.currentIndex,
-                            send: ShareAction.didScroll(to:)
-                        )
+                                ) }, currentPage: viewStore.binding(
+                                    get: \.currentIndex,
+                                    send: ShareAction.didScroll(to:)
+                                )
                     )
                     
+                    
+                    HStack(spacing: .py_grid(10)) {
+                        Button(action: {
+                            viewStore.send(.previousButtonTapped)
+                        }, label: {
+                            Image(systemName: "arrow.left")
+                        }).buttonStyle(RoundedButtonStyle())
+                        
+                        Button(action: {
+                            viewStore.send(.nextButtonTapped)
+                        }, label: {
+                            Image(systemName: "arrow.right")
+                        }).buttonStyle(RoundedButtonStyle())
+                    }
+                                                                            
                     ApplicationView()
                     
                 }.background(
@@ -155,26 +197,26 @@ public struct ShareView: View {
                             
                 VStack(spacing: .py_grid(4)) {
                     
-                    Text("Share Using".uppercased())
+                    Text("Share".uppercased())
                         .font(.preferred(.py_headline()))
                         .foregroundColor(Color(.secondaryLabel))
                     
                     HStack {
-                        ForEach(ActivityType.allCases) { activity in
-                            Button(action: {
-                                viewStore.send(.activityButtonTapped(activity: activity))
-                            }, label: {
-                                Image(activity.rawValue)
-                                    .resizable()
-                            }).buttonStyle(ShareButtonStyle())
-                        }
+//                        ForEach(ActivityType.allCases) { activity in
+//                            Button(action: {
+//                                viewStore.send(.activityButtonTapped(activity: activity))
+//                            }, label: {
+//                                Image(activity.rawValue)
+//                                    .resizable()
+//                            }).buttonStyle(ShareButtonStyle())
+//                        }
                         
                         Button(action: {
                             viewStore.send(.moreButtonTapped)
                         }, label: {
-                            Image(systemName: "ellipsis")
+                            Image(systemName: "arrowshape.turn.up.right.fill")
                                 .font(.title)
-                                .padding(.vertical, .py_grid(2))
+                                
                         }).buttonStyle(ShareButtonStyle())
                     }
                     
@@ -192,12 +234,13 @@ struct ShareButtonStyle: ButtonStyle {
         configuration.label
             .aspectRatio(contentMode: .fit)
             .padding()
+            .frame(width: .py_grid(30), height: .py_grid(15))
             .background(
                 RoundedRectangle(
                     cornerRadius: .py_grid(4),
                     style: .continuous
                 ).fill(Color(.secondarySystemBackground))
-            ).frame(width: .py_grid(15), height: .py_grid(15))
+            )
     }
 }
 

@@ -53,12 +53,7 @@ public struct AppFeaturesView: View {
                     )
                     
                     VStack {
-
-                        PageControl(
-                            numberOfPages: viewStore.features.count,
-                            currentPage: $currentPage
-                        ).zIndex(1)
-                        
+                                               
                         Button(action: {
                             viewStore.send(.buyButtonTapped)
                         }, label: {

@@ -103,6 +103,20 @@ Reducer<ShareState, ShareAction, ShareEnvironment> { state, action, environment 
             .receive(on: DispatchQueue.main.eraseToAnyScheduler())
             .eraseToEffect()
             .fireAndForget()
+    case .nextButtonTapped:
+        if state.currentIndex + 1 >= state.numberOfStates {
+            state.currentIndex = 0
+        } else {
+            state.currentIndex += 1
+        }
+        return .none
+    case .previousButtonTapped:
+        if state.currentIndex == .zero  {
+            state.currentIndex = state.numberOfStates - 1
+        } else {
+            state.currentIndex -= 1
+        }
+        return .none
     }
 }
 
