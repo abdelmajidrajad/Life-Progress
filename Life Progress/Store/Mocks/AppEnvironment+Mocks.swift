@@ -14,7 +14,8 @@ extension AppEnvironment {
             taskClient: .empty,
             context: .init(concurrencyType: .privateQueueConcurrencyType),
             userDefaults: UserDefaults(),
-            ubiquitousStore: .init()
+            ubiquitousStore: .init(),
+            shareClient: .mock
         )
     }
 }
@@ -79,8 +80,10 @@ extension AppEnvironment {
                 }),
             context: .init(concurrencyType: .privateQueueConcurrencyType),
             userDefaults: UserDefaults(),
-            ubiquitousStore: .init()
-            //shareClient: .mock
+            ubiquitousStore: .init(),
+            shareClient: .mock
         )
     }
 }
+
+

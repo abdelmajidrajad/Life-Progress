@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		0401718D25541C9F00A2613C /* AboutsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0401718C25541C9F00A2613C /* AboutsView.swift */; };
 		040B21CC256592050078F51D /* Environment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 042D303325553CFA00C26A12 /* Environment.swift */; };
-		040B21F1256592AF0078F51D /* RootController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040B21F0256592AF0078F51D /* RootController.swift */; };
 		040C241125470098008BA89B /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C241025470098008BA89B /* ProgressCircle.swift */; };
 		040C241925471DCD008BA89B /* CreateTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C241825471DCD008BA89B /* CreateTaskView.swift */; };
 		040CB907255C2F2600FFABB2 /* LifeSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F19C3255A95F2003DAD80 /* LifeSettingView.swift */; };
@@ -50,7 +49,6 @@
 		0439134425518A1200B62018 /* Settings.h in Headers */ = {isa = PBXBuildFile; fileRef = 0439133425518A1200B62018 /* Settings.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0439134725518A1200B62018 /* Settings.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0439133225518A1200B62018 /* Settings.framework */; };
 		0439134825518A1200B62018 /* Settings.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0439133225518A1200B62018 /* Settings.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		0439135625518A1C00B62018 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043CE055255155FD0018CDF8 /* SettingsView.swift */; };
 		0439136025518A4D00B62018 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73C86254357E60092B918 /* Core.framework */; };
 		0439136925518AF200B62018 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0439136825518AF200B62018 /* Assets.xcassets */; };
 		0439137325518B9000B62018 /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0439137225518B9000B62018 /* Bundle.swift */; };
@@ -86,6 +84,10 @@
 		0463DFC92566597A00A331AF /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0463DFC62566597900A331AF /* PageViewController.swift */; };
 		0463DFCA2566597A00A331AF /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0463DFC72566597900A331AF /* PageControl.swift */; };
 		0463DFCB2566597A00A331AF /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0463DFC82566597A00A331AF /* PageView.swift */; };
+		0463DFD42566712100A331AF /* Store+Initilizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0463DFD32566712100A331AF /* Store+Initilizer.swift */; };
+		0463DFEA2566725F00A331AF /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043CE055255155FD0018CDF8 /* SettingsView.swift */; };
+		0463E03525667AB000A331AF /* Share+Items.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0463E03425667AB000A331AF /* Share+Items.swift */; };
+		0463E04425667CD200A331AF /* Sharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04660F7D2565560C0090497B /* Sharing.swift */; };
 		04660F362565340D0090497B /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D44644256413A10036991F /* ShareView.swift */; };
 		04660F6D2565490E0090497B /* ShareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D44644256413A10036991F /* ShareView.swift */; };
 		04660F7E2565560C0090497B /* Sharing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04660F7D2565560C0090497B /* Sharing.swift */; };
@@ -345,7 +347,6 @@
 
 /* Begin PBXFileReference section */
 		0401718C25541C9F00A2613C /* AboutsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutsView.swift; sourceTree = "<group>"; };
-		040B21F0256592AF0078F51D /* RootController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootController.swift; sourceTree = "<group>"; };
 		040C241025470098008BA89B /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
 		040C241825471DCD008BA89B /* CreateTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskView.swift; sourceTree = "<group>"; };
 		040CB90F255C30F700FFABB2 /* AppSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsView.swift; sourceTree = "<group>"; };
@@ -413,6 +414,8 @@
 		0463DFC62566597900A331AF /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		0463DFC72566597900A331AF /* PageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
 		0463DFC82566597A00A331AF /* PageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
+		0463DFD32566712100A331AF /* Store+Initilizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Store+Initilizer.swift"; sourceTree = "<group>"; };
+		0463E03425667AB000A331AF /* Share+Items.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Share+Items.swift"; sourceTree = "<group>"; };
 		04660F7D2565560C0090497B /* Sharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sharing.swift; sourceTree = "<group>"; };
 		04660F8D25655AEB0090497B /* View+Snap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Snap.swift"; sourceTree = "<group>"; };
 		0490044C254D77E50014CE7D /* DashedLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashedLine.swift; sourceTree = "<group>"; };
@@ -681,7 +684,6 @@
 			children = (
 				04D44644256413A10036991F /* ShareView.swift */,
 				04660F7D2565560C0090497B /* Sharing.swift */,
-				040B21F0256592AF0078F51D /* RootController.swift */,
 			);
 			path = Share;
 			sourceTree = "<group>";
@@ -846,6 +848,8 @@
 				040CB920255C351100FFABB2 /* Date+extensions.swift */,
 				04D446342563F32F0036991F /* View+Corners.swift */,
 				04660F8D25655AEB0090497B /* View+Snap.swift */,
+				0463DFD32566712100A331AF /* Store+Initilizer.swift */,
+				0463E03425667AB000A331AF /* Share+Items.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1374,10 +1378,10 @@
 				043913D22551A87600B62018 /* NightModeView.swift in Sources */,
 				0401718D25541C9F00A2613C /* AboutsView.swift in Sources */,
 				043ECC472556B44E00FF50EC /* AppFeaturesView.swift in Sources */,
-				0439135625518A1C00B62018 /* SettingsView.swift in Sources */,
 				0439137325518B9000B62018 /* Bundle.swift in Sources */,
 				043913C92551A3CA00B62018 /* AppIconsView.swift in Sources */,
 				043ECC3E2556930300FF50EC /* NotificationsView.swift in Sources */,
+				0463DFEA2566725F00A331AF /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1397,6 +1401,7 @@
 				04A443DF256006E800731A3C /* DayProgressView.swift in Sources */,
 				04F0AEBB2562C66300DED036 /* MyDayProgressWidget.swift in Sources */,
 				04C9D10C2562EC8A00F924A8 /* YearDayProgressWidget.swift in Sources */,
+				0463E04425667CD200A331AF /* Sharing.swift in Sources */,
 				04A44305255FF0F300731A3C /* ProgressWidget.swift in Sources */,
 				04422FE62561470F00AB5F03 /* WidgetBundle.swift in Sources */,
 				04F0AEB32562C46800DED036 /* YourDayProgressView.swift in Sources */,
@@ -1445,7 +1450,6 @@
 				04E73C312542C2030092B918 /* SceneDelegate.swift in Sources */,
 				04E73C362542C2030092B918 /* Life_Progress.xcdatamodeld in Sources */,
 				04660F7E2565560C0090497B /* Sharing.swift in Sources */,
-				040B21F1256592AF0078F51D /* RootController.swift in Sources */,
 				04259176256294E700087394 /* PersistantContainer.swift in Sources */,
 				04E73C332542C2030092B918 /* ContentView.swift in Sources */,
 				04A4430B255FF0F400731A3C /* ProgressWidget.intentdefinition in Sources */,
@@ -1485,6 +1489,7 @@
 				040CB921255C351100FFABB2 /* Date+extensions.swift in Sources */,
 				0462F01025444433003D2969 /* Operators.swift in Sources */,
 				041296502549B0C3008337A0 /* Blur.swift in Sources */,
+				0463E03525667AB000A331AF /* Share+Items.swift in Sources */,
 				043ECC352556898800FF50EC /* LocalNotification.swift in Sources */,
 				042D304F25556E2A00C26A12 /* EdgeInset+Extension.swift in Sources */,
 				0463DFCA2566597A00A331AF /* PageControl.swift in Sources */,
@@ -1498,6 +1503,7 @@
 				0463DFC92566597A00A331AF /* PageViewController.swift in Sources */,
 				04D7BAF625458844003A9774 /* ProgressBar.swift in Sources */,
 				042D304625554E2600C26A12 /* SmartProgressBar.swift in Sources */,
+				0463DFD42566712100A331AF /* Store+Initilizer.swift in Sources */,
 				040F19D6255AA7E9003DAD80 /* Parser.swift in Sources */,
 				04325686254459570050F620 /* Grid.swift in Sources */,
 				04D446352563F32F0036991F /* View+Corners.swift in Sources */,

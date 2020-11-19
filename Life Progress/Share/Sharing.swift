@@ -1,70 +1,14 @@
 import ComposableArchitecture
 import UIKit
 import SwiftUI
-    
-extension ShareClient {
-    static var mock: Self {
-        .init(
-            share: { _ in Empty().eraseToAnyPublisher() },
-            snapShot: { _ in Just(UIImage(named: "progressIcon")!)
-                .eraseToAnyPublisher() }
-        )
-    }
-}
-
-struct RootController {
-    let viewController: () -> UIViewController?
-    func callAsFunction() -> UIViewController? {
-        viewController()
-    }
-}
-
-
-extension ShareClient {
-    static var live: Self {
-        Self(
-            share: { items in
-                                                
-                let activityVC = UIActivityViewController(
-                    activityItems: items,
-                    applicationActivities: nil
-                )
-                activityVC.popoverPresentationController?.sourceView =
-                    RootController.live()?.view
-                
-                activityVC.popoverPresentationController?.sourceRect =
-                    CGRect(origin: .zero, size: CGSize(width: 100, height: 100))
-                RootController.live()?.present(activityVC, animated: true)
-                
-                return Empty(completeImmediately: true)
-                    .eraseToAnyPublisher()
-                
-            },
-            snapShot: { view in
-                Future<UIImage, Never> { promise in
-                    view
-                    .snapShot(
-                        origin: .zero,
-                        size: CGSize(width: .py_grid(100), height: .py_grid(100))) { image in
-                        promise(.success(image))
-                    }
-                }.eraseToAnyPublisher()
-            }
-        )
-    }
-}
-
-
 import Combine
+import Core
+
+
 public struct ShareEnvironment {
     let shareClient: ShareClient
     let mainQueue: AnySchedulerOf<DispatchQueue>
 }
-        
-
-/*
- 
- */
 
 public let shareReducer =
 Reducer<ShareState, ShareAction, ShareEnvironment> { state, action, environment in
@@ -99,7 +43,7 @@ Reducer<ShareState, ShareAction, ShareEnvironment> { state, action, environment 
         .map(ShareAction.share)
         .eraseToEffect()
     case let .share(image):
-        return environment.shareClient.share([image])
+        return share([image])
             .receive(on: DispatchQueue.main.eraseToAnyScheduler())
             .eraseToEffect()
             .fireAndForget()
@@ -144,7 +88,7 @@ extension Reducer where
 extension AppEnvironment {
     var share: ShareEnvironment {
         ShareEnvironment(
-            shareClient: .live,
+            shareClient: shareClient,
             mainQueue: mainQueue
         )
     }

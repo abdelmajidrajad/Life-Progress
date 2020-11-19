@@ -68,19 +68,36 @@ public enum ShareAction: Equatable {
 
 import Combine
 struct ShareClient {
-    let share: ([Any]) -> AnyPublisher<Never, Never>
     let snapShot: (AnyView) -> AnyPublisher<UIImage, Never>
 }
 
-extension Store {
-    convenience init(initialState: State) {
-        self.init(
-            initialState: initialState,
-            reducer: .empty,
-            environment: ()
+extension ShareClient {
+    static var live: Self {
+        Self(
+            snapShot: { view in
+                Future<UIImage, Never> { promise in
+                    view
+                    .snapShot(
+                        origin: .zero,
+                        size: CGSize(width: .py_grid(100), height: .py_grid(100))) { image in
+                        promise(.success(image))
+                    }
+                }.eraseToAnyPublisher()
+            }
         )
     }
 }
+
+extension ShareClient {
+    static var mock: Self {
+        .init(
+            snapShot: { _ in Just(UIImage(named: "progressIcon")!)
+                .eraseToAnyPublisher() }
+        )
+    }
+}
+
+
 
 enum ShareProgressData: String, CaseIterable {
     case yearprogress = "Year Progress"

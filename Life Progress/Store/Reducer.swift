@@ -87,19 +87,14 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
         state: \.settingState,
         action: /AppAction.settings,
         environment: \.settings
+    ),
+    shareReducer.optional().pullback(
+        state: \.shareState,
+        action: /AppAction.share,
+        environment: \.share
     )
 )
 
-extension AppEnvironment {
-    var settings: SettingsEnvironment {
-        SettingsEnvironment(
-            date: self.date,
-            calendar: self.calendar,
-            userDefaults: self.userDefaults,
-            mainQueue: self.mainQueue
-        )
-    }
-}
 
 extension AppEnvironment {
     var tasks: TasksEnvironment {

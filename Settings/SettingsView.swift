@@ -51,6 +51,7 @@ public enum SettingAction: Equatable {
     case rateUsCellTapped
     case supportCellTapped
     case aboutCellTapped
+    case shareCellTapped
     case features(AppFeatureAction)
     case notifications(NotificationsAction)
     case appIcon(AppIconAction)
@@ -102,6 +103,10 @@ public let settingReducer =
             case let .sectionTapped(section):
                 state.section = section
                 return .none
+            case .shareCellTapped:
+                return share([URL(string: "https://apps.apple.com/app/id1527416109")!])
+                    .eraseToEffect()
+                    .fireAndForget()
             case let .isURLOpenned(isOpen):
                 state.isURLOpenned = isOpen
                 return .none
@@ -325,6 +330,22 @@ public struct SettingsView: View {
                 }
                 
                 Section {
+                    HStack {
+                        LeftImage(
+                            systemName: "arrowshape.turn.up.right.fill",
+                            fillColor: Color.pink
+                        )
+                        Text("Share")
+                            .font(.preferred(.py_body()))
+                    }.padding(.vertical, .py_grid(1))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color(.secondarySystemGroupedBackground))
+                    .onTapGesture {
+                        viewStore.send(.shareCellTapped)
+                    }
+                }
+                
+                Section {
                     //MARK:- Support
                     HStack {
                         LeftImage(
@@ -334,6 +355,8 @@ public struct SettingsView: View {
                         Text("Support")
                             .font(.preferred(.py_body()))
                     }.padding(.vertical, .py_grid(1))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(Color(.secondarySystemGroupedBackground))
                     .sheet(
                         isPresented: viewStore.binding(
                             get: { $0.section == .support },
@@ -342,12 +365,10 @@ public struct SettingsView: View {
                             SupportView(onDismiss: viewStore.send(.sectionTapped(nil))
                             )
                     })
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(Color(.secondarySystemGroupedBackground))
                     .onTapGesture {
                         viewStore.send(.supportCellTapped)
                     }
-                    
+                                        
                     //MARK:- About
                     NavigationLink(
                         destination: AboutsView(

@@ -4,6 +4,7 @@ import ComposableArchitecture
 import TimeClient
 import TaskClient
 import CoreData
+import Settings
 
 struct AppEnvironment {
     let uuid: () -> UUID
@@ -15,7 +16,7 @@ struct AppEnvironment {
     let context: NSManagedObjectContext
     let userDefaults: KeyValueStoreType
     let ubiquitousStore: NSUbiquitousKeyValueStore
-    //let shareClient: ShareClient
+    let shareClient: ShareClient
 }
 
 import Components
@@ -55,10 +56,19 @@ extension AppEnvironment {
     }
 }
 
+extension AppEnvironment {
+    var settings: SettingsEnvironment {
+        SettingsEnvironment(
+            date: self.date,
+            calendar: self.calendar,
+            userDefaults: self.userDefaults,
+            mainQueue: self.mainQueue
+        )
+    }
+}
 
 import TimeClientLive
 import TaskClientLive
-
 extension AppEnvironment {
     public static var live: AppEnvironment {
         AppEnvironment(
@@ -70,8 +80,8 @@ extension AppEnvironment {
             taskClient: .live,
             context: LPPersistentContainer.context,
             userDefaults: UserDefaults(suiteName: "group.progress.app") ?? .standard,
-            ubiquitousStore: .default
-            //shareClient: .live
+            ubiquitousStore: .default,
+            shareClient: .live
         )
     }
 }
@@ -87,8 +97,8 @@ extension AppEnvironment {
             taskClient: .live,
             context: LPPersistentContainer.context,
             userDefaults: UserDefaults(suiteName: "group.progress.app") ?? .standard,
-            ubiquitousStore: .default
-          //  shareClient: .mock
+            ubiquitousStore: .default,
+            shareClient: .mock
         )
     }
 }
