@@ -16,6 +16,23 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
                 on: environment.mainQueue
             ).map(AppAction.onUpdate)
             .eraseToEffect()
+        case .run:
+                        
+            return .fireAndForget {
+                
+                if environment.userDefaults.string(forKey: "style") == "dark" {
+                    UIApplication.shared.windows.forEach { window in
+                        window.overrideUserInterfaceStyle = .dark
+                    }
+                }
+                
+                if environment.userDefaults.string(forKey: "style") == "light" {
+                    UIApplication.shared.windows.forEach { window in
+                        window.overrideUserInterfaceStyle = .light
+                    }
+                }
+                
+            }
         case .onUpdate:
             return .concatenate(
                 Effect(value: .day(.onChange)),

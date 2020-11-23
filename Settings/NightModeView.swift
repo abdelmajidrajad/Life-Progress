@@ -1,16 +1,17 @@
 import SwiftUI
 import ComposableArchitecture
+import Core
 
 
 public struct NightModeState: Equatable {
-    public enum Style: CaseIterable, Equatable {
-        case dark, light
+    public enum Style: String, CaseIterable, Equatable {
+        case dark, light, automatic
     }
     let styles: [Style]
-    var currentStyle: Style = .light
+    var currentStyle: Style
     public init(
         styles: [Style] = Style.allCases,
-        currentStyle: Style = .light
+        currentStyle: Style = .automatic
     ) {
         self.styles = styles
         self.currentStyle = currentStyle
@@ -23,32 +24,34 @@ public enum NightModeAction: Equatable {
     case onStyleChanged(NightModeState.Style)
 }
 
+var userInterface: UIUserInterfaceStyle {
+    UIScreen.main.traitCollection.userInterfaceStyle
+}
+
 public let nightModeReducer =
-    Reducer<NightModeState, NightModeAction, Void> {
-        state, action, _ in
+    Reducer<NightModeState, NightModeAction, KeyValueStoreType> {
+        state, action, storage in
         switch action {
         case .onAppear:
-            return Effect(value: .setStyle(
-                UIScreen.main.traitCollection.userInterfaceStyle == .dark
-                ? .dark
-                : .light
-            ))
+            return .none
         case let .onStyleChanged(newStyle):
             state.currentStyle = newStyle
+            storage.set(newStyle.rawValue, forKey: "style")
+            return Effect(value: .setStyle(newStyle))
+        case let .setStyle(style):
+            state.currentStyle = style
             return .fireAndForget {
                 UIApplication.shared.windows.forEach { window in
                     window.overrideUserInterfaceStyle =
-                        newStyle == .dark ? .dark: .light
+                        style == .dark ? .dark:
+                        style == .light ? .light: .unspecified
                 }
             }
-        case let .setStyle(style):
-            state.currentStyle = style
-            return .none
         }
     }
 
 public struct NightModeView: View {
-    @Environment(\.colorScheme) var colorScheme
+    
     let store: Store<NightModeState, NightModeAction>
     
     public init(store: Store<NightModeState, NightModeAction>) {
@@ -63,7 +66,9 @@ public struct NightModeView: View {
                         Image(systemName:
                               style == .dark
                               ? "moon.fill"
-                              : "sun.min.fill"
+                              : style == .light
+                              ? "sun.min.fill"
+                              : "sunset.fill"
                             )
                             .padding(.py_grid(2))
                             .foregroundColor(.white)
@@ -77,8 +82,10 @@ public struct NightModeView: View {
                                      : .orange
                                 )
                             )
-                        Text(style == .dark ? "Dark": "Light")
-                            .font(Font.preferred(.py_subhead()).bold())
+                        Text(style.rawValue)
+                            .font(
+                                Font.preferred(.py_subhead()).smallCaps()
+                            )
                             .frame(
                                 maxWidth: .infinity,
                                 alignment: .leading
@@ -111,12 +118,12 @@ struct NightModeView_Previews: PreviewProvider {
             NightModeView(store: Store<NightModeState, NightModeAction>.init(
                             initialState: NightModeState(),
                             reducer: nightModeReducer,
-                            environment: ()
+                            environment: TestUserDefault()
             ))
             NightModeView(store: Store<NightModeState, NightModeAction>.init(
                             initialState: NightModeState(),
                             reducer: nightModeReducer,
-                            environment: ()
+                            environment: TestUserDefault()
             ))
                 .preferredColorScheme(.dark)
         }

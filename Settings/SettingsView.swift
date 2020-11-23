@@ -136,7 +136,7 @@ public let settingReducer =
         nightModeReducer.pullback(
             state: \.nightMode,
             action: /SettingAction.nightMode,
-            environment: { _ in () }),
+            environment: { $0.userDefaults }),
         moreSettingsReducer.pullback(
             state: \.moreSettings,
             action: /SettingAction.more,

@@ -11,20 +11,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
-        let contentView = ContentView(
-            store: Store(
-                initialState: AppState(),
-                reducer: appReducer.debugActions(),
-                environment:  .live
-            )
+        let store = Store(
+            initialState: AppState(),
+            reducer: appReducer.debugActions(),
+            environment:  .live
         )
-
+                
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = UIHostingController(rootView: contentView)
+            window.rootViewController = UIHostingController(rootView: ContentView(store: store))
             self.window = window
             window.makeKeyAndVisible()
         }
+        
+        ViewStore(store).send(.run)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {}
@@ -34,7 +34,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillResignActive(_ scene: UIScene) {
     }
 
-    func sceneWillEnterForeground(_ scene: UIScene) {        
+    func sceneWillEnterForeground(_ scene: UIScene) {
+        
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {        
