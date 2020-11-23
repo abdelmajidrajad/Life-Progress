@@ -95,6 +95,10 @@ public struct DayProgressView: View {
                     .shadow(radius: 1)
                 )
             }.onAppear { viewStore.send(.onChange) }
+            .background(
+                Color(.systemBackground)
+                    .cornerRadius(.py_grid(5))
+            )
         }
     }
 }

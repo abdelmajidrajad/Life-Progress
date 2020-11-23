@@ -50,6 +50,23 @@ public let nightModeReducer =
         }
     }
 
+
+func imageName(for style: NightModeState.Style) -> String {
+    style == .dark
+    ? "moon.fill"
+    : style == .light
+    ? "sun.min.fill"
+    : "sunset.fill"
+}
+
+func fillColor(for style: NightModeState.Style) -> Color {
+    style == .dark
+        ? Color.purple
+        : style == .light
+        ? Color.orange
+        : .yellow
+}
+
 public struct NightModeView: View {
     
     let store: Store<NightModeState, NightModeAction>
@@ -64,24 +81,18 @@ public struct NightModeView: View {
                 ForEach(viewStore.styles, id: \.self) { style in
                     HStack {
                         Image(systemName:
-                              style == .dark
-                              ? "moon.fill"
-                              : style == .light
-                              ? "sun.min.fill"
-                              : "sunset.fill"
+                                imageName(for: style)
+                        )
+                        .padding(.py_grid(2))
+                        .foregroundColor(.white)
+                        .background(
+                            RoundedRectangle(
+                                cornerRadius: .py_grid(2),
+                                style: .continuous
+                            ).fill(
+                                fillColor(for: style)
                             )
-                            .padding(.py_grid(2))
-                            .foregroundColor(.white)
-                            .background(
-                                RoundedRectangle(
-                                    cornerRadius: .py_grid(2),
-                                    style: .continuous
-                                ).fill(
-                                    style == .dark
-                                     ? Color.purple
-                                     : .orange
-                                )
-                            )
+                        )
                         Text(style.rawValue)
                             .font(
                                 Font.preferred(.py_subhead()).smallCaps()

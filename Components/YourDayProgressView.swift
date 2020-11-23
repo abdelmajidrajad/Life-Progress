@@ -193,7 +193,10 @@ public struct YourDayProgressView: View {
                     style: .continuous
                 ).stroke(Color.white.opacity(0.1))
                  .shadow(radius: 1)
-            ).background(Color(.systemBackground))
+            ).background(
+                Color(.systemBackground)
+                    .cornerRadius(.py_grid(5))
+            )
         }
     }
 }

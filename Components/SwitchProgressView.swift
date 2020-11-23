@@ -216,7 +216,10 @@ public struct SwitchProgressView: View {
                 )
             }.onAppear {
                 viewStore.send(.onChange)
-            }
+            }.background(
+                Color(.systemBackground)
+                    .cornerRadius(.py_grid(5))
+            )
         }
     }
 }

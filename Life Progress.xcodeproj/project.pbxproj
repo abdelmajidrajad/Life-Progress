@@ -84,7 +84,6 @@
 		04660F8E25655AEB0090497B /* View+Snap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04660F8D25655AEB0090497B /* View+Snap.swift */; };
 		0467BFF5254AABAD007FC8A3 /* Validated in Frameworks */ = {isa = PBXBuildFile; productRef = 0467BFF4254AABAD007FC8A3 /* Validated */; };
 		047BCE3B2567AD320086E077 /* Tasks.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		04838370256BE8A7004AD117 /* TimeClientLive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F8F3C1256BDECE007059C5 /* TimeClientLive.framework */; };
 		04838391256BE921004AD117 /* ProgressWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 04A442FE255FF0F300731A3C /* ProgressWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		048383BF256BEE1E004AD117 /* YearProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73CCF2543594E0092B918 /* YearProgressView.swift */; };
 		048383C0256BEE1E004AD117 /* SwitchProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFEA254437B7003D2969 /* SwitchProgressView.swift */; };
@@ -95,6 +94,7 @@
 		048383EF256BEECF004AD117 /* ProgressWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 048383F1256BEECF004AD117 /* ProgressWidget.intentdefinition */; };
 		04838420256BEFFF004AD117 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73C86254357E60092B918 /* Core.framework */; };
 		04838459256BF03B004AD117 /* Components.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73CA12543590F0092B918 /* Components.framework */; };
+		048384DC256C26F3004AD117 /* TimeClientLive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F8F3C1256BDECE007059C5 /* TimeClientLive.framework */; };
 		0490044D254D77E60014CE7D /* DashedLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0490044C254D77E50014CE7D /* DashedLine.swift */; };
 		0490045E254DC2EF0014CE7D /* YourDayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0490045D254DC2EF0014CE7D /* YourDayProgressView.swift */; };
 		04967280255036FF0015205E /* KeyValueStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0496727F255036FF0015205E /* KeyValueStorage.swift */; };
@@ -584,8 +584,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				04A44302255FF0F300731A3C /* SwiftUI.framework in Frameworks */,
-				04838370256BE8A7004AD117 /* TimeClientLive.framework in Frameworks */,
 				04838459256BF03B004AD117 /* Components.framework in Frameworks */,
+				048384DC256C26F3004AD117 /* TimeClientLive.framework in Frameworks */,
 				04838420256BEFFF004AD117 /* Core.framework in Frameworks */,
 				04A44300255FF0F300731A3C /* WidgetKit.framework in Frameworks */,
 			);
@@ -1708,7 +1708,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "find \"${CODESIGNING_FOLDER_PATH}\" -name '*.framework' -print0 | while read -d $'\\0' framework \ndo \n    codesign --force --deep --sign \"${EXPANDED_CODE_SIGN_IDENTITY}\" --preserve-metadata=identifier,entitlements --timestamp=none \"${framework}\" \ndone\n\n";
+			shellScript = "#find \"${CODESIGNING_FOLDER_PATH}\" -name '*.framework' -print0 | while read -d $'\\0' framework \n#do \n#    codesign --force --deep --sign \"${EXPANDED_CODE_SIGN_IDENTITY}\" --preserve-metadata=identifier,entitlements --timestamp=none \"${framework}\" \n#done\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2199,9 +2199,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = NFA6K259X7;
-				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				INFOPLIST_FILE = ProgressWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2227,9 +2228,10 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = NFA6K259X7;
-				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				INFOPLIST_FILE = ProgressWidget/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2484,6 +2486,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Life Progress/Preview Content\"";
 				DEVELOPMENT_TEAM = NFA6K259X7;
 				ENABLE_HARDENED_RUNTIME = NO;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Life Progress/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -2513,6 +2516,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Life Progress/Preview Content\"";
 				DEVELOPMENT_TEAM = NFA6K259X7;
 				ENABLE_HARDENED_RUNTIME = NO;
+				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = YES;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Life Progress/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

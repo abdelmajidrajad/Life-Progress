@@ -153,7 +153,7 @@ public let settingReducer =
 
 
 public struct SettingsView: View {
-    
+    @Environment(\.presentationMode) var presentationMode
     let store: Store<SettingState, SettingAction>
     
     public init(
@@ -394,6 +394,13 @@ public struct SettingsView: View {
                 Text("Settings")
             ).listStyle(GroupedListStyle())
             .foregroundColor(Color(.label))
+            .navigationBarItems(trailing:
+                        Button(action: {
+                            presentationMode.wrappedValue.dismiss()
+                        }, label: {
+                        Image(systemName: "xmark")
+                    }).buttonStyle(CloseButtonCircleStyle())
+            )
             
         }
     }

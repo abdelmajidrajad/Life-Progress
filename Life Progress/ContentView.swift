@@ -17,42 +17,39 @@ struct ContentView: View {
     @State var isScaled: Bool = false
     
     var body: some View {
-        GeometryReader { proxy -> AnyView in
-            let width = proxy.size.width * 0.5 - .py_grid(2)
-                        return AnyView(
-                WithViewStore(store) { viewStore in
-                    ZStack(alignment: .bottomLeading) {
-                        
-                        Button(action: {
-                            viewStore.send(.shareButtonTapped)
-                        }) {
-                            Image(systemName: "square.and.arrow.up.fill")
-                                .font(.title)
-                                .foregroundColor(Color(.label))
-                        }.padding()
-                        .background(EmptyView())
-                        .sheet(isPresented: viewStore.binding(
-                                get: { $0.shareState != nil },
-                                send: AppAction.viewDismissed)) {
-                            
-                            IfLetStore(store.scope(
-                                state: \.shareState,
-                                action: AppAction.share
-                            )) { shareStore in
-                                ShareView(store: shareStore)
-                            }
+        WithViewStore(store) { viewStore in
+            ZStack(alignment: .bottomLeading) {
+                
+                Button(action: {
+                    viewStore.send(.shareButtonTapped)
+                }) {
+                    Image(systemName: "square.and.arrow.up.fill")
+                        .font(.title)
+                        .foregroundColor(Color(.label))
+                }.padding()
+                .background(EmptyView())
+                .sheet(isPresented: viewStore.binding(
+                        get: { $0.shareState != nil },
+                        send: AppAction.viewDismissed)) {
+                    
+                    IfLetStore(store.scope(
+                        state: \.shareState,
+                        action: AppAction.share
+                    )) { shareStore in
+                        ShareView(store: shareStore)
+                    }
                             
                         }.zIndex(1.0)
-                        
-                        ScrollView {
-                            Section(header:
+                
+                ScrollView {
+                    Section(header:
                                 ZStack(alignment: .trailing) {
                                     Text("Widgets")
                                         .frame(
                                             maxWidth: .infinity,
                                             alignment: .leading
                                         ).foregroundColor(Color(.label))
-
+                                    
                                     Button(action: {
                                         viewStore.send(.settingButtonTapped)
                                     }, label: {
@@ -75,70 +72,68 @@ struct ContentView: View {
                                             }
                                         }
                                     }
-
+                                    
                                 }.padding()
-                                 .font(Font.preferred(.py_title2()).bold())
-                                 .foregroundColor(Color(.lightText))
-                            ) {
-                                ScrollView(.horizontal, showsIndicators: false) {
-                                    HStack(spacing: .py_grid(4)) {
-                                        
-                                        LifeProgressView(store:
-                                            store.scope(
-                                                state: \.life,
-                                                action: AppAction.life
-                                            )).onTapGesture {
-                                                viewStore.send(.lifeWidgetTapped)
-                                            }
-                                        
-                                        YourDayProgressView(
-                                            store: store.scope(
-                                                state: \.yourDayState,
-                                                action: AppAction.yourDay)
-                                        ).onTapGesture {
-                                            viewStore.send(.myDayWidgetTapped)
-                                        }
-                                        
-                                        SwitchProgressView(
-                                            store: store.scope(
-                                                state: \.switchState,
-                                                action: AppAction.union
-                                            )
-                                        )
-                                        
-                                        DayProgressView(
-                                            store: store.scope(
-                                                state: \.dayState,
-                                                action: AppAction.day)
-                                        )
-                                        
-                                        YearProgressView(
-                                            store: store.scope(
-                                                state: \.yearState,
-                                                action: AppAction.year)
-                                        )
-                                        
-                                    }.padding(.vertical)
-                                     .padding(.horizontal, .py_grid(1))
-                                     .frame(height: width)
-                                }.frame(height: width)
-                            }
-
-                            TasksView(store:
+                                .font(Font.preferred(.py_title2()).bold())
+                                .foregroundColor(Color(.lightText))
+                    ) {
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: .py_grid(4)) {
+                                
+                                LifeProgressView(store:
+                                                    store.scope(
+                                                        state: \.life,
+                                                        action: AppAction.life
+                                                    )).onTapGesture {
+                                                        viewStore.send(.lifeWidgetTapped)
+                                                    }
+                                
+                                YourDayProgressView(
+                                    store: store.scope(
+                                        state: \.yourDayState,
+                                        action: AppAction.yourDay)
+                                ).onTapGesture {
+                                    viewStore.send(.myDayWidgetTapped)
+                                }
+                                
+                                SwitchProgressView(
+                                    store: store.scope(
+                                        state: \.switchState,
+                                        action: AppAction.union
+                                    )
+                                )
+                                
+                                DayProgressView(
+                                    store: store.scope(
+                                        state: \.dayState,
+                                        action: AppAction.day)
+                                )
+                                
+                                YearProgressView(
+                                    store: store.scope(
+                                        state: \.yearState,
+                                        action: AppAction.year)
+                                )
+                                
+                            }.padding(.vertical)
+                            .padding(.horizontal, .py_grid(1))
+                            
+                        }.frame(height: .py_grid(50))
+                    }
+                    
+                    TasksView(store:
                                 store.scope(
                                     state: \.tasksState,
                                     action: AppAction.tasks)
-                            )
-                            
-                            Spacer(minLength: .py_grid(20))
-
-                        }.padding(.leading, .py_grid(1))
-                        .onAppear {
-                            viewStore.send(.onStart)
-                        }
-                    }
+                    )
+                    
+                    Spacer(minLength: .py_grid(20))
+                    
+                }.padding(.leading, .py_grid(1))
+                .onAppear {
+                    viewStore.send(.onStart)
                 }
-            )
+            }
         }
     }
 }
