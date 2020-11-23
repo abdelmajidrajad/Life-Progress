@@ -12,7 +12,7 @@ public func asAnyView<V: View>(_ input: V) -> AnyView {
 extension View {
     public func snapShot(
         origin: CGPoint = .zero,
-        size: CGSize = CGSize(width: .py_grid(100), height: .py_grid(100)),
+        size: CGSize = CGSize(width: 400, height: 400),
         _ callback: (UIImage) -> Void
     ) {
         let window = UIWindow(frame: CGRect(origin: origin, size: size))

@@ -125,6 +125,8 @@ struct ContentView: View {
                                     state: \.tasksState,
                                     action: AppAction.tasks)
                             )
+                            
+                            Spacer(minLength: .py_grid(20))
 
                         }.padding(.leading, .py_grid(1))
                         .onAppear {
@@ -145,7 +147,9 @@ struct ContentView_Previews: PreviewProvider {
         Group {
             ContentView(
                 store: Store<AppState, AppAction>(
-                    initialState: AppState(),
+                    initialState: AppState(
+                        tasksState: TasksState(filter: .pending)
+                    ),
                     reducer: appReducer,
                     environment: .midDay
                 )
@@ -153,7 +157,7 @@ struct ContentView_Previews: PreviewProvider {
             ContentView(
                 store: Store<AppState, AppAction>(
                     initialState: AppState(
-                        //tasksState: TasksState(filter: .pending)
+                        
                     ),
                     reducer: appReducer,
                     environment: .midDay

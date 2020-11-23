@@ -3,9 +3,6 @@ import SwiftUI
 import TimeClientLive
 import TaskClientLive
 import ComposableArchitecture
-//import Tasks
-import Settings
-
 import Components
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -22,32 +19,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             )
         )
 
-        //let contentView = FullProgressView().frame(width: 170, height: 170, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-        
-//        let contentView =
-//            NavigationView {
-//                SettingsView(store: Store(
-//                    initialState: SettingState(),
-//                    reducer: settingReducer,
-//                    environment:
-//                        SettingsEnvironment(
-//                            userDefaults: UserDefaults.standard
-//                        )
-//                ))
-//            }
-        
-//
-//        let contentView = CreateTaskView(store: Store(
-//                        initialState: CreateTaskState(),
-//                        reducer: createTaskReducer,
-//            environment: CreateTaskEnvironment(
-//                date: Date.init,
-//                calendar: .current,
-//                timeClient: .live,
-//                taskClient: .live,
-//                managedContext: (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-//            )
-//        ))
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController = UIHostingController(rootView: contentView)

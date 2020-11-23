@@ -327,7 +327,9 @@ extension AnyTransition {
     static var topAndLeft: AnyTransition {
         AnyTransition.asymmetric(
             insertion: .move(edge: .bottom),
-            removal: .move(edge: .leading)
+            removal: AnyTransition
+                .move(edge: .leading)
+                .combined(with: .opacity)
         ).animation(.linear)
     }
 }

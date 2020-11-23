@@ -1,46 +1,47 @@
 import SwiftUI
 
 extension LocalizedStringKey {
-    static var taskTitle: LocalizedStringKey {
-        LocalizedStringKey("task_title")
+    
+    static var newTask: LocalizedStringKey {
+        localizable("new_task", comment: "new task")        
     }
+    
+    static var taskTitle: LocalizedStringKey {
+        localizable("task_title", comment: "START")
+    }
+    
     static var startDate: LocalizedStringKey {
-        LocalizedStringKey("start_date")
+        localizable("start_date", comment: "START")
     }
     static var endDate: LocalizedStringKey {
-        LocalizedStringKey("end_date")
+        localizable("end_date", comment: "START")
     }
     static var progressColor: LocalizedStringKey {
-        LocalizedStringKey("progress_color")
+        localizable("progress_color", comment: "START")
     }
     static var styleLabel: LocalizedStringKey {
-        LocalizedStringKey("style_label")
+        localizable("style_label", comment: "START")
     }
     static var dayLabel: LocalizedStringKey {
-        LocalizedStringKey("day_label")
+        localizable("day_label", comment: "START")
     }
     static var hourLabel: LocalizedStringKey {
-        LocalizedStringKey("hour_label")
+        localizable("hour_label", comment: "START")
     }
     static var monthLabel: LocalizedStringKey {
-        LocalizedStringKey("month_label")
+        localizable("month_label", comment: "START")
     }
     static var yearLabel: LocalizedStringKey {
-        LocalizedStringKey("year_label")
+        localizable("year_label", comment: "START")
     }
     static var startLabel: LocalizedStringKey {
-        LocalizedStringKey("start_label")
-    }
-}
-
-extension String {
-    public static var taskTitle: Self {
-        localizable("task_title", comment: "task title")
+        localizable("start_label", comment: "START")
     }
 }
 
 
-func localizable(_ id: String, comment: String, substitutions: [String: String] = [:]) -> String {
+
+func localizable(_ id: String, comment: String, substitutions: [String: String] = [:]) -> LocalizedStringKey {
     let text = NSLocalizedString(
         id,
         tableName: nil,
@@ -48,7 +49,9 @@ func localizable(_ id: String, comment: String, substitutions: [String: String] 
         value: id,
         comment: comment
     )
-    return substitute(text, with: substitutions)
+    return LocalizedStringKey(
+        substitute(text, with: substitutions)
+    )
 }
 
 private func substitute(_ string: String, with substitutions: [String: String]) -> String {

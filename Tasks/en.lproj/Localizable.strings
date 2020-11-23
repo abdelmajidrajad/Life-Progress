@@ -1,4 +1,4 @@
-"task_title" = "Task Title";
+"task_title" = "Enter Task Title";
 "start_date" = "Start Date";
 "end_date" = "End Date";
 "progress_color" = "Progress Color";
@@ -8,3 +8,4 @@
 "month_label" = "Month";
 "year_label" = "Year";
 "start_label" = "Start";
+"new_task" = "New Task";

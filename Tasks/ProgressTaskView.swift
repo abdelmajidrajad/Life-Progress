@@ -245,10 +245,7 @@ struct ProgressTaskView: View {
                             
                             switch viewStore.status {
                             case .active:
-//                                PLabel(attributedText: .constant(viewStore.remaining))
-//                                    .fixedSize()
-                                buildText(from: viewStore.result)                            
-                            
+                                buildText(from: viewStore.result)
                             case .completed:
                                 HStack {
                                     Text(viewStore.endDate)
@@ -284,11 +281,11 @@ struct ProgressTaskView: View {
                             
                             switch viewStore.status {
                             case .active:
-//                                PLabel(attributedText: .constant(viewStore.remaining))
-//                                    .fixedSize()
-                            
-                                buildText(from: viewStore.result)
-                            
+                                HStack(alignment: .lastTextBaseline) {
+                                    buildText(from: viewStore.result)
+                                    Text(percentFormatter().string(from: viewStore.progress) ?? "")
+                                        .font(.preferred(.py_caption2()))
+                                }
                             case .completed:
                                 HStack {
                                     Image(systemName: "checkmark.circle.fill")
@@ -303,14 +300,13 @@ struct ProgressTaskView: View {
                                     Text(viewStore.startDate)
                                         .font(.preferred(.py_footnote()))
                                 }
-                            }
-                            
+                            }                            
                         }
                         
                         if viewStore.isActive {
                             ProgressBar(
                                 color: viewStore.color,
-                                lineWidth: .py_grid(1),
+                                lineWidth: .py_grid(2),
                                 labelHidden: true,
                                 progress: .constant(viewStore.progress)
                             )
@@ -351,32 +347,32 @@ struct ProgressTaskView: View {
 struct ProgressTaskView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ProgressTaskView(
-                store:
-                    Store(
-                        initialState: TaskState(
-                            task: .writeBook,
-                            status: .active
-                        ),
-                        reducer: taskReducer,
-                        environment: TaskEnvironment(
-                            date: Date.init,
-                            calendar: .current,
-                            taskProgress: { _ in
-                                Just(
-                                    TimeResponse(
-                                        progress: 0.4,
-                                        result: TimeResult(
-                                            day: 7,
-                                            hour: 12,
-                                            minute: 44
-                                        )
-                                    )
-                                ).eraseToAnyPublisher()
-                            })
-                    )
-            )
-            .preferredColorScheme(.light)
+//            ProgressTaskView(
+//                store:
+//                    Store(
+//                        initialState: TaskState(
+//                            task: .writeBook,
+//                            status: .active
+//                        ),
+//                        reducer: taskReducer,
+//                        environment: TaskEnvironment(
+//                            date: Date.init,
+//                            calendar: .current,
+//                            taskProgress: { _ in
+//                                Just(
+//                                    TimeResponse(
+//                                        progress: 0.4,
+//                                        result: TimeResult(
+//                                            day: 7,
+//                                            hour: 12,
+//                                            minute: 44
+//                                        )
+//                                    )
+//                                ).eraseToAnyPublisher()
+//                            })
+//                    )
+//            )
+//            .preferredColorScheme(.light)
             ProgressTaskView(
                 store:
                     Store(
@@ -439,11 +435,11 @@ extension ProgressTask {
     public static var writeBook2: Self {
         ProgressTask(
             title: "Write my Book2, Write my Book, Write my Book, Write my Book",
-            startDate: Date().addingTimeInterval(3600 * 24 * 1),
+            startDate: Date().addingTimeInterval(-3600 * 24 * 1),
             endDate: Date().addingTimeInterval(3600 * 24 * 2),
             creationDate: Date(),
             color: .startPinkColor,
-            style: .circle
+            style: .bar
         )
     }
 }

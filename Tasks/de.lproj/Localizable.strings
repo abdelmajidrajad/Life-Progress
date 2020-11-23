@@ -1,0 +1,11 @@
+"task_title" = "Aufgabentitel eingeben ";
+"start_date" = "Anfangsdatum";
+"end_date" = "Endtermin";
+"progress_color" = "Fortschrittsfarbe ";
+"style_label" = "Stil";
+"day_label" = "Tag";
+"hour_label" = "Stunde";
+"month_label" = "Monat";
+"year_label" = "Jahr";
+"start_label" = "Start";
+"new_task" = "Neue Aufgabe";

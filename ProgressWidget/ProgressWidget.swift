@@ -3,6 +3,26 @@ import SwiftUI
 import Intents
 import ComposableArchitecture
 
+
+extension SharedEnvironment {
+    var day: DayEnvironment {
+        DayEnvironment(
+            calendar: calendar,
+            date: date,
+            todayProgress: timeClient.todayProgress
+        )
+    }
+}
+
+extension Calendar {
+    public func dayEnd(of today: Date) -> Date {
+        var components = DateComponents()
+        components.day = 1
+        components.second = -1
+        return self.date(byAdding: components, to: self.startOfDay(for: today))!
+    }
+}
+
 struct Provider: IntentTimelineProvider {
     
     func placeholder(in context: Context) -> DayEntry {
@@ -21,7 +41,7 @@ struct Provider: IntentTimelineProvider {
             dayState: DayState(
                 timeResult: .init(hour: 10, minute: 30),
                 style: .circle,
-                percent: 0.7            
+                percent: 0.7
             ),
             configuration: configuration
         )
@@ -45,8 +65,8 @@ struct Provider: IntentTimelineProvider {
             let store = Store(
                 initialState: dayState,
                 reducer: dayReducer,
-                environment: AppEnvironment
-                    .live//(future: currentDate)
+                environment: SharedEnvironment
+                    .shared
                     .day
             )
             
@@ -96,13 +116,15 @@ struct DayProgressWidgetEntryView : View {
     var body: some View {
         switch widgetFamily {
         case .systemSmall:
-            DayProgressView(
-                store: Store(
-                    initialState: entry.dayState,
-                    reducer: .empty,
-                    environment: ()
-                )
-            )
+//            DayProgressView(
+//                store: Store(
+//                    initialState: entry.dayState,
+//                    reducer: .empty,
+//                    environment: ()
+//                )
+//            )
+        
+            Text(String(entry.dayState.percent))        
         default:
             Text(entry.date, style: .time)
         }

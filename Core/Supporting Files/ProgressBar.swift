@@ -46,11 +46,14 @@ public struct ProgressBar: View {
                         .font(.preferred(.py_caption1()))
                 }
             }
-        }.fixedSize(horizontal: false, vertical: true)
+        }.fixedSize(
+            horizontal: false,
+            vertical: true
+        )
     }
 }
 
-let percentFormatter: () -> NumberFormatter = {
+public let percentFormatter: () -> NumberFormatter = {
     let formatter = NumberFormatter()
     formatter.numberStyle = .percent
     return formatter
@@ -67,7 +70,12 @@ public enum ProgressStyle: String, Equatable {
 struct ProgressBar_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            ProgressBar(color: .blue, progress: .constant(0.1))
+            ProgressBar(
+                color: .blue,
+                lineWidth: .py_grid(2),
+                labelHidden: false,
+                progress: .constant(0.20)
+            )
             ProgressCircle(
                 color: .blue,
                 lineWidth: 10.0,

@@ -243,7 +243,7 @@ public struct CreateTaskView: View {
                         }.buttonStyle(CloseButtonCircleStyle())
                         .zIndex(1)
                         
-                        Text("New Task".uppercased())
+                        Text(.newTask)
                             .font(Font
                                     .preferred(.py_title3())
                                     .bold())
@@ -251,9 +251,10 @@ public struct CreateTaskView: View {
                                 maxWidth: .infinity,
                                 alignment: .bottom
                             )
-                    }.padding()
+                    }
                     .background(
-                        VisualEffectBlur(blurStyle: .extraLight)
+                        VisualEffectBlur()
+                            .edgesIgnoringSafeArea(.top)
                     ).zIndex(2)
                                                 
                     ScrollView(.vertical) {
@@ -264,7 +265,7 @@ public struct CreateTaskView: View {
                                 .fill(Color.clear)
                                 .frame(width: 100, height: 80)
                             
-                            TextField(String.taskTitle, text: viewStore.binding(
+                            TextField(.taskTitle, text: viewStore.binding(
                                 get: \.title,
                                 send: CreateTaskAction.titleChanged
                             ))
@@ -567,7 +568,7 @@ public struct DateControlView: View {
                 }
                 
             }
-        }
+        }.environment(\.locale, Locale(identifier: "de"))
     }
 }
 
@@ -664,7 +665,7 @@ struct CreateTaskView_Previews: PreviewProvider {
                     managedContext: .init(concurrencyType: .privateQueueConcurrencyType)
                 )
             ))
-            .preferredColorScheme(.dark)
+           
         }
     }
 }

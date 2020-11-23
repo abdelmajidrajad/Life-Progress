@@ -1,8 +1,7 @@
 import SwiftUI
-import Components
 import ComposableArchitecture
-import TimeClient
 import Core
+import Components
 
 public enum ActivityType: String, Identifiable, CaseIterable, Equatable {
     public var id: UUID { UUID() }
@@ -165,13 +164,7 @@ public struct ShareView: View {
                         .frame(maxWidth: .infinity)
                     
                 }
-                .background(
-                    RoundedRectangle(
-                        cornerRadius: .py_grid(6),
-                        style: .continuous
-                    ).fill(Color(.secondarySystemBackground))
-                    .edgesIgnoringSafeArea(.top)
-                )
+                
                 
                 VStack {
                                                             
@@ -206,7 +199,7 @@ public struct ShareView: View {
                     RoundedRectangle(
                         cornerRadius: .py_grid(5),
                         style: .continuous
-                    ).fill(Color(.secondarySystemBackground))
+                    ).fill(Color(.secondarySystemGroupedBackground))
                      .shadow(radius: 0.5)
                 )
                 

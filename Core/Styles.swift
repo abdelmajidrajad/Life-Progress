@@ -17,7 +17,7 @@ public struct CloseButtonCircleStyle: ButtonStyle {
 
 
 public struct RoundedButtonStyle: ButtonStyle {
-    public init() { }
+    public init() { }
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .foregroundColor(Color(white: 0.5))
@@ -142,7 +142,7 @@ public struct SelectedCornerButtonStyle: ButtonStyle {
 
 
 public struct RoundButtonStyle: ButtonStyle {
-    public init() { }
+    public init() { }
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .foregroundColor(.black)
