@@ -10,7 +10,7 @@ public struct MoreSettingsState: Equatable {
     }
     var lifeSetting: LifeSettingState
     var yourDaySetting: YourDaySettingsState
-    var section: Section?
+    public var section: Section?
     
     public init(
         lifeSetting: LifeSettingState = LifeSettingState(),

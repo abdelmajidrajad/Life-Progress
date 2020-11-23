@@ -334,24 +334,60 @@ extension AnyTransition {
     }
 }
 
+extension TasksState {
+    var view: TasksView.ViewState {
+        .init(
+            status: filter == .active ? "active": filter == .completed ? "completed": "pending",
+            isPending: filter == .pending,
+            isCompleted: filter == .completed,
+            isActive: filter == .active,
+            isCreateTaskShown: createTask != nil
+        )
+    }
+}
+
 
 public struct TasksView: View {
+    
+    struct ViewState: Equatable {
+        var status: String
+        var isPending: Bool
+        var isCompleted: Bool
+        var isActive: Bool
+        var isCreateTaskShown: Bool
+    }
+    
+    
     let store: Store<TasksState, TasksAction>
     public init(
         store: Store<TasksState, TasksAction>) {
         self.store = store
     }
     public var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store.scope(state: \.view)) { viewStore in
             ScrollView(showsIndicators: false) {
                 Section(header:
                             VStack {
                                 
-                                Text("Tasks")
-                                    .font(Font
-                                            .preferred(.py_title2())
-                                            .bold()
-                                    ).frame(maxWidth: .infinity, alignment: .leading)
+                                HStack(alignment:
+                                        .firstTextBaseline, spacing: .py_grid(0)
+                                ) {
+                                    Text("Tasks")
+                                        .font(Font
+                                                .preferred(.py_title2())
+                                                .bold())
+                                    
+                                    Text("(" + viewStore.status + ")")
+                                        .font(Font
+                                                .preferred(.py_caption2()).italic()
+                                                .bold())
+                                        .foregroundColor(Color(.secondaryLabel))
+                                    
+                                }.frame(
+                                    maxWidth: .infinity,
+                                    alignment: .leading
+                                )
+                                    
                                 
                                 HStack {                                    
                                     Button(action: {
@@ -363,7 +399,7 @@ public struct TasksView: View {
                                     }).padding(.vertical)
                                     .buttonStyle(
                                         SelectedCornerButtonStyle(
-                                            isSelected: viewStore.filter == .completed
+                                            isSelected: viewStore.isCompleted
                                         )
                                     )
                                     
@@ -376,7 +412,7 @@ public struct TasksView: View {
                                     }).padding(.vertical)
                                     .buttonStyle(
                                         SelectedCornerButtonStyle(
-                                            isSelected: viewStore.filter == .pending)
+                                            isSelected: viewStore.isPending)
                                     )
                                     
                                     Button(action: {
@@ -388,18 +424,17 @@ public struct TasksView: View {
                                     }).padding(.vertical)
                                     .buttonStyle(
                                         SelectedCornerButtonStyle(
-                                            isSelected: viewStore.filter == .active)
+                                            isSelected: viewStore.isActive)
                                     )
                                     
                                     Spacer()
-                                    HStack {
-                                        Button(action: {
-                                            viewStore.send(.plusButtonTapped)
-                                        }, label: {
-                                            Image(systemName: "plus")
-                                        }).padding(.vertical)
-                                        .buttonStyle(CornerButtonStyle())
-                                    }
+                                    
+                                    Button(action: {
+                                        viewStore.send(.plusButtonTapped)
+                                    }, label: {
+                                        Image(systemName: "plus")
+                                    }).padding(.vertical)
+                                    .buttonStyle(CornerButtonStyle())
                                 }
                 }.padding(.horizontal)
                 .frame(maxWidth: .infinity)
@@ -417,7 +452,7 @@ public struct TasksView: View {
                 viewStore.send(.onAppear)
             }.sheet(isPresented:
                         viewStore.binding(
-                            get: { $0.createTask != nil },
+                            get: { $0.isCreateTaskShown },
                             send: TasksAction.viewDismissed
                         )) {
                 IfLetStore(

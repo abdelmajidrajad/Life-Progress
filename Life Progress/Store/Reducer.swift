@@ -12,7 +12,7 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
             struct TimerId: Hashable {}
             return Effect.timer(
                 id: TimerId(),
-                every: .seconds(1.0),
+                every: .seconds(30.0),
                 on: environment.mainQueue
             ).map(AppAction.onUpdate)
             .eraseToEffect()
@@ -40,6 +40,16 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
                 life: state.life
             )
             return .none
+        case .lifeWidgetTapped:
+            return .concatenate(
+                Effect(value: .settingButtonTapped),
+                Effect(value: .settings(.sectionTapped(.showSettings)))                
+            )
+        case .myDayWidgetTapped:
+            return .concatenate(
+                Effect(value: .settingButtonTapped),
+                Effect(value: .settings(.sectionTapped(.showSettings)))
+            )
         default:
             return .none
         }

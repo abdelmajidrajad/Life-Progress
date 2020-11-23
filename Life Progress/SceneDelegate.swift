@@ -14,7 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let contentView = ContentView(
             store: Store(
                 initialState: AppState(),
-                reducer: appReducer,
+                reducer: appReducer.debugActions(),
                 environment:  .live
             )
         )

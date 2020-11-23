@@ -13,6 +13,8 @@ enum AppAction: Equatable {
     case settingButtonTapped
     case shareButtonTapped
     case viewDismissed
+    case lifeWidgetTapped
+    case myDayWidgetTapped    
     case year(YearAction)
     case day(DayAction)
     case union(SwitchAction)

@@ -87,13 +87,17 @@ struct ContentView: View {
                                             store.scope(
                                                 state: \.life,
                                                 action: AppAction.life
-                                        ))
+                                            )).onTapGesture {
+                                                viewStore.send(.lifeWidgetTapped)
+                                            }
                                         
                                         YourDayProgressView(
                                             store: store.scope(
                                                 state: \.yourDayState,
                                                 action: AppAction.yourDay)
-                                        )
+                                        ).onTapGesture {
+                                            viewStore.send(.myDayWidgetTapped)
+                                        }
                                         
                                         SwitchProgressView(
                                             store: store.scope(

@@ -20,7 +20,7 @@ public struct SettingState: Equatable {
     var features: AppFeatureState
     var notifications: NotificationsState
     var nightMode: NightModeState
-    var moreSettings: MoreSettingsState
+    public var moreSettings: MoreSettingsState
     var section: SettingItem?
     var isURLOpenned: Bool = false
     public init(
@@ -241,9 +241,8 @@ public struct SettingsView: View {
                                                     state: \.moreSettings,
                                                     action: SettingAction.more
                                                 )
-                            
-                            )
-                                .navigationBarTitle(Text("More")),
+                                            
+                            ).navigationBarTitle(Text("More")),
                         tag: .showSettings,
                         selection: viewStore.binding(
                             get: \.section,

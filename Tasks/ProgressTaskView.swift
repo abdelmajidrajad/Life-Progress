@@ -283,6 +283,7 @@ struct ProgressTaskView: View {
                             case .active:
                                 HStack(alignment: .lastTextBaseline) {
                                     buildText(from: viewStore.result)
+                                    Spacer()
                                     Text(percentFormatter().string(from: viewStore.progress) ?? "")
                                         .font(.preferred(.py_caption2()))
                                 }
