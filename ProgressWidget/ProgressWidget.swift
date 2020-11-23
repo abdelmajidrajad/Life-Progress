@@ -100,7 +100,7 @@ struct DayEntry: TimelineEntry {
     let configuration: ConfigurationIntent
 }
 
-import TimeClient
+//import TimeClient
 import Combine
 
 struct DayProgressWidgetEntryView : View {
@@ -116,15 +116,13 @@ struct DayProgressWidgetEntryView : View {
     var body: some View {
         switch widgetFamily {
         case .systemSmall:
-//            DayProgressView(
-//                store: Store(
-//                    initialState: entry.dayState,
-//                    reducer: .empty,
-//                    environment: ()
-//                )
-//            )
-        
-            Text(String(entry.dayState.percent))        
+            DayProgressView(
+                store: Store(
+                    initialState: entry.dayState,
+                    reducer: .empty,
+                    environment: ()
+                )
+            )                     
         default:
             Text(entry.date, style: .time)
         }

@@ -20,9 +20,6 @@
 		040F19D6255AA7E9003DAD80 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F19D5255AA7E9003DAD80 /* Parser.swift */; };
 		040F19E0255AA967003DAD80 /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F19DF255AA967003DAD80 /* Bundle.swift */; };
 		040F19F0255AB32C003DAD80 /* CountryCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F19EF255AB32C003DAD80 /* CountryCode.swift */; };
-		041266132567B8B400187436 /* TaskClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 041266122567B8B400187436 /* TaskClientLive */; };
-		041266172567B8B400187436 /* TimeClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 041266162567B8B400187436 /* TimeClientLive */; };
-		0412662E2567BAC000187436 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 0412662D2567BAC000187436 /* ComposableArchitecture */; };
 		0412668B2567C63E00187436 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0412668A2567C63E00187436 /* Extension.swift */; };
 		041266E62567C9C800187436 /* Components.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73CA12543590F0092B918 /* Components.framework */; };
 		041266E72567C9C800187436 /* Tasks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; };
@@ -71,8 +68,6 @@
 		043ECC3E2556930300FF50EC /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043ECC3D2556930300FF50EC /* NotificationsView.swift */; };
 		043ECC472556B44E00FF50EC /* AppFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 043ECC462556B44E00FF50EC /* AppFeaturesView.swift */; };
 		04422FE62561470F00AB5F03 /* WidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04422FDD256146B900AB5F03 /* WidgetBundle.swift */; };
-		0445F0AD2559A6DA00880F91 /* TaskClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 0445F0AC2559A6DA00880F91 /* TaskClientLive */; };
-		0445F0AE2559A6DA00880F91 /* TaskClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 0445F0AC2559A6DA00880F91 /* TaskClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		044B71662559545D00E357DB /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 044B71652559545D00E357DB /* Styles.swift */; };
 		0462EFD125442310003D2969 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFD025442310003D2969 /* Fonts.swift */; };
 		0462EFE425442AD7003D2969 /* DayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFE325442AD7003D2969 /* DayProgressView.swift */; };
@@ -89,6 +84,17 @@
 		04660F8E25655AEB0090497B /* View+Snap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04660F8D25655AEB0090497B /* View+Snap.swift */; };
 		0467BFF5254AABAD007FC8A3 /* Validated in Frameworks */ = {isa = PBXBuildFile; productRef = 0467BFF4254AABAD007FC8A3 /* Validated */; };
 		047BCE3B2567AD320086E077 /* Tasks.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04D7BAB7254587B7003A9774 /* Tasks.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04838370256BE8A7004AD117 /* TimeClientLive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F8F3C1256BDECE007059C5 /* TimeClientLive.framework */; };
+		04838391256BE921004AD117 /* ProgressWidgetExtension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 04A442FE255FF0F300731A3C /* ProgressWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		048383BF256BEE1E004AD117 /* YearProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73CCF2543594E0092B918 /* YearProgressView.swift */; };
+		048383C0256BEE1E004AD117 /* SwitchProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFEA254437B7003D2969 /* SwitchProgressView.swift */; };
+		048383C1256BEE1E004AD117 /* YourDayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0490045D254DC2EF0014CE7D /* YourDayProgressView.swift */; };
+		048383C2256BEE1E004AD117 /* DayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0462EFE325442AD7003D2969 /* DayProgressView.swift */; };
+		048383C3256BEE1E004AD117 /* LifeProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCD673255B12AF00DCA41C /* LifeProgressView.swift */; };
+		048383EE256BEECF004AD117 /* ProgressWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 048383F1256BEECF004AD117 /* ProgressWidget.intentdefinition */; };
+		048383EF256BEECF004AD117 /* ProgressWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 048383F1256BEECF004AD117 /* ProgressWidget.intentdefinition */; };
+		04838420256BEFFF004AD117 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73C86254357E60092B918 /* Core.framework */; };
+		04838459256BF03B004AD117 /* Components.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73CA12543590F0092B918 /* Components.framework */; };
 		0490044D254D77E60014CE7D /* DashedLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0490044C254D77E50014CE7D /* DashedLine.swift */; };
 		0490045E254DC2EF0014CE7D /* YourDayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0490045D254DC2EF0014CE7D /* YourDayProgressView.swift */; };
 		04967280255036FF0015205E /* KeyValueStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0496727F255036FF0015205E /* KeyValueStorage.swift */; };
@@ -96,11 +102,7 @@
 		04A44302255FF0F300731A3C /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04A44301255FF0F300731A3C /* SwiftUI.framework */; };
 		04A44305255FF0F300731A3C /* ProgressWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04A44304255FF0F300731A3C /* ProgressWidget.swift */; };
 		04A44308255FF0F400731A3C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04A44307255FF0F400731A3C /* Assets.xcassets */; };
-		04A4430A255FF0F400731A3C /* ProgressWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 04A44306255FF0F300731A3C /* ProgressWidget.intentdefinition */; };
-		04A4430B255FF0F400731A3C /* ProgressWidget.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = 04A44306255FF0F300731A3C /* ProgressWidget.intentdefinition */; };
 		04BA22122556EAB9006C49DA /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04BA22112556EAB9006C49DA /* ShareSheet.swift */; };
-		04BC0F3F254EE2BA003D89E1 /* TimeClientLive in Frameworks */ = {isa = PBXBuildFile; productRef = 04BC0F3E254EE2BA003D89E1 /* TimeClientLive */; };
-		04BC0F53254EE320003D89E1 /* TimeClientLive in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 04BC0F3E254EE2BA003D89E1 /* TimeClientLive */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		04C9D10C2562EC8A00F924A8 /* YearDayProgressWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C9D10B2562EC8A00F924A8 /* YearDayProgressWidget.swift */; };
 		04C9D1472562F59500F924A8 /* NewColor+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C9D1462562F59500F924A8 /* NewColor+Color.swift */; };
 		04D446352563F32F0036991F /* View+Corners.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D446342563F32F0036991F /* View+Corners.swift */; };
@@ -115,7 +117,6 @@
 		04D7BB0625458893003A9774 /* TasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D7BB0525458893003A9774 /* TasksView.swift */; };
 		04DCD65D255B03D200DCA41C /* CountryLifeAverage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCD65C255B03D200DCA41C /* CountryLifeAverage.swift */; };
 		04DCD674255B12AF00DCA41C /* LifeProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04DCD673255B12AF00DCA41C /* LifeProgressView.swift */; };
-		04E10A26256BDA090033B208 /* TimeClient in Frameworks */ = {isa = PBXBuildFile; productRef = 04E10A25256BDA090033B208 /* TimeClient */; };
 		04E5137525596C0000A6BE95 /* Components.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73CA12543590F0092B918 /* Components.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		04E73C2F2542C2030092B918 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73C2E2542C2030092B918 /* AppDelegate.swift */; };
 		04E73C312542C2030092B918 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73C302542C2030092B918 /* SceneDelegate.swift */; };
@@ -136,11 +137,35 @@
 		04E73CD02543594E0092B918 /* YearProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E73CCF2543594E0092B918 /* YearProgressView.swift */; };
 		04E73CE125435F370092B918 /* Core.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04E73C86254357E60092B918 /* Core.framework */; };
 		04F0AEBB2562C66300DED036 /* MyDayProgressWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0425920C2562BC5C00087394 /* MyDayProgressWidget.swift */; };
-		04F8F355256BDC2C007059C5 /* TaskClient in Frameworks */ = {isa = PBXBuildFile; productRef = 04F8F354256BDC2C007059C5 /* TaskClient */; };
-		04F8F356256BDC2C007059C5 /* TaskClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 04F8F354256BDC2C007059C5 /* TaskClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		04F8F358256BDC2C007059C5 /* TimeClient in Frameworks */ = {isa = PBXBuildFile; productRef = 04F8F357256BDC2C007059C5 /* TimeClient */; };
-		04F8F359256BDC2C007059C5 /* TimeClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 04F8F357256BDC2C007059C5 /* TimeClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-		04F8F362256BDC8C007059C5 /* TimeClient in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 04E10A25256BDA090033B208 /* TimeClient */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		04F8F374256BDEB6007059C5 /* TimeClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 04F8F372256BDEB6007059C5 /* TimeClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04F8F377256BDEB6007059C5 /* TimeClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F8F370256BDEB6007059C5 /* TimeClient.framework */; };
+		04F8F378256BDEB6007059C5 /* TimeClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04F8F370256BDEB6007059C5 /* TimeClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04F8F38E256BDEBE007059C5 /* TaskClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 04F8F38C256BDEBE007059C5 /* TaskClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04F8F391256BDEBE007059C5 /* TaskClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F8F38A256BDEBE007059C5 /* TaskClient.framework */; };
+		04F8F392256BDEBE007059C5 /* TaskClient.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04F8F38A256BDEBE007059C5 /* TaskClient.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04F8F3A9256BDEC6007059C5 /* TaskClientLive.h in Headers */ = {isa = PBXBuildFile; fileRef = 04F8F3A7256BDEC6007059C5 /* TaskClientLive.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04F8F3AC256BDEC6007059C5 /* TaskClientLive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F8F3A5256BDEC6007059C5 /* TaskClientLive.framework */; };
+		04F8F3AD256BDEC6007059C5 /* TaskClientLive.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04F8F3A5256BDEC6007059C5 /* TaskClientLive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04F8F3C5256BDECE007059C5 /* TimeClientLive.h in Headers */ = {isa = PBXBuildFile; fileRef = 04F8F3C3256BDECE007059C5 /* TimeClientLive.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		04F8F3C8256BDECE007059C5 /* TimeClientLive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F8F3C1256BDECE007059C5 /* TimeClientLive.framework */; };
+		04F8F3C9256BDECE007059C5 /* TimeClientLive.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 04F8F3C1256BDECE007059C5 /* TimeClientLive.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		04F8F41B256BDF26007059C5 /* Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F8F41A256BDF26007059C5 /* Live.swift */; };
+		04F8F42D256BDF45007059C5 /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F8F428256BDF44007059C5 /* Mocks.swift */; };
+		04F8F42E256BDF45007059C5 /* EmptyPublisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F8F429256BDF44007059C5 /* EmptyPublisher.swift */; };
+		04F8F42F256BDF45007059C5 /* Date+End.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F8F42A256BDF44007059C5 /* Date+End.swift */; };
+		04F8F430256BDF45007059C5 /* Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F8F42B256BDF44007059C5 /* Interface.swift */; };
+		04F8F431256BDF45007059C5 /* TimeResult+Attributed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F8F42C256BDF45007059C5 /* TimeResult+Attributed.swift */; };
+		04F8F43F256BDF51007059C5 /* Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F8F43E256BDF51007059C5 /* Live.swift */; };
+		04F8F44C256BDF6A007059C5 /* TimeClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F8F370256BDEB6007059C5 /* TimeClient.framework */; };
+		04F8F450256BDF7A007059C5 /* TaskClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F8F38A256BDEBE007059C5 /* TaskClient.framework */; };
+		04F8F454256BDF7A007059C5 /* TimeClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F8F370256BDEB6007059C5 /* TimeClient.framework */; };
+		04F8F464256BDF8D007059C5 /* TaskClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F8F38A256BDEBE007059C5 /* TaskClient.framework */; };
+		04F8F469256BDF97007059C5 /* TimeClient.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 04F8F370256BDEB6007059C5 /* TimeClient.framework */; };
+		04F8F49E256BE037007059C5 /* Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F8F49C256BE037007059C5 /* Interface.swift */; };
+		04F8F49F256BE037007059C5 /* Mocks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F8F49D256BE037007059C5 /* Mocks.swift */; };
+		04F8F4AF256BE041007059C5 /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F8F4AC256BE040007059C5 /* Bundle.swift */; };
+		04F8F4B0256BE041007059C5 /* Empty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F8F4AD256BE041007059C5 /* Empty.swift */; };
+		04F8F4B1256BE041007059C5 /* ProgressColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04F8F4AE256BE041007059C5 /* ProgressColor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -207,6 +232,34 @@
 			remoteGlobalIDString = 04E73C85254357E60092B918;
 			remoteInfo = Core;
 		};
+		04838372256BE8A7004AD117 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04E73C232542C2030092B918 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04F8F3C0256BDECE007059C5;
+			remoteInfo = TimeClientLive;
+		};
+		04838392256BE921004AD117 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04E73C232542C2030092B918 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04A442FD255FF0F300731A3C;
+			remoteInfo = ProgressWidgetExtension;
+		};
+		04838402256BEFF6004AD117 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04E73C232542C2030092B918 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04E73C85254357E60092B918;
+			remoteInfo = Core;
+		};
+		0483845B256BF03B004AD117 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04E73C232542C2030092B918 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04E73CA02543590F0092B918;
+			remoteInfo = Components;
+		};
 		04D7BAC1254587B7003A9774 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 04E73C232542C2030092B918 /* Project object */;
@@ -249,6 +302,69 @@
 			remoteGlobalIDString = 04E73C2A2542C2030092B918;
 			remoteInfo = "Life Progress";
 		};
+		04F8F375256BDEB6007059C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04E73C232542C2030092B918 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04F8F36F256BDEB6007059C5;
+			remoteInfo = TimeClient;
+		};
+		04F8F38F256BDEBE007059C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04E73C232542C2030092B918 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04F8F389256BDEBE007059C5;
+			remoteInfo = TaskClient;
+		};
+		04F8F3AA256BDEC6007059C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04E73C232542C2030092B918 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04F8F3A4256BDEC6007059C5;
+			remoteInfo = TaskClientLive;
+		};
+		04F8F3C6256BDECE007059C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04E73C232542C2030092B918 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04F8F3C0256BDECE007059C5;
+			remoteInfo = TimeClientLive;
+		};
+		04F8F44E256BDF6A007059C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04E73C232542C2030092B918 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04F8F36F256BDEB6007059C5;
+			remoteInfo = TimeClient;
+		};
+		04F8F452256BDF7A007059C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04E73C232542C2030092B918 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04F8F389256BDEBE007059C5;
+			remoteInfo = TaskClient;
+		};
+		04F8F456256BDF7B007059C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04E73C232542C2030092B918 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04F8F36F256BDEB6007059C5;
+			remoteInfo = TimeClient;
+		};
+		04F8F466256BDF8D007059C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04E73C232542C2030092B918 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04F8F389256BDEBE007059C5;
+			remoteInfo = TaskClient;
+		};
+		04F8F46B256BDF97007059C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 04E73C232542C2030092B918 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 04F8F36F256BDEB6007059C5;
+			remoteInfo = TimeClient;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -261,27 +377,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		04E109A9256BCB200033B208 /* Embed Frameworks */ = {
+		04838394256BE921004AD117 /* Embed App Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
-			dstSubfolderSpec = 10;
+			dstSubfolderSpec = 13;
 			files = (
-				04F8F362256BDC8C007059C5 /* TimeClient in Embed Frameworks */,
+				04838391256BE921004AD117 /* ProgressWidgetExtension.appex in Embed App Extensions */,
 			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		04E109AB256BCB250033B208 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				04F8F359256BDC2C007059C5 /* TimeClient in Embed Frameworks */,
-				04F8F356256BDC2C007059C5 /* TaskClient in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
+			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		04E73C8F254357E60092B918 /* Embed Frameworks */ = {
@@ -292,10 +396,12 @@
 			files = (
 				047BCE3B2567AD320086E077 /* Tasks.framework in Embed Frameworks */,
 				04E73C8E254357E60092B918 /* Core.framework in Embed Frameworks */,
-				0445F0AE2559A6DA00880F91 /* TaskClientLive in Embed Frameworks */,
+				04F8F3C9256BDECE007059C5 /* TimeClientLive.framework in Embed Frameworks */,
+				04F8F392256BDEBE007059C5 /* TaskClient.framework in Embed Frameworks */,
+				04F8F378256BDEB6007059C5 /* TimeClient.framework in Embed Frameworks */,
 				04E5137525596C0000A6BE95 /* Components.framework in Embed Frameworks */,
 				0439134825518A1200B62018 /* Settings.framework in Embed Frameworks */,
-				04BC0F53254EE320003D89E1 /* TimeClientLive in Embed Frameworks */,
+				04F8F3AD256BDEC6007059C5 /* TaskClientLive.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -316,7 +422,6 @@
 		040F19DF255AA967003DAD80 /* Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
 		040F19EF255AB32C003DAD80 /* CountryCode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCode.swift; sourceTree = "<group>"; };
 		0412336D254475C20072ABF3 /* ProgressTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressTaskView.swift; sourceTree = "<group>"; };
-		04123374254492FA0072ABF3 /* TaskClient */ = {isa = PBXFileReference; lastKnownFileType = folder; name = TaskClient; path = ../../TaskClient; sourceTree = "<group>"; };
 		0412668A2567C63E00187436 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		041267242567D36B00187436 /* State.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = State.swift; sourceTree = "<group>"; };
 		0412964F2549B0C2008337A0 /* Blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Blur.swift; sourceTree = "<group>"; };
@@ -378,6 +483,7 @@
 		0463E04C256685ED00A331AF /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		04660F7D2565560C0090497B /* Sharing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sharing.swift; sourceTree = "<group>"; };
 		04660F8D25655AEB0090497B /* View+Snap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Snap.swift"; sourceTree = "<group>"; };
+		048383F0256BEECF004AD117 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; name = Base; path = Base.lproj/ProgressWidget.intentdefinition; sourceTree = "<group>"; };
 		0490044C254D77E50014CE7D /* DashedLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashedLine.swift; sourceTree = "<group>"; };
 		0490045D254DC2EF0014CE7D /* YourDayProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YourDayProgressView.swift; sourceTree = "<group>"; };
 		0496727F255036FF0015205E /* KeyValueStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueStorage.swift; sourceTree = "<group>"; };
@@ -385,7 +491,6 @@
 		04A442FF255FF0F300731A3C /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		04A44301255FF0F300731A3C /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		04A44304255FF0F300731A3C /* ProgressWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressWidget.swift; sourceTree = "<group>"; };
-		04A44306255FF0F300731A3C /* ProgressWidget.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = ProgressWidget.intentdefinition; sourceTree = "<group>"; };
 		04A44307255FF0F400731A3C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04A44309255FF0F400731A3C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04A4430F255FF0F400731A3C /* ProgressWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ProgressWidgetExtension.entitlements; sourceTree = "<group>"; };
@@ -420,7 +525,6 @@
 		04E73C4F2542C2040092B918 /* Life ProgressUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Life ProgressUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04E73C532542C2040092B918 /* Life_ProgressUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Life_ProgressUITests.swift; sourceTree = "<group>"; };
 		04E73C552542C2040092B918 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		04E73C702542C4100092B918 /* TimeClient */ = {isa = PBXFileReference; lastKnownFileType = folder; name = TimeClient; path = ../../TimeClient; sourceTree = "<group>"; };
 		04E73C86254357E60092B918 /* Core.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Core.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		04E73C88254357E60092B918 /* Core.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Core.h; sourceTree = "<group>"; };
 		04E73C89254357E60092B918 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -432,6 +536,30 @@
 		04E73CB22543590F0092B918 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		04E73CCF2543594E0092B918 /* YearProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearProgressView.swift; sourceTree = "<group>"; };
 		04E73CD72543597E0092B918 /* ProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
+		04F8F370256BDEB6007059C5 /* TimeClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TimeClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		04F8F372256BDEB6007059C5 /* TimeClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeClient.h; sourceTree = "<group>"; };
+		04F8F373256BDEB6007059C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04F8F38A256BDEBE007059C5 /* TaskClient.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TaskClient.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		04F8F38C256BDEBE007059C5 /* TaskClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskClient.h; sourceTree = "<group>"; };
+		04F8F38D256BDEBE007059C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04F8F3A5256BDEC6007059C5 /* TaskClientLive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TaskClientLive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		04F8F3A7256BDEC6007059C5 /* TaskClientLive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskClientLive.h; sourceTree = "<group>"; };
+		04F8F3A8256BDEC6007059C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04F8F3C1256BDECE007059C5 /* TimeClientLive.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TimeClientLive.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		04F8F3C3256BDECE007059C5 /* TimeClientLive.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TimeClientLive.h; sourceTree = "<group>"; };
+		04F8F3C4256BDECE007059C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		04F8F41A256BDF26007059C5 /* Live.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Live.swift; sourceTree = "<group>"; };
+		04F8F428256BDF44007059C5 /* Mocks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
+		04F8F429256BDF44007059C5 /* EmptyPublisher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyPublisher.swift; sourceTree = "<group>"; };
+		04F8F42A256BDF44007059C5 /* Date+End.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Date+End.swift"; sourceTree = "<group>"; };
+		04F8F42B256BDF44007059C5 /* Interface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interface.swift; sourceTree = "<group>"; };
+		04F8F42C256BDF45007059C5 /* TimeResult+Attributed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TimeResult+Attributed.swift"; sourceTree = "<group>"; };
+		04F8F43E256BDF51007059C5 /* Live.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Live.swift; sourceTree = "<group>"; };
+		04F8F49C256BE037007059C5 /* Interface.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interface.swift; sourceTree = "<group>"; };
+		04F8F49D256BE037007059C5 /* Mocks.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mocks.swift; sourceTree = "<group>"; };
+		04F8F4AC256BE040007059C5 /* Bundle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
+		04F8F4AD256BE041007059C5 /* Empty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Empty.swift; sourceTree = "<group>"; };
+		04F8F4AE256BE041007059C5 /* ProgressColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressColor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -455,10 +583,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0412662E2567BAC000187436 /* ComposableArchitecture in Frameworks */,
-				041266172567B8B400187436 /* TimeClientLive in Frameworks */,
-				041266132567B8B400187436 /* TaskClientLive in Frameworks */,
 				04A44302255FF0F300731A3C /* SwiftUI.framework in Frameworks */,
+				04838370256BE8A7004AD117 /* TimeClientLive.framework in Frameworks */,
+				04838459256BF03B004AD117 /* Components.framework in Frameworks */,
+				04838420256BEFFF004AD117 /* Core.framework in Frameworks */,
 				04A44300255FF0F300731A3C /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -467,9 +595,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04F8F355256BDC2C007059C5 /* TaskClient in Frameworks */,
+				04F8F454256BDF7A007059C5 /* TimeClient.framework in Frameworks */,
+				04F8F450256BDF7A007059C5 /* TaskClient.framework in Frameworks */,
 				04D7BAE5254587DF003A9774 /* Core.framework in Frameworks */,
-				04F8F358256BDC2C007059C5 /* TimeClient in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -487,10 +615,12 @@
 			files = (
 				041266E62567C9C800187436 /* Components.framework in Frameworks */,
 				041266E72567C9C800187436 /* Tasks.framework in Frameworks */,
-				0445F0AD2559A6DA00880F91 /* TaskClientLive in Frameworks */,
+				04F8F3C8256BDECE007059C5 /* TimeClientLive.framework in Frameworks */,
+				04F8F391256BDEBE007059C5 /* TaskClient.framework in Frameworks */,
+				04F8F377256BDEB6007059C5 /* TimeClient.framework in Frameworks */,
 				04E73C8D254357E60092B918 /* Core.framework in Frameworks */,
 				0439134725518A1200B62018 /* Settings.framework in Frameworks */,
-				04BC0F3F254EE2BA003D89E1 /* TimeClientLive in Frameworks */,
+				04F8F3AC256BDEC6007059C5 /* TaskClientLive.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -521,7 +651,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				04E10A26256BDA090033B208 /* TimeClient in Frameworks */,
+				04F8F44C256BDF6A007059C5 /* TimeClient.framework in Frameworks */,
 				04E73CE125435F370092B918 /* Core.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -531,6 +661,36 @@
 			buildActionMask = 2147483647;
 			files = (
 				04E73CAA2543590F0092B918 /* Components.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04F8F36D256BDEB6007059C5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04F8F387256BDEBE007059C5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04F8F3A2256BDEC6007059C5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04F8F464256BDF8D007059C5 /* TaskClient.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04F8F3BE256BDECE007059C5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04F8F469256BDF97007059C5 /* TimeClient.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -670,7 +830,7 @@
 			children = (
 				04C9D1452562F58400F924A8 /* Supporting Files */,
 				04A44304255FF0F300731A3C /* ProgressWidget.swift */,
-				04A44306255FF0F300731A3C /* ProgressWidget.intentdefinition */,
+				048383F1256BEECF004AD117 /* ProgressWidget.intentdefinition */,
 				04A44307255FF0F400731A3C /* Assets.xcassets */,
 				04A44309255FF0F400731A3C /* Info.plist */,
 				04422FDD256146B900AB5F03 /* WidgetBundle.swift */,
@@ -729,6 +889,10 @@
 				0439133325518A1200B62018 /* Settings */,
 				0439134025518A1200B62018 /* SettingsTests */,
 				04A44303255FF0F300731A3C /* ProgressWidget */,
+				04F8F371256BDEB6007059C5 /* TimeClient */,
+				04F8F38B256BDEBE007059C5 /* TaskClient */,
+				04F8F3A6256BDEC6007059C5 /* TaskClientLive */,
+				04F8F3C2256BDECE007059C5 /* TimeClientLive */,
 				04E73C2C2542C2030092B918 /* Products */,
 				04E73CE025435F370092B918 /* Frameworks */,
 			);
@@ -748,6 +912,10 @@
 				0439133225518A1200B62018 /* Settings.framework */,
 				0439133A25518A1200B62018 /* SettingsTests.xctest */,
 				04A442FE255FF0F300731A3C /* ProgressWidgetExtension.appex */,
+				04F8F370256BDEB6007059C5 /* TimeClient.framework */,
+				04F8F38A256BDEBE007059C5 /* TaskClient.framework */,
+				04F8F3A5256BDEC6007059C5 /* TaskClientLive.framework */,
+				04F8F3C1256BDECE007059C5 /* TimeClientLive.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -761,8 +929,6 @@
 				042D302025553C9500C26A12 /* Store */,
 				040DD86A255297E80089D29C /* Supporting Files */,
 				0439138225518D4E00B62018 /* App Icons */,
-				04123374254492FA0072ABF3 /* TaskClient */,
-				04E73C702542C4100092B918 /* TimeClient */,
 				04E73C2E2542C2030092B918 /* AppDelegate.swift */,
 				04E73C302542C2030092B918 /* SceneDelegate.swift */,
 				04E73C322542C2030092B918 /* ContentView.swift */,
@@ -879,6 +1045,54 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		04F8F371256BDEB6007059C5 /* TimeClient */ = {
+			isa = PBXGroup;
+			children = (
+				04F8F42A256BDF44007059C5 /* Date+End.swift */,
+				04F8F429256BDF44007059C5 /* EmptyPublisher.swift */,
+				04F8F42C256BDF45007059C5 /* TimeResult+Attributed.swift */,
+				04F8F42B256BDF44007059C5 /* Interface.swift */,
+				04F8F428256BDF44007059C5 /* Mocks.swift */,
+				04F8F372256BDEB6007059C5 /* TimeClient.h */,
+				04F8F373256BDEB6007059C5 /* Info.plist */,
+			);
+			path = TimeClient;
+			sourceTree = "<group>";
+		};
+		04F8F38B256BDEBE007059C5 /* TaskClient */ = {
+			isa = PBXGroup;
+			children = (
+				04F8F4AC256BE040007059C5 /* Bundle.swift */,
+				04F8F4AD256BE041007059C5 /* Empty.swift */,
+				04F8F4AE256BE041007059C5 /* ProgressColor.swift */,
+				04F8F49C256BE037007059C5 /* Interface.swift */,
+				04F8F49D256BE037007059C5 /* Mocks.swift */,
+				04F8F38C256BDEBE007059C5 /* TaskClient.h */,
+				04F8F38D256BDEBE007059C5 /* Info.plist */,
+			);
+			path = TaskClient;
+			sourceTree = "<group>";
+		};
+		04F8F3A6256BDEC6007059C5 /* TaskClientLive */ = {
+			isa = PBXGroup;
+			children = (
+				04F8F41A256BDF26007059C5 /* Live.swift */,
+				04F8F3A7256BDEC6007059C5 /* TaskClientLive.h */,
+				04F8F3A8256BDEC6007059C5 /* Info.plist */,
+			);
+			path = TaskClientLive;
+			sourceTree = "<group>";
+		};
+		04F8F3C2256BDECE007059C5 /* TimeClientLive */ = {
+			isa = PBXGroup;
+			children = (
+				04F8F43E256BDF51007059C5 /* Live.swift */,
+				04F8F3C3256BDECE007059C5 /* TimeClientLive.h */,
+				04F8F3C4256BDECE007059C5 /* Info.plist */,
+			);
+			path = TimeClientLive;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -911,6 +1125,38 @@
 			buildActionMask = 2147483647;
 			files = (
 				04E73CB32543590F0092B918 /* Components.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04F8F36B256BDEB6007059C5 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04F8F374256BDEB6007059C5 /* TimeClient.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04F8F385256BDEBE007059C5 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04F8F38E256BDEBE007059C5 /* TaskClient.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04F8F3A0256BDEC6007059C5 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04F8F3A9256BDEC6007059C5 /* TaskClientLive.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04F8F3BC256BDECE007059C5 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04F8F3C5256BDECE007059C5 /* TimeClientLive.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -966,12 +1212,12 @@
 			buildRules = (
 			);
 			dependencies = (
+				04838373256BE8A7004AD117 /* PBXTargetDependency */,
+				04838403256BEFF6004AD117 /* PBXTargetDependency */,
+				0483845C256BF03B004AD117 /* PBXTargetDependency */,
 			);
 			name = ProgressWidgetExtension;
 			packageProductDependencies = (
-				041266122567B8B400187436 /* TaskClientLive */,
-				041266162567B8B400187436 /* TimeClientLive */,
-				0412662D2567BAC000187436 /* ComposableArchitecture */,
 			);
 			productName = ProgressWidgetExtension;
 			productReference = 04A442FE255FF0F300731A3C /* ProgressWidgetExtension.appex */;
@@ -985,17 +1231,16 @@
 				04D7BAB3254587B7003A9774 /* Sources */,
 				04D7BAB4254587B7003A9774 /* Frameworks */,
 				04D7BAB5254587B7003A9774 /* Resources */,
-				04E109AB256BCB250033B208 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				041265D82567B72400187436 /* PBXTargetDependency */,
+				04F8F453256BDF7A007059C5 /* PBXTargetDependency */,
+				04F8F457256BDF7B007059C5 /* PBXTargetDependency */,
 			);
 			name = Tasks;
 			packageProductDependencies = (
-				04F8F354256BDC2C007059C5 /* TaskClient */,
-				04F8F357256BDC2C007059C5 /* TimeClient */,
 			);
 			productName = Tasks;
 			productReference = 04D7BAB7254587B7003A9774 /* Tasks.framework */;
@@ -1030,6 +1275,7 @@
 				04E73C8F254357E60092B918 /* Embed Frameworks */,
 				0445F0B72559A79C00880F91 /* CopyFiles */,
 				0445F0B82559A7B400880F91 /* ShellScript */,
+				04838394256BE921004AD117 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -1038,11 +1284,14 @@
 				041265DE2567B73900187436 /* PBXTargetDependency */,
 				041265E02567B73900187436 /* PBXTargetDependency */,
 				041265E22567B73900187436 /* PBXTargetDependency */,
+				04F8F376256BDEB6007059C5 /* PBXTargetDependency */,
+				04F8F390256BDEBE007059C5 /* PBXTargetDependency */,
+				04F8F3AB256BDEC6007059C5 /* PBXTargetDependency */,
+				04F8F3C7256BDECE007059C5 /* PBXTargetDependency */,
+				04838393256BE921004AD117 /* PBXTargetDependency */,
 			);
 			name = "Life Progress";
 			packageProductDependencies = (
-				04BC0F3E254EE2BA003D89E1 /* TimeClientLive */,
-				0445F0AC2559A6DA00880F91 /* TaskClientLive */,
 			);
 			productName = "Life Progress";
 			productReference = 04E73C2B2542C2030092B918 /* Life Progress.app */;
@@ -1114,16 +1363,15 @@
 				04E73C9D2543590F0092B918 /* Sources */,
 				04E73C9E2543590F0092B918 /* Frameworks */,
 				04E73C9F2543590F0092B918 /* Resources */,
-				04E109A9256BCB200033B208 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				041265DA2567B72A00187436 /* PBXTargetDependency */,
+				04F8F44F256BDF6A007059C5 /* PBXTargetDependency */,
 			);
 			name = Components;
 			packageProductDependencies = (
-				04E10A25256BDA090033B208 /* TimeClient */,
 			);
 			productName = Components;
 			productReference = 04E73CA12543590F0092B918 /* Components.framework */;
@@ -1147,6 +1395,80 @@
 			productName = ComponentsTests;
 			productReference = 04E73CA92543590F0092B918 /* ComponentsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		04F8F36F256BDEB6007059C5 /* TimeClient */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04F8F379256BDEB6007059C5 /* Build configuration list for PBXNativeTarget "TimeClient" */;
+			buildPhases = (
+				04F8F36B256BDEB6007059C5 /* Headers */,
+				04F8F36C256BDEB6007059C5 /* Sources */,
+				04F8F36D256BDEB6007059C5 /* Frameworks */,
+				04F8F36E256BDEB6007059C5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TimeClient;
+			productName = TimeClient;
+			productReference = 04F8F370256BDEB6007059C5 /* TimeClient.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		04F8F389256BDEBE007059C5 /* TaskClient */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04F8F393256BDEBE007059C5 /* Build configuration list for PBXNativeTarget "TaskClient" */;
+			buildPhases = (
+				04F8F385256BDEBE007059C5 /* Headers */,
+				04F8F386256BDEBE007059C5 /* Sources */,
+				04F8F387256BDEBE007059C5 /* Frameworks */,
+				04F8F388256BDEBE007059C5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TaskClient;
+			productName = TaskClient;
+			productReference = 04F8F38A256BDEBE007059C5 /* TaskClient.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		04F8F3A4256BDEC6007059C5 /* TaskClientLive */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04F8F3AE256BDEC6007059C5 /* Build configuration list for PBXNativeTarget "TaskClientLive" */;
+			buildPhases = (
+				04F8F3A0256BDEC6007059C5 /* Headers */,
+				04F8F3A1256BDEC6007059C5 /* Sources */,
+				04F8F3A2256BDEC6007059C5 /* Frameworks */,
+				04F8F3A3256BDEC6007059C5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				04F8F467256BDF8D007059C5 /* PBXTargetDependency */,
+			);
+			name = TaskClientLive;
+			productName = TaskClientLive;
+			productReference = 04F8F3A5256BDEC6007059C5 /* TaskClientLive.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		04F8F3C0256BDECE007059C5 /* TimeClientLive */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 04F8F3CA256BDECE007059C5 /* Build configuration list for PBXNativeTarget "TimeClientLive" */;
+			buildPhases = (
+				04F8F3BC256BDECE007059C5 /* Headers */,
+				04F8F3BD256BDECE007059C5 /* Sources */,
+				04F8F3BE256BDECE007059C5 /* Frameworks */,
+				04F8F3BF256BDECE007059C5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				04F8F46C256BDF97007059C5 /* PBXTargetDependency */,
+			);
+			name = TimeClientLive;
+			productName = TimeClientLive;
+			productReference = 04F8F3C1256BDECE007059C5 /* TimeClientLive.framework */;
+			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
@@ -1193,6 +1515,19 @@
 					04E73CA82543590F0092B918 = {
 						CreatedOnToolsVersion = 12.1;
 					};
+					04F8F36F256BDEB6007059C5 = {
+						CreatedOnToolsVersion = 12.3;
+					};
+					04F8F389256BDEBE007059C5 = {
+						CreatedOnToolsVersion = 12.3;
+						LastSwiftMigration = 1230;
+					};
+					04F8F3A4256BDEC6007059C5 = {
+						CreatedOnToolsVersion = 12.3;
+					};
+					04F8F3C0256BDECE007059C5 = {
+						CreatedOnToolsVersion = 12.3;
+					};
 				};
 			};
 			buildConfigurationList = 04E73C262542C2030092B918 /* Build configuration list for PBXProject "Life Progress" */;
@@ -1224,6 +1559,10 @@
 				0439133125518A1200B62018 /* Settings */,
 				0439133925518A1200B62018 /* SettingsTests */,
 				04A442FD255FF0F300731A3C /* ProgressWidgetExtension */,
+				04F8F36F256BDEB6007059C5 /* TimeClient */,
+				04F8F389256BDEBE007059C5 /* TaskClient */,
+				04F8F3A4256BDEC6007059C5 /* TaskClientLive */,
+				04F8F3C0256BDECE007059C5 /* TimeClientLive */,
 			);
 		};
 /* End PBXProject section */
@@ -1323,6 +1662,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		04F8F36E256BDEB6007059C5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04F8F388256BDEBE007059C5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04F8F3A3256BDEC6007059C5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04F8F3BF256BDECE007059C5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -1376,16 +1743,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				048383C0256BEE1E004AD117 /* SwitchProgressView.swift in Sources */,
+				048383C3256BEE1E004AD117 /* LifeProgressView.swift in Sources */,
 				04F0AEBB2562C66300DED036 /* MyDayProgressWidget.swift in Sources */,
 				04C9D10C2562EC8A00F924A8 /* YearDayProgressWidget.swift in Sources */,
 				04A44305255FF0F300731A3C /* ProgressWidget.swift in Sources */,
 				0412673E2567D38700187436 /* State.swift in Sources */,
+				048383C1256BEE1E004AD117 /* YourDayProgressView.swift in Sources */,
 				04422FE62561470F00AB5F03 /* WidgetBundle.swift in Sources */,
 				04C9D1472562F59500F924A8 /* NewColor+Color.swift in Sources */,
 				041267112567D2DD00187436 /* Extension.swift in Sources */,
-				04A4430A255FF0F400731A3C /* ProgressWidget.intentdefinition in Sources */,
+				048383EF256BEECF004AD117 /* ProgressWidget.intentdefinition in Sources */,
 				0425917E2562956F00087394 /* PersistantContainer.swift in Sources */,
 				042591A82562AC5700087394 /* YearProgressWidget.swift in Sources */,
+				048383C2256BEE1E004AD117 /* DayProgressView.swift in Sources */,
+				048383BF256BEE1E004AD117 /* YearProgressView.swift in Sources */,
 				042591CF2562B0FE00087394 /* LifeProgressWidget.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1422,7 +1794,7 @@
 				04660F7E2565560C0090497B /* Sharing.swift in Sources */,
 				04259176256294E700087394 /* PersistantContainer.swift in Sources */,
 				04E73C332542C2030092B918 /* ContentView.swift in Sources */,
-				04A4430B255FF0F400731A3C /* ProgressWidget.intentdefinition in Sources */,
+				048383EE256BEECF004AD117 /* ProgressWidget.intentdefinition in Sources */,
 				042D303D25553D2400C26A12 /* Reducer.swift in Sources */,
 				042D302B25553CCD00C26A12 /* Action.swift in Sources */,
 				04660F362565340D0090497B /* ShareView.swift in Sources */,
@@ -1505,6 +1877,46 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		04F8F36C256BDEB6007059C5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04F8F431256BDF45007059C5 /* TimeResult+Attributed.swift in Sources */,
+				04F8F42E256BDF45007059C5 /* EmptyPublisher.swift in Sources */,
+				04F8F42F256BDF45007059C5 /* Date+End.swift in Sources */,
+				04F8F42D256BDF45007059C5 /* Mocks.swift in Sources */,
+				04F8F430256BDF45007059C5 /* Interface.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04F8F386256BDEBE007059C5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04F8F4B1256BE041007059C5 /* ProgressColor.swift in Sources */,
+				04F8F49E256BE037007059C5 /* Interface.swift in Sources */,
+				04F8F4B0256BE041007059C5 /* Empty.swift in Sources */,
+				04F8F4AF256BE041007059C5 /* Bundle.swift in Sources */,
+				04F8F49F256BE037007059C5 /* Mocks.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04F8F3A1256BDEC6007059C5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04F8F41B256BDF26007059C5 /* Live.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		04F8F3BD256BDECE007059C5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				04F8F43F256BDF51007059C5 /* Live.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1553,6 +1965,26 @@
 			target = 04E73C85254357E60092B918 /* Core */;
 			targetProxy = 0439135E25518A4900B62018 /* PBXContainerItemProxy */;
 		};
+		04838373256BE8A7004AD117 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04F8F3C0256BDECE007059C5 /* TimeClientLive */;
+			targetProxy = 04838372256BE8A7004AD117 /* PBXContainerItemProxy */;
+		};
+		04838393256BE921004AD117 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04A442FD255FF0F300731A3C /* ProgressWidgetExtension */;
+			targetProxy = 04838392256BE921004AD117 /* PBXContainerItemProxy */;
+		};
+		04838403256BEFF6004AD117 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04E73C85254357E60092B918 /* Core */;
+			targetProxy = 04838402256BEFF6004AD117 /* PBXContainerItemProxy */;
+		};
+		0483845C256BF03B004AD117 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04E73CA02543590F0092B918 /* Components */;
+			targetProxy = 0483845B256BF03B004AD117 /* PBXContainerItemProxy */;
+		};
 		04D7BAC2254587B7003A9774 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 04D7BAB6254587B7003A9774 /* Tasks */;
@@ -1583,6 +2015,51 @@
 			target = 04E73C2A2542C2030092B918 /* Life Progress */;
 			targetProxy = 04E73CAD2543590F0092B918 /* PBXContainerItemProxy */;
 		};
+		04F8F376256BDEB6007059C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04F8F36F256BDEB6007059C5 /* TimeClient */;
+			targetProxy = 04F8F375256BDEB6007059C5 /* PBXContainerItemProxy */;
+		};
+		04F8F390256BDEBE007059C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04F8F389256BDEBE007059C5 /* TaskClient */;
+			targetProxy = 04F8F38F256BDEBE007059C5 /* PBXContainerItemProxy */;
+		};
+		04F8F3AB256BDEC6007059C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04F8F3A4256BDEC6007059C5 /* TaskClientLive */;
+			targetProxy = 04F8F3AA256BDEC6007059C5 /* PBXContainerItemProxy */;
+		};
+		04F8F3C7256BDECE007059C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04F8F3C0256BDECE007059C5 /* TimeClientLive */;
+			targetProxy = 04F8F3C6256BDECE007059C5 /* PBXContainerItemProxy */;
+		};
+		04F8F44F256BDF6A007059C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04F8F36F256BDEB6007059C5 /* TimeClient */;
+			targetProxy = 04F8F44E256BDF6A007059C5 /* PBXContainerItemProxy */;
+		};
+		04F8F453256BDF7A007059C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04F8F389256BDEBE007059C5 /* TaskClient */;
+			targetProxy = 04F8F452256BDF7A007059C5 /* PBXContainerItemProxy */;
+		};
+		04F8F457256BDF7B007059C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04F8F36F256BDEB6007059C5 /* TimeClient */;
+			targetProxy = 04F8F456256BDF7B007059C5 /* PBXContainerItemProxy */;
+		};
+		04F8F467256BDF8D007059C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04F8F389256BDEBE007059C5 /* TaskClient */;
+			targetProxy = 04F8F466256BDF8D007059C5 /* PBXContainerItemProxy */;
+		};
+		04F8F46C256BDF97007059C5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 04F8F36F256BDEB6007059C5 /* TimeClient */;
+			targetProxy = 04F8F46B256BDF97007059C5 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -1593,6 +2070,14 @@
 				0463E04C256685ED00A331AF /* de */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		048383F1256BEECF004AD117 /* ProgressWidget.intentdefinition */ = {
+			isa = PBXVariantGroup;
+			children = (
+				048383F0256BEECF004AD117 /* Base */,
+			);
+			name = ProgressWidget.intentdefinition;
 			sourceTree = "<group>";
 		};
 		04E73C3C2542C2040092B918 /* LaunchScreen.storyboard */ = {
@@ -1712,7 +2197,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = ProgressWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = NFA6K259X7;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
 				INFOPLIST_FILE = ProgressWidget/Info.plist;
@@ -1740,7 +2225,7 @@
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
 				CODE_SIGN_ENTITLEMENTS = ProgressWidgetExtension.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 5;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_TEAM = NFA6K259X7;
 				"ENABLE_HARDENED_RUNTIME[sdk=macosx*]" = NO;
 				INFOPLIST_FILE = ProgressWidget/Info.plist;
@@ -1995,7 +2480,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Life Progress/Life Progress.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"Life Progress/Preview Content\"";
 				DEVELOPMENT_TEAM = NFA6K259X7;
 				ENABLE_HARDENED_RUNTIME = NO;
@@ -2024,7 +2509,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "Life Progress/Life Progress.entitlements";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 9;
 				DEVELOPMENT_ASSET_PATHS = "\"Life Progress/Preview Content\"";
 				DEVELOPMENT_TEAM = NFA6K259X7;
 				ENABLE_HARDENED_RUNTIME = NO;
@@ -2282,6 +2767,233 @@
 			};
 			name = Release;
 		};
+		04F8F37A256BDEB6007059C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NFA6K259X7;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = TimeClient/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.majid.TimeClient;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		04F8F37B256BDEB6007059C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NFA6K259X7;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = TimeClient/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.majid.TimeClient;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		04F8F394256BDEBE007059C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NFA6K259X7;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = TaskClient/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.majid.TaskClient;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		04F8F395256BDEBE007059C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NFA6K259X7;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = TaskClient/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.majid.TaskClient;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		04F8F3AF256BDEC6007059C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NFA6K259X7;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = TaskClientLive/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.majid.TaskClientLive;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		04F8F3B0256BDEC6007059C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NFA6K259X7;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = TaskClientLive/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.majid.TaskClientLive;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		04F8F3CB256BDECE007059C5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NFA6K259X7;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = TimeClientLive/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.majid.TimeClientLive;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		04F8F3CC256BDECE007059C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = NFA6K259X7;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = TimeClientLive/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.majid.TimeClientLive;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2393,6 +3105,42 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		04F8F379256BDEB6007059C5 /* Build configuration list for PBXNativeTarget "TimeClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04F8F37A256BDEB6007059C5 /* Debug */,
+				04F8F37B256BDEB6007059C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04F8F393256BDEBE007059C5 /* Build configuration list for PBXNativeTarget "TaskClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04F8F394256BDEBE007059C5 /* Debug */,
+				04F8F395256BDEBE007059C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04F8F3AE256BDEC6007059C5 /* Build configuration list for PBXNativeTarget "TaskClientLive" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04F8F3AF256BDEC6007059C5 /* Debug */,
+				04F8F3B0256BDEC6007059C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		04F8F3CA256BDECE007059C5 /* Build configuration list for PBXNativeTarget "TimeClientLive" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				04F8F3CB256BDECE007059C5 /* Debug */,
+				04F8F3CC256BDECE007059C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
@@ -2415,48 +3163,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		041266122567B8B400187436 /* TaskClientLive */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TaskClientLive;
-		};
-		041266162567B8B400187436 /* TimeClientLive */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TimeClientLive;
-		};
-		0412662D2567BAC000187436 /* ComposableArchitecture */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 04E73C96254357FA0092B918 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
-			productName = ComposableArchitecture;
-		};
-		0445F0AC2559A6DA00880F91 /* TaskClientLive */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TaskClientLive;
-		};
 		0467BFF4254AABAD007FC8A3 /* Validated */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 0467BFF3254AABAD007FC8A3 /* XCRemoteSwiftPackageReference "swift-validated" */;
 			productName = Validated;
 		};
-		04BC0F3E254EE2BA003D89E1 /* TimeClientLive */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TimeClientLive;
-		};
-		04E10A25256BDA090033B208 /* TimeClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TimeClient;
-		};
 		04E73C97254357FA0092B918 /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 04E73C96254357FA0092B918 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
-		};
-		04F8F354256BDC2C007059C5 /* TaskClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TaskClient;
-		};
-		04F8F357256BDC2C007059C5 /* TimeClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = TimeClient;
 		};
 /* End XCSwiftPackageProductDependency section */
 

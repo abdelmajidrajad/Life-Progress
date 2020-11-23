@@ -6,10 +6,10 @@ import Intents
 struct ProgressBundle: WidgetBundle {
     @WidgetBundleBuilder
     var body: some Widget {
-//        YearProgressWidget()
+        YearProgressWidget()
         ToDayProgressWidget()
-//        LifeProgressWidget()
-//        MyDayProgressWidget()
-//        YearDayProgressWidget()
+        LifeProgressWidget()
+        MyDayProgressWidget()
+        YearDayProgressWidget()
     }
 }
