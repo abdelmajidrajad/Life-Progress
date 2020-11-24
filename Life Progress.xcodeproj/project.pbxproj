@@ -509,7 +509,6 @@
 		04D7BB0525458893003A9774 /* TasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksView.swift; sourceTree = "<group>"; };
 		04DCD65C255B03D200DCA41C /* CountryLifeAverage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryLifeAverage.swift; sourceTree = "<group>"; };
 		04DCD673255B12AF00DCA41C /* LifeProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LifeProgressView.swift; sourceTree = "<group>"; };
-		04E10A2F256BDA350033B208 /* config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = config.xcconfig; sourceTree = "<group>"; };
 		04E73C2B2542C2030092B918 /* Life Progress.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Life Progress.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		04E73C2E2542C2030092B918 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		04E73C302542C2030092B918 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -938,7 +937,6 @@
 				04E73C342542C2030092B918 /* Life_Progress.xcdatamodeld */,
 				04E73C392542C2040092B918 /* Preview Content */,
 				04259175256294E700087394 /* PersistantContainer.swift */,
-				04E10A2F256BDA350033B208 /* config.xcconfig */,
 			);
 			path = "Life Progress";
 			sourceTree = "<group>";

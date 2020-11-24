@@ -232,7 +232,7 @@ extension CreateTaskState {
             title: title,
             startDate: startDate,
             endDate: endDate,
-            startDateRange: today...endDate,            
+            startDateRange: today...endDate,
             chosenColor: chosenColor,
             progressStyle: progressStyle,
             diff: diff.string(widgetStyle, style: .long),
@@ -309,7 +309,10 @@ public struct CreateTaskView: View {
                             .padding()
                         }
                         
-                        HDashedLine()
+                        HDashedLine(color: viewStore.isValid
+                                        ? Color(.secondaryLabel)
+                                        : .red
+                        )
                         
                         DatePicker(.startDate, selection: viewStore.binding(
                             get: \.startDate,
@@ -397,7 +400,7 @@ public struct CreateTaskView: View {
                                         send: CreateTaskAction.selectStyle
                                     )
                             )
-                        }.padding(.horizontal)
+                        }.padding()
                     
                     Rectangle()
                         .fill(Color.clear)
@@ -636,7 +639,7 @@ struct CreateTaskView_Previews: PreviewProvider {
             CreateTaskView(store: Store(
                 initialState: CreateTaskState(
                     startDate: Date(),
-                    endDate: Date(),
+                    endDate: Date().addingTimeInterval(3600),
                     diff: .init(year: 1, month: 1, day: 1, hour: 1, minute: 1)
                 ),
                 reducer: createTaskReducer,
@@ -675,7 +678,7 @@ struct CreateTaskView_Previews: PreviewProvider {
             CreateTaskView(store: Store(
                 initialState: CreateTaskState(
                     startDate: Date(),
-                    endDate: Date()
+                    endDate: Date().addingTimeInterval(3600)
                 ),
                 reducer: createTaskReducer,
                 environment: CreateTaskEnvironment(

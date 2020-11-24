@@ -39,6 +39,7 @@ public struct TaskState: Equatable, Identifiable {
     var status: Status
     var isSelected: Bool
     var actionSheet: ActionSheetState<TaskAction>?
+    var alert: AlertState<TaskAction>?
     public init(
         task: ProgressTask,
         remainingTime: NSAttributedString = .init(),
@@ -46,7 +47,8 @@ public struct TaskState: Equatable, Identifiable {
         result: TimeResult = .init(),
         status: Status = .active,
         isSelected: Bool = false,
-        actionSheet: ActionSheetState<TaskAction>? = nil
+        actionSheet: ActionSheetState<TaskAction>? = nil,
+        alert: AlertState<TaskAction>? = nil
     ) {
         self.task = task
         self.progress = progress
@@ -55,6 +57,7 @@ public struct TaskState: Equatable, Identifiable {
         self.isSelected = isSelected
         self.status = status
         self.actionSheet = actionSheet
+        self.alert = alert
     }
     public init(
         task: ProgressTask
@@ -66,6 +69,7 @@ public struct TaskState: Equatable, Identifiable {
         self.isSelected = false
         self.status = .active
         self.actionSheet = nil
+        self.alert = nil
     }
 }
 
@@ -88,6 +92,8 @@ public struct TaskEnvironment {
 public enum TaskAction: Equatable {
     case onAppear
     case response(TimeResponse)
+    case showAlert
+    case alertDismissed
     case ellipseButtonTapped
     case actionSheetDismissed
     case deleteTapped
@@ -127,6 +133,17 @@ public let taskReducer =
             return .none
         case .deleteTapped:
             return .none
+        case .showAlert:
+            state.alert = AlertState(
+                title: "Delete",
+                message: "Are you sure you want to delete",
+                primaryButton: .destructive("Delete", send: .deleteTapped),
+                secondaryButton: .cancel(send: .alertDismissed)
+            )
+            return .none
+        case .alertDismissed:
+            state.alert = nil
+            return .none
         case .ellipseButtonTapped:
             
             var actionButtons: [ActionSheetState<TaskAction>.Button] = []
@@ -151,7 +168,7 @@ public let taskReducer =
             }
             
             actionButtons.append(contentsOf: [
-                .destructive("Delete", send: .deleteTapped),
+                .destructive("Delete", send: .showAlert),
                 .cancel(send: .actionSheetDismissed)
             ])
                                     
@@ -340,7 +357,8 @@ struct ProgressTaskView: View {
             }.actionSheet(
                 store.scope(state: \.actionSheet),
                 dismiss: .actionSheetDismissed
-            )
+            ).alert(store.scope(state: \.alert),
+                    dismiss: .alertDismissed)
         }
     }
 }

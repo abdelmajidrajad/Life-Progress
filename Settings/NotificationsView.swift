@@ -21,6 +21,11 @@ public enum NotificationsAction: Equatable {
     case getToggle(Bool)
 }
 
+struct NotificationEnvironment {
+    let userDefaults: KeyValueStoreType
+    let notificationClient: NotificationClient
+}
+
 public let notificationReducer =
     Reducer<NotificationsState, NotificationsAction, KeyValueStoreType> {
         state, action, userDefaults in

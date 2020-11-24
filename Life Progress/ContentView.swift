@@ -42,18 +42,8 @@ struct ContentView: View {
                         }.zIndex(1.0)
                 
                 ScrollView {
-                    Section(header:
-                                ZStack(alignment: .trailing) {
-                                    Text("Widgets")
-                                        .frame(
-                                            maxWidth: .infinity,
-                                            alignment: .leading
-                                        ).foregroundColor(Color(.label))
-                                                                                                        
-                                }.padding()
-                                .font(Font.preferred(.py_title2()).bold())
-                                .foregroundColor(Color(.lightText))
-                    ) {
+                    
+                    Section {
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack(spacing: .py_grid(4)) {
                                 
@@ -109,7 +99,7 @@ struct ContentView: View {
                 }.padding(.leading, .py_grid(1))
                 .onAppear {
                     viewStore.send(.onStart)
-                }.navigationBarTitle(Text("Progress"))
+                }.navigationBarTitle(Text("MAKEProgress"))
                 .navigationBarItems(trailing:
                     Button(action: {
                         viewStore.send(.settingButtonTapped)
