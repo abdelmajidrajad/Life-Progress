@@ -91,20 +91,37 @@ public struct DayProgressView: View {
                     RoundedRectangle(
                         cornerRadius: .py_grid(5),
                         style: .continuous
-                    ).stroke(Color.white.opacity(0.1))
-                    .shadow(radius: 1)
+                    ).fill(Color(.systemBackground))
+                    .shadow(color: Color.pink.opacity(0.2), radius: 3)
                 )
             }.onAppear { viewStore.send(.onChange) }
-            .background(
-                Color(.systemBackground)
-                    .cornerRadius(.py_grid(5))
-            )
+
         }
     }
 }
 
 struct DayProgressView_Previews: PreviewProvider {
     static var previews: some View {
+        DayProgressView(
+            store: Store<DayState, DayAction>(
+                initialState: DayState(style: .bar),
+                reducer: dayReducer,
+                environment: DayEnvironment(
+                    calendar: .current,
+                    date: Date.init,
+                    todayProgress: { _ in
+                        Just(TimeResponse(
+                            progress: 0.8,
+                            result: TimeResult(
+                                hour: 8,
+                                minute: 2
+                            )
+                        )).eraseToAnyPublisher()
+                    }
+                )
+            )
+        ).preferredColorScheme(.dark).frame(width: 141, height: 141)
+        
         DayProgressView(
             store: Store<DayState, DayAction>(
                 initialState: DayState(style: .bar),

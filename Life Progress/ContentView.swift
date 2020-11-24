@@ -49,30 +49,7 @@ struct ContentView: View {
                                             maxWidth: .infinity,
                                             alignment: .leading
                                         ).foregroundColor(Color(.label))
-                                    
-                                    Button(action: {
-                                        viewStore.send(.settingButtonTapped)
-                                    }, label: {
-                                        Image(systemName: "gearshape.fill")
-                                            .foregroundColor(Color(.label))
-                                    }).background(EmptyView())
-                                    .sheet(
-                                        isPresented: viewStore.binding(
-                                            get: { $0.settingState != nil },
-                                            send: AppAction.viewDismissed
-                                        )
-                                    )
-                                    {
-                                        IfLetStore(store.scope(
-                                            state: \.settingState,
-                                            action: AppAction.settings
-                                        )) { settingStore in
-                                            NavigationView {
-                                                SettingsView(store: settingStore)
-                                            }
-                                        }
-                                    }
-                                    
+                                                                                                        
                                 }.padding()
                                 .font(Font.preferred(.py_title2()).bold())
                                 .foregroundColor(Color(.lightText))
@@ -132,7 +109,30 @@ struct ContentView: View {
                 }.padding(.leading, .py_grid(1))
                 .onAppear {
                     viewStore.send(.onStart)
-                }
+                }.navigationBarTitle(Text("Progress"))
+                .navigationBarItems(trailing:
+                    Button(action: {
+                        viewStore.send(.settingButtonTapped)
+                    }, label: {
+                        Image(systemName: "gearshape.fill")
+                            .foregroundColor(Color(.label))
+                    }).background(EmptyView())
+                    .sheet(
+                        isPresented: viewStore.binding(
+                            get: { $0.settingState != nil },
+                            send: AppAction.viewDismissed
+                        )
+                    ) {
+                        IfLetStore(store.scope(
+                            state: \.settingState,
+                            action: AppAction.settings
+                        )) { settingStore in
+                            NavigationView {
+                                SettingsView(store: settingStore)
+                            }
+                        }
+                    }
+                )
             }
         }
     }
@@ -153,15 +153,17 @@ struct ContentView_Previews: PreviewProvider {
                     environment: .midDay
                 )
             ).preferredColorScheme(.dark)
-            ContentView(
-                store: Store<AppState, AppAction>(
-                    initialState: AppState(
-                        
-                    ),
-                    reducer: appReducer,
-                    environment: .midDay
+            NavigationView {
+                ContentView(
+                    store: Store<AppState, AppAction>(
+                        initialState: AppState(
+                            
+                        ),
+                        reducer: appReducer,
+                        environment: .midDay
+                    )
                 )
-            )
+            }
         }
     }
 }

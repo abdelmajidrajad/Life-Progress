@@ -211,15 +211,12 @@ public struct SwitchProgressView: View {
                     RoundedRectangle(
                         cornerRadius: .py_grid(5),
                         style: .continuous
-                    ).stroke(Color.white.opacity(0.1))
-                    .shadow(radius: 1)
+                    ).fill(Color(.systemBackground))
+                    .shadow(color: Color.green.opacity(0.2), radius: 3)
                 )
             }.onAppear {
                 viewStore.send(.onChange)
-            }.background(
-                Color(.systemBackground)
-                    .cornerRadius(.py_grid(5))
-            )
+            }
         }
     }
 }

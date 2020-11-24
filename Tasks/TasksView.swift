@@ -341,7 +341,13 @@ extension TasksState {
             isPending: filter == .pending,
             isCompleted: filter == .completed,
             isActive: filter == .active,
-            isCreateTaskShown: createTask != nil
+            isCreateTaskShown: createTask != nil,
+            isEmpty: filteredTasks.isEmpty,
+            emptyStatus: filter == .active
+                ? "No Active Tasks"
+                : filter == .completed
+                ? "No Completed Tasks"
+                : "No Pending Tasks"
         )
     }
 }
@@ -355,6 +361,8 @@ public struct TasksView: View {
         var isCompleted: Bool
         var isActive: Bool
         var isCreateTaskShown: Bool
+        var isEmpty: Bool
+        var emptyStatus: String
     }
     
     
@@ -366,6 +374,7 @@ public struct TasksView: View {
     public var body: some View {
         WithViewStore(store.scope(state: \.view)) { viewStore in
             ScrollView(showsIndicators: false) {
+            //List {
                 Section(header:
                             VStack {
                                 
@@ -441,18 +450,27 @@ public struct TasksView: View {
                 .background(Color(UIColor.systemBackground))
                 .listRowInsets(.zero)
                 ) {
-                    ForEachStore(
-                        store.scope(
-                            state: \.filteredTasks,
-                            action: TasksAction.cell(id:action:)),
-                        content: ProgressTaskView.init(store:)
-                    )
+                    
+                    if viewStore.isEmpty {
+                        Text(viewStore.emptyStatus)
+                            .font(.preferred(.py_footnote()))
+                            .foregroundColor(Color(.secondaryLabel))
+                            .transition(.move(edge: .top))
+                    } else {
+                        
+                        ForEachStore(
+                            store.scope(
+                                state: \.filteredTasks,
+                                action: TasksAction.cell(id:action:)),
+                            content: ProgressTaskView.init(store:)
+                        )
+                    }
                 }
             }.onAppear {
                 viewStore.send(.onAppear)
             }.sheet(isPresented:
                         viewStore.binding(
-                            get: { $0.isCreateTaskShown },
+                            get: \.isCreateTaskShown,
                             send: TasksAction.viewDismissed
                         )) {
                 IfLetStore(
@@ -496,7 +514,7 @@ struct TasksView_Previews: PreviewProvider {
                     calendar: .current,
                     managedContext: NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType),
                     timeClient: .progress,
-                    taskClient: .createBook
+                    taskClient: .empty
                 )
             )).preferredColorScheme(.dark)
             

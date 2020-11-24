@@ -398,8 +398,9 @@ public struct SettingsView: View {
                         Button(action: {
                             presentationMode.wrappedValue.dismiss()
                         }, label: {
-                        Image(systemName: "xmark")
-                    }).buttonStyle(CloseButtonCircleStyle())
+                        Image(systemName: "xmark")                            
+                            .foregroundColor(Color(.label))
+                    })
             )
             
         }

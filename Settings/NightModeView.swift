@@ -33,6 +33,10 @@ public let nightModeReducer =
         state, action, storage in
         switch action {
         case .onAppear:
+            if let storedStyle = storage.string(forKey: "style"),
+               let style = NightModeState.Style(rawValue: storedStyle) {
+                state.currentStyle = style
+            }
             return .none
         case let .onStyleChanged(newStyle):
             state.currentStyle = newStyle
@@ -95,7 +99,7 @@ public struct NightModeView: View {
                         )
                         Text(style.rawValue)
                             .font(
-                                Font.preferred(.py_subhead()).smallCaps()
+                                Font.preferred(.py_headline()).smallCaps()
                             )
                             .frame(
                                 maxWidth: .infinity,
@@ -136,7 +140,7 @@ struct NightModeView_Previews: PreviewProvider {
                             reducer: nightModeReducer,
                             environment: TestUserDefault()
             ))
-                .preferredColorScheme(.dark)
+                .preferredColorScheme(.light)
         }
     }
 }
