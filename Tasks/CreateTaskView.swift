@@ -22,6 +22,7 @@ public struct CreateTaskState: Equatable {
     public var isValidTitle: Bool
     public var startDate: Date
     public var endDate: Date
+    public var today: Date
     public var chosenColor: Color
     public var progressStyle: ProgressStyle
     public var diff: TimeResult
@@ -32,6 +33,7 @@ public struct CreateTaskState: Equatable {
         isValidTitle: Bool = false,
         startDate: Date,
         endDate: Date,
+        today: Date = Date(),
         chosenColor: Color = Color(.endBlueLightColor),
         progressStyle: ProgressStyle = .bar,
         diff: TimeResult = .zero,
@@ -47,6 +49,7 @@ public struct CreateTaskState: Equatable {
         self.diff = diff
         self.alert = alert
         self.isRequestSucceed = isRequestSucceed
+        self.today = today
     }
 }
 
@@ -62,8 +65,10 @@ public enum CreateTaskAction: Equatable {
     case reset
     case alertDismissed
     case cancelButtonTapped
-    case endDate(DateControlAction)
-    case startDate(DateControlAction)
+    //case endDate(DateControlAction)
+    //case startDate(DateControlAction)
+    case endDate(Date)
+    case startDate(Date)
 }
 
 import CoreData
@@ -91,15 +96,15 @@ public struct CreateTaskEnvironment {
 
 import ComposableArchitecture
 public let createTaskReducer = Reducer<CreateTaskState, CreateTaskAction, CreateTaskEnvironment>.combine(
-    dateControlReducer.pullback(
-        state: \.startDate,
-        action: /CreateTaskAction.startDate,
-        environment: { $0.calendar }
-    ), dateControlReducer.pullback(
-        state: \.endDate,
-        action: /CreateTaskAction.endDate,
-        environment: { $0.calendar }
-    ),
+//    dateControlReducer.pullback(
+//        state: \.startDate,
+//        action: /CreateTaskAction.startDate,
+//        environment: { $0.calendar }
+//    ), dateControlReducer.pullback(
+//        state: \.endDate,
+//        action: /CreateTaskAction.endDate,
+//        environment: { $0.calendar }
+//    ),
     Reducer { state, action, environment in
         switch action {
         case .startButtonTapped:
@@ -122,7 +127,7 @@ public let createTaskReducer = Reducer<CreateTaskState, CreateTaskAction, Create
             return .none
         case .reset:
             state.startDate = environment.date()
-            state.endDate = environment.date()
+            state.endDate = environment.date().addingTimeInterval(3600 * 24)
             state.diff = .zero
             return .none
         case let .titleChanged(title):
@@ -132,7 +137,7 @@ public let createTaskReducer = Reducer<CreateTaskState, CreateTaskAction, Create
         case let .selectColor(color):
             state.chosenColor = color
             return .none
-        case let .startDate(.newDate(startDate)):
+        case let .startDate(startDate):
             state.startDate = startDate
             if startDate >= state.endDate {
                 state.endDate = startDate
@@ -148,8 +153,26 @@ public let createTaskReducer = Reducer<CreateTaskState, CreateTaskAction, Create
                     )).map(\.result)
                 .map(CreateTaskAction.diff)
                 .eraseToEffect()
-        case let .endDate(.newDate(date)):
-            state.endDate = date
+//        case let .startDate(.newDate(startDate)):
+//            state.startDate = startDate
+//            if startDate >= state.endDate {
+//                state.endDate = startDate
+//            }
+//            return environment
+//                .timeClient
+//                .taskProgress(
+//                    ProgressTaskRequest(
+//                        currentDate: environment.date(),
+//                        calendar: environment.calendar,
+//                        startAt: state.startDate,
+//                        endAt: state.endDate
+//                    )).map(\.result)
+//                .map(CreateTaskAction.diff)
+//                .eraseToEffect()
+        case let .endDate(date):
+            if date > state.startDate {
+                state.endDate = date
+            }
             return environment
                 .timeClient
                 .taskProgress(ProgressTaskRequest(
@@ -160,18 +183,29 @@ public let createTaskReducer = Reducer<CreateTaskState, CreateTaskAction, Create
                 )).map(\.result)
                 .map(CreateTaskAction.diff)
                 .eraseToEffect()
+//        case let .endDate(.newDate(date)):
+//            state.endDate = date
+//            return environment
+//                .timeClient
+//                .taskProgress(ProgressTaskRequest(
+//                    currentDate: environment.date(),
+//                    calendar: environment.calendar,
+//                    startAt: state.startDate,
+//                    endAt: state.endDate
+//                )).map(\.result)
+//                .map(CreateTaskAction.diff)
+//                .eraseToEffect()
         case let .diff(result):
             state.diff = result
             return .none
         case .onAppear:
+            state.today = environment.date()
             return .none
         case .validation(.valid):
             state.isValidTitle = true
             return .none
         case .validation(.invalid(_)):
             state.isValidTitle = false
-            return .none
-        case .startDate, .endDate:
             return .none
         case .response(.success):
             return .none
@@ -198,6 +232,7 @@ extension CreateTaskState {
             title: title,
             startDate: startDate,
             endDate: endDate,
+            startDateRange: today...endDate,            
             chosenColor: chosenColor,
             progressStyle: progressStyle,
             diff: diff.string(widgetStyle, style: .long),
@@ -207,12 +242,12 @@ extension CreateTaskState {
     }
 }
 
-
 public struct CreateTaskView: View {
     public struct ViewState: Equatable {
         public var title: String
         public var startDate: Date
         public var endDate: Date
+        public var startDateRange: ClosedRange<Date>
         public var chosenColor: Color
         public var progressStyle: ProgressStyle
         public var diff: NSAttributedString
@@ -229,7 +264,7 @@ public struct CreateTaskView: View {
     public var body: some View {
         
         WithViewStore(store.scope(state: \.view)) { viewStore in
-            
+           
             ZStack(alignment: .bottom) {
                 
                 ZStack(alignment: .top) {
@@ -242,6 +277,7 @@ public struct CreateTaskView: View {
                             Image(systemName: "xmark")
                         }.buttonStyle(CloseButtonCircleStyle())
                         .zIndex(1)
+                        .padding(.leading, .py_grid(1))
                         
                         Text(.newTask)
                             .font(Font
@@ -273,23 +309,35 @@ public struct CreateTaskView: View {
                             .padding()
                         }
                         
-                        TitleLined(.startDate)
+                        HDashedLine()
                         
-                        DateControlView(
-                            store: store.scope(
-                                state: \.startDate,
-                                action: CreateTaskAction.startDate
-                            ))
+                        DatePicker(.startDate, selection: viewStore.binding(
+                            get: \.startDate,
+                            send: CreateTaskAction.startDate
+                        ),
+                        in: viewStore.startDateRange,
+                        displayedComponents:
+                            DatePickerComponents(
+                                arrayLiteral: .date, .hourAndMinute)
+                        ).padding()
+                        .font(Font.preferred(.py_subhead()).smallCaps())
+                        .foregroundColor(Color(.label))
+                        .accentColor(viewStore.chosenColor)
+                                                                        
+                        HDashedLine()
                         
-                        TitleLined(.endDate)
+                        DatePicker(.endDate, selection: viewStore.binding(
+                            get: \.endDate,
+                            send: CreateTaskAction.endDate
+                        ), in: PartialRangeFrom(viewStore.startDate),
+                        displayedComponents: DatePickerComponents(arrayLiteral: .hourAndMinute, .date))
+                        .padding()
+                        .font(Font.preferred(.py_subhead()).smallCaps())
+                        .foregroundColor(Color(.label))
+                        .accentColor(viewStore.chosenColor)
                         
-                        DateControlView(
-                            store: store.scope(
-                                state: \.endDate,
-                                action: CreateTaskAction.endDate
-                            ))
                         
-                        TitleLined(.progressColor)
+                        HDashedLine()
                         
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
@@ -327,9 +375,10 @@ public struct CreateTaskView: View {
                                 }
                                 Spacer(minLength: .py_grid(2))
                             }
-                        }
+                        }.padding()
                         
-                        TitleLined(.styleLabel)
+
+                        HDashedLine()
                         
                         HStack(alignment: .center, spacing: .zero) {
                             ProgressBarStyleView(
@@ -572,21 +621,6 @@ public struct DateControlView: View {
     }
 }
 
-struct TitleLined: View {
-    let title: LocalizedStringKey
-    init(_ title: LocalizedStringKey) {
-        self.title = title
-    }
-    var body: some View {
-        VStack(alignment: .leading, spacing: .py_grid(1)) {
-            Text(title, bundle: .tasks)
-                .font(Font.preferred(.py_subhead()).smallCaps())
-                .foregroundColor(.gray)
-                .padding(.leading)
-            HDashedLine()
-        }
-    }
-}
 
 private class TasksClass {}
 extension Bundle {
@@ -664,7 +698,7 @@ struct CreateTaskView_Previews: PreviewProvider {
                     ),
                     managedContext: .init(concurrencyType: .privateQueueConcurrencyType)
                 )
-            ))
+            )).preferredColorScheme(.dark)
            
         }
     }

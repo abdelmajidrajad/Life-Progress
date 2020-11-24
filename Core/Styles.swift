@@ -4,7 +4,7 @@ public struct CloseButtonCircleStyle: ButtonStyle {
     public func makeBody(configuration: Configuration) -> some View {
         configuration.label
             .scaleEffect(configuration.isPressed ? 1.1: 1.0)
-            .padding()
+            .padding(.py_grid(3))
             .font(.headline)
             .foregroundColor(Color(.darkGray))
             .background(

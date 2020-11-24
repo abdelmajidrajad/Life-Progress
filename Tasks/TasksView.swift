@@ -111,7 +111,7 @@ public let tasksReducer =
             case .plusButtonTapped:
                 state.createTask = CreateTaskState(
                     startDate: environment.date(),
-                    endDate: environment.date()
+                    endDate: environment.date().addingTimeInterval(3600 * 24 * 1)
                 )
                 return .none
             case .viewDismissed:

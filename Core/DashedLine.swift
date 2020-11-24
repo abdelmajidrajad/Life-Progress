@@ -1,8 +1,9 @@
 import SwiftUI
+import UIKit
 public struct HDashedLine: View {
     let color: Color
     let lineWidth: CGFloat
-    public init(color: Color = Color(white: 0.92),
+    public init(color: Color = Color(.secondaryLabel),
                 lineWidth: CGFloat = 1) {
         self.color = color
         self.lineWidth = lineWidth
@@ -18,7 +19,7 @@ public struct HDashedLine: View {
                             lineWidth: self.lineWidth,
                             lineCap: .round,
                             lineJoin: .round,
-                            dash: [0.1,0.1,0.1, 4]
+                            dash: [5]
                         )
             ).foregroundColor(self.color)
         }.frame(height: lineWidth)
