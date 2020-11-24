@@ -99,7 +99,7 @@ struct ContentView: View {
                 }.padding(.leading, .py_grid(1))
                 .onAppear {
                     viewStore.send(.onStart)
-                }.navigationBarTitle(Text("MAKEProgress"))
+                }.navigationBarTitle(Text("One Step"))
                 .navigationBarItems(trailing:
                     Button(action: {
                         viewStore.send(.settingButtonTapped)

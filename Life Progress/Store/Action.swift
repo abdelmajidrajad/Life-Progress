@@ -7,7 +7,7 @@ import Tasks
 import Settings
 
 enum AppAction: Equatable {
-    case run 
+    case run
     case onStart
     case onUpdate(DispatchQueue.SchedulerTimeType)
     case settingButtonTapped

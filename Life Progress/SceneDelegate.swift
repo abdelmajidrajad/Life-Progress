@@ -13,7 +13,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let store = Store(
             initialState: AppState(),
-            reducer: appReducer.debugActions(),
+            reducer: appReducer,
             environment:  .live
         )
                 
@@ -33,7 +33,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneDidDisconnect(_ scene: UIScene) {}
 
-    func sceneDidBecomeActive(_ scene: UIScene) {}
+    func sceneDidBecomeActive(_ scene: UIScene) {
+        
+    }
 
     func sceneWillResignActive(_ scene: UIScene) {
     }

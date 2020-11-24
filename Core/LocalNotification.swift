@@ -117,10 +117,12 @@ extension NotificationClient {
                         content.subtitle = request.notification.subtitle
                         content.body = request.notification.message
                         content.badge = request.notification.badge == nil ? nil : NSNumber(value: request.notification.badge!)
-                        let trigger = UNTimeIntervalNotificationTrigger(
-                            timeInterval: request.date - Date(),
-                            repeats: false
-                        )
+                        
+                        let components = Calendar.current.dateComponents(
+                            [.hour, .minute, .day, .month],
+                            from: request.date)
+                        let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
+                                                
                         let request = UNNotificationRequest(
                             identifier: request.notification.identifier,
                             content: content,

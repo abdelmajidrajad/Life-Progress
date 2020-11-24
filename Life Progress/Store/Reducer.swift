@@ -12,12 +12,12 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
             struct TimerId: Hashable {}
             return Effect.timer(
                 id: TimerId(),
-                every: .seconds(30.0),
+                every: .seconds(10.0),
                 on: environment.mainQueue
             ).map(AppAction.onUpdate)
             .eraseToEffect()
         case .run:
-                        
+                                                              
             return .fireAndForget {
                 
                 if environment.userDefaults.string(forKey: "style") == "dark" {
@@ -39,7 +39,8 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
                 Effect(value: .year(.onChange)),
                 Effect(value: .life(.onChange)),
                 Effect(value: .union(.onChange)),
-                Effect(value: .yourDay(.onChange))
+                Effect(value: .yourDay(.onChange)),
+                Effect(value: .tasks(.onChange))
             )
         case .settingButtonTapped:
             state.settingState = SettingState()

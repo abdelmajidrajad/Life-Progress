@@ -263,7 +263,9 @@ public struct CreateTaskView: View {
                                 .wrappedValue.dismiss()
                         }) {
                             Image(systemName: "xmark")
-                        }.buttonStyle(CloseButtonCircleStyle())
+                                .foregroundColor(Color(.label))
+                                .padding()
+                        }
                         .zIndex(1)
                         .padding(.leading, .py_grid(1))
                         
@@ -275,7 +277,7 @@ public struct CreateTaskView: View {
                                 maxWidth: .infinity,
                                 alignment: .bottom
                             )
-                    }
+                    }.padding(.vertical)
                     .background(
                         VisualEffectBlur()
                             .edgesIgnoringSafeArea(.top)
