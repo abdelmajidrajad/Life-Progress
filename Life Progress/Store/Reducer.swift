@@ -99,16 +99,7 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
     tasksReducer.pullback(
         state: \.tasksState,
         action: /AppAction.tasks,
-        environment: {
-            TasksEnvironment(
-                uuid: $0.uuid,
-                date: $0.date,
-                calendar: $0.calendar,
-                managedContext: $0.context,
-                timeClient: $0.timeClient,
-                taskClient: $0.taskClient
-            )
-        }
+        environment: \.tasks
     ),
     settingReducer.optional().pullback(
         state: \.settingState,
@@ -131,7 +122,8 @@ extension AppEnvironment {
             calendar: self.calendar,
             managedContext: self.context,
             timeClient: self.timeClient,
-            taskClient: self.taskClient
+            taskClient: self.taskClient,
+            notificationClient: self.notificationClient
         )
     }
 }

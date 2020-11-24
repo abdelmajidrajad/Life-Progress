@@ -12,7 +12,7 @@ public struct ProgressTask: Identifiable, Equatable {
         case bar, circle
     }
     public init(
-        id: UUID = UUID(),
+        id: UUID,
         title: String,
         startDate: Date,
         endDate: Date,

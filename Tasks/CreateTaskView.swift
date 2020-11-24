@@ -3,6 +3,7 @@ import Core
 import TimeClient
 import Validated
 import TaskClient
+import Combine
 
 func validate(title: String) -> Validated<String, String> {
     if !title.isEmpty {
@@ -56,6 +57,7 @@ public struct CreateTaskState: Equatable {
 public enum CreateTaskAction: Equatable {
     case onAppear
     case response(Result<TaskResponse, TaskFailure>)
+    case notificationResponse(Result<NotificationClient.Response, NotificationClient.Failure>)
     case startButtonTapped
     case selectStyle(ProgressStyle)
     case diff(TimeResult)
@@ -73,55 +75,67 @@ public enum CreateTaskAction: Equatable {
 
 import CoreData
 public struct CreateTaskEnvironment {
+    let uuid: () -> UUID
     let date: () -> Date
     let calendar: Calendar
     let timeClient: TimeClient
     let managedContext: NSManagedObjectContext
     let taskClient: TaskClient
+    let notificationClient: NotificationClient
     public init(
+        uuid: @escaping () -> UUID,
         date: @escaping () -> Date,
         calendar: Calendar,
         timeClient: TimeClient,
         taskClient: TaskClient,
-        managedContext: NSManagedObjectContext
+        managedContext: NSManagedObjectContext,
+        notificationClient: NotificationClient
     ) {
+        self.uuid = uuid
         self.date = date
         self.calendar = calendar
         self.timeClient = timeClient
         self.taskClient = taskClient
         self.managedContext = managedContext
+        self.notificationClient = notificationClient
     }
 }
 
 
 import ComposableArchitecture
-public let createTaskReducer = Reducer<CreateTaskState, CreateTaskAction, CreateTaskEnvironment>.combine(
-//    dateControlReducer.pullback(
-//        state: \.startDate,
-//        action: /CreateTaskAction.startDate,
-//        environment: { $0.calendar }
-//    ), dateControlReducer.pullback(
-//        state: \.endDate,
-//        action: /CreateTaskAction.endDate,
-//        environment: { $0.calendar }
-//    ),
+public let createTaskReducer: Reducer<CreateTaskState, CreateTaskAction, CreateTaskEnvironment> =
     Reducer { state, action, environment in
         switch action {
         case .startButtonTapped:
-            return environment.taskClient.create(
-                TaskRequest(
-                    viewContext: environment.managedContext,
-                    task: ProgressTask(
-                        title: state.title,
-                        startDate: state.startDate,
-                        endDate: state.endDate,
-                        creationDate: environment.date(),
-                        color: state.chosenColor.uiColor(),
-                        style: state.progressStyle == .bar ? .bar: .circle
+            let uuid = environment.uuid()
+            return .concatenate(
+                environment.taskClient.create(
+                    TaskRequest(
+                        viewContext: environment.managedContext,
+                        task: ProgressTask(
+                            id: uuid,
+                            title: state.title,
+                            startDate: state.startDate,
+                            endDate: state.endDate,
+                            creationDate: environment.date(),
+                            color: state.chosenColor.uiColor(),
+                            style: state.progressStyle == .bar ? .bar: .circle
+                        )
                     )
-                )
-            ).catchToEffect()
-             .map(CreateTaskAction.response)
+                ).catchToEffect()
+                .map(CreateTaskAction.response),
+                environment.notificationClient.send(
+                    NotificationClient.Request(
+                        notification: LocalNotification(
+                            identifier: uuid.uuidString,
+                            title: "Your Task Ended",
+                            subtitle: state.title,
+                            message: "Reach 100%"
+                        ),
+                        date: state.endDate
+                    )).catchToEffect()
+                    .map(CreateTaskAction.notificationResponse)
+            )
         case let .selectStyle(style):
             state.progressStyle = style
             return .none
@@ -153,22 +167,6 @@ public let createTaskReducer = Reducer<CreateTaskState, CreateTaskAction, Create
                     )).map(\.result)
                 .map(CreateTaskAction.diff)
                 .eraseToEffect()
-//        case let .startDate(.newDate(startDate)):
-//            state.startDate = startDate
-//            if startDate >= state.endDate {
-//                state.endDate = startDate
-//            }
-//            return environment
-//                .timeClient
-//                .taskProgress(
-//                    ProgressTaskRequest(
-//                        currentDate: environment.date(),
-//                        calendar: environment.calendar,
-//                        startAt: state.startDate,
-//                        endAt: state.endDate
-//                    )).map(\.result)
-//                .map(CreateTaskAction.diff)
-//                .eraseToEffect()
         case let .endDate(date):
             if date > state.startDate {
                 state.endDate = date
@@ -183,18 +181,6 @@ public let createTaskReducer = Reducer<CreateTaskState, CreateTaskAction, Create
                 )).map(\.result)
                 .map(CreateTaskAction.diff)
                 .eraseToEffect()
-//        case let .endDate(.newDate(date)):
-//            state.endDate = date
-//            return environment
-//                .timeClient
-//                .taskProgress(ProgressTaskRequest(
-//                    currentDate: environment.date(),
-//                    calendar: environment.calendar,
-//                    startAt: state.startDate,
-//                    endAt: state.endDate
-//                )).map(\.result)
-//                .map(CreateTaskAction.diff)
-//                .eraseToEffect()
         case let .diff(result):
             state.diff = result
             return .none
@@ -221,9 +207,11 @@ public let createTaskReducer = Reducer<CreateTaskState, CreateTaskAction, Create
             return .none
         case .cancelButtonTapped:
             return .none
+        case .notificationResponse(_):
+            return .none
         }
     }
-)
+
 
 
 extension CreateTaskState {
@@ -644,6 +632,7 @@ struct CreateTaskView_Previews: PreviewProvider {
                 ),
                 reducer: createTaskReducer,
                 environment: CreateTaskEnvironment(
+                    uuid: UUID.init,
                     date: Date.init,
                     calendar: .current,
                     timeClient: TimeClient(
@@ -671,7 +660,8 @@ struct CreateTaskView_Previews: PreviewProvider {
                             .eraseToAnyPublisher()
                     }
                     ),
-                    managedContext: .init(concurrencyType: .privateQueueConcurrencyType)
+                    managedContext: .init(concurrencyType: .privateQueueConcurrencyType),
+                    notificationClient: .empty
                 )
             ))
             
@@ -682,6 +672,7 @@ struct CreateTaskView_Previews: PreviewProvider {
                 ),
                 reducer: createTaskReducer,
                 environment: CreateTaskEnvironment(
+                    uuid: UUID.init,
                     date: Date.init,
                     calendar: .current,
                     timeClient: TimeClient(
@@ -699,7 +690,8 @@ struct CreateTaskView_Previews: PreviewProvider {
                             .eraseToAnyPublisher()
                     }
                     ),
-                    managedContext: .init(concurrencyType: .privateQueueConcurrencyType)
+                    managedContext: .init(concurrencyType: .privateQueueConcurrencyType),
+                    notificationClient: .empty
                 )
             )).preferredColorScheme(.dark)
            

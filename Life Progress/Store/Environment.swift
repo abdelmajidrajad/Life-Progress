@@ -17,6 +17,7 @@ struct AppEnvironment {
     let userDefaults: KeyValueStoreType
     let ubiquitousStore: NSUbiquitousKeyValueStore
     let shareClient: ShareClient
+    let notificationClient: NotificationClient
 }
 
 import Components
@@ -81,7 +82,8 @@ extension AppEnvironment {
             context: LPPersistentContainer.context,
             userDefaults: UserDefaults(suiteName: "group.progress.app") ?? .standard,
             ubiquitousStore: .default,
-            shareClient: .live
+            shareClient: .live,
+            notificationClient: .live
         )
     }
 }
@@ -98,7 +100,8 @@ extension AppEnvironment {
             context: LPPersistentContainer.context,
             userDefaults: UserDefaults(suiteName: "group.progress.app") ?? .standard,
             ubiquitousStore: .default,
-            shareClient: .mock
+            shareClient: .mock,
+            notificationClient: .empty
         )
     }
 }

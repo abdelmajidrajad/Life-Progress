@@ -6,6 +6,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         ColorValueTransformer.register()//TODO:- CHange Later
+        UNUserNotificationCenter.current().delegate = self
         return true
     }
 
@@ -25,3 +26,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 
+extension AppDelegate: UNUserNotificationCenterDelegate {
+    
+    func userNotificationCenter(_
+        center: UNUserNotificationCenter,
+        openSettingsFor notification: UNNotification?) {
+    }
+    
+    func userNotificationCenter(_
+        center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void) {
+    }
+    
+    func userNotificationCenter(_
+        center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        if #available(iOS 14.0, *) {
+            completionHandler([.alert, .sound, .banner, .badge])
+        } else {
+            completionHandler([.alert, .sound, .badge])
+        }
+    }
+}

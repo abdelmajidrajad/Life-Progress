@@ -13,7 +13,6 @@ extension TaskClient {
                     let entity = NSEntityDescription.entity(
                         forEntityName: "Task",
                         in: request.viewContext
-                            
                     )!
                     
                     let taskObject = NSManagedObject(
@@ -22,9 +21,10 @@ extension TaskClient {
                     )
                     
                     taskObject.setProgressTask(request.task)
-                    
+                                                            
                     do {
                         try request.viewContext.save()
+                        currentObjects[request.task.id] = taskObject
                         promise(.success(.created(request.task)))
                     } catch {
                         promise(.failure(.custom(error.localizedDescription)))

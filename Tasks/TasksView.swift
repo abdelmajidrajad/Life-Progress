@@ -11,7 +11,6 @@ public enum Filter: LocalizedStringKey, CaseIterable, Hashable {
     case completed = "Completed"
 }
 
-
 public struct TasksState: Equatable {
     var tasks: IdentifiedArrayOf<TaskState>
     var createTask: CreateTaskState?
@@ -58,13 +57,15 @@ public struct TasksEnvironment {
     let managedContext: NSManagedObjectContext
     let timeClient: TimeClient
     let taskClient: TaskClient
+    let notificationClient: NotificationClient
     public init(
         uuid: @escaping () -> UUID,
         date: @escaping () -> Date,
         calendar: Calendar,
         managedContext: NSManagedObjectContext,
         timeClient: TimeClient,
-        taskClient: TaskClient
+        taskClient: TaskClient,
+        notificationClient: NotificationClient
     ) {
         self.uuid = uuid
         self.date = date
@@ -72,6 +73,7 @@ public struct TasksEnvironment {
         self.managedContext = managedContext
         self.timeClient = timeClient
         self.taskClient = taskClient
+        self.notificationClient = notificationClient
     }
 }
 
@@ -296,11 +298,13 @@ extension Reducer where
 extension TasksEnvironment {
     var createTask: CreateTaskEnvironment {
         CreateTaskEnvironment(
+            uuid: uuid,
             date: date,
             calendar: calendar,
             timeClient: timeClient,
             taskClient: taskClient,
-            managedContext: managedContext
+            managedContext: managedContext,
+            notificationClient: notificationClient
         )
     }
 }
@@ -374,7 +378,6 @@ public struct TasksView: View {
     public var body: some View {
         WithViewStore(store.scope(state: \.view)) { viewStore in
             ScrollView(showsIndicators: false) {
-            //List {
                 Section(header:
                             VStack {
                                 
@@ -396,7 +399,7 @@ public struct TasksView: View {
                                     maxWidth: .infinity,
                                     alignment: .leading
                                 )
-                                    
+                                
                                 
                                 HStack {                                    
                                     Button(action: {
@@ -445,10 +448,10 @@ public struct TasksView: View {
                                     }).padding(.vertical)
                                     .buttonStyle(CornerButtonStyle())
                                 }
-                }.padding(.horizontal)
-                .frame(maxWidth: .infinity)
-                .background(Color(UIColor.systemBackground))
-                .listRowInsets(.zero)
+                            }.padding(.horizontal)
+                            .frame(maxWidth: .infinity)
+                            .background(Color(UIColor.systemBackground))
+                            .listRowInsets(.zero)
                 ) {
                     
                     if viewStore.isEmpty {
@@ -499,7 +502,8 @@ struct TasksView_Previews: PreviewProvider {
                     calendar: .current,
                     managedContext: NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType),
                     timeClient: .progress,
-                    taskClient: .createBook
+                    taskClient: .createBook,
+                    notificationClient: .empty
                 )
             ))
                         
@@ -514,11 +518,10 @@ struct TasksView_Previews: PreviewProvider {
                     calendar: .current,
                     managedContext: NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType),
                     timeClient: .progress,
-                    taskClient: .empty
+                    taskClient: .empty,
+                    notificationClient: .empty
                 )
             )).preferredColorScheme(.dark)
-            
-            
                                     
         }
     }

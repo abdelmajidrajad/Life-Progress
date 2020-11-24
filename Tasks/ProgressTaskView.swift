@@ -427,6 +427,7 @@ struct ProgressTaskView_Previews: PreviewProvider {
 extension ProgressTask {
     public static var readBook: Self {
         ProgressTask(
+            id: UUID(),
             title: "Read Zero to One Book",
             startDate: Date(),
             endDate: Date().addingTimeInterval(3600 * 24 * 2),
@@ -440,6 +441,7 @@ extension ProgressTask {
 extension ProgressTask {
     public static var writeBook: Self {
         ProgressTask(
+            id: UUID(),
             title: "Write my Book, Write my Book, Write my Book, Write my Book",
             startDate: Date().addingTimeInterval(-3600 * 24 * 1),
             endDate: Date().addingTimeInterval(3600 * 24 * 10),
@@ -453,6 +455,7 @@ extension ProgressTask {
 extension ProgressTask {
     public static var writeBook2: Self {
         ProgressTask(
+            id: UUID(),
             title: "Write my Book2, Write my Book, Write my Book, Write my Book",
             startDate: Date().addingTimeInterval(-3600 * 24 * 1),
             endDate: Date().addingTimeInterval(3600 * 24 * 2),

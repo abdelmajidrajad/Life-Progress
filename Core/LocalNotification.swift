@@ -3,13 +3,19 @@ import UserNotifications
 import Combine
 
 public class LocalNotification: NSObject {
-    let identifier: String = UUID().uuidString
+    let identifier: String
     let title: String
     let subtitle: String
     let message: String
     let badge: Int?
-    
-    public init(title: String, subtitle: String, message: String, badge: Int? = nil) {
+    public init(
+        identifier: String,
+        title: String,
+        subtitle: String,
+        message: String,
+        badge: Int? = nil
+    ) {
+        self.identifier = identifier
         self.title = title
         self.subtitle = subtitle
         self.message = message
@@ -23,20 +29,26 @@ extension Date {
     }
 }
 
-
 import UserNotifications
 public struct NotificationClient {
     
     public enum Response: Equatable {
-        case response(UNNotificationRequest)
+        case success
     }
     
     public struct Request: Equatable {
         let notification: LocalNotification
         let date: Date
+        public init(
+            notification: LocalNotification,
+            date: Date
+        ) {
+            self.notification = notification
+            self.date = date
+        }
     }
     
-    public enum Failure: LocalizedError {
+    public enum Failure: LocalizedError, Equatable {
         case notAuthorized
         case custom(String)
     }
@@ -63,7 +75,7 @@ public struct NotificationClient {
 }
 
 extension NotificationClient {
-    public var live: NotificationClient {
+    public static var live: NotificationClient {
         NotificationClient(
             requestAuthorization:
                 Deferred {
@@ -110,7 +122,7 @@ extension NotificationClient {
                             repeats: false
                         )
                         let request = UNNotificationRequest(
-                            identifier: UUID().uuidString,
+                            identifier: request.notification.identifier,
                             content: content,
                             trigger: trigger
                         )
@@ -118,7 +130,7 @@ extension NotificationClient {
                             if let error = error {
                                 promise(.failure(.custom(error.localizedDescription)))
                             } else {
-                                promise(.success(.response(request)))
+                                promise(.success(.success))
                             }
                         }
                     }
@@ -139,7 +151,7 @@ extension NotificationClient {
                 .setFailureType(to: Failure.self)
                 .eraseToAnyPublisher(),
             send: { _ in
-                Just(.response(UNNotificationRequest(identifier: "", content: .init(), trigger: nil)))
+                Just(.success)
                     .setFailureType(to: Failure.self)
                     .eraseToAnyPublisher()
             }
