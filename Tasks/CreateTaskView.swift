@@ -82,6 +82,7 @@ public struct CreateTaskEnvironment {
     let managedContext: NSManagedObjectContext
     let taskClient: TaskClient
     let notificationClient: NotificationClient
+    let mainQueue: AnySchedulerOf<DispatchQueue>
     public init(
         uuid: @escaping () -> UUID,
         date: @escaping () -> Date,
@@ -89,10 +90,12 @@ public struct CreateTaskEnvironment {
         timeClient: TimeClient,
         taskClient: TaskClient,
         managedContext: NSManagedObjectContext,
-        notificationClient: NotificationClient
+        notificationClient: NotificationClient,
+        mainQueue: AnySchedulerOf<DispatchQueue>
     ) {
         self.uuid = uuid
         self.date = date
+        self.mainQueue = mainQueue
         self.calendar = calendar
         self.timeClient = timeClient
         self.taskClient = taskClient
@@ -108,7 +111,7 @@ public let createTaskReducer: Reducer<CreateTaskState, CreateTaskAction, CreateT
         switch action {
         case .startButtonTapped:
             let uuid = environment.uuid()
-            return .concatenate(
+            return .merge(
                 environment.taskClient.create(
                     TaskRequest(
                         viewContext: environment.managedContext,
@@ -133,8 +136,10 @@ public let createTaskReducer: Reducer<CreateTaskState, CreateTaskAction, CreateT
                             message: "Reach 100%"
                         ),
                         date: state.endDate
-                    )).catchToEffect()
+                    )).receive(on: environment.mainQueue)
+                    .catchToEffect()
                     .map(CreateTaskAction.notificationResponse)
+                    
             )
         case let .selectStyle(style):
             state.progressStyle = style
@@ -420,8 +425,7 @@ public struct CreateTaskView: View {
                     
                     Button(
                         action: {
-                            viewStore.send(.startButtonTapped)
-                            presentationMode.wrappedValue.dismiss()
+                            viewStore.send(.startButtonTapped)                            
                         }, label: {
                             Text(.startLabel, bundle: .tasks)
                         }
@@ -663,7 +667,8 @@ struct CreateTaskView_Previews: PreviewProvider {
                     }
                     ),
                     managedContext: .init(concurrencyType: .privateQueueConcurrencyType),
-                    notificationClient: .empty
+                    notificationClient: .empty,
+                    mainQueue: DispatchQueue.main.eraseToAnyScheduler()
                 )
             ))
             
@@ -693,7 +698,8 @@ struct CreateTaskView_Previews: PreviewProvider {
                     }
                     ),
                     managedContext: .init(concurrencyType: .privateQueueConcurrencyType),
-                    notificationClient: .empty
+                    notificationClient: .empty,
+                    mainQueue: DispatchQueue.main.eraseToAnyScheduler()
                 )
             )).preferredColorScheme(.dark)
            

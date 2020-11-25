@@ -140,7 +140,7 @@ extension TimeClient {
                     
                     if request.currentDate < request.startAt {
                         components = request.calendar.dateComponents(
-                            [.year, .month, .day, .hour, .minute],
+                            [.year, .month, .day, .hour, .minute, .second],
                             from: request.startAt,
                             to: request.endAt
                         )
@@ -148,7 +148,7 @@ extension TimeClient {
                     
                     if request.currentDate > request.startAt && request.currentDate < request.endAt {
                         components = request.calendar.dateComponents(
-                            [.year, .month, .day, .hour, .minute],
+                            [.year, .month, .day, .hour, .minute, .second],
                             from: request.currentDate,
                             to: request.endAt
                         )
@@ -160,14 +160,14 @@ extension TimeClient {
                                                             
                     
                     let taskMinutes = request.calendar
-                        .dateComponents([.minute],
+                        .dateComponents([.second],
                                         from: request.startAt,
-                                        to: request.endAt).minute!
+                                        to: request.endAt).second!
                     
                     let passedMinutes = request.calendar
-                        .dateComponents([.minute],
+                        .dateComponents([.second],
                                         from: request.startAt,
-                                        to: request.currentDate).minute!
+                                        to: request.currentDate).second!
                                                                                 
                     promise(.success(
                         TimeResponse(
@@ -177,7 +177,9 @@ extension TimeClient {
                                 month: components.month ?? .zero,
                                 day: components.day ?? .zero,
                                 hour: components.hour ?? .zero,
-                                minute: components.minute ?? .zero)
+                                minute: components.minute ?? .zero,
+                                second: components.second ?? .zero
+                            )
                         )
                     ))
                 }

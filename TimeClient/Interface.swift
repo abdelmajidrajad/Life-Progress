@@ -96,18 +96,21 @@ public struct TimeResult: Equatable {
     public let day: Int
     public let hour: Int
     public let minute: Int
+    public let second: Int
     public init(
         year: Int = .zero,
         month: Int = .zero,
         day: Int = .zero,
         hour: Int = .zero,
-        minute: Int = .zero
+        minute: Int = .zero,
+        second: Int = .zero
     ) {
         self.year = year
         self.month = month
         self.day = day
         self.hour = hour
         self.minute = minute
+        self.second = second
     }
     
     public enum Component: Equatable {
@@ -116,6 +119,7 @@ public struct TimeResult: Equatable {
         case hour(Int)
         case minute(Int)
         case day(Int)
+        case second(Int)
         case empty
     }
     
@@ -134,6 +138,8 @@ extension TimeResult.Component {
             return short ? "h": "hour"
         case .minute:
             return short ? "min": "minute"
+        case .second:
+            return short ? "s": "second"
         case .empty:
             return ""
         }
@@ -155,6 +161,8 @@ extension TimeResult.Component {
             return value
         case .empty:
             return .zero
+        case let .second(value):
+            return value
         }
     }
 }
@@ -168,6 +176,15 @@ extension TimeResult {
             day == 0 ? .empty: .day(day),
             hour == 0 ? .empty: .hour(hour),
             minute == 0 ? .empty: .minute(minute),
+            second == 0
+                ? .empty:                
+                year == 0 &&
+                month == 0 &&
+                day == 0 &&
+                hour == 0 &&
+                minute == 0 ?
+                .second(second)
+                : .empty
         ]
     }
 }

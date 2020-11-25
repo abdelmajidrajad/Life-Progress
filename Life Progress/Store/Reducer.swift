@@ -10,11 +10,14 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
         switch action {
         case .onStart:
             struct TimerId: Hashable {}
-            return Effect.timer(
-                id: TimerId(),
-                every: .seconds(10.0),
-                on: environment.mainQueue
-            ).map(AppAction.onUpdate)
+            return Effect
+                .timer(id: TimerId(),
+                       every: .seconds(10.0),
+                       tolerance: 2.0,
+                       on: environment.mainQueue,
+                       options: nil
+            )
+            .map(AppAction.onUpdate)
             .eraseToEffect()
         case .run:
                                                               
@@ -34,7 +37,7 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
                 
             }
         case .onUpdate:
-            return .concatenate(
+            return .merge(
                 Effect(value: .day(.onChange)),
                 Effect(value: .year(.onChange)),
                 Effect(value: .life(.onChange)),
@@ -124,7 +127,8 @@ extension AppEnvironment {
             managedContext: self.context,
             timeClient: self.timeClient,
             taskClient: self.taskClient,
-            notificationClient: self.notificationClient
+            notificationClient: self.notificationClient,
+            mainQueue: self.mainQueue
         )
     }
 }

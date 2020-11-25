@@ -13,7 +13,7 @@ public struct LifeProgressState: Equatable {
         timeResult: TimeResult = .init(),
         style: ProgressStyle = .bar,
         percent: Double = .zero
-    ) {        
+    ) {
         self.style = style
         self.timeResult = timeResult
         self.percent = percent
@@ -201,4 +201,6 @@ struct LifeProgressView_Previews: PreviewProvider {
         }
     }
 }
+
+
 

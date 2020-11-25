@@ -53,6 +53,20 @@ extension TimeResult {
                 )
             )
         }
+        
+        if self.second != .zero
+            && minute != .zero
+            && hour != .zero
+            && month != .zero
+            && year != .zero  {
+            mutable.append(
+                attributedString(
+                    "\(self.second)",
+                    style == .short ? "s": "seconds"
+                )
+            )
+        }
+        
         return mutable
     }
 }

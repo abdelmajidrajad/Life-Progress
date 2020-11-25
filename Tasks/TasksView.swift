@@ -58,6 +58,7 @@ public struct TasksEnvironment {
     let timeClient: TimeClient
     let taskClient: TaskClient
     let notificationClient: NotificationClient
+    let mainQueue: AnySchedulerOf<DispatchQueue>
     public init(
         uuid: @escaping () -> UUID,
         date: @escaping () -> Date,
@@ -65,7 +66,8 @@ public struct TasksEnvironment {
         managedContext: NSManagedObjectContext,
         timeClient: TimeClient,
         taskClient: TaskClient,
-        notificationClient: NotificationClient
+        notificationClient: NotificationClient,
+        mainQueue: AnySchedulerOf<DispatchQueue>
     ) {
         self.uuid = uuid
         self.date = date
@@ -74,6 +76,7 @@ public struct TasksEnvironment {
         self.timeClient = timeClient
         self.taskClient = taskClient
         self.notificationClient = notificationClient
+        self.mainQueue = mainQueue
     }
 }
 
@@ -148,6 +151,7 @@ public let tasksReducer =
                 environment: \.createTask
             )
 ).cellReducer
+.createTaskReducer
 
 
 
@@ -294,6 +298,25 @@ extension Reducer where
 }
 
 
+extension Reducer where
+    State == TasksState,
+    Action == TasksAction,
+    Environment == TasksEnvironment {
+    var createTaskReducer: Self {
+        Self { state, action, environment in
+            let effects = self(&state, action, environment)
+            switch action {
+            case .createTask(.notificationResponse(.success)):
+                state.createTask = nil
+                return .none
+            default:
+                return effects
+            }
+        }
+    }
+}
+
+
 
 extension TasksEnvironment {
     var createTask: CreateTaskEnvironment {
@@ -304,7 +327,8 @@ extension TasksEnvironment {
             timeClient: timeClient,
             taskClient: taskClient,
             managedContext: managedContext,
-            notificationClient: notificationClient
+            notificationClient: notificationClient,
+            mainQueue: mainQueue
         )
     }
 }
@@ -503,7 +527,8 @@ struct TasksView_Previews: PreviewProvider {
                     managedContext: NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType),
                     timeClient: .progress,
                     taskClient: .createBook,
-                    notificationClient: .empty
+                    notificationClient: .empty,
+                    mainQueue: DispatchQueue.main.eraseToAnyScheduler()
                 )
             ))
                         
@@ -519,7 +544,8 @@ struct TasksView_Previews: PreviewProvider {
                     managedContext: NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType),
                     timeClient: .progress,
                     taskClient: .empty,
-                    notificationClient: .empty
+                    notificationClient: .empty,
+                    mainQueue: DispatchQueue.main.eraseToAnyScheduler()
                 )
             )).preferredColorScheme(.dark)
                                     

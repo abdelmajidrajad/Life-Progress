@@ -6,7 +6,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         ColorValueTransformer.register()//TODO:- CHange Later
-        UNUserNotificationCenter.current().delegate = self
+        
+        registerUserNotification(application)
+        
         return true
     }
 
@@ -50,4 +52,25 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
             completionHandler([.alert, .sound, .badge])
         }
     }
+}
+
+
+extension AppDelegate {
+    private func registerUserNotification(_ application: UIApplication)
+    -> Void {
+            if #available(iOS 10.0, *) {
+                let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+                UNUserNotificationCenter
+                    .current()
+                    .requestAuthorization(
+                        options: authOptions,
+                        completionHandler: {_, _ in })
+            } else {
+                let settings: UIUserNotificationSettings =
+                    UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil)
+                application.registerUserNotificationSettings(settings)
+            }
+            UNUserNotificationCenter.current().delegate = self
+            application.registerForRemoteNotifications()
+        }
 }

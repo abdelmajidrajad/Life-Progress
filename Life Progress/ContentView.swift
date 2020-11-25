@@ -19,28 +19,7 @@ struct ContentView: View {
     var body: some View {
         WithViewStore(store) { viewStore in
             ZStack(alignment: .bottomLeading) {
-                
-                Button(action: {
-                    viewStore.send(.shareButtonTapped)
-                }) {
-                    Image(systemName: "square.and.arrow.up.fill")
-                        .font(.title)
-                        .foregroundColor(Color(.label))
-                }.padding()
-                .background(EmptyView())
-                .sheet(isPresented: viewStore.binding(
-                        get: { $0.shareState != nil },
-                        send: AppAction.viewDismissed)) {
-                    
-                    IfLetStore(store.scope(
-                        state: \.shareState,
-                        action: AppAction.share
-                    )) { shareStore in
-                        ShareView(store: shareStore)
-                    }
-                            
-                        }.zIndex(1.0)
-                
+                                                
                 ScrollView {
                     
                     Section {
@@ -100,11 +79,31 @@ struct ContentView: View {
                 .onAppear {
                     viewStore.send(.onStart)
                 }.navigationBarTitle(Text("One Step"))
-                .navigationBarItems(trailing:
+                .navigationBarItems(leading:
+                                        Button(action: {
+                                            viewStore.send(.shareButtonTapped)
+                                        }) {
+                                            Image(systemName: "square.and.arrow.up.fill")
+                                                .font(.headline)
+                                                .foregroundColor(Color(.label))
+                                        }
+                                        .background(EmptyView())
+                                        .sheet(isPresented: viewStore.binding(
+                                                get: { $0.shareState != nil },
+                                                send: AppAction.viewDismissed)) {
+                                            
+                                            IfLetStore(store.scope(
+                                                state: \.shareState,
+                                                action: AppAction.share
+                                            )) { shareStore in
+                                                ShareView(store: shareStore)
+                                            }}.zIndex(1.0)
+                    ,trailing:
                     Button(action: {
                         viewStore.send(.settingButtonTapped)
                     }, label: {
                         Image(systemName: "gearshape.fill")
+                            .font(.headline)
                             .foregroundColor(Color(.label))
                     }).background(EmptyView())
                     .sheet(
