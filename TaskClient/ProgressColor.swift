@@ -31,3 +31,11 @@ public struct ProgressTask: Identifiable, Equatable {
 }
 
 
+extension ProgressTask {
+    public func progress(_ percent: Float) -> Date {
+        let minutes = Calendar.current.dateComponents([.minute], from: startDate, to: endDate).minute!
+        let reachMinute = Float(minutes) * percent
+        return Calendar.current.date(byAdding: .minute, value: Int(reachMinute), to: startDate, wrappingComponents: false) ?? endDate
+    }
+}
+

@@ -4,21 +4,29 @@ import ComposableArchitecture
 
 
 public struct NotificationsState: Equatable {
+    public var reachingPoint: Float
     var isAuthorized: Bool
-    var isReceivingActivated: Bool
+    var isEndNotificationEnabled: Bool
+    var isCustomNotificationEnabled: Bool
     public init(
         isAuthorized: Bool = false,
-        isReceivingActivated: Bool = false
+        isEndNotificationEnabled: Bool = false,
+        isCustomNotificationEnabled: Bool = false,
+        reachingPoint: Float = 0.5
     ) {
+        self.reachingPoint = reachingPoint
         self.isAuthorized = isAuthorized
-        self.isReceivingActivated = isReceivingActivated
+        self.isEndNotificationEnabled = isEndNotificationEnabled
+        self.isCustomNotificationEnabled = isCustomNotificationEnabled
     }
 }
 
 public enum NotificationsAction: Equatable {
     case onAppear
-    case allowToggle(Bool)
-    case getToggle(Bool)
+    case didAuthorized(Bool)
+    case didAuthorizedEnd(Bool)
+    case didAuthorizedCustom(Bool)
+    case didSlide(Float)
 }
 
 struct NotificationEnvironment {
@@ -34,25 +42,23 @@ public let notificationReducer =
             state.isAuthorized = UIApplication
                 .shared
                 .isRegisteredForRemoteNotifications
-            state.isReceivingActivated = userDefaults.bool(forKey: "tasks.notifications")
+            state.isEndNotificationEnabled = userDefaults.bool(forKey: "tasks.notifications.end")
+            state.isCustomNotificationEnabled = userDefaults.bool(forKey: "tasks.notifications.custom")
             return .none
-        case let .allowToggle(newState):
+        case let .didAuthorized(newState):
             state.isAuthorized = newState
-            return .fireAndForget {
-                newState
-                ? UIApplication.shared.registerForRemoteNotifications()
-                : UIApplication.shared.unregisterForRemoteNotifications()
-            }
-        case let .getToggle(newState):
-            state.isReceivingActivated = newState
-            return .fireAndForget {
-                userDefaults.set(newState, forKey: "tasks.notifications")
-                newState
-                    ? ()
-                    : UNUserNotificationCenter
-                        .current()
-                        .removeAllPendingNotificationRequests()
-            }
+            return .none
+        case let .didAuthorizedEnd(newState):
+            state.isEndNotificationEnabled = newState
+            userDefaults.set(newState, forKey: "tasks.notifications.end")
+            return .none
+        case let .didAuthorizedCustom(newState):
+            userDefaults.set(newState, forKey: "tasks.notifications.custom")
+            state.isCustomNotificationEnabled = newState
+            return .none
+        case let .didSlide(value):
+            state.reachingPoint = value
+            return .none
         }
 }
 
@@ -70,26 +76,58 @@ struct NotificationsView: View {
                             .font(.preferred(.py_footnote()))
                 ) {
                     Toggle(
-                        "Allow Notification",
+                        "Allow Notifications",
                         isOn: viewStore.binding(
                             get: \.isAuthorized,
-                            send: NotificationsAction.allowToggle
+                            send: NotificationsAction.didAuthorized
                         ))
                         .padding()
                 }
                 
                 Section(footer:
-                    Text("Receive notification when any task you started reach the end")
+                    Text("Receive notification when any task you started reach 100%")
                             .font(.preferred(.py_footnote()))
                 ) {
                     Toggle(
-                        "Get Notification When 100%",
+                        "Receive Notification at the end",
                         isOn: viewStore.binding(
-                            get: \.isReceivingActivated,
-                            send: NotificationsAction.getToggle
+                            get: \.isEndNotificationEnabled,
+                            send: NotificationsAction.didAuthorizedEnd
                         )
                     ).padding()
-                        
+                }
+                
+                Section(footer:
+                    Text("Receive notification when any task you started reach " + (percentFormatter().string(from: NSNumber(value: viewStore.reachingPoint)) ?? ""))
+                            .font(.preferred(.py_footnote()))
+                ) {
+                    Toggle(
+                        "Receive Notification at half",
+                        isOn: viewStore.binding(
+                            get: \.isCustomNotificationEnabled,
+                            send: NotificationsAction.didAuthorizedCustom
+                        )
+                    ).padding()
+                    
+                    HStack {
+                        Slider(
+                            value: viewStore.binding(
+                                get: \.reachingPoint,
+                                send: NotificationsAction.didSlide
+                            ),
+                            in: 0...1,
+                            step: 0.05
+                        ).accentColor(Color(.label))
+                        Text(percentFormatter().string(from: NSNumber(value: viewStore.reachingPoint)) ?? "")
+                            .font(.preferred(.py_subhead()))
+                            .foregroundColor(Color(.label))
+                            .frame(width: .py_grid(10), height: .py_grid(10))
+                            .background(
+                                RoundedRectangle(cornerRadius: .py_grid(4))
+                                    .fill(Color(.label).opacity(0.1))
+                            )
+                    }
+                                                                    
                 }
                 
             }.font(.preferred(.py_subhead()))

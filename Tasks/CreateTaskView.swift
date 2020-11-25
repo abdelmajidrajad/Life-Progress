@@ -67,8 +67,6 @@ public enum CreateTaskAction: Equatable {
     case reset
     case alertDismissed
     case cancelButtonTapped
-    //case endDate(DateControlAction)
-    //case startDate(DateControlAction)
     case endDate(Date)
     case startDate(Date)
 }

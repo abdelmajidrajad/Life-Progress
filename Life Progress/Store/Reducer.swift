@@ -16,7 +16,9 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
                        tolerance: 2.0,
                        on: environment.mainQueue,
                        options: nil
-            )
+                )
+            .subscribe(on: DispatchQueue.global())
+            .receive(on: environment.mainQueue)
             .map(AppAction.onUpdate)
             .eraseToEffect()
         case .run:
@@ -71,6 +73,8 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
                 Effect(value: .settingButtonTapped),
                 Effect(value: .settings(.sectionTapped(.showSettings)))
             )
+        case .notificationResponse:
+            return .none
         default:
             return .none
         }
@@ -143,3 +147,106 @@ extension AppEnvironment {
         )
     }
 }
+
+import Core
+import Combine
+//Notification Reducer
+extension Reducer where
+    State == AppState,
+    Action == AppAction,
+    Environment == AppEnvironment {
+    var notificationSettingReducer: Self {
+        Self { state, action, environment in
+            let effects = self(&state, action, environment)
+            switch action {
+            case let .settings(.notifications(notificationsAction)):
+                switch notificationsAction {
+                case let .didAuthorized(enabled):
+                    return .fireAndForget {
+                        UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+                        enabled
+                            ? UIApplication.shared.registerForRemoteNotifications()
+                            : UIApplication.shared.unregisterForRemoteNotifications()
+                    }
+                case let .didAuthorizedEnd(enabled):
+                    return enabled
+                    ? .concatenate(
+                        state.tasksState
+                            .tasks
+                            .filter { $0.status != .completed }
+                            .map {
+                        environment.notificationClient.send(
+                            .init(
+                                notification: $0.task.notification,
+                                date: $0.task.endDate
+                            )).flatMap { _ in
+                                Empty(completeImmediately: true)
+                                    .eraseToAnyPublisher()
+                            }.catch { _ in
+                                Empty(completeImmediately: true)
+                                    .eraseToAnyPublisher()
+                            }.eraseToEffect()
+                    })
+                    : environment
+                        .notificationClient
+                        .removeRequests(state.tasksState.tasks.map(\.id.uuidString))
+                        .eraseToEffect()
+                        .fireAndForget()
+                    
+                case let .didAuthorizedCustom(enabled):
+                    let goal = state.settingState!.notifications.reachingPoint
+                    let value = percentFormatter().string(from: NSNumber(value: goal)) ?? ""
+                    
+                    return enabled
+                    ? .concatenate(
+                        state.tasksState
+                            .tasks
+                            .filter { $0.status != .completed }
+                            .map {
+                        environment.notificationClient.send(
+                            .init(
+                                notification: $0.task.customNotification(value),
+                                date: $0.task.progress(goal)
+                            )).catchToEffect()
+                            .map(AppAction.notificationResponse)
+                    })
+                    : environment
+                        .notificationClient
+                        .removeRequests(state.tasksState.tasks.map { $0.id.uuidString + "custom" })
+                        .eraseToEffect()
+                        .fireAndForget()
+                default:
+                    return .none
+                }
+            default:
+                return effects
+            }
+        }
+    }
+}
+
+import TaskClient
+extension ProgressTask {
+    var notification: LocalNotification {
+        LocalNotification(
+            identifier: id.uuidString,
+            title: title,
+            subtitle: "100%",
+            message: "task you started was ended"
+        )
+    }
+}
+
+extension ProgressTask {
+    var customNotification: (String) -> LocalNotification {
+        return {
+            LocalNotification(
+                identifier: id.uuidString + "custom",
+                title: title,
+                subtitle: $0,
+                message: "task you started reach " + $0
+            )
+        }
+    }
+}
+

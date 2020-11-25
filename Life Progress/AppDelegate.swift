@@ -8,6 +8,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ColorValueTransformer.register()//TODO:- CHange Later
         
         registerUserNotification(application)
+                
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         
         return true
     }

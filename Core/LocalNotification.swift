@@ -62,15 +62,18 @@ public struct NotificationClient {
     public let authorizationStatus: AnyPublisher<AuthorizationStatus, Failure>
     public let send: (Request) -> AnyPublisher<Response, Failure>
     public let requestAuthorization: AnyPublisher<AuthorizationStatus, Failure>
+    public let removeRequests: ([String]) -> AnyPublisher<Never, Never>
     
     public init(
         requestAuthorization: AnyPublisher<AuthorizationStatus, Failure>,
         authorizationStatus: AnyPublisher<AuthorizationStatus, Failure>,
-        send: @escaping (Request) -> AnyPublisher<Response, Failure>
+        send: @escaping (Request) -> AnyPublisher<Response, Failure>,
+        removeRequests: @escaping ([String]) -> AnyPublisher<Never, Never>
     ) {
         self.requestAuthorization = requestAuthorization
         self.authorizationStatus = authorizationStatus
         self.send = send
+        self.removeRequests = removeRequests
     }
 }
 
@@ -138,6 +141,13 @@ extension NotificationClient {
                     }
                 }.eraseToAnyPublisher()
                 
+            }, removeRequests: { identifiers in
+                Deferred { () -> Empty<Never, Never> in
+                    UNUserNotificationCenter
+                        .current()
+                        .removePendingNotificationRequests(withIdentifiers: identifiers)
+                    return Empty(completeImmediately: true)
+                }.eraseToAnyPublisher()
             }
         )
     }
@@ -155,6 +165,9 @@ extension NotificationClient {
             send: { _ in
                 Just(.success)
                     .setFailureType(to: Failure.self)
+                    .eraseToAnyPublisher()
+            }, removeRequests: { _ in
+                Empty(completeImmediately: true)
                     .eraseToAnyPublisher()
             }
         )

@@ -13,7 +13,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let store = Store(
             initialState: AppState(),
-            reducer: appReducer,
+            reducer: appReducer.notificationSettingReducer,
             environment:  .live
         )
                 

@@ -18,7 +18,7 @@ public struct SettingState: Equatable {
     var aboutsState: AboutsState
     var appIconState: AppIconState
     var features: AppFeatureState
-    var notifications: NotificationsState
+    public var notifications: NotificationsState
     var nightMode: NightModeState
     public var moreSettings: MoreSettingsState
     var section: SettingItem?

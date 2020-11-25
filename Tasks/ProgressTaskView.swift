@@ -32,11 +32,11 @@ public struct TaskState: Equatable, Identifiable {
     }
     
     public var id: UUID { task.id }    
-    var task: ProgressTask
+    public var task: ProgressTask
     var remainingTime: NSAttributedString
     var result: TimeResult
     var progress: Double
-    var status: Status
+    public var status: Status
     var isSelected: Bool
     var actionSheet: ActionSheetState<TaskAction>?
     var alert: AlertState<TaskAction>?
@@ -74,7 +74,7 @@ public struct TaskState: Equatable, Identifiable {
 }
 
 extension TaskState {
-    public subscript<LocalState>(
+    subscript<LocalState>(
         dynamicMember
             keyPath: KeyPath<ProgressTask, LocalState>)
     -> LocalState {

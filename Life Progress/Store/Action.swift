@@ -23,4 +23,5 @@ enum AppAction: Equatable {
     case yourDay(YourDayProgressAction)
     case settings(SettingAction)
     case share(ShareAction)
+    case notificationResponse(Result<NotificationClient.Response, NotificationClient.Failure>)
 }

@@ -12,7 +12,7 @@ public enum Filter: LocalizedStringKey, CaseIterable, Hashable {
 }
 
 public struct TasksState: Equatable {
-    var tasks: IdentifiedArrayOf<TaskState>
+    public var tasks: IdentifiedArrayOf<TaskState>
     var createTask: CreateTaskState?
     var filter: Filter
     public init(
