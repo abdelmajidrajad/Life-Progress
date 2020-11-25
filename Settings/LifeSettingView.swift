@@ -31,6 +31,8 @@ public enum LifeSettingAction: Equatable {
 }
 
 public struct LifeSettingEnvironment {
+    let calendar: Calendar
+    let date: () -> Date
     let userDefaults: KeyValueStoreType
     let mainQueue: AnySchedulerOf<DispatchQueue>
 }
@@ -43,11 +45,17 @@ public let lifeSettingReducer =
         
         switch action {
         case .onAppear:
-            state.age = Float(
-                environment.userDefaults.integer(forKey: "age") == .zero
-                ? 5
-                : environment.userDefaults.integer(forKey: "age")
-            )
+            
+            
+            let birthDate = environment.userDefaults.object(forKey: "birthDate") as? Date
+            
+            let currentAge = environment.calendar
+                .dateComponents([.year],
+                                from: birthDate ?? environment.date(),
+                                to: environment.date()).year!
+                            
+            state.age = Float(currentAge == .zero ? 10: currentAge)
+                        
             state.life = Float(
                 environment.userDefaults.integer(forKey: "life") == 0
                     ? 80
@@ -56,9 +64,7 @@ public let lifeSettingReducer =
             return .none
         case let .setAge(age):
             state.age = age
-            state.didChange = environment
-                .userDefaults
-                .integer(forKey: "age") != Int(age)
+            state.didChange = true
             return .none
         case let .setLife(life):
             if life < state.age {
@@ -71,7 +77,10 @@ public let lifeSettingReducer =
                 .integer(forKey: "life") != Int(life)
             return .none
         case .saveButtonTapped:
-            environment.userDefaults.set(state.age, forKey: "age")
+            let birthDate = environment
+                .calendar
+                .date(byAdding: .year, value: Int(-state.age), to: environment.date())!
+            environment.userDefaults.set(birthDate, forKey: "birthDate")
             environment.userDefaults.set(state.life, forKey: "life")
             return .none
         }
@@ -242,6 +251,8 @@ struct LifeSettingView_Previews: PreviewProvider {
                 initialState: LifeSettingState(),
                 reducer: lifeSettingReducer,
                 environment: LifeSettingEnvironment(
+                    calendar: .current,
+                    date: Date.init,
                     userDefaults: TestUserDefault(),
                     mainQueue: DispatchQueue.main.eraseToAnyScheduler()
                 )

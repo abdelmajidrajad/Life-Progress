@@ -248,10 +248,29 @@ extension TimeClient {
                 }
             }, lifeProgress: { request in
                 .future { promise in
+                                                           
+                    let birthDate = request
+                        .calendar
+                        .date(byAdding: .year, value: -request.age, to: request.date)!
+                    
+                    let deathDate = request
+                        .calendar
+                        .date(byAdding: .year, value: request.expectedLife, to: birthDate)!
+
+                    let lifeMinutes = request
+                        .calendar
+                        .dateComponents([.minute], from: birthDate, to: deathDate)
+                        .minute!
+
+                    let passedMinutes = request
+                        .calendar
+                        .dateComponents([.minute], from: birthDate, to: request.date)
+                        .minute!
+                    
                     promise(
                         .success(
                             TimeResponse(
-                                progress: min(1.0, Double(request.age) / Double(request.expectedLife)),
+                                progress: min(1.0, Double(passedMinutes) / Double(lifeMinutes)),
                                 result: TimeResult(
                                     year: request.expectedLife - request.age
                                 )

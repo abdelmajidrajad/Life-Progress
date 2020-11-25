@@ -13,7 +13,7 @@ public struct LifeProgressState: Equatable {
         timeResult: TimeResult = .init(),
         style: ProgressStyle = .bar,
         percent: Double = .zero
-    ) {
+    ) {        
         self.style = style
         self.timeResult = timeResult
         self.percent = percent
@@ -26,12 +26,18 @@ public enum LifeProgressAction: Equatable {
 }
 
 public struct LifeEnvironment {
+    let calendar: Calendar
+    let date: () -> Date
     let userDefaults: KeyValueStoreType
     let lifeProgress: (LifeRequest) -> AnyPublisher<TimeResponse, Never>
     public init(
+        calendar: Calendar,
+        date: @escaping () -> Date,
         userDefaults: KeyValueStoreType,
         lifeProgress: @escaping (LifeRequest) -> AnyPublisher<TimeResponse, Never>
     ) {
+        self.calendar = calendar
+        self.date = date
         self.userDefaults = userDefaults
         self.lifeProgress = lifeProgress
     }
@@ -41,10 +47,20 @@ public let lifeReducer =
     Reducer<LifeProgressState, LifeProgressAction, LifeEnvironment> { state, action, environment in
     switch action {
     case .onChange:
+        
+        let birthDate = environment.userDefaults.object(forKey: "birthDate") as? Date
+        
+        let currentAge = environment.calendar
+            .dateComponents([.year],
+                            from: birthDate ?? environment.date(),
+                            to: environment.date()).year ?? 5
+                                    
         return environment.lifeProgress(
             LifeRequest(
+                date: environment.date(),
+                calendar: environment.calendar,
                 expectedLife: environment.userDefaults.integer(forKey: "life"),
-                age: environment.userDefaults.integer(forKey: "age")
+                age: currentAge
             )).map(LifeProgressAction.response)
               .eraseToEffect()
     case let .response(response):
@@ -149,6 +165,8 @@ struct LifeProgressView_Previews: PreviewProvider {
                     initialState: LifeProgressState(style: .circle),
                     reducer: lifeReducer,
                     environment: LifeEnvironment(
+                        calendar: Calendar.current,
+                        date: Date.init,
                         userDefaults: TestUserDefault(),
                         lifeProgress: { request in
                             Just(TimeResponse(
@@ -166,6 +184,8 @@ struct LifeProgressView_Previews: PreviewProvider {
                     initialState: LifeProgressState(style: .bar),
                     reducer: lifeReducer,
                     environment: LifeEnvironment(
+                        calendar: Calendar.current,
+                        date: Date.init,
                         userDefaults: TestUserDefault(),
                         lifeProgress: { _ in
                             Just(TimeResponse(

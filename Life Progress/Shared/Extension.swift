@@ -55,6 +55,8 @@ extension SharedEnvironment {
 extension SharedEnvironment {
     var life: LifeEnvironment {
         LifeEnvironment(
+            calendar: calendar,
+            date: date,
             userDefaults: userDefaults,
             lifeProgress: timeClient.lifeProgress
         )

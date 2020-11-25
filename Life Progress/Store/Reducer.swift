@@ -132,6 +132,8 @@ extension AppEnvironment {
 extension AppEnvironment {
     var life: LifeEnvironment {
         LifeEnvironment(
+            calendar: calendar,
+            date: date,
             userDefaults: userDefaults,
             lifeProgress: timeClient.lifeProgress
         )

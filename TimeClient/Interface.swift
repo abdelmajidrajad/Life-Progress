@@ -196,12 +196,18 @@ public struct WeekRequest {
 }
 
 public struct LifeRequest {
+    public let date: Date
+    public let calendar: Calendar
     public let expectedLife: Int
     public let age: Int
     public init(
+        date: Date,
+        calendar: Calendar,
         expectedLife: Int,
         age: Int
     ) {
+        self.date = date
+        self.calendar = calendar
         self.expectedLife = expectedLife
         self.age = age
     }

@@ -52,6 +52,8 @@ let moreSettingsReducer =
             action: /MoreSettingsAction.life,
             environment: {
                 LifeSettingEnvironment(
+                    calendar: $0.calendar,
+                    date: $0.date,
                     userDefaults: $0.userDefaults,
                     mainQueue: $0.mainQueue
                 )                
