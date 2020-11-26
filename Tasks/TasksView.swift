@@ -365,7 +365,11 @@ extension AnyTransition {
 extension TasksState {
     var view: TasksView.ViewState {
         .init(
-            status: filter == .active ? "active": filter == .completed ? "completed": "pending",
+            status: filter == .active
+                ? "(active)"
+                : filter == .completed
+                ? "(completed)"
+                : "(pending)",
             isPending: filter == .pending,
             isCompleted: filter == .completed,
             isActive: filter == .active,
@@ -382,6 +386,8 @@ extension TasksState {
 
 
 public struct TasksView: View {
+    
+    @Environment(\.horizontalSizeClass) var sizeClass
     
     struct ViewState: Equatable {
         var status: String
@@ -413,7 +419,7 @@ public struct TasksView: View {
                                                 .preferred(.py_title2())
                                                 .bold())
                                     
-                                    Text("(" + viewStore.status + ")")
+                                    Text(viewStore.status)
                                         .font(Font
                                                 .preferred(.py_caption2()).italic()
                                                 .bold())
@@ -484,13 +490,26 @@ public struct TasksView: View {
                             .foregroundColor(Color(.secondaryLabel))
                             .transition(.move(edge: .top))
                     } else {
-                        
-                        ForEachStore(
-                            store.scope(
-                                state: \.filteredTasks,
-                                action: TasksAction.cell(id:action:)),
-                            content: ProgressTaskView.init(store:)
-                        )
+                        if #available(iOS 14.0, *), sizeClass != .compact {
+                            LazyVGrid(columns: [
+                                GridItem(), GridItem()
+                            ]) {
+                                ForEachStore(
+                                    store.scope(
+                                        state: \.filteredTasks,
+                                        action: TasksAction.cell(id:action:)),
+                                    content: ProgressTaskView.init(store:)
+                                )
+                            }
+                        } else {
+                            ForEachStore(
+                                store.scope(
+                                    state: \.filteredTasks,
+                                    action: TasksAction.cell(id:action:)),
+                                content: ProgressTaskView.init(store:)
+                            )
+                        }
+                       
                     }
                 }
             }.onAppear {
