@@ -14,7 +14,8 @@ enum AppAction: Equatable {
     case shareButtonTapped
     case viewDismissed
     case lifeWidgetTapped
-    case myDayWidgetTapped    
+    case myDayWidgetTapped
+    case onBoardingDismissed
     case year(YearAction)
     case day(DayAction)
     case union(SwitchAction)
@@ -23,5 +24,6 @@ enum AppAction: Equatable {
     case yourDay(YourDayProgressAction)
     case settings(SettingAction)
     case share(ShareAction)
+    case features(AppFeatureAction)
     case notificationResponse(Result<NotificationClient.Response, NotificationClient.Failure>)
 }

@@ -9,12 +9,11 @@ import Settings
 struct ContentView: View {
     
     let store: Store<AppState, AppAction>
-    
     init(store: Store<AppState, AppAction>) {
         self.store = store
     }
     
-    @State var isScaled: Bool = false
+    //@State var isSheetShown: Bool = true
     
     var body: some View {
         WithViewStore(store) { viewStore in
@@ -78,7 +77,22 @@ struct ContentView: View {
                 }.padding(.leading, .py_grid(1))
                 .onAppear {
                     viewStore.send(.onStart)
-                }.navigationBarTitle(Text("One Step"))
+                }.navigationBarTitle(Text("First Step"))
+                .background(
+                    EmptyView()
+                        .sheet(isPresented: viewStore.binding(
+                            get: { $0.features != nil },
+                            send: AppAction.onBoardingDismissed
+                        )) {
+                            IfLetStore(store.scope(
+                                state: \.features,
+                                action: AppAction.features
+                            )) { store in
+                                AppFeaturesView(store: store)
+                            }
+                        }
+                )
+               
                 .navigationBarItems(leading:
                                         Button(action: {
                                             viewStore.send(.shareButtonTapped)
@@ -146,7 +160,7 @@ struct ContentView_Previews: PreviewProvider {
                 ContentView(
                     store: Store<AppState, AppAction>(
                         initialState: AppState(
-                            
+
                         ),
                         reducer: appReducer,
                         environment: .midDay

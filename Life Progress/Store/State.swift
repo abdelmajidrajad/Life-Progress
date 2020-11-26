@@ -6,6 +6,8 @@ import Tasks
 import Settings
 
 struct AppState: Equatable {
+    //var hasSeenOnBoarding: Bool = false
+    var features: AppFeatureState?
     var yearState: YearState
     var dayState: DayState
     var switchState: SwitchState
@@ -22,8 +24,10 @@ struct AppState: Equatable {
         yourDayState: YourDayProgressState = .init(),
         life: LifeProgressState = LifeProgressState(),
         settingState: SettingState? = nil,
-        shareState: ShareState? = nil
+        shareState: ShareState? = nil,
+        features: AppFeatureState? = nil//= 
     ) {
+        self.features = features
         self.settingState = settingState
         self.yearState = yearState
         self.dayState = dayState

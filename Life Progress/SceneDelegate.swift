@@ -29,14 +29,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window.rootViewController = UIHostingController(
                 rootView:
                     NavigationView {
-                        ContentView(store: mockStore)
+                        ContentView(store: store)
                     }.navigationViewStyle(StackNavigationViewStyle())
             )
             self.window = window
             window.makeKeyAndVisible()
         }
         
-        //ViewStore(store).send(.run)
+        ViewStore(store).send(.run)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {}

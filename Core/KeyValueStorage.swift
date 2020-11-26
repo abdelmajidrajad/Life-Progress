@@ -18,6 +18,7 @@ public protocol KeyValueStoreType: class {
     var endNotificationsEnabled: Bool { get set }
     var customNotificationsEnabled: Bool { get set }
     var taskNotificationPercent: Float? { get set }
+    var hasSeenOnBoarding: Bool { get set  }
     
     func synchronize() -> Bool
 }
@@ -68,6 +69,16 @@ extension KeyValueStoreType {
             self.set(newValue, forKey: AppKeys.notificationsEnabled.rawValue)
         }
     }
+    
+    public var hasSeenOnBoarding: Bool {
+        get {
+            return self.bool(forKey: AppKeys.hasSeenOnBoarding.rawValue)
+        }
+        set {
+            self.set(newValue, forKey: AppKeys.hasSeenOnBoarding.rawValue)
+        }
+    }
+    
     
     public var endNotificationsEnabled: Bool {
         get {
@@ -133,6 +144,6 @@ public enum AppKeys: String {
     case dayEnd = "com.lifeProgress.KeyValueStoreType.dayEnd"
     case notificationsEnabled = "come.lifeProgress.notificationsEnabled"
     case endNotificationsEnabled = "come.lifeProgress.endNotificationsEnabled"
-    case customNotificationsEnabled = "come.lifeProgress.customNotificationsEnabled"
+    case customNotificationsEnabled = "come.lifeProgress.customNotificationsEnabled"    
 }
 

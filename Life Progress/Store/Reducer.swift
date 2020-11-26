@@ -22,6 +22,12 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
             .map(AppAction.onUpdate)
             .eraseToEffect()
         case .run:
+            
+            
+            if !environment.userDefaults.hasSeenOnBoarding {
+                state.features = AppFeatureState(features: appFeatures)
+            }
+            
             return .fireAndForget {
                 if environment.userDefaults.string(forKey: "style") == "dark" {
                     UIApplication.shared.windows.forEach { window in
@@ -73,6 +79,10 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
             )
         case .notificationResponse:
             return .none
+        case .onBoardingDismissed:
+            state.features = nil
+            environment.userDefaults.hasSeenOnBoarding = true
+            return .none
         default:
             return .none
         }
@@ -116,6 +126,11 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
         state: \.shareState,
         action: /AppAction.share,
         environment: \.share
+    ),
+    appFeatureReducer.optional().pullback(
+        state: \.features,
+        action: /AppAction.features,
+        environment: { _ in () }
     )
 )
 

@@ -16,7 +16,7 @@ public enum AppFeatureAction: Equatable {
     case closeButtonTapped
 }
 
-let appFeatureReducer =
+public let appFeatureReducer =
     Reducer<AppFeatureState, AppFeatureAction, Void> {
         state, action, _ in
         switch action {
@@ -25,7 +25,6 @@ let appFeatureReducer =
         case .closeButtonTapped:
             return .none
         }
-        
     }
 
 //Binding<PresentationMode>
@@ -45,48 +44,43 @@ public struct AppFeaturesView: View {
         WithViewStore(store) { viewStore in
             ZStack(alignment: .topLeading) {
                                         
-                ZStack(alignment: .bottom) {
+                VStack {
                                         
                     PageView(
                         viewStore.features.map(FeatureView.init),
                         currentPage: $currentPage
                     )
                     
-                    VStack {
-                                               
-                        Button(action: {
-                            viewStore.send(.buyButtonTapped)
-                        }, label: {
-                            Text("2.99$")
-                                .font(Font.preferred(.py_title3()).bold())
-                                .foregroundColor(Color.white)
-                                .padding(.py_grid(3))
-                                .padding(.horizontal, .py_grid(3))
-                                .background(
-                                    Capsule()
-                                        .fill(Color.blue)
-                                )
-                        }).frame(
-                            maxWidth: .infinity,
-                            maxHeight: .py_grid(20)
-                        )
-                         .background(
-                            VisualEffectBlur()
-                                .edgesIgnoringSafeArea(.bottom)
-                                .cornerRadius(.py_grid(4),
-                                              corners: [.topLeft, .topRight])
-                        )                                                
-                    }
-                    
-                }.edgesIgnoringSafeArea(.all)
-                
-                Button(action: {
-                    viewStore.send(.closeButtonTapped)
-                    presentationMode.wrappedValue.dismiss()
-                }, label: {
-                    Image(systemName: "xmark")
-                }).padding()
-                .buttonStyle(CloseButtonCircleStyle())
+                    Spacer()
+                                                                   
+                    Button(action: {
+                        //viewStore.send(.buyButtonTapped)
+                        presentationMode.wrappedValue.dismiss()
+                    }, label: {
+                        Text("Skip")
+                            .font(Font.preferred(.py_title3()).bold())
+                            .foregroundColor(Color.white)
+                            .padding(.py_grid(3))
+                            .padding(.horizontal, .py_grid(3))
+                            .background(
+                                Capsule()
+                                    .fill(Color.blue)
+                            )
+                    }).frame(
+                        maxWidth: .infinity,
+                        maxHeight: .py_grid(20),
+                        alignment: .trailing
+                    ).padding(.trailing)
+                }
+                                    
+//
+//                Button(action: {
+//                    viewStore.send(.closeButtonTapped)
+//                    presentationMode.wrappedValue.dismiss()
+//                }, label: {
+//                    Image(systemName: "xmark")
+//                }).padding()
+//                .buttonStyle(CloseButtonCircleStyle())
             }
             
         }        

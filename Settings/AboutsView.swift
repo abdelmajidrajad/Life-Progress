@@ -107,6 +107,7 @@ public let appFeatures: [Feature] = [
     .todayProgress,
     .yourDayProgress,
     .widget,
+    .lifeProgress,
     .taskProgress
 ]
 
@@ -116,6 +117,14 @@ extension Feature {
             title: "year progress",
             subTitle: "track daily progress, how much days left to the end",
             imageSystemName: "calendar"
+        )
+    }
+    
+    static var lifeProgress: Self {
+        .init(
+            title: "life progress",
+            subTitle: "track life progress, how much days left to acheive all your dreams",
+            imageSystemName: "heart.fill"
         )
     }
     

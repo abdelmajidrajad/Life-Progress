@@ -17,7 +17,7 @@ public enum SettingItem: Equatable, Identifiable {
 public struct SettingState: Equatable {
     var aboutsState: AboutsState
     var appIconState: AppIconState
-    var features: AppFeatureState
+    //var features: AppFeatureState
     public var notifications: NotificationsState
     var nightMode: NightModeState
     public var moreSettings: MoreSettingsState
@@ -29,14 +29,14 @@ public struct SettingState: Equatable {
         moreSettings: MoreSettingsState = MoreSettingsState(),
         appIconState: AppIconState = AppIconState(),
         aboutsState: AboutsState = AboutsState(features: appFeatures),
-        features: AppFeatureState = AppFeatureState(features: appFeatures),
+      //  features: AppFeatureState = AppFeatureState(features: appFeatures),
         nightMode: NightModeState = NightModeState()
     ) {
         self.notifications = notifications
         self.appIconState = appIconState
         self.moreSettings = moreSettings
         self.aboutsState = aboutsState
-        self.features = features
+        //self.features = features
         self.nightMode = nightMode
         self.section = section
     }
@@ -52,7 +52,7 @@ public enum SettingAction: Equatable {
     case supportCellTapped
     case aboutCellTapped
     case shareCellTapped
-    case features(AppFeatureAction)
+    //case features(AppFeatureAction)
     case notifications(NotificationsAction)
     case appIcon(AppIconAction)
     case nightMode(NightModeAction)
@@ -114,7 +114,7 @@ public let settingReducer =
                 return .none
             case .appIcon,
                  .notifications,
-                 .features,
+                 //.features,
                  .nightMode,
                  .more:
                 return .none
@@ -130,11 +130,11 @@ public let settingReducer =
             action: /SettingAction.notifications,
             environment: \.userDefaults
         ),
-        appFeatureReducer.pullback(
-            state: \.features,
-            action: /SettingAction.features,
-            environment: { _ in () }
-        ),
+//        appFeatureReducer.pullback(
+//            state: \.features,
+//            action: /SettingAction.features,
+//            environment: { _ in () }
+//        ),
         nightModeReducer.pullback(
             state: \.nightMode,
             action: /SettingAction.nightMode,
@@ -185,14 +185,14 @@ public struct SettingsView: View {
                             )
                         
                         VStack(alignment: .leading, spacing: .py_grid(2)) {
-                            Text("Life Progress PLUS+".uppercased())
+                            Text("Life Progress".uppercased())
                                 .font(
                                     Font.preferred(
                                         .py_title3())
                                         .bold()
                                         .smallCaps()
                                 )
-                            Text("Progress your tasks")
+                            Text("Progress anything")
                                 .font(.preferred(.py_body()))
                                 .foregroundColor(Color(.secondaryLabel))
                         }
@@ -200,15 +200,16 @@ public struct SettingsView: View {
                      .frame(maxWidth: .infinity, alignment: .leading)
                      .background(
                          Color(.secondarySystemGroupedBackground)
-                     ).sheet(isPresented: viewStore.binding(
-                                get: { $0.section == .main },
-                                send: { _ in .sectionTapped(nil) }),
-                             content: {
-                                AppFeaturesView(store: store.scope(
-                                    state: \.features,
-                                    action: SettingAction.features
-                                ))
-                     })
+                     )
+//                    .sheet(isPresented: viewStore.binding(
+//                                get: { $0.section == .main },
+//                                send: { _ in .sectionTapped(nil) }),
+//                             content: {
+//                                AppFeaturesView(store: store.scope(
+//                                    state: \.features,
+//                                    action: SettingAction.features
+//                                ))
+//                     })
                     .onTapGesture {
                         viewStore.send(.sectionTapped(.main))
                     }
