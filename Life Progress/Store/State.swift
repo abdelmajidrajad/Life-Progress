@@ -60,36 +60,7 @@ extension AppState {
                 todayPercent: 0.8,
                 year: 2020
             ),
-            tasksState: TasksState(
-                tasks: [
-                    TaskState(
-                        task: .prepareDinner,
-                        progress: 0.6,
-                        result: TimeResult(hour: 1, minute: 34),
-                        status: .active
-                    ),
-                    TaskState(
-                        task: .goToBank,
-                        progress: 0.2,
-                        result: TimeResult(day: 1, hour: 2, minute: 10),
-                        status: .active
-                    ),
-                    TaskState(
-                        task: .visitMyFather,
-                        progress: 0.82,
-                        result: TimeResult(hour: 10, minute: 54),
-                        status: .active
-                    ),
-                    TaskState(
-                        task: .cleanHouse,
-                        progress: 0.91,
-                        result: TimeResult(minute: 34),
-                        status: .active
-                    )
-                ],
-                createTask: nil,
-                filter: .active
-            ),
+            tasksState: .completed,
             yourDayState: YourDayProgressState(
                 timeResult: TimeResult(hour: 9, minute: 19),
                 style: .bar,
@@ -149,6 +120,77 @@ extension ProgressTask {
             creationDate: Date(),
             color: .systemPink,
             style: .bar
+        )
+    }
+}
+
+
+extension TasksState {
+    static var active: TasksState {
+        TasksState(
+            tasks: [
+                TaskState(
+                    task: .prepareDinner,
+                    progress: 0.6,
+                    result: TimeResult(hour: 1, minute: 34),
+                    status: .completed
+                ),
+                TaskState(
+                    task: .goToBank,
+                    progress: 0.2,
+                    result: TimeResult(day: 1, hour: 2, minute: 10),
+                    status: .active
+                ),
+                TaskState(
+                    task: .visitMyFather,
+                    progress: 0.82,
+                    result: TimeResult(hour: 10, minute: 54),
+                    status: .active
+                ),
+                TaskState(
+                    task: .cleanHouse,
+                    progress: 0.91,
+                    result: TimeResult(minute: 34),
+                    status: .active
+                )
+            ],
+            createTask: nil,
+            filter: .active
+        )
+    }
+}
+
+extension TasksState {
+    static var completed: TasksState {
+        TasksState(
+            tasks: [
+                TaskState(
+                    task: .prepareDinner,
+                    progress: 1.0,
+                    result: .zero,
+                    status: .completed
+                ),
+                TaskState(
+                    task: .goToBank,
+                    progress: 1.0,
+                    result: .zero,
+                    status: .completed
+                ),
+                TaskState(
+                    task: .visitMyFather,
+                    progress: 1.0,
+                    result: .zero,
+                    status: .completed
+                ),
+                TaskState(
+                    task: .cleanHouse,
+                    progress: 1.0,
+                    result: .zero,
+                    status: .completed
+                )
+            ],
+            createTask: nil,
+            filter: .completed
         )
     }
 }

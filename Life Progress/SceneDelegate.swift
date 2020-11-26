@@ -13,30 +13,30 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let store = Store(
             initialState: AppState(),
-            reducer: appReducer,
-                //.notificationSettingReducer,
+            reducer: appReducer
+                .notificationSettingReducer,
             environment:  .live
         )
         
-//        let mockStore = Store<AppState, AppAction>(
-//            initialState: AppState.mock,
-//            reducer: .empty,
-//            environment: ()
-//        )
+        let mockStore = Store<AppState, AppAction>(
+            initialState: .mock,
+            reducer: .empty,
+            environment: ()
+        )
                 
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController = UIHostingController(
                 rootView:
                     NavigationView {
-                        ContentView(store: store)
+                        ContentView(store: mockStore)
                     }.navigationViewStyle(StackNavigationViewStyle())
             )
             self.window = window
             window.makeKeyAndVisible()
         }
         
-        ViewStore(store).send(.run)
+        //ViewStore(store).send(.run)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {}

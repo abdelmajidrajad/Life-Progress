@@ -44,13 +44,16 @@ public struct YourDayProgressEnvironment {
     let date: () -> Date
     let yourDayProgress: (YourDayRequest) -> AnyPublisher<TimeResponse, Never>
     let userDefaults: KeyValueStoreType
+    let ubiquitousStore: KeyValueStoreType
     public init(
         calendar: Calendar,
         date: @escaping () -> Date,
         userDefaults: KeyValueStoreType,
+        ubiquitousStore: KeyValueStoreType,
         yourDayProgress: @escaping (YourDayRequest) -> AnyPublisher<TimeResponse, Never>
     ) {
         self.calendar = calendar
+        self.ubiquitousStore = ubiquitousStore
         self.userDefaults = userDefaults
         self.date = date
         self.yourDayProgress = yourDayProgress
@@ -72,17 +75,16 @@ public let yourDayProgressReducer =
     Reducer<YourDayProgressState, YourDayProgressAction, YourDayProgressEnvironment> { state, action, environment in
     switch action {
     case .onChange:
-        
-        let startDate = environment.userDefaults
-            .object(forKey: "startDate") as? Date
-        
-        let endDate = environment.userDefaults
-            .object(forKey: "endDate") as? Date
-        
-        let startMinAndHour: (minute: Int, hour: Int) = environment.calendar.minAndHour(startDate) ?? (8, 00)
+                                       
+        let startMinAndHour: (minute: Int, hour: Int) = environment.calendar.minAndHour(
+            environment.ubiquitousStore.dayStart ??
+            environment.userDefaults.dayStart
+        ) ?? (8, 00)
         
         let endMinAndHour: (minute: Int, hour: Int) =
-            environment.calendar.minAndHour(endDate) ?? (18, 00)
+            environment.calendar.minAndHour(
+                environment.ubiquitousStore.dayEnd ??
+                environment.userDefaults.dayEnd) ?? (18, 00)
                 
         return .concatenate(
             environment.yourDayProgress(
@@ -209,6 +211,7 @@ struct YourDayProgressView_Previews: PreviewProvider {
                         calendar: .current,
                         date: Date.init,
                         userDefaults: UserDefaults(),
+                        ubiquitousStore: UserDefaults(),
                         yourDayProgress: { _ in
                             Just(TimeResponse(
                                 progress: 1,
@@ -230,6 +233,7 @@ struct YourDayProgressView_Previews: PreviewProvider {
                         calendar: .current,
                         date: Date.init,
                         userDefaults: UserDefaults(),
+                        ubiquitousStore: UserDefaults(),
                         yourDayProgress: { _ in
                             Just(TimeResponse(
                                 progress: 0.45,

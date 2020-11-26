@@ -42,6 +42,7 @@ extension AppEnvironment {
             calendar: calendar,
             date: date,
             userDefaults: userDefaults,
+            ubiquitousStore: ubiquitousStore,
             yourDayProgress: timeClient.yourDayProgress
         )
     }

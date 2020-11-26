@@ -40,6 +40,7 @@ extension SharedEnvironment {
             calendar: calendar,
             date: date,
             userDefaults: userDefaults,
+            ubiquitousStore: ubiquitousStore,
             yourDayProgress: timeClient.yourDayProgress
         )
     }
