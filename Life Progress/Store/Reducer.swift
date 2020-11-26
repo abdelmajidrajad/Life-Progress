@@ -22,9 +22,7 @@ let appReducer: Reducer<AppState, AppAction, AppEnvironment> = .combine(
             .map(AppAction.onUpdate)
             .eraseToEffect()
         case .run:
-                                                              
             return .fireAndForget {
-                
                 if environment.userDefaults.string(forKey: "style") == "dark" {
                     UIApplication.shared.windows.forEach { window in
                         window.overrideUserInterfaceStyle = .dark
@@ -131,6 +129,7 @@ extension AppEnvironment {
             managedContext: self.context,
             timeClient: self.timeClient,
             taskClient: self.taskClient,
+            userDefaults: self.userDefaults,
             notificationClient: self.notificationClient,
             mainQueue: self.mainQueue
         )
@@ -143,6 +142,7 @@ extension AppEnvironment {
             calendar: calendar,
             date: date,
             userDefaults: userDefaults,
+            ubiquitousStore: ubiquitousStore,
             lifeProgress: timeClient.lifeProgress
         )
     }
@@ -161,12 +161,9 @@ extension Reducer where
             switch action {
             case let .settings(.notifications(notificationsAction)):
                 switch notificationsAction {
-                case let .didAuthorized(enabled):
+                case .didAuthorized:
                     return .fireAndForget {
                         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-                        enabled
-                            ? UIApplication.shared.registerForRemoteNotifications()
-                            : UIApplication.shared.unregisterForRemoteNotifications()
                     }
                 case let .didAuthorizedEnd(enabled):
                     return enabled
@@ -194,8 +191,7 @@ extension Reducer where
                         .fireAndForget()
                     
                 case let .didAuthorizedCustom(enabled):
-                    let goal = state.settingState!.notifications.reachingPoint
-                    let value = percentFormatter().string(from: NSNumber(value: goal)) ?? ""
+                    let goal = state.settingState!.notifications.reminderTime
                     
                     return enabled
                     ? .concatenate(
@@ -205,7 +201,7 @@ extension Reducer where
                             .map {
                         environment.notificationClient.send(
                             .init(
-                                notification: $0.task.customNotification(value),
+                                notification: $0.task.customNotification(goal),
                                 date: $0.task.progress(goal)
                             )).catchToEffect()
                             .map(AppAction.notificationResponse)
@@ -215,7 +211,9 @@ extension Reducer where
                         .removeRequests(state.tasksState.tasks.map { $0.id.uuidString + "custom" })
                         .eraseToEffect()
                         .fireAndForget()
-                default:
+                case .onAppear:
+                    return .none
+                case .didSlide(_):
                     return .none
                 }
             default:
@@ -225,28 +223,5 @@ extension Reducer where
     }
 }
 
-import TaskClient
-extension ProgressTask {
-    var notification: LocalNotification {
-        LocalNotification(
-            identifier: id.uuidString,
-            title: title,
-            subtitle: "100%",
-            message: "task you started was ended"
-        )
-    }
-}
 
-extension ProgressTask {
-    var customNotification: (String) -> LocalNotification {
-        return {
-            LocalNotification(
-                identifier: id.uuidString + "custom",
-                title: title,
-                subtitle: $0,
-                message: "task you started reach " + $0
-            )
-        }
-    }
-}
 

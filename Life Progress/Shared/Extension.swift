@@ -3,13 +3,15 @@ import TimeClientLive
 import TimeClient
 import ComposableArchitecture
 import Components
+import Core
 
 struct SharedEnvironment {
     let date: () -> Date
     let calendar: Calendar
     let mainQueue: AnySchedulerOf<DispatchQueue>
     let timeClient: TimeClient
-    let userDefaults: UserDefaults
+    let userDefaults: KeyValueStoreType
+    let ubiquitousStore: KeyValueStoreType
 }
 
 extension SharedEnvironment {
@@ -19,7 +21,8 @@ extension SharedEnvironment {
             calendar: Calendar.current,
             mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
             timeClient: .live,
-            userDefaults: UserDefaults(suiteName: "group.progress.app") ?? .standard
+            userDefaults: UserDefaults(suiteName: "group.progress.app") ?? .standard,
+            ubiquitousStore: NSUbiquitousKeyValueStore.default
         )
 }
 
@@ -58,6 +61,7 @@ extension SharedEnvironment {
             calendar: calendar,
             date: date,
             userDefaults: userDefaults,
+            ubiquitousStore: ubiquitousStore,
             lifeProgress: timeClient.lifeProgress
         )
     }

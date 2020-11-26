@@ -59,8 +59,8 @@ public enum SettingAction: Equatable {
     case more(MoreSettingsAction)
 }
 
-
 public struct SettingsEnvironment {
+    let ubiquitousStore: KeyValueStoreType
     let userDefaults: KeyValueStoreType
     let date: () -> Date
     let calendar: Calendar
@@ -69,8 +69,10 @@ public struct SettingsEnvironment {
         date: @escaping () -> Date,
         calendar: Calendar,
         userDefaults: KeyValueStoreType,
+        ubiquitousStore: KeyValueStoreType,
         mainQueue: AnySchedulerOf<DispatchQueue>
     ) {
+        self.ubiquitousStore = ubiquitousStore
         self.date = date
         self.calendar = calendar
         self.userDefaults = userDefaults
@@ -126,7 +128,7 @@ public let settingReducer =
         notificationReducer.pullback(
             state: \.notifications,
             action: /SettingAction.notifications,
-            environment: { $0.userDefaults }
+            environment: \.userDefaults
         ),
         appFeatureReducer.pullback(
             state: \.features,
@@ -136,7 +138,8 @@ public let settingReducer =
         nightModeReducer.pullback(
             state: \.nightMode,
             action: /SettingAction.nightMode,
-            environment: { $0.userDefaults }),
+            environment: \.userDefaults
+        ),
         moreSettingsReducer.pullback(
             state: \.moreSettings,
             action: /SettingAction.more,
@@ -145,6 +148,7 @@ public let settingReducer =
                     date: $0.date,
                     calendar: $0.calendar,
                     userDefaults: $0.userDefaults,
+                    ubiquitousStore: $0.ubiquitousStore,
                     mainQueue: $0.mainQueue
                 )
             })
@@ -437,6 +441,7 @@ extension SettingsEnvironment {
             date: Date.init,
             calendar: .current,
             userDefaults: TestUserDefault(),
+            ubiquitousStore: TestUserDefault(),
             mainQueue: DispatchQueue.main.eraseToAnyScheduler()
         )
     }

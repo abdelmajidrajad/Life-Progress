@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0401718D25541C9F00A2613C /* AboutsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0401718C25541C9F00A2613C /* AboutsView.swift */; };
+		0405B436256FF0E900397B24 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0405B435256FF0E900397B24 /* ProgressView.swift */; };
 		040C241125470098008BA89B /* ProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C241025470098008BA89B /* ProgressCircle.swift */; };
 		040C241925471DCD008BA89B /* CreateTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040C241825471DCD008BA89B /* CreateTaskView.swift */; };
 		040CB907255C2F2600FFABB2 /* LifeSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 040F19C3255A95F2003DAD80 /* LifeSettingView.swift */; };
@@ -410,6 +411,7 @@
 
 /* Begin PBXFileReference section */
 		0401718C25541C9F00A2613C /* AboutsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutsView.swift; sourceTree = "<group>"; };
+		0405B435256FF0E900397B24 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		040C241025470098008BA89B /* ProgressCircle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressCircle.swift; sourceTree = "<group>"; };
 		040C241825471DCD008BA89B /* CreateTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskView.swift; sourceTree = "<group>"; };
 		040CB90F255C30F700FFABB2 /* AppSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsView.swift; sourceTree = "<group>"; };
@@ -993,6 +995,7 @@
 				04660F8D25655AEB0090497B /* View+Snap.swift */,
 				0463DFD32566712100A331AF /* Store+Initilizer.swift */,
 				0463E03425667AB000A331AF /* Share+Items.swift */,
+				0405B435256FF0E900397B24 /* ProgressView.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -1847,6 +1850,7 @@
 				040F19D6255AA7E9003DAD80 /* Parser.swift in Sources */,
 				04325686254459570050F620 /* Grid.swift in Sources */,
 				04D446352563F32F0036991F /* View+Corners.swift in Sources */,
+				0405B436256FF0E900397B24 /* ProgressView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

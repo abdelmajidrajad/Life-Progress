@@ -57,6 +57,7 @@ public struct TasksEnvironment {
     let managedContext: NSManagedObjectContext
     let timeClient: TimeClient
     let taskClient: TaskClient
+    let userDefaults: KeyValueStoreType
     let notificationClient: NotificationClient
     let mainQueue: AnySchedulerOf<DispatchQueue>
     public init(
@@ -66,6 +67,7 @@ public struct TasksEnvironment {
         managedContext: NSManagedObjectContext,
         timeClient: TimeClient,
         taskClient: TaskClient,
+        userDefaults: KeyValueStoreType,
         notificationClient: NotificationClient,
         mainQueue: AnySchedulerOf<DispatchQueue>
     ) {
@@ -77,6 +79,7 @@ public struct TasksEnvironment {
         self.taskClient = taskClient
         self.notificationClient = notificationClient
         self.mainQueue = mainQueue
+        self.userDefaults = userDefaults
     }
 }
 
@@ -306,7 +309,7 @@ extension Reducer where
         Self { state, action, environment in
             let effects = self(&state, action, environment)
             switch action {
-            case .createTask(.notificationResponse(.success)):
+            case .createTask(.viewDismissed):
                 state.createTask = nil
                 return .none
             default:
@@ -326,6 +329,7 @@ extension TasksEnvironment {
             calendar: calendar,
             timeClient: timeClient,
             taskClient: taskClient,
+            userDefaults: userDefaults,
             managedContext: managedContext,
             notificationClient: notificationClient,
             mainQueue: mainQueue
@@ -546,6 +550,7 @@ struct TasksView_Previews: PreviewProvider {
                     managedContext: NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType),
                     timeClient: .progress,
                     taskClient: .createBook,
+                    userDefaults: TestUserDefault(),
                     notificationClient: .empty,
                     mainQueue: DispatchQueue.main.eraseToAnyScheduler()
                 )
@@ -563,6 +568,7 @@ struct TasksView_Previews: PreviewProvider {
                     managedContext: NSManagedObjectContext(concurrencyType: .privateQueueConcurrencyType),
                     timeClient: .progress,
                     taskClient: .empty,
+                    userDefaults: TestUserDefault(),
                     notificationClient: .empty,
                     mainQueue: DispatchQueue.main.eraseToAnyScheduler()
                 )

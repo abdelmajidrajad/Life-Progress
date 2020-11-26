@@ -4,19 +4,19 @@ import ComposableArchitecture
 
 
 public struct NotificationsState: Equatable {
-    public var reachingPoint: Float
+    public var reminderTime: Float
     var isAuthorized: Bool
-    var isEndNotificationEnabled: Bool
+    var isEndNotificationActivated: Bool
     var isCustomNotificationEnabled: Bool
     public init(
         isAuthorized: Bool = false,
         isEndNotificationEnabled: Bool = false,
         isCustomNotificationEnabled: Bool = false,
-        reachingPoint: Float = 0.5
+        reminderTime: Float = 0.5
     ) {
-        self.reachingPoint = reachingPoint
+        self.reminderTime = reminderTime
         self.isAuthorized = isAuthorized
-        self.isEndNotificationEnabled = isEndNotificationEnabled
+        self.isEndNotificationActivated = isEndNotificationEnabled
         self.isCustomNotificationEnabled = isCustomNotificationEnabled
     }
 }
@@ -39,53 +39,90 @@ public let notificationReducer =
         state, action, userDefaults in
         switch action {
         case .onAppear:
-            state.isAuthorized = UIApplication
-                .shared
-                .isRegisteredForRemoteNotifications
-            state.isEndNotificationEnabled = userDefaults.bool(forKey: "tasks.notifications.end")
-            state.isCustomNotificationEnabled = userDefaults.bool(forKey: "tasks.notifications.custom")
+            state.reminderTime = userDefaults.taskNotificationPercent ?? 0.75
+            state.isAuthorized = userDefaults.notificationsEnabled
+            state.isEndNotificationActivated = userDefaults.endNotificationsEnabled
+            state.isCustomNotificationEnabled = userDefaults.customNotificationsEnabled
             return .none
         case let .didAuthorized(newState):
             state.isAuthorized = newState
-            return .none
+            userDefaults.notificationsEnabled = newState
+            return !newState ? .concatenate(
+                Effect(value: .didAuthorizedEnd(false)),
+                Effect(value: .didAuthorizedCustom(false))
+            ) : .none
         case let .didAuthorizedEnd(newState):
-            state.isEndNotificationEnabled = newState
-            userDefaults.set(newState, forKey: "tasks.notifications.end")
-            return .none
+            state.isEndNotificationActivated = newState
+            userDefaults.endNotificationsEnabled = newState
+            return newState ? Effect(value: .didAuthorized(newState)): .none
         case let .didAuthorizedCustom(newState):
-            userDefaults.set(newState, forKey: "tasks.notifications.custom")
+            userDefaults.customNotificationsEnabled = newState
             state.isCustomNotificationEnabled = newState
-            return .none
+            return newState ? Effect(value: .didAuthorized(newState)): .none
         case let .didSlide(value):
-            state.reachingPoint = value
+            state.reminderTime = value
+            userDefaults.taskNotificationPercent = value
             return .none
         }
 }
 
 
+private let percentage: (Float) -> String = {
+    percentFormatter().string(from: NSNumber(value: $0)) ?? ""
+}
+
+extension NotificationsState {
+    var view: NotificationsView.ViewState {
+        NotificationsView.ViewState(
+            firstTitle: "Allow notifications to get feedback when any task you started ended.",
+            secondTitle: "Receive notification when any task you started reach 100%",
+            thirdTitle: "Receive notification when any task you started reach " + percentage(reminderTime),
+            isNotificationEnabled: isAuthorized,
+            isEndNotificationEnabled: isEndNotificationActivated,
+            isCustomNotificationEnabled: isCustomNotificationEnabled,
+            reachingPoint: reminderTime,
+            percent: percentage(reminderTime)
+        )
+    }
+}
+
+
 struct NotificationsView: View {
+    
+    struct ViewState: Equatable {
+        let firstTitle: String
+        let secondTitle: String
+        let thirdTitle: String
+        let isNotificationEnabled: Bool
+        let isEndNotificationEnabled: Bool
+        let isCustomNotificationEnabled: Bool
+        let reachingPoint: Float
+        let percent: String
+    }
+    
     let store: Store<NotificationsState, NotificationsAction>
     init(store: Store<NotificationsState, NotificationsAction>) {
         self.store = store
     }
+    
     var body: some View {
-        WithViewStore(store) { viewStore in
+        WithViewStore(store.scope(state: \.view)) { viewStore in
             List {
                 Section(footer:
-                    Text("Allow notifications to get feedback when any task you started ended.")
-                            .font(.preferred(.py_footnote()))
+                            Text(viewStore.firstTitle)
+                                .font(.preferred(.py_footnote()))
                 ) {
                     Toggle(
                         "Allow Notifications",
                         isOn: viewStore.binding(
-                            get: \.isAuthorized,
+                            get: \.isNotificationEnabled,
                             send: NotificationsAction.didAuthorized
                         ))
                         .padding()
                 }
                 
                 Section(footer:
-                    Text("Receive notification when any task you started reach 100%")
+                            Text(viewStore.secondTitle)
                             .font(.preferred(.py_footnote()))
                 ) {
                     Toggle(
@@ -98,11 +135,11 @@ struct NotificationsView: View {
                 }
                 
                 Section(footer:
-                    Text("Receive notification when any task you started reach " + (percentFormatter().string(from: NSNumber(value: viewStore.reachingPoint)) ?? ""))
+                        Text(viewStore.thirdTitle)
                             .font(.preferred(.py_footnote()))
                 ) {
                     Toggle(
-                        "Receive Notification at half",
+                        "Receive Notification when task reach " + viewStore.percent,
                         isOn: viewStore.binding(
                             get: \.isCustomNotificationEnabled,
                             send: NotificationsAction.didAuthorizedCustom
@@ -110,6 +147,7 @@ struct NotificationsView: View {
                     ).padding()
                     
                     HStack {
+                        
                         Slider(
                             value: viewStore.binding(
                                 get: \.reachingPoint,
@@ -118,16 +156,19 @@ struct NotificationsView: View {
                             in: 0...1,
                             step: 0.05
                         ).accentColor(Color(.label))
-                        Text(percentFormatter().string(from: NSNumber(value: viewStore.reachingPoint)) ?? "")
+                        
+                        Text(viewStore.percent)
                             .font(.preferred(.py_subhead()))
                             .foregroundColor(Color(.label))
-                            .frame(width: .py_grid(10), height: .py_grid(10))
+                            .frame(
+                                width: .py_grid(10),
+                                height: .py_grid(10)
+                            )
                             .background(
                                 RoundedRectangle(cornerRadius: .py_grid(4))
                                     .fill(Color(.label).opacity(0.1))
                             )
                     }
-                                                                    
                 }
                 
             }.font(.preferred(.py_subhead()))

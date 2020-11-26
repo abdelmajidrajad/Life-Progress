@@ -33,6 +33,7 @@ public struct MoreSettingsEnvironment {
     let date: () -> Date
     let calendar: Calendar
     let userDefaults: KeyValueStoreType
+    let ubiquitousStore: KeyValueStoreType
     let mainQueue: AnySchedulerOf<DispatchQueue>
 }
 
@@ -55,6 +56,7 @@ let moreSettingsReducer =
                     calendar: $0.calendar,
                     date: $0.date,
                     userDefaults: $0.userDefaults,
+                    ubiquitousStore: $0.ubiquitousStore,
                     mainQueue: $0.mainQueue
                 )                
             }
@@ -67,6 +69,7 @@ let moreSettingsReducer =
                     date: $0.date,
                     calendar: $0.calendar,
                     userDefaults: $0.userDefaults,
+                    ubiquitiousStore: $0.ubiquitousStore,
                     mainQueue: $0.mainQueue
                 )
             }

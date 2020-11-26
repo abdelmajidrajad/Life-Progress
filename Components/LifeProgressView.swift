@@ -29,13 +29,16 @@ public struct LifeEnvironment {
     let calendar: Calendar
     let date: () -> Date
     let userDefaults: KeyValueStoreType
+    let ubiquitousStore: KeyValueStoreType
     let lifeProgress: (LifeRequest) -> AnyPublisher<TimeResponse, Never>
     public init(
         calendar: Calendar,
         date: @escaping () -> Date,
         userDefaults: KeyValueStoreType,
+        ubiquitousStore: KeyValueStoreType,
         lifeProgress: @escaping (LifeRequest) -> AnyPublisher<TimeResponse, Never>
     ) {
+        self.ubiquitousStore = ubiquitousStore
         self.calendar = calendar
         self.date = date
         self.userDefaults = userDefaults
@@ -48,8 +51,12 @@ public let lifeReducer =
     switch action {
     case .onChange:
         
-        let birthDate = environment.userDefaults.object(forKey: "birthDate") as? Date
-        
+        let birthDate = environment.ubiquitousStore.birthDate ??
+            environment.userDefaults.birthDate
+        let life = environment.ubiquitousStore.life != .zero
+            ? environment.ubiquitousStore.life
+            : environment.userDefaults.life
+                        
         let currentAge = environment.calendar
             .dateComponents([.year],
                             from: birthDate ?? environment.date(),
@@ -59,7 +66,7 @@ public let lifeReducer =
             LifeRequest(
                 date: environment.date(),
                 calendar: environment.calendar,
-                expectedLife: environment.userDefaults.integer(forKey: "life"),
+                expectedLife: life,
                 age: currentAge
             )).map(LifeProgressAction.response)
               .eraseToEffect()
@@ -168,6 +175,7 @@ struct LifeProgressView_Previews: PreviewProvider {
                         calendar: Calendar.current,
                         date: Date.init,
                         userDefaults: TestUserDefault(),
+                        ubiquitousStore: TestUserDefault(),
                         lifeProgress: { request in
                             Just(TimeResponse(
                                 progress: Double(request.age) / Double(request.expectedLife),
@@ -187,6 +195,7 @@ struct LifeProgressView_Previews: PreviewProvider {
                         calendar: Calendar.current,
                         date: Date.init,
                         userDefaults: TestUserDefault(),
+                        ubiquitousStore: TestUserDefault(),
                         lifeProgress: { _ in
                             Just(TimeResponse(
                                 progress: 0.2,

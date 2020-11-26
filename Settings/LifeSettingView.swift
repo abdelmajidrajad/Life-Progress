@@ -34,6 +34,7 @@ public struct LifeSettingEnvironment {
     let calendar: Calendar
     let date: () -> Date
     let userDefaults: KeyValueStoreType
+    let ubiquitousStore: KeyValueStoreType
     let mainQueue: AnySchedulerOf<DispatchQueue>
 }
 
@@ -45,9 +46,9 @@ public let lifeSettingReducer =
         
         switch action {
         case .onAppear:
-            
-            
-            let birthDate = environment.userDefaults.object(forKey: "birthDate") as? Date
+                        
+            let birthDate = environment.ubiquitousStore.birthDate ??
+                environment.userDefaults.birthDate
             
             let currentAge = environment.calendar
                 .dateComponents([.year],
@@ -57,9 +58,9 @@ public let lifeSettingReducer =
             state.age = Float(currentAge == .zero ? 10: currentAge)
                         
             state.life = Float(
-                environment.userDefaults.integer(forKey: "life") == 0
+                environment.userDefaults.life == 0
                     ? 80
-                    : environment.userDefaults.integer(forKey: "life")
+                    : environment.userDefaults.life
             )
             return .none
         case let .setAge(age):
@@ -74,14 +75,16 @@ public let lifeSettingReducer =
             state.life = life
             state.didChange = environment
                 .userDefaults
-                .integer(forKey: "life") != Int(life)
+                .life != Int(life)
             return .none
         case .saveButtonTapped:
             let birthDate = environment
                 .calendar
                 .date(byAdding: .year, value: Int(-state.age), to: environment.date())!
-            environment.userDefaults.set(birthDate, forKey: "birthDate")
-            environment.userDefaults.set(state.life, forKey: "life")
+            environment.userDefaults.birthDate = birthDate
+            environment.ubiquitousStore.birthDate = birthDate
+            environment.userDefaults.life = Int(state.life)
+            environment.ubiquitousStore.life = Int(state.life)
             return .none
         }
     }
@@ -254,6 +257,7 @@ struct LifeSettingView_Previews: PreviewProvider {
                     calendar: .current,
                     date: Date.init,
                     userDefaults: TestUserDefault(),
+                    ubiquitousStore: TestUserDefault(),
                     mainQueue: DispatchQueue.main.eraseToAnyScheduler()
                 )
             )).navigationBarTitle(Text("Life Progress"))

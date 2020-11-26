@@ -15,7 +15,7 @@ struct AppEnvironment {
     let taskClient: TaskClient
     let context: NSManagedObjectContext
     let userDefaults: KeyValueStoreType
-    let ubiquitousStore: NSUbiquitousKeyValueStore
+    let ubiquitousStore: KeyValueStoreType
     let shareClient: ShareClient
     let notificationClient: NotificationClient
 }
@@ -63,6 +63,7 @@ extension AppEnvironment {
             date: self.date,
             calendar: self.calendar,
             userDefaults: self.userDefaults,
+            ubiquitousStore: ubiquitousStore,
             mainQueue: self.mainQueue
         )
     }
@@ -81,7 +82,7 @@ extension AppEnvironment {
             taskClient: .live,
             context: LPPersistentContainer.context,
             userDefaults: UserDefaults(suiteName: "group.progress.app") ?? .standard,
-            ubiquitousStore: .default,
+            ubiquitousStore: NSUbiquitousKeyValueStore.default,
             shareClient: .live,
             notificationClient: .live
         )
@@ -98,13 +99,15 @@ extension AppEnvironment {
             timeClient: .live,
             taskClient: .live,
             context: LPPersistentContainer.context,
-            userDefaults: UserDefaults(suiteName: "group.progress.app") ?? .standard,
-            ubiquitousStore: .default,
+            userDefaults: 
+                UserDefaults(suiteName: "group.progress.app") ?? .standard,
+            ubiquitousStore: NSUbiquitousKeyValueStore.default,
             shareClient: .mock,
             notificationClient: .empty
         )
     }
 }
+
 
 
 

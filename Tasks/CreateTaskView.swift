@@ -28,7 +28,7 @@ public struct CreateTaskState: Equatable {
     public var progressStyle: ProgressStyle
     public var diff: TimeResult
     public var alert: AlertState<CreateTaskAction>?
-    public var isRequestSucceed: Bool = false
+    public var isRequestInFlight: Bool = false
     public init(
         taskTitle: String = "",
         isValidTitle: Bool = false,
@@ -39,7 +39,7 @@ public struct CreateTaskState: Equatable {
         progressStyle: ProgressStyle = .bar,
         diff: TimeResult = .zero,
         alert: AlertState<CreateTaskAction>? = nil,
-        isRequestSucceed: Bool = false
+        isRequestInFlight: Bool = false
     ) {
         self.title = taskTitle
         self.isValidTitle = isValidTitle
@@ -49,7 +49,7 @@ public struct CreateTaskState: Equatable {
         self.progressStyle = progressStyle
         self.diff = diff
         self.alert = alert
-        self.isRequestSucceed = isRequestSucceed
+        self.isRequestInFlight = isRequestInFlight
         self.today = today
     }
 }
@@ -66,9 +66,9 @@ public enum CreateTaskAction: Equatable {
     case selectColor(Color)
     case reset
     case alertDismissed
-    case cancelButtonTapped
     case endDate(Date)
     case startDate(Date)
+    case viewDismissed
 }
 
 import CoreData
@@ -79,6 +79,7 @@ public struct CreateTaskEnvironment {
     let timeClient: TimeClient
     let managedContext: NSManagedObjectContext
     let taskClient: TaskClient
+    let userDefaults: KeyValueStoreType
     let notificationClient: NotificationClient
     let mainQueue: AnySchedulerOf<DispatchQueue>
     public init(
@@ -87,6 +88,7 @@ public struct CreateTaskEnvironment {
         calendar: Calendar,
         timeClient: TimeClient,
         taskClient: TaskClient,
+        userDefaults: KeyValueStoreType,
         managedContext: NSManagedObjectContext,
         notificationClient: NotificationClient,
         mainQueue: AnySchedulerOf<DispatchQueue>
@@ -97,6 +99,7 @@ public struct CreateTaskEnvironment {
         self.calendar = calendar
         self.timeClient = timeClient
         self.taskClient = taskClient
+        self.userDefaults = userDefaults
         self.managedContext = managedContext
         self.notificationClient = notificationClient
     }
@@ -108,43 +111,59 @@ public let createTaskReducer: Reducer<CreateTaskState, CreateTaskAction, CreateT
     Reducer { state, action, environment in
         switch action {
         case .startButtonTapped:
-            let uuid = environment.uuid()
-            return .merge(
+            state.isRequestInFlight = true
+            let task = ProgressTask(
+                id: environment.uuid(),
+                title: state.title,
+                startDate: state.startDate,
+                endDate: state.endDate,
+                creationDate: environment.date(),
+                color: state.chosenColor.uiColor(),
+                style: state.progressStyle == .bar ? .bar: .circle
+            )
+
+            return .concatenate(
                 environment.taskClient.create(
                     TaskRequest(
                         viewContext: environment.managedContext,
-                        task: ProgressTask(
-                            id: uuid,
-                            title: state.title,
-                            startDate: state.startDate,
-                            endDate: state.endDate,
-                            creationDate: environment.date(),
-                            color: state.chosenColor.uiColor(),
-                            style: state.progressStyle == .bar ? .bar: .circle
-                        )
+                        task: task
                     )
                 ).catchToEffect()
                 .map(CreateTaskAction.response),
+                
+                environment.userDefaults.endNotificationsEnabled ?
                 environment.notificationClient.send(
                     NotificationClient.Request(
-                        notification: LocalNotification(
-                            identifier: uuid.uuidString,
-                            title: "Your Task Ended",
-                            subtitle: state.title,
-                            message: "Reach 100%"
-                        ),
+                        notification: task.notification,
                         date: state.endDate
                     )).receive(on: environment.mainQueue)
                     .catchToEffect()
                     .map(CreateTaskAction.notificationResponse)
-                    
+                : .none,
+                
+                environment.userDefaults.customNotificationsEnabled
+                    && environment.userDefaults.taskNotificationPercent != nil
+                    ?
+                environment.notificationClient.send(
+                    NotificationClient.Request(
+                        notification: task.customNotification(
+                            environment.userDefaults.taskNotificationPercent!
+                        ),
+                        date: task.progress(environment.userDefaults.taskNotificationPercent!)
+                    )).receive(on: environment.mainQueue)
+                    .catchToEffect()
+                    .map(CreateTaskAction.notificationResponse)
+                : .none,
+                Effect(value: .viewDismissed)
+                    .delay(for: 2.0, scheduler: environment.mainQueue)
+                    .eraseToEffect()
             )
         case let .selectStyle(style):
             state.progressStyle = style
             return .none
         case .reset:
             state.startDate = environment.date()
-            state.endDate = environment.date().addingTimeInterval(3600 * 24)
+            state.endDate = environment.date().addingTimeInterval(3600 * 10)
             state.diff = .zero
             return .none
         case let .titleChanged(title):
@@ -208,7 +227,8 @@ public let createTaskReducer: Reducer<CreateTaskState, CreateTaskAction, CreateT
         case .alertDismissed:
             state.alert = nil
             return .none
-        case .cancelButtonTapped:
+        case .viewDismissed:
+            state.isRequestInFlight = false
             return .none
         case .notificationResponse(_):
             return .none
@@ -228,7 +248,8 @@ extension CreateTaskState {
             progressStyle: progressStyle,
             diff: diff.string(widgetStyle, style: .long),
             isDiff: diff != .zero,
-            isValid: isValidTitle && diff != .zero
+            isValid: isValidTitle && diff != .zero,
+            isLoading: isRequestInFlight
         )
     }
 }
@@ -244,6 +265,7 @@ public struct CreateTaskView: View {
         public var diff: NSAttributedString
         public var isDiff: Bool
         public var isValid: Bool
+        public var isLoading: Bool
     }
     @Environment(\.presentationMode) var presentationMode
     
@@ -260,7 +282,7 @@ public struct CreateTaskView: View {
                 
                 ZStack(alignment: .top) {
                                                             
-                    ZStack(alignment: .leading) {
+                    HStack {
                         Button(action: {
                             self.presentationMode
                                 .wrappedValue.dismiss()
@@ -269,7 +291,6 @@ public struct CreateTaskView: View {
                                 .foregroundColor(Color(.label))
                                 .padding()
                         }
-                        .zIndex(1)
                         .padding(.leading, .py_grid(1))
                         
                         Text(.newTask)
@@ -280,6 +301,17 @@ public struct CreateTaskView: View {
                                 maxWidth: .infinity,
                                 alignment: .bottom
                             )
+                        
+                        
+                        if viewStore.isLoading {
+                            ActivityIndicator(style: .medium)
+                                .padding()
+                        } else {
+                            ActivityIndicator(style: .medium)
+                                .padding()
+                                .hidden()
+                        }
+                        
                     }.padding(.vertical)
                     .background(
                         VisualEffectBlur()
@@ -415,15 +447,20 @@ public struct CreateTaskView: View {
                             Button(action: {
                                 viewStore.send(.reset)
                             }) {
-                                Image(systemName: "xmark")
-                            }.buttonStyle(RoundedButtonStyle())
+                                Text("Reset")
+                                    .padding(.py_grid(2))
+                                    .background(
+                                        Capsule()
+                                            .fill(Color(white: 0.98))
+                                    )
+                            }
                             .padding()
                         }.transition(.opacity)
                     }
                     
                     Button(
                         action: {
-                            viewStore.send(.startButtonTapped)                            
+                            viewStore.send(.startButtonTapped)
                         }, label: {
                             Text(.startLabel, bundle: .tasks)
                         }
@@ -663,7 +700,7 @@ struct CreateTaskView_Previews: PreviewProvider {
                         Fail(error: .custom("an error "))
                             .eraseToAnyPublisher()
                     }
-                    ),
+                    ), userDefaults: TestUserDefault(),
                     managedContext: .init(concurrencyType: .privateQueueConcurrencyType),
                     notificationClient: .empty,
                     mainQueue: DispatchQueue.main.eraseToAnyScheduler()
@@ -693,14 +730,42 @@ struct CreateTaskView_Previews: PreviewProvider {
                     taskClient: .init(create: { _ in
                         Fail(error: .custom("an error "))
                             .eraseToAnyPublisher()
-                    }
-                    ),
+                    }),
+                    userDefaults: TestUserDefault(),
                     managedContext: .init(concurrencyType: .privateQueueConcurrencyType),
                     notificationClient: .empty,
                     mainQueue: DispatchQueue.main.eraseToAnyScheduler()
                 )
             )).preferredColorScheme(.dark)
            
+        }
+    }
+}
+
+
+import TaskClient
+extension ProgressTask {
+    public var notification: LocalNotification {
+        LocalNotification(
+            identifier: id.uuidString,
+            title: title,
+            subtitle: "100%",
+            message: "task you started was ended"
+        )
+    }
+}
+
+extension ProgressTask {
+    public var customNotification: (Float) -> LocalNotification {
+        return {
+            LocalNotification(
+                identifier: id.uuidString + "custom",
+                title: title,
+                subtitle: percentFormatter().string(from: NSNumber(value: $0)) ?? "",
+                message: "task you started reach " + (
+                    percentFormatter()
+                        .string(from: NSNumber(value: $0)) ?? "")
+            )
         }
     }
 }

@@ -38,16 +38,19 @@ public struct YourDaySettingsEnvironment {
     let date: () -> Date
     let calendar: Calendar
     let userDefaults: KeyValueStoreType
+    let ubiquitiousStore: KeyValueStoreType
     let mainQueue: AnySchedulerOf<DispatchQueue>
     public init(
         date: @escaping () -> Date,
         calendar: Calendar,
         userDefaults: KeyValueStoreType,
+        ubiquitiousStore: KeyValueStoreType,
         mainQueue: AnySchedulerOf<DispatchQueue>
     )  {
         self.date = date
         self.calendar = calendar
         self.userDefaults = userDefaults
+        self.ubiquitiousStore = ubiquitiousStore
         self.mainQueue = mainQueue
     }
 }
@@ -143,10 +146,10 @@ func startDate(environment: YourDaySettingsEnvironment) -> Effect<Date, Never> {
 public let yourDayReducer = Reducer<YourDaySettingsState, YourDaySettingsAction, YourDaySettingsEnvironment> { state, action, environment in
     switch action {
     case .doneButtonTapped:
-        environment.userDefaults
-            .set(state.startDate, forKey: "startDate")
-        environment.userDefaults
-            .set(state.endDate, forKey: "endDate")
+        environment.userDefaults.dayStart = state.startDate
+        environment.userDefaults.dayEnd = state.endDate
+        environment.ubiquitiousStore.dayStart = state.startDate
+        environment.ubiquitiousStore.dayEnd = state.endDate
         return .none
     case .onAppear:
         
@@ -169,11 +172,11 @@ public let yourDayReducer = Reducer<YourDaySettingsState, YourDaySettingsAction,
         )
     case let .didStartDateChanged(date):
         state.startDate = date
-        state.didChange = environment.userDefaults.object(forKey: "startDate") as? Date != date
+        state.didChange = environment.userDefaults.dayStart != date
         return Effect(value: .dayHours)
     case let .didEndDateChanged(date):
         state.endDate = date
-        state.didChange = environment.userDefaults.object(forKey: "endDate") as? Date != date
+        state.didChange = environment.userDefaults.dayEnd != date
         return Effect(value: .dayHours)
     case .dayHours:
         let component = environment.calendar
@@ -188,7 +191,9 @@ public let yourDayReducer = Reducer<YourDaySettingsState, YourDaySettingsAction,
 
 
 let firstStep: (Date) -> Double = {
-    let components = Calendar.current.dateComponents([.hour, .minute], from: $0)
+    let components = Calendar
+        .current
+        .dateComponents([.hour, .minute], from: $0)
     guard let hour = components.hour,
           let minute = components.minute else { return .zero }
     return Double(hour) + Double(minute / 60)
@@ -318,6 +323,7 @@ struct YourDayView_Previews: PreviewProvider {
                             date: Date.init,
                             calendar: .current,
                             userDefaults: TestUserDefault(),
+                            ubiquitiousStore: TestUserDefault(),
                             mainQueue: DispatchQueue.main.eraseToAnyScheduler()
                         ))
                 )
@@ -329,6 +335,7 @@ struct YourDayView_Previews: PreviewProvider {
                                 date: Date.init,
                                 calendar: Calendar(identifier: .iso8601),
                                 userDefaults: TestUserDefault(),
+                                ubiquitiousStore: TestUserDefault(),
                                 mainQueue: DispatchQueue.main.eraseToAnyScheduler()
                             )))
                 .preferredColorScheme(.dark)

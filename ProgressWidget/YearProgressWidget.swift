@@ -8,9 +8,7 @@ struct YearProvider: IntentTimelineProvider {
     
     func placeholder(in context: Context) -> YearEntry {
         YearEntry(
-            yearState: YearState(
-               
-            ),
+            yearState: YearState(),
             configuration: ConfigurationIntent()
         )
     }
