@@ -137,7 +137,7 @@ extension TimeClient {
                 .future { promise in
                     
                     var components: DateComponents!
-                    
+                                                            
                     if request.currentDate < request.startAt {
                         components = request.calendar.dateComponents(
                             [.year, .month, .day, .hour, .minute, .second],
@@ -196,13 +196,15 @@ extension TimeClient {
                             second: .zero,
                             of: request.date)
                     else {
-                        promise(
-                            .success(TimeResponse(
-                                        progress: .zero,
-                                        result: .zero)
-                            ))
+                        promise(.success(TimeResponse(progress: .zero, result: .zero)))
                         return
                     }
+                    
+                    if request.date < startDate {
+                        promise(.success(TimeResponse(progress: .zero, result: .zero)))
+                        return
+                    }
+                    
                                        
                     let passedMinutes = request.calendar
                         .dateComponents(
@@ -217,8 +219,7 @@ extension TimeClient {
                             from: startDate,
                             to: endDate
                         ).minute!
-                    
-                    
+                                        
                     let passedTime = request.calendar
                         .dateComponents(
                             [.minute, .hour],

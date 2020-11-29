@@ -47,7 +47,7 @@ extension KeyValueStoreType {
         return self.object(forKey: AppKeys.dayEnd.rawValue) as? Date
       }
       set {
-        self.set(newValue, forKey: AppKeys.dayStart.rawValue)
+        self.set(newValue, forKey: AppKeys.dayEnd.rawValue)
       }
     }
     

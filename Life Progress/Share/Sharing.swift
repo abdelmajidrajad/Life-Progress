@@ -43,7 +43,7 @@ Reducer<ShareState, ShareAction, ShareEnvironment> { state, action, environment 
         .map(ShareAction.share)
         .eraseToEffect()
     case let .share(image):
-        return share([image])
+        return share([image, URL(string: "https://apps.apple.com/us/app/year-progress/id1527416109")!])
             .receive(on: DispatchQueue.main.eraseToAnyScheduler())
             .eraseToEffect()
             .fireAndForget()

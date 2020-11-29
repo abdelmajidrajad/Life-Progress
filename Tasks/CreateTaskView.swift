@@ -58,6 +58,7 @@ public enum CreateTaskAction: Equatable {
     case onAppear
     case response(Result<TaskResponse, TaskFailure>)
     case notificationResponse(Result<NotificationClient.Response, NotificationClient.Failure>)
+    case customNotificationResponse(Result<NotificationClient.Response, NotificationClient.Failure>)
     case startButtonTapped
     case selectStyle(ProgressStyle)
     case diff(TimeResult)
@@ -152,11 +153,8 @@ public let createTaskReducer: Reducer<CreateTaskState, CreateTaskAction, CreateT
                         date: task.progress(environment.userDefaults.taskNotificationPercent!)
                     )).receive(on: environment.mainQueue)
                     .catchToEffect()
-                    .map(CreateTaskAction.notificationResponse)
-                : .none,
-                Effect(value: .viewDismissed)
-                    .delay(for: 2.0, scheduler: environment.mainQueue)
-                    .eraseToEffect()
+                    .map(CreateTaskAction.customNotificationResponse)
+                : .none              
             )
         case let .selectStyle(style):
             state.progressStyle = style
@@ -232,6 +230,8 @@ public let createTaskReducer: Reducer<CreateTaskState, CreateTaskAction, CreateT
             return .none
         case .notificationResponse(_):
             return .none
+        case .customNotificationResponse(_):
+            return Effect(value: .viewDismissed)
         }
     }
 

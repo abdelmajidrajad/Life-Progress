@@ -116,7 +116,13 @@ extension YourDayProgressState {
             title: "My Day",
             percentage: NSNumber(value: percent),
             result: timeResult,
-            statusDescription: percent < 1.0 ? "remaining": "Your day was ended",
+            statusDescription:
+                percent == .zero
+                ? "You day begin soon"
+                : percent >= 1.0
+                ? "Your day was ended"
+                : "remaining"
+            ,
             isCircle: style == .circle,
             chosenColor: Color(.systemPink)
         )
