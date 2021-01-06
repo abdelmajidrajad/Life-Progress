@@ -1,3 +1,9 @@
+fastlane_require "dotenv"
+
+before_all do
+	Dotenv.load ".env.secret"
+end
+
 desc "Create on dev Portal and App Store Connect"
 lane :create_app do
   create_app_online #produce
@@ -21,14 +27,24 @@ platform :ios do
 
   desc "Build binary"
   lane :build do
-	
 	signing
+	build_ios_app # gym
   end
   
   desc "Release"
   lane :release do 
+	ensure_git_status_clean
+	ensure_git_branch
+	
+	add_git_tag
+	push_git_tag
 
 	build
-  end
+	upload_to_app_store # deliver
+	
+	reset_git_repo
+	
+	set_github_release
+	end
 
 end
