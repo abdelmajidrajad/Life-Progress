@@ -4,6 +4,10 @@ lane :create_app do
 end
 
 platform :ios do
+  before_all do
+	Dotenv.load ".env.ios"
+  end
+
   desc "Sync signing"
   lane :signing do
 	sync_code_signing # match

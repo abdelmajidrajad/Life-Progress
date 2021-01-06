@@ -28,7 +28,7 @@ Create on dev Portal and App Store Connect
 ```
 fastlane ios signing
 ```
-Sync singing
+Sync signing
 ### ios build
 ```
 fastlane ios build
